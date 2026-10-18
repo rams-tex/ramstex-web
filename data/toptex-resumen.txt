@@ -1,0 +1,29 @@
+Productos activos: 197 (de 200)
+
+Ropa: 78
+   - Chaquetas: 25
+   - Pantalones: 16
+   - Camisetas: 9
+   - Camisas / Sobrecamisas: 6
+   - Camisas / Blusas: 5
+   - Sudaderas: 5
+   - Chalecos: 4
+   - Faldas: 4
+   - Vestidos: 3
+   - Chalecos acolchados: 1
+Headwear & Accesorios: 72
+   - Gorras: 32
+   - Gorros: 26
+   - Pañuelos / Bufandas / Bragas de cuello: 5
+   - Guantes: 3
+   - Sombreros & accesorios: 2
+   - Pasamontañas: 2
+   - Gorro Bobs: 1
+   - Boinas: 1
+Equipaje: 45
+   - Bolsas: 41
+   - Accesorios Equipaje: 4
+Calzado y accesorios: 1
+   - Calzado de Seguridad: 1
+Accesorios: 1
+   - Gafas y fundas: 1
