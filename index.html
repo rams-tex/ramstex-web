@@ -103,7 +103,10 @@ section{padding:80px 0}
 .shead{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:36px}
 h2{font-size:clamp(2rem,4.4vw,3.2rem);font-weight:700;max-width:18ch}
 .lead{color:var(--muted);max-width:38rem;margin:14px 0 0}
-.about{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.about h2{margin-bottom:22px}
+.aboutimg{margin:0;border-radius:24px;overflow:hidden;aspect-ratio:4/3.4;background:var(--tint)}
+.aboutimg img{width:100%;height:100%;object-fit:cover;object-position:62% center;display:block}
 .about .big{font-size:1.35rem;line-height:1.45;font-weight:500;margin:0 0 18px}
 .about p{color:var(--muted);margin:0 0 14px}
 .services{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
@@ -330,7 +333,9 @@ img.pack{object-fit:contain!important;padding:6%}
   .tech span{font-size:.85rem}
   section{padding:52px 0}
   .shead{margin-bottom:24px}
-  .about{grid-template-columns:1fr;gap:16px}
+  .about{grid-template-columns:1fr;gap:22px}
+  .aboutimg{border-radius:16px;aspect-ratio:16/10}
+  .about h2{margin-bottom:14px}
   .about .big{font-size:1.15rem}
   .services{grid-template-columns:1fr;gap:12px}
   .svc{padding:20px;border-radius:16px}
@@ -430,8 +435,9 @@ img.pack{object-fit:contain!important;padding:6%}
 
   <section id="quienes">
     <div class="wrap about">
-      <h2>Quiénes somos</h2>
+      <figure class="aboutimg"><img src="taller.jpg" srcset="taller-900.jpg 900w, taller.jpg 1672w" sizes="(max-width:900px) 100vw, 560px" alt="Mesa de trabajo de Ramstex con sudaderas y camisetas dobladas, una ficha técnica y muestras de tejido" width="1672" height="941" loading="lazy" decoding="async"></figure>
       <div>
+        <h2>Quiénes somos</h2>
         <p class="big">Somos una empresa que crea ropa y merchandising personalizados para todo tipo de empresas, eventos, marcas y proyectos personales.</p>
         <p>Al sacar adelante nuestra propia marca de ropa, Rams 23, conocimos el oficio desde dentro. De esa experiencia surgió Ramstex: ponerla al servicio de otras empresas, eventos y proyectos.</p>
         <p>Trabajamos con muchos proveedores, así que podemos ofrecerte una gran variedad de prendas, tejidos y acabados, y elegir contigo la opción que mejor encaja con tu proyecto y tu presupuesto.</p>
