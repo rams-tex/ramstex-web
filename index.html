@@ -236,6 +236,17 @@ img.pack{object-fit:contain!important;padding:6%}
 .send{display:block;text-align:center;background:var(--red);color:var(--on-red);font-weight:600;text-decoration:none;padding:14px 22px;border-radius:999px}
 .close{align-self:flex-end;background:none;border:0;font:inherit;color:var(--muted);cursor:pointer}
 
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px}
+.tile{display:block;text-decoration:none;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.tile .ph{aspect-ratio:4/5;background:#fff;overflow:hidden}
+.tile img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .3s}
+.tile:hover img{transform:scale(1.03)}
+.tile b{display:block;font:700 1.12rem "Bricolage Grotesque",sans-serif;padding:14px 16px 2px}
+.tile span{display:block;color:var(--muted);font-size:.9rem;padding:0 16px 16px}
+@media (prefers-reduced-motion: reduce){.tile img{transition:none}}
+@media (max-width:1100px){.tiles{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:900px){.tiles{grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.tile b{font-size:1rem;padding:10px 12px 0}.tile span{padding:0 12px 12px;font-size:.82rem}}
+
 /* ---------- Ficha de producto ---------- */
 .back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--muted);font-weight:500;margin-bottom:20px}
 .back::before{content:"";width:8px;height:8px;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg)}
@@ -524,7 +535,8 @@ img.pack{object-fit:contain!important;padding:6%}
       <button class="cartbtn" id="cartbtn" type="button">Mi presupuesto (<span id="cc">0</span>)</button>
     </div>
     <div class="cats" id="cats" role="group" aria-label="Categorías"></div>
-    <div class="catlay">
+    <div class="tiles" id="landing" hidden></div>
+    <div class="catlay" id="catlay">
       <aside class="side" id="side" aria-label="Filtros">
         <div class="sheethead"><b>Filtros</b><button type="button" id="sideclose">Cerrar</button></div>
         <div id="facets"></div>
@@ -721,7 +733,7 @@ function renderFacets(){
 function renderCats(){
   var cc=countBy("c",function(it){return [it.c];}), total=0;
   Object.keys(cc).forEach(function(k){total+=cc[k];});
-  var h='<button type="button" class="chip" data-c="" aria-pressed="'+(!S.c)+'">Todo<small>'+fmt(total)+'</small></button>';
+  var h='<button type="button" class="chip" data-c="" aria-pressed="'+(!S.c)+'">Todas las categorías</button>';
   D.cats.forEach(function(c){
     if(!cc[c[0]]&&S.c!==c[0]) return;
     h+='<button type="button" class="chip" data-c="'+c[0]+'" aria-pressed="'+(S.c===c[0])+'">'+esc(c[1])+'<small>'+fmt(cc[c[0]]||0)+'</small></button>';
@@ -754,10 +766,25 @@ function sorted(list){
   return l;
 }
 var LIST=[];
+var TILEKW={camisetas:"camiseta",polos:"polo",sudaderas:"sudadera",chaquetas:"chaqueta",camisas:"camisa ",pantalones:"pantal",trabajo:"delantal",gorras:"gorra",bolsas:"bolsa",calzado:"zapat",interior:"calcet",hogar:"toalla"};
+function isLanding(){return !S.c&&!QT.length&&!KEYS.some(function(k){return S[k].length;});}
+function renderLanding(){
+  var h="";
+  D.cats.forEach(function(c){
+    var kw=TILEKW[c[0]], pick=null;
+    for(var i=0;i<ITEMS.length;i++){var it=ITEMS[i];if(it.c!==c[0]||it.i.indexOf("pictures/")!==0)continue;if(!pick)pick=it;if(!kw||norm(it.n).indexOf(kw)===0){pick=it;break;}}
+    h+='<a class="tile" href="#catalogo?c='+c[0]+'" data-c="'+c[0]+'"><div class="ph"><img alt="" loading="lazy" decoding="async" data-st="'+(pick?pick.i:"")+'"></div><b>'+esc(c[1])+'</b><span>'+fmt(c[2])+' productos</span></a>';
+  });
+  $("landing").innerHTML=h;
+  [].forEach.call($("landing").querySelectorAll("img"),function(img){if(img.dataset.st)setSrc(img,img.dataset.st,600);});
+}
 function renderCat(keepShown){
   if(!D) return;
   if(!keepShown) SHOWN=24;
-  toHash(); renderCats(); renderFacets(); renderPills();
+  toHash(); renderCats();
+  var land=isLanding(); $("landing").hidden=!land; $("catlay").hidden=land;
+  if(land){ if(!$("landing").firstChild) renderLanding(); return; }
+  renderFacets(); renderPills();
   LIST=sorted(ITEMS.filter(function(it){return match(it);}));
   $("count").innerHTML="<b>"+fmt(LIST.length)+"</b> "+(LIST.length===1?"producto":"productos");
   $("sideok").textContent="Ver "+fmt(LIST.length)+" productos";
@@ -796,6 +823,7 @@ function card(it){
 }
 
 /* ---------- Eventos del catálogo ---------- */
+$("landing").addEventListener("click",function(e){var a=e.target.closest("[data-c]");if(!a)return;e.preventDefault();S.c=a.dataset.c;S.s=[];renderCat();window.scrollTo(0,0);});
 $("cats").addEventListener("click",function(e){var b=e.target.closest("[data-c]");if(!b)return;S.c=b.dataset.c;S.s=[];renderCat();});
 $("facets").addEventListener("change",function(e){
   var i=e.target; if(!i.dataset.k) return; var a=S[i.dataset.k], p=a.indexOf(i.value);

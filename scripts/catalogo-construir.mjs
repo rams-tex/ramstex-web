@@ -45,6 +45,9 @@ const USO = [
   ["Salud y belleza", /^Salud/],
 ];
 const usoOf = list => [...new Set((list || []).map(w => (USO.find(u => u[1].test(w)) || [])[0]).filter(Boolean))];
+// Orden recomendado: primero la gama principal (Kariban), adultos antes que infantil
+const brandRank = b => /^(Kariban|Kariban Premium|Native Spirit)$/i.test(b || "") ? 0 : /^(Kimood|K-up|PROACT|WK)/i.test(b || "") ? 1 : 2;
+const genRank = g => { g = g || []; if (g.includes("Unisex")) return 0; if (g.includes("Hombre")) return 1; if (g.includes("Mujer")) return 2; return 3; };
 const GEN = { Hombre: "H", Mujer: "M", Unisex: "U", "Niños": "N", Bebes: "B" };
 const COLFIX = { Mulicolor: "Multicolor", "Diseño": "Estampado" };
 
@@ -82,6 +85,7 @@ for (const p of src) {
     w: grams(p.peso), f: flags, u: usoOf(p.world).map(worldI),
     st: clean(p.style), i: stem(main),
     k: colors.map(c => [String(c.n || "").replace(/\s*\(x?\d+\)/gi, "").trim(), /^#?[0-9a-f]{6}$/i.test(c.hex || "") ? "#" + c.hex.replace("#", "") : "", [...new Set((c.dom || []).map(d => COLFIX[d] || d))].map(domI), stem(c.img)]),
+    o: brandRank(p.brand) * 10 + genRank(p.gen),
     z: (p.sizes || []).length ? [p.sizes[0], p.sizes[p.sizes.length - 1]].filter((v, i, a) => a.indexOf(v) === i).join(" a ") : "",
   });
   (fichas[cat[0]] ??= {})[p.ref] = {
@@ -93,7 +97,7 @@ for (const p of src) {
 
 // Orden recomendado: categorías principales primero; dentro, las prendas con más colores
 const catOrder = Object.fromEntries(CATS.map((c, i) => [c[0], i]));
-items.sort((a, b) => catOrder[a.c] - catOrder[b.c] || b.k.length - a.k.length);
+items.sort((a, b) => catOrder[a.c] - catOrder[b.c] || a.o - b.o || b.k.length - a.k.length);
 
 const counts = {};
 for (const it of items) counts[it.c] = (counts[it.c] || 0) + 1;
