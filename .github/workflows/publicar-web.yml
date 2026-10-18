@@ -26,7 +26,7 @@ jobs:
       - name: Preparar archivos de la web (sin datos internos)
         run: |
           mkdir -p _site/data
-          cp index.html logo.png portada.jpg taller.jpg taller-900.jpg _site/
+          cp index.html logo.png portada.webp portada-900.webp portada-900.png taller.jpg taller-900.jpg _site/
           cp -r foto img _site/
           cp data/catalogo.json _site/data/
           cp -r data/fichas _site/data/
