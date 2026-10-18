@@ -209,6 +209,8 @@ footer p{margin:8px 0 0;font-size:.95rem}
 img.pack{object-fit:contain!important;padding:6%}
 .tag{position:absolute;left:10px;top:10px;background:#fff;color:#111;font:600 .75rem Figtree,sans-serif;padding:4px 9px;border-radius:999px;box-shadow:0 1px 4px rgba(0,0,0,.12)}
 .info{padding:14px 16px 16px;display:grid;gap:7px;flex:1;align-content:start}
+.ref{font-size:.78rem;font-weight:600;letter-spacing:.04em;color:var(--muted);text-transform:uppercase}
+.pinfo .ref{font-size:.9rem;display:block;margin-bottom:6px}
 .info h3{font-size:1.04rem;font-weight:700;line-height:1.2}
 .info h3 a{text-decoration:none}
 .meta{color:var(--muted);font-size:.9rem}
@@ -531,7 +533,7 @@ img.pack{object-fit:contain!important;padding:6%}
     <h1>Elige tu prenda</h1>
     <p class="sub" id="catsub">Prendas y productos listos para personalizar con tu logo. Filtra por tipo, color, gramaje o uso, añade lo que te interese a tu presupuesto y te respondemos con el diseño y el precio.</p>
     <div class="bar">
-      <input class="search" id="q" type="search" placeholder="Busca: sudadera con capucha, gorra, delantal…" aria-label="Buscar en el catálogo" autocomplete="off">
+      <input class="search" id="q" type="search" placeholder="Busca por nombre o referencia: sudadera, gorra, K330…" aria-label="Buscar en el catálogo" autocomplete="off">
       <button class="cartbtn" id="cartbtn" type="button">Mi presupuesto (<span id="cc">0</span>)</button>
     </div>
     <div class="cats" id="cats" role="group" aria-label="Categorías"></div>
@@ -659,7 +661,7 @@ function prep(){
       k[4]=h||"#DDD";
     });
     var g=it.g.split("").map(function(x){return GENL[x];}).join(" ");
-    it.t=norm([it.n,D.subs[it.s],it.st,g,it.k.map(function(k){return k[0];}).join(" "),
+    it.t=norm([it.r,it.n,D.subs[it.s],it.st,g,it.k.map(function(k){return k[0];}).join(" "),
       it.f.indexOf("e")>=0?"ecologica organica reciclada sostenible":"",it.f.indexOf("h")>=0?"capucha":"",it.f.indexOf("l")>=0?"sin etiqueta":"",
       it.u.map(function(u){return D.world[u];}).join(" ")].join(" "));
   });
@@ -760,6 +762,9 @@ function sorted(list){
   if(S.o==="az") l.sort(function(a,b){return a.n.localeCompare(b.n,"es");});
   else if(S.o==="col") l.sort(function(a,b){return b.k.length-a.k.length;});
   else if(S.o==="new") l.sort(function(a,b){return (b.f.indexOf("n")>=0)-(a.f.indexOf("n")>=0)||a.ix-b.ix;});
+  var qn=norm(S.q).replace(/\s+/g,"");
+  if(qn&&S.o==="rec"){var ex=l.filter(function(it){return norm(it.r)===qn;});if(ex.length){l=ex.concat(l.filter(function(it){return ex.indexOf(it)<0;}));return l;}}
+  if(S.o==="az"||S.o==="col"||S.o==="new"){}
   else if(QT.length){ /* con búsqueda: primero las que lo tienen en el nombre */
     l.sort(function(a,b){var na=norm(a.n),nb=norm(b.n);var sa=QT.filter(function(t){return t.some(function(v){return na.indexOf(v)>=0;});}).length,sb=QT.filter(function(t){return t.some(function(v){return nb.indexOf(v)>=0;});}).length;return sb-sa||a.ix-b.ix;});
   }
@@ -812,7 +817,7 @@ function card(it){
   var href="#producto/"+encodeURIComponent(it.r);
   var tag=it.f.indexOf("n")>=0?"Novedad":(it.f.indexOf("e")>=0?"Ecológico":"");
   c.innerHTML='<a class="frame" href="'+href+'"><img alt="'+esc(it.n)+'" loading="lazy" decoding="async">'+(tag?'<span class="tag">'+tag+'</span>':"")+'</a>'+
-    '<div class="info"><h3><a href="'+href+'">'+esc(it.n)+'</a></h3><div class="meta">'+esc(D.subs[it.s])+(it.w?" · "+it.w+" g/m²":"")+'</div>'+
+    '<div class="info"><span class="ref">Ref. '+esc(it.r)+'</span><h3><a href="'+href+'">'+esc(it.n)+'</a></h3><div class="meta">'+esc(D.subs[it.s])+(it.w?" · "+it.w+" g/m²":"")+'</div>'+
     '<div class="cname"></div><div class="dh"></div>'+
     '<div class="cardbtns"><a class="more" href="'+href+'">Ver ficha</a><button class="add" type="button">Añadir</button></div></div>';
   var img=c.querySelector("img"), cn=c.querySelector(".cname");
@@ -862,11 +867,11 @@ function renderProduct(it){
     if(it.f.indexOf("l")>=0)badges.push("Sin etiqueta: lista para tu marca");
     (f.cert||[]).forEach(function(c){badges.push(c);});
     if(it.f.indexOf("x")>=0)badges.push("Tallas grandes");
-    var specs=[["Composición",f.comp],["Gramaje",f.peso],["Corte",f.fit],["Acabado",f.fin],["Cuello",f.neck],["Bolsillos",f.pk],["Impermeable",f.wp],["Colores",it.k.length+" disponibles"],["Personalización","Estampado, bordado, serigrafía o DTF"]].filter(function(s){return s[1];});
+    var specs=[["Referencia",it.r],["Composición",f.comp],["Gramaje",f.peso],["Corte",f.fit],["Acabado",f.fin],["Cuello",f.neck],["Bolsillos",f.pk],["Impermeable",f.wp],["Colores",it.k.length+" disponibles"],["Personalización","Estampado, bordado, serigrafía o DTF"]].filter(function(s){return s[1];});
     var wa="https://wa.me/34682368645?text="+encodeURIComponent("Hola, me interesa este producto del catálogo: "+it.n+" (ref. "+it.r+")");
     box.innerHTML='<a class="back" href="'+(lastCat||"#catalogo")+'">Volver al catálogo</a>'+
      '<div class="pd"><div class="pgal"><div class="big"><img alt="'+esc(it.n)+'"></div><div class="thumbs"></div></div>'+
-     '<div class="pinfo"><h1>'+esc(it.n)+'</h1><div class="meta">'+esc(D.subs[it.s])+(gen?" · "+esc(gen):"")+'</div>'+
+     '<div class="pinfo"><span class="ref">Ref. '+esc(it.r)+'</span><h1>'+esc(it.n)+'</h1><div class="meta">'+esc(D.subs[it.s])+(gen?" · "+esc(gen):"")+'</div>'+
      (badges.length?'<div class="badges">'+badges.map(function(b){return "<span>"+esc(b)+"</span>";}).join("")+'</div>':"")+
      (f.d?'<p class="desc">'+esc(f.d)+'</p>':"")+
      ((f.a||[]).length?'<ul class="args">'+f.a.map(function(a){return "<li>"+esc(a)+"</li>";}).join("")+'</ul>':"")+
