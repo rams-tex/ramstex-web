@@ -355,10 +355,10 @@ footer p{margin:8px 0 0;font-size:.95rem}
         <a class="btn" href="#catalogo">Ver catálogo</a>
       </div>
       <div class="strip">
-        <a href="#producto-8"><div class="ph"><img src="foto/NS401.jpg" alt="" loading="lazy"></div><span>Sudaderas con capucha</span></a>
-        <a href="#producto-1"><div class="ph"><img src="foto/PA438.jpg" alt="" loading="lazy"></div><span>Camisetas técnicas</span></a>
-        <a href="#producto-7"><div class="ph"><img src="foto/NS400.jpg" alt="" loading="lazy"></div><span>Sudaderas</span></a>
-        <a href="#producto-6"><div class="ph"><img src="foto/04449.jpg" alt="" loading="lazy"></div><span>Chaquetas</span></a>
+        <a href="#producto-8"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/NS401-21_2027.jpg?w=1000" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/NS401.jpg'"></div><span>Sudaderas con capucha</span></a>
+        <a href="#producto-1"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/PA438-2_2025.jpg?w=1000" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/PA438.jpg'"></div><span>Camisetas técnicas</span></a>
+        <a href="#producto-7"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/NS400-21_2027.jpg?w=1000" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/NS400.jpg'"></div><span>Sudaderas</span></a>
+        <a href="#producto-6"><div class="ph"><img src="https://s7g3.scene7.com/is/image/soloinvest/n04449A?$big_image_web$&wid=1000&hei=1500&qlt=90&fmt=jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/04449.jpg'"></div><span>Chaquetas</span></a>
       </div>
     </div>
   </div>
@@ -520,7 +520,22 @@ var EK={
  MOONGREYHEATHER:["Gris luna","#B9BBBE",["Gris"]],RAWNATURAL:["Natural crudo","#E2D8C3",["Beige"]],DARKCHERRY:["Cereza oscuro","#6D1230",["Rojo"]],
  HIBISCUSRED:["Rojo hibisco","#C9283E",["Rojo"]],JADEGREEN:["Verde jade","#1FA37A",["Verde"]],PEACOCKBLUE:["Azul pavo real","#0E6E8C",["Azul"]],POPPYRED:["Rojo amapola","#E4332D",["Rojo"]]
 };
-function cols(ref,keys,tab){return keys.map(function(k){var d=tab[k];return {n:d[0],h:d[1],f:d[2],u:"img/"+ref+"_"+k+".jpg"};});}
+/* Fotos en alta calidad directamente de los proveedores; si alguna falla, se usa la copia local */
+var SOLURL="https://s7g3.scene7.com/is/image/soloinvest/", ECURL="https://cdn.europeancatalog.com/";
+var ECSTEM={"NS307_HIBISCUSRED":"PS_NS307-2_HIBISCUSRED","NS307_IVORY":"PS_NS307-3_IVORY","NS307_JADEGREEN":"PS_NS307-3_JADEGREEN",
+ "NS401_ADRIATICBLUE":"PS_NS401-2_ADRIATICBLUE","NS401_ANTIQUEROSE":"PS_NS401-2_ANTIQUEROSE","NS401_DARKCAMEL":"PS_NS401-2_DARKCAMEL","NS401_PETALROSE":"PS_NS401-2_PETALROSE"};
+var ECMAIN={"PA438":"PA438-2_2025","RUZT180":"RUZT180-2_2023","NS307":"NS307-20_2023","NS400":"NS400-21_2027","NS401":"NS401-21_2027"};
+function isSol(ref){return /^\d+$/.test(ref);}
+function colorUrl(ref,k){
+  if(isSol(ref)) return SOLURL+"n"+ref+k+"A?$big_image_web$&wid=900&hei=1100&qlt=90&fmt=jpg";
+  return ECURL+"packshots/"+(ECSTEM[ref+"_"+k]||("PS_"+ref+"_"+k))+".png?w=900";
+}
+function mainUrl(ref){
+  if(isSol(ref)) return SOLURL+"n"+ref+"A?$big_image_web$&wid=1000&hei=1500&qlt=90&fmt=jpg";
+  return ECURL+"pictures/"+ECMAIN[ref]+".jpg?w=1000";
+}
+function loadImg(img,url,fb){img.onerror=function(){img.onerror=null;img.src=fb;};img.src=url;}
+function cols(ref,keys,tab){return keys.map(function(k){var d=tab[k];return {n:d[0],h:d[1],f:d[2],u:colorUrl(ref,k),fb:"img/"+ref+"_"+k+".jpg"};});}
 var ITEMS=[
  {n:"Camiseta cuello redondo",t:"Camisetas",g:"Unisex",ref:"11380",comp:"Algodón 100% semipeinado",peso:"150 g/m²",tallas:"XXS a 5XL",
   d:"Camiseta unisex de cuello redondo en punto liso. Un básico para estampar con cualquier técnica.",
@@ -550,7 +565,7 @@ var ITEMS=[
   d:"Capucha forrada, bolsillo canguro y cordón con puntas de metal reciclado. Felpa de baja contracción.",
   cols:cols("NS401",["WHITE","BLACK","ADRIATICBLUE","ALMONDGREEN","ANTIQUEROSE","AQUAMARINE","DARKCAMEL","PETALROSE","MOONGREYHEATHER","RAWNATURAL","IVORY","NAVYBLUE"],EK)}
 ];
-ITEMS.forEach(function(it,i){it.id=i;it.cur=-1;it.main="foto/"+it.ref+".jpg";});
+ITEMS.forEach(function(it,i){it.id=i;it.cur=-1;it.main=mainUrl(it.ref);it.mainFb="foto/"+it.ref+".jpg";});
 var FAM={Blanco:"#FFFFFF",Beige:"#E4D9BF",Negro:"#111111",Gris:"#9B9B9B",Rojo:"#C8102E",Rosa:"#E8749A",Naranja:"#F28C28",Amarillo:"#F2C500",Verde:"#4F9D4A",Azul:"#1F4DB5",Morado:"#6B4E9B"};
 var state={q:"",type:"Todos",gen:"Todos",col:"Todos"}, cart={};
 var $=function(i){return document.getElementById(i)};
@@ -558,7 +573,8 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp
 
 /* foto: principal (con modelo) hasta que se elige un color; luego la foto de ese color */
 function photoOf(it){return it.cur<0?it.main:it.cols[it.cur].u;}
-function setImg(img,it){img.src=photoOf(it);img.className=it.cur<0?"":"pack";}
+function fbOf(it){return it.cur<0?it.mainFb:it.cols[it.cur].fb;}
+function setImg(img,it){loadImg(img,photoOf(it),fbOf(it));img.className=it.cur<0?"":"pack";}
 function colorLabel(it){return it.cur<0?"Elige un color":"Color: "+it.cols[it.cur].n;}
 
 function uniq(k){var a=["Todos"];ITEMS.forEach(function(i){if(a.indexOf(i[k])<0)a.push(i[k])});return a;}
@@ -632,13 +648,14 @@ function renderProduct(it){
   var big=box.querySelector(".big img"), th=box.querySelector(".thumbs");
   function thumbs(){
     th.innerHTML="";
-    var opts=[{u:it.main,cur:-1,l:"Foto principal"}];
-    if(it.cur>=0) opts.push({u:it.cols[it.cur].u,cur:it.cur,l:it.cols[it.cur].n});
+    var opts=[{u:it.main,fb:it.mainFb,cur:-1,l:"Foto principal"}];
+    if(it.cur>=0) opts.push({u:it.cols[it.cur].u,fb:it.cols[it.cur].fb,cur:it.cur,l:it.cols[it.cur].n});
     opts.forEach(function(o){
       var b=document.createElement("button");b.type="button";b.setAttribute("aria-label",o.l);
       b.setAttribute("aria-pressed",(big.dataset.view||"main")===(o.cur<0?"main":"col"));
-      b.innerHTML='<img src="'+o.u+'" alt="" style="'+(o.cur<0?"":"object-fit:contain;padding:8%")+'">';
-      b.onclick=function(){big.dataset.view=o.cur<0?"main":"col";big.src=o.u;big.className=o.cur<0?"":"pack";thumbs();};
+      b.innerHTML='<img alt="" style="'+(o.cur<0?"":"object-fit:contain;padding:8%")+'">';
+      loadImg(b.querySelector("img"),o.u,o.fb);
+      b.onclick=function(){big.dataset.view=o.cur<0?"main":"col";loadImg(big,o.u,o.fb);big.className=o.cur<0?"":"pack";thumbs();};
       th.appendChild(b);
     });
   }
