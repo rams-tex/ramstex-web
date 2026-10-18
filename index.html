@@ -632,6 +632,7 @@ mbtn.onclick=function(){setMenu(menu.hidden);};
 menu.addEventListener("click",function(e){if(e.target.closest("a"))setMenu(false);});
 
 /* ================= CATÁLOGO ================= */
+var BUILD="dev"; /* se sustituye al publicar, para que el navegador no use datos antiguos */
 var $=function(i){return document.getElementById(i)};
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 function norm(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");}
@@ -885,7 +886,7 @@ $("fbtn").onclick=function(){side(true);}; $("sideclose").onclick=$("sideok").on
 /* ---------- Ficha de producto ---------- */
 function fichaOf(it,cb){
   if(FICHAS[it.c]) return cb(FICHAS[it.c][it.r]||{});
-  fetch("data/fichas/"+it.c+".json").then(function(r){return r.json();}).then(function(d){FICHAS[it.c]=d;cb(d[it.r]||{});}).catch(function(){cb({});});
+  fetch("data/fichas/"+it.c+".json?v="+BUILD).then(function(r){return r.json();}).then(function(d){FICHAS[it.c]=d;cb(d[it.r]||{});}).catch(function(){cb({});});
 }
 function renderProduct(it){
   var box=$("prod"); it.cur=-1;
@@ -959,7 +960,7 @@ function ensureData(cb){
   if(D) return cb();
   if(!loading){
     $("grid").innerHTML=new Array(7).join('<div class="skel"></div>');
-    loading=fetch("data/catalogo.json").then(function(r){return r.json();}).then(function(d){D=d;prep();});
+    loading=fetch("data/catalogo.json?v="+BUILD).then(function(r){return r.json();}).then(function(d){D=d;prep();});
   }
   loading.then(cb).catch(function(){$("grid").innerHTML='<p class="empty">No se ha podido cargar el catálogo. Vuelve a intentarlo en un momento.</p>';});
 }

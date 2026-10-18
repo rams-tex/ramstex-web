@@ -30,6 +30,7 @@ jobs:
           cp -r foto img _site/
           cp data/catalogo.json _site/data/
           cp -r data/fichas _site/data/
+          sed -i "s/var BUILD=\"dev\"/var BUILD=\"$(date +%s)\"/" _site/index.html
           echo "ramstex.com" > _site/CNAME
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
