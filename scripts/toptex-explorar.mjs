@@ -26,7 +26,7 @@ async function call(path, opts = {}) {
 }
 
 const auth = await call("/v3/authenticate", { method: "POST", headers: { "x-api-key": KEY, "Content-Type": "application/json" }, body: JSON.stringify({ username: USER, password: PASS }) });
-log("Autenticación:", auth.status, auth.data && typeof auth.data === "object" ? Object.keys(auth.data).join(",") : String(auth.data).slice(0, 200));
+log("Autenticación:", auth.status, auth.data && typeof auth.data === "object" ? JSON.stringify(shape(auth.data)).slice(0, 300) : String(auth.data).slice(0, 200));
 const token = auth.data?.token || auth.data?.access_token || auth.data?.id_token || auth.data?.Token;
 if (!token) process.exit(0);
 const H = { headers: { "x-api-key": KEY, "x-toptex-authorization": token } };
