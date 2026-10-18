@@ -37,7 +37,7 @@ function frontPackshot(ps) {
   ps = ps || {};
   const keys = Object.keys(ps).filter(k => ps[k]?.url_packshot);
   keys.forEach(k => PKEYS[k] = (PKEYS[k] || 0) + 1);
-  const pref = ["FACE SIDE", "FACE", "FRONT", "FRONT SIDE", "MAIN", "FACE ON MODEL"];
+  const pref = ["FACE", "FLATSHOT FACE", "FACE CAP", "FACE SIDE", "FRONT"];
   for (const k of pref) if (ps[k]?.url_packshot) return ps[k].url_packshot;
   const k = keys.find(k => !/BACK|DOS|SIDE|PROFIL|LATERAL|DETAIL|ZOOM|INSIDE/i.test(k)) || keys.find(k => !/BACK|DOS/i.test(k)) || keys[0];
   return k ? ps[k].url_packshot : "";
