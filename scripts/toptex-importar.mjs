@@ -57,5 +57,14 @@ for (const [f, v] of Object.entries(fam).sort((a, b) => b[1].n - a[1].n)) {
   lines.push(`${f}: ${v.n}`);
   for (const [s, n] of Object.entries(v.subs).sort((a, b) => b[1] - a[1])) lines.push(`   - ${s}: ${n}`);
 }
+// Muestra de campos disponibles (para diseñar filtros)
+const sample = raw.find(p => p.saleState === "active") || raw[0];
+const brief = v => { const t = JSON.stringify(v); return t && t.length > 160 ? t.slice(0, 160) + "…" : t; };
+lines.push("", "CAMPOS PRODUCTO:");
+for (const [k, v] of Object.entries(sample)) if (k !== "colors") lines.push(`  ${k} = ${brief(v)}`);
+lines.push("CAMPOS COLOR:");
+for (const [k, v] of Object.entries(sample.colors?.[0] || {})) if (k !== "sizes") lines.push(`  ${k} = ${brief(v)}`);
+lines.push("CAMPOS TALLA:");
+for (const [k, v] of Object.entries(sample.colors?.[0]?.sizes?.[0] || {})) if (!/price/i.test(k)) lines.push(`  ${k} = ${brief(v)}`);
 writeFileSync("data/toptex-resumen.txt", lines.join("\n"));
 console.log(lines.slice(0, 5).join("\n"));
