@@ -65,9 +65,24 @@ button{font-family:inherit}
 .btn.light{background:var(--on-ink);color:#111}
 
 /* ---------- Portada ---------- */
-.hero{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:56px 0 72px}
-.hero h1{font-size:clamp(2.9rem,6.6vw,5.6rem);font-weight:800}
-.hero p{max-width:32rem;color:var(--muted);font-size:1.18rem;margin:22px 0 30px}
+.topbar{background:var(--tint);border-bottom:1px solid var(--line);font-size:.86rem;color:var(--muted)}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;height:36px}
+.topbar a{text-decoration:none;color:inherit}
+.topbar a:hover{color:var(--text)}
+.tlinks{display:flex;gap:20px;align-items:center}
+.herob{background:#732823;color:#fff}
+.hero{display:grid;grid-template-columns:1fr 1.05fr;gap:40px;align-items:center;padding:64px 0 64px}
+.hero h1{font-size:clamp(2.7rem,5.6vw,4.9rem);font-weight:800;color:#fff}
+.hero .hsub{font-weight:700;font-size:1.12rem;color:#F4C9C3;margin:18px 0 18px}
+.hero p{max-width:34rem;color:rgba(255,255,255,.86);font-size:1.08rem;margin:0 0 14px}
+.hero p b{color:#fff;font-weight:700}
+.hero .ctas{margin-top:28px}
+.btn.wht{background:#fff;color:#732823}
+.btn.owht{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.8)}
+.btn.owht:hover{filter:none;background:rgba(255,255,255,.1)}
+.hart img{display:block;width:100%;height:auto}
+.redband{background:#732823;padding:72px 0;margin-top:16px}
+footer{margin-top:0!important}
 .ctas{display:flex;flex-wrap:wrap;gap:10px}
 .mosaic{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .mosaic a{display:block;border-radius:18px;overflow:hidden;background:var(--tint);aspect-ratio:3/4}
@@ -219,8 +234,12 @@ footer p{margin:8px 0 0;font-size:.95rem}
   .dnav{display:none}
   .menubtn{display:inline-flex}
   .wa{display:grid}
-  .hero{grid-template-columns:1fr;gap:28px;padding:32px 0 40px}
-  .hero p{font-size:1.06rem;margin:16px 0 22px}
+  .hero{grid-template-columns:1fr;gap:20px;padding:36px 0 8px}
+  .hero p{font-size:1rem}
+  .hero .hsub{font-size:1rem;margin:14px 0}
+  .topbar .tloc{display:none}
+  .tlinks{gap:14px}
+  .redband{padding:40px 0}
   .mosaic{grid-template-columns:repeat(3,1fr);gap:8px}
   .mosaic a{border-radius:12px}
   .mosaic a:first-child{grid-row:auto;aspect-ratio:3/4}
@@ -269,6 +288,15 @@ footer p{margin:8px 0 0;font-size:.95rem}
 </head>
 <body>
 
+<div class="topbar"><div class="wrap">
+  <span class="tloc">Ropa y merchandising personalizados</span>
+  <span class="tlinks">
+    <a href="mailto:info@ramstex.com">info@ramstex.com</a>
+    <a href="https://wa.me/34682368645" target="_blank" rel="noopener">682 368 645</a>
+    <a class="ig" href="https://www.instagram.com/rams_tex/" target="_blank" rel="noopener">Instagram</a>
+  </span>
+</div></div>
+
 <header class="top">
   <div class="wrap">
     <a class="logo" href="#inicio" aria-label="Ramstex, inicio"><img src="logo.png" alt="Ramstex" width="160" height="27"></a>
@@ -303,18 +331,22 @@ footer p{margin:8px 0 0;font-size:.95rem}
 
 <!-- =============== INICIO =============== -->
 <div id="view-home">
-  <div class="wrap" id="inicio">
+  <div class="herob" id="inicio">
+  <div class="wrap">
     <div class="hero">
       <div>
         <h1>Damos vida a tus ideas.</h1>
-        <p>Creamos ropa y merchandising personalizados para empresas, eventos, equipos y proyectos personales. Tú nos cuentas la idea y nosotros la convertimos en producto.</p>
+        <p class="hsub">Ropa y merchandising personalizados para empresas, eventos y marcas</p>
+        <p>Llevamos tu marca a <b>camisetas, sudaderas, polos, chaquetas</b> y todo tipo de <b>merchandising</b>, con estampado, bordado o serigrafía.</p>
+        <p>Nos encargamos de <b>todo el proceso</b> y te asesoramos en cada paso: desde el diseño de la prenda hasta su entrega.</p>
         <div class="ctas">
-          <a class="btn" href="#contacto">Pide presupuesto</a>
-          <a class="btn ghost" href="#catalogo">Ver catálogo</a>
+          <a class="btn wht" href="#contacto">Pide presupuesto</a>
+          <a class="btn owht" href="#catalogo">Ver catálogo</a>
         </div>
       </div>
-      <div class="art"><img src="hero.svg" alt="Prendas personalizadas colgadas en una burra, camisetas dobladas y una bobina de hilo" width="640" height="560"></div>
+      <div class="hart"><img src="portada.jpg" alt="Sudadera, sudadera con capucha y camiseta personalizadas con el logo de Ramstex" width="1597" height="1107"></div>
     </div>
+  </div>
   </div>
 
   <section id="quienes">
@@ -394,7 +426,7 @@ footer p{margin:8px 0 0;font-size:.95rem}
     </div>
   </section>
 
-  <section id="contacto" style="padding-top:0">
+  <section id="contacto" class="redband">
     <div class="wrap">
       <div class="contact">
         <div>
