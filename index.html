@@ -477,10 +477,10 @@ img.pack{object-fit:contain!important;padding:6%}
         <a class="btn" href="#catalogo">Ver catálogo</a>
       </div>
       <div class="strip">
-        <a href="#catalogo?c=sudaderas&amp;f=h"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/NS401-21_2027.jpg?w=1000" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/NS401.jpg'"></div><span>Sudaderas con capucha</span></a>
-        <a href="#catalogo?c=camisetas"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/PA438-2_2025.jpg?w=1000" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/PA438.jpg'"></div><span>Camisetas</span></a>
-        <a href="#catalogo?c=sudaderas"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/NS400-21_2027.jpg?w=1000" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/NS400.jpg'"></div><span>Sudaderas</span></a>
-        <a href="#catalogo?c=chaquetas"><div class="ph"><img src="https://s7g3.scene7.com/is/image/soloinvest/n04449A?$big_image_web$&wid=1000&hei=1500&qlt=90&fmt=jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/04449.jpg'"></div><span>Chaquetas y chalecos</span></a>
+        <a href="#catalogo?c=camisetas"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/NS315-13_2023.jpg?w=800" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.toptex.com/pictures/NS315-13_2023.jpg'"></div><span>Camisetas</span></a>
+        <a href="#catalogo?c=sudaderas"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/NS401-21_2027.jpg?w=800" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.toptex.com/pictures/NS401-21_2027.jpg'"></div><span>Sudaderas</span></a>
+        <a href="#catalogo?c=polos"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/K241-4_2025.jpg?w=800" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.toptex.com/pictures/K241-4_2025.jpg'"></div><span>Polos</span></a>
+        <a href="#catalogo?c=chaquetas"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/K422-8_2026.jpg?w=800" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.toptex.com/pictures/K422-8_2026.jpg'"></div><span>Chaquetas y chalecos</span></a>
       </div>
     </div>
   </div>
@@ -658,8 +658,8 @@ var SYN={hoodie:["capucha"],hoody:["capucha"],tshirt:["camiseta"],playera:["cami
 function stemW(w){if(w.length>5&&/es$/.test(w))return w.slice(0,-2);if(w.length>3&&/s$/.test(w))return w.slice(0,-1);return w;}
 
 var D=null, ITEMS=[], CATN={}, FICHAS={};
-var S={q:"",c:"",s:[],g:[],col:[],w:[],u:[],f:[],o:"rec"}, SHOWN=24, QT=[];
-var KEYS=["s","g","col","w","u","f"];
+var S={q:"",c:"",s:[],g:[],m:[],cu:[],ft:[],col:[],w:[],u:[],f:[],o:"rec"}, SHOWN=24, QT=[];
+var KEYS=["s","g","m","cu","ft","col","w","u","f"];
 
 function prep(){
   D.cats.forEach(function(c){CATN[c[0]]=c[1];});
@@ -688,6 +688,9 @@ function match(it,skip){
   if(skip!=="c"&&S.c&&it.c!==S.c) return false;
   if(skip!=="s"&&S.s.length&&S.s.indexOf(String(it.s))<0) return false;
   if(skip!=="g"&&S.g.length&&!S.g.some(function(g){return it.g.indexOf(g)>=0||((g==="H"||g==="M")&&it.g.indexOf("U")>=0);})) return false;
+  if(skip!=="m"&&S.m.length&&S.m.indexOf(it.m)<0) return false;
+  if(skip!=="cu"&&S.cu.length&&S.cu.indexOf(it.cu)<0) return false;
+  if(skip!=="ft"&&S.ft.length&&S.ft.indexOf(it.ft)<0) return false;
   if(skip!=="col"&&S.col.length&&!it.k.some(function(k){return k[2].some(function(d){return S.col.indexOf(String(d))>=0;});})) return false;
   if(skip!=="w"&&S.w.length&&!S.w.some(function(w){var b=WB[w];return it.w>=b[1]&&it.w<=b[2];})) return false;
   if(skip!=="u"&&S.u.length&&!it.u.some(function(u){return S.u.indexOf(String(u))>=0;})) return false;
@@ -715,7 +718,7 @@ function fromHash(h){
 }
 
 /* ---------- Pintar ---------- */
-var OPEN={s:true,g:true,u:true,col:true,w:false,f:false}, ALL={};
+var OPEN={s:true,g:true,m:true,cu:true,ft:true,u:false,col:true,w:false,f:false}, ALL={};
 function facetGroup(key,title,opts){
   if(!opts.length) return "";
   var lim=ALL[key]?999:8, html='<details data-k="'+key+'"'+(OPEN[key]?" open":"")+'><summary>'+title+'</summary><div class="opts">';
@@ -734,6 +737,15 @@ function renderFacets(){
   h+=facetGroup("s","Tipo",subs.map(function(v){return {v:v,l:D.subs[+v],n:sc[v]||0};}).sort(function(a,b){return b.n-a.n;}));
   var gc=countBy("g",function(it){var g=it.g.split("");if(it.g.indexOf("U")>=0){g.push("H","M");}return uniqA(g);});
   h+=facetGroup("g","Para",["H","M","U","N","B"].map(function(v){return {v:v,l:GENL[v],n:gc[v]||0};}).filter(function(o){return o.n||S.g.indexOf(o.v)>=0;}));
+  function txtFacet(k,title,order){
+    var c=countBy(k,function(it){return it[k]?[it[k]]:[];});
+    var vals=order.filter(function(v){return c[v]||S[k].indexOf(v)>=0;});
+    Object.keys(c).forEach(function(v){if(vals.indexOf(v)<0)vals.push(v);});
+    h+=facetGroup(k,title,vals.map(function(v){return {v:v,l:v,n:c[v]||0};}));
+  }
+  txtFacet("m","Manga",["Manga corta","Manga larga","Sin mangas"]);
+  txtFacet("cu","Cuello",["Cuello redondo","Cuello de pico","Cuello polo","Cuello camisero","Con capucha","Cuello con cremallera","Cuello alto","Cuello mao"]);
+  txtFacet("ft","Corte (fit)",["Regular / recto","Entallado / slim","Oversize / amplio"]);
   var uc=countBy("u",function(it){return it.u.map(String);});
   h+=facetGroup("u","Uso o sector",D.world.map(function(n,i){return {v:String(i),l:n,n:uc[i]||0};}).filter(function(o){return o.n||S.u.indexOf(o.v)>=0;}).sort(function(a,b){return b.n-a.n;}));
   var cc=countBy("col",function(it){var a=[];it.k.forEach(function(k){k[2].forEach(function(d){a.push(String(d));});});return uniqA(a);});
@@ -755,7 +767,7 @@ function renderCats(){
   $("cats").innerHTML=h;
 }
 function labelOf(k,v){
-  if(k==="s")return D.subs[+v]; if(k==="g")return GENL[v]; if(k==="col")return D.doms[+v];
+  if(k==="m"||k==="cu"||k==="ft")return v; if(k==="s")return D.subs[+v]; if(k==="g")return GENL[v]; if(k==="col")return D.doms[+v];
   if(k==="w")return WB[v][0].replace(/ \(.*/,""); if(k==="u")return D.world[+v];
   if(k==="f"){for(var i=0;i<FLAGS.length;i++)if(FLAGS[i][0]===v)return FLAGS[i][1].replace(/,.*/,"");}
   return v;
@@ -783,13 +795,16 @@ function sorted(list){
   return l;
 }
 var LIST=[];
+/* Foto elegida para cada categoría (referencia del producto) */
+var TILEPIC={camisetas:"NS315",polos:"K241",sudaderas:"K474",chaquetas:"K422",camisas:"K551",pantalones:"K7021",trabajo:"K8000",gorras:"NS040",bolsas:"NS133",calzado:"K840",interior:"K815",hogar:"K140",complementos:"KP878",otros:"NS5028"};
 var TILEKW={camisetas:"camiseta",polos:"polo",sudaderas:"sudadera",chaquetas:"chaqueta",camisas:"camisa ",pantalones:"pantal",trabajo:"delantal",gorras:"gorra",bolsas:"bolsa",calzado:"zapat",interior:"calcet",hogar:"toalla"};
 function isLanding(){return !S.c&&!QT.length&&!KEYS.some(function(k){return S[k].length;});}
 function renderLanding(){
   var h="";
   D.cats.forEach(function(c){
     var kw=TILEKW[c[0]], pick=null;
-    for(var i=0;i<ITEMS.length;i++){var it=ITEMS[i];if(it.c!==c[0]||it.i.indexOf("pictures/")!==0)continue;if(!pick)pick=it;if(!kw||norm(it.n).indexOf(kw)===0){pick=it;break;}}
+    if(TILEPIC[c[0]]) pick=ITEMS.filter(function(x){return x.r===TILEPIC[c[0]];})[0]||null;
+    for(var i=0;i<ITEMS.length&&!pick;i++){var it=ITEMS[i];if(it.c!==c[0]||it.i.indexOf("pictures/")!==0)continue;if(!pick)pick=it;if(!kw||norm(it.n).indexOf(kw)===0){pick=it;break;}}
     h+='<a class="tile" href="#catalogo?c='+c[0]+'" data-c="'+c[0]+'"><div class="ph"><img alt="" loading="lazy" decoding="async" data-st="'+(pick?pick.i:"")+'"></div><b>'+esc(c[1])+'</b><span>'+fmt(c[2])+' productos</span></a>';
   });
   $("landing").innerHTML=h;

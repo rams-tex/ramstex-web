@@ -48,6 +48,44 @@ const usoOf = list => [...new Set((list || []).map(w => (USO.find(u => u[1].test
 // Orden recomendado: primero la gama principal (Kariban), adultos antes que infantil
 const brandRank = b => /^(Kariban|Kariban Premium|Native Spirit)$/i.test(b || "") ? 0 : /^(Kimood|K-up|PROACT|WK)/i.test(b || "") ? 1 : 2;
 const genRank = g => { g = g || []; if (g.includes("Unisex")) return 0; if (g.includes("Hombre")) return 1; if (g.includes("Mujer")) return 2; return 3; };
+// Manga, cuello y corte (fit): del dato del proveedor o, si falta, del nombre y la descripción
+const nrm = t => String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+const TOPS = new Set(["camisetas", "polos", "sudaderas", "camisas", "trabajo", "otros"]);
+function sleeveOf(p, cat) {
+  if (!TOPS.has(cat) && cat !== "chaquetas") return "";
+  const a = nrm(p.name + " " + p.style), d = nrm(p.desc);
+  for (const t of [a, d]) {
+    if (/sin mangas|tirantes|\bdesmangad/.test(t)) return "Sin mangas";
+    if (/mangas? larga|manga 3\/4|mangas 3\/4/.test(t)) return "Manga larga";
+    if (/mangas? corta/.test(t)) return "Manga corta";
+  }
+  if (cat === "camisetas" || cat === "polos") return "Manga corta";
+  if (cat === "sudaderas" || cat === "chaquetas") return "Manga larga";
+  return "";
+}
+function neckOf(p, cat) {
+  if (cat === "chaquetas") return p.hood ? "Con capucha" : "";
+  if (!TOPS.has(cat)) return "";
+  if (p.hood) return "Con capucha";
+  const nk = nrm(p.neck), t = nrm(p.name + " " + p.style + " " + p.desc.slice(0, 220));
+  const all = nk + " " + t;
+  if (/cremallera/.test(nk) || /(1\/4|cuarto de) cremallera|cuello con cremallera|media cremallera/.test(t)) return "Cuello con cremallera";
+  if (/pico|cuello en v\b|cuello v\b/.test(all)) return "Cuello de pico";
+  if (/chimenea|cuello alto|cuello vuelto|cuello cisne/.test(all)) return "Cuello alto";
+  if (/mao|mandarin/.test(all)) return "Cuello mao";
+  if (cat === "polos" || /botones/.test(nk)) return cat === "camisas" ? "Cuello camisero" : "Cuello polo";
+  if (cat === "camisas") return "Cuello camisero";
+  if (/redondo|barco|marinero/.test(all) || cat === "camisetas") return "Cuello redondo";
+  if (cat === "sudaderas") return "Cuello redondo";
+  return "";
+}
+function fitOf(p) {
+  const f = nrm(p.fit), t = nrm(p.name + " " + p.style);
+  if (/oversize|amplio|loose|holgad/.test(f + " " + t)) return "Oversize / amplio";
+  if (/slim|entallad|skinny|ajustad|cenid/.test(f + " " + t)) return "Entallado / slim";
+  if (/recto|regular|confortable|clasic/.test(f)) return "Regular / recto";
+  return "";
+}
 const GEN = { Hombre: "H", Mujer: "M", Unisex: "U", "Niños": "N", Bebes: "B" };
 const COLFIX = { Mulicolor: "Multicolor", "Diseño": "Estampado" };
 
@@ -86,6 +124,7 @@ for (const p of src) {
     st: clean(p.style), i: stem(main),
     k: colors.map(c => [String(c.n || "").replace(/\s*\(x?\d+\)/gi, "").trim(), /^#?[0-9a-f]{6}$/i.test(c.hex || "") ? "#" + c.hex.replace("#", "") : "", [...new Set((c.dom || []).map(d => COLFIX[d] || d))].map(domI), stem(c.img)]),
     o: brandRank(p.brand) * 10 + genRank(p.gen),
+    m: sleeveOf(p, cat[0]), cu: neckOf(p, cat[0]), ft: fitOf(p),
     z: (p.sizes || []).length ? [p.sizes[0], p.sizes[p.sizes.length - 1]].filter((v, i, a) => a.indexOf(v) === i).join(" a ") : "",
   });
   (fichas[cat[0]] ??= {})[p.ref] = {
