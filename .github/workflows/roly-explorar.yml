@@ -1,6 +1,8 @@
 name: Prueba API Roly
 on:
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   explorar:
     runs-on: ubuntu-latest
@@ -10,6 +12,15 @@ jobs:
         with:
           node-version: 20
       - run: node scripts/roly-explorar.mjs
+        continue-on-error: true
         env:
           ROLY_USER: ${{ secrets.ROLY_USER }}
           ROLY_PASSWORD: ${{ secrets.ROLY_PASSWORD }}
+      - name: Guardar resultado en la rama diagnostico
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout -B diagnostico
+          git add -f diagnostico/roly.txt
+          git commit -m "Resultado prueba API Roly" || true
+          git push -f origin diagnostico
