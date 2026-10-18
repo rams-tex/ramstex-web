@@ -31,11 +31,22 @@ for (let i = 0; i < 30; i++) {
 }
 pagelog.push(`archivo: ${raw.length} productos`);
 if (!raw.length) { console.error("Archivo vacío", pagelog.join(" | ")); process.exit(1); }
+// Foto del color: siempre la de delante si existe (nunca la espalda ni el lateral)
+const PKEYS = {};
+function frontPackshot(ps) {
+  ps = ps || {};
+  const keys = Object.keys(ps).filter(k => ps[k]?.url_packshot);
+  keys.forEach(k => PKEYS[k] = (PKEYS[k] || 0) + 1);
+  const pref = ["FACE SIDE", "FACE", "FRONT", "FRONT SIDE", "MAIN", "FACE ON MODEL"];
+  for (const k of pref) if (ps[k]?.url_packshot) return ps[k].url_packshot;
+  const k = keys.find(k => !/BACK|DOS|SIDE|PROFIL|LATERAL|DETAIL|ZOOM|INSIDE/i.test(k)) || keys.find(k => !/BACK|DOS/i.test(k)) || keys[0];
+  return k ? ps[k].url_packshot : "";
+}
 const weight = p => { for (const c of p.colors || []) for (const s of c.sizes || []) if (s.coatingWeight_fr) return s.coatingWeight_fr; return ""; };
 const products = raw.filter(p => p.saleState === "active").map(p => {
   const colors = (p.colors || []).filter(c => c.saleState !== "inactive").map(c => ({
     n: es(c.colors), hex: (c.colorsHexa || [])[0] || "", dom: esList(c.colorsDominant),
-    img: c.packshots?.["FACE SIDE"]?.url_packshot || Object.values(c.packshots || {})[0]?.url_packshot || "",
+    img: frontPackshot(c.packshots),
     new: (c.sizes || []).some(s => s.isNew) ? 1 : 0,
   }));
   const sizes = [...new Set((p.colors || []).flatMap(c => (c.sizes || []).map(s => es(s.sizeCountry) || s.size)))];
@@ -67,6 +78,7 @@ for (const [f, v] of Object.entries(fam).sort((a, b) => b[1].n - a[1].n)) {
 // Muestra de campos disponibles (para diseñar filtros)
 const sample = raw.find(p => p.saleState === "active") || raw[0];
 const brief = v => { const t = JSON.stringify(v); return t && t.length > 160 ? t.slice(0, 160) + "…" : t; };
+lines.push("", "VISTAS DE COLOR: " + JSON.stringify(PKEYS));
 lines.push("", "CAMPOS PRODUCTO:");
 for (const [k, v] of Object.entries(sample)) if (k !== "colors") lines.push(`  ${k} = ${brief(v)}`);
 lines.push("CAMPOS COLOR:");
