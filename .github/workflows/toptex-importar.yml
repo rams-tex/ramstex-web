@@ -1,0 +1,27 @@
+name: Importar catálogo TopTex
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * *"
+permissions:
+  contents: write
+jobs:
+  importar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/toptex-importar.mjs
+        env:
+          TOPTEX_API_KEY: ${{ secrets.TOPTEX_API_KEY }}
+          TOPTEX_USER: ${{ secrets.TOPTEX_USER }}
+          TOPTEX_PASSWORD: ${{ secrets.TOPTEX_PASSWORD }}
+      - name: Guardar catálogo actualizado
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add data/toptex.json data/toptex-resumen.txt
+          git diff --cached --quiet || git commit -m "Catálogo TopTex actualizado"
+          git push
