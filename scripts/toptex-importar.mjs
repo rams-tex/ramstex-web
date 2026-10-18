@@ -20,16 +20,17 @@ async function json(path, opts) {
 const auth = await json("/v3/authenticate", { method: "POST", headers: { "x-api-key": KEY, "Content-Type": "application/json" }, body: JSON.stringify({ username: USER, password: PASS }) });
 const H = { headers: { "x-api-key": KEY, "x-toptex-authorization": auth.token } };
 
-const PAGE = 100; const raw = []; const pagelog = [];
-for (let page = 1; page <= 200; page++) {
-  const d = await json(`/v3/products/all?lang=es&usage_right=b2b_b2c&page_size=${PAGE}&page_number=${page}`, H);
-  const items = d.items || (Array.isArray(d) ? d : []);
-  pagelog.push(`p${page}: ${items.length} (total_count=${d.total_count}, page_number=${d.page_number}) claves=${Object.keys(d).join(',')} ${items.length?'':JSON.stringify(d).slice(0,300)}`);
-  console.log(pagelog.at(-1));
-  if (!items.length) break;
-  raw.push(...items);
-  if (items.length < PAGE && raw.length >= Number(d.total_count || 0)) break;
+// El catálogo completo se pide como archivo (la paginación se corta en 200).
+const pagelog = [];
+const f = await json(`/v3/products/all?lang=es&usage_right=b2b_b2c&result_in_file=1`, H);
+let raw = [];
+for (let i = 0; i < 30; i++) {
+  const r = await fetch(f.link);
+  if (r.ok) { const d = await r.json(); raw = d.items || (Array.isArray(d) ? d : []); if (raw.length) break; }
+  pagelog.push(`intento ${i + 1}: ${r.status}`); await sleep(20000);
 }
+pagelog.push(`archivo: ${raw.length} productos`);
+if (!raw.length) { console.error("Archivo vacío", pagelog.join(" | ")); process.exit(1); }
 const weight = p => { for (const c of p.colors || []) for (const s of c.sizes || []) if (s.coatingWeight_fr) return s.coatingWeight_fr; return ""; };
 const products = raw.filter(p => p.saleState === "active").map(p => {
   const colors = (p.colors || []).filter(c => c.saleState !== "inactive").map(c => ({
@@ -51,7 +52,7 @@ mkdirSync("data", { recursive: true });
 writeFileSync("data/toptex.json", JSON.stringify(products));
 const fam = {};
 for (const p of products) { fam[p.fam] ??= { n: 0, subs: {} }; fam[p.fam].n++; fam[p.fam].subs[p.sub] = (fam[p.fam].subs[p.sub] || 0) + 1; }
-const lines = [`Productos activos: ${products.length} (de ${raw.length})`, "Páginas: " + pagelog.slice(0,3).join(" | ") + " … " + pagelog.slice(-2).join(" | "), ""];
+const lines = [`Productos activos: ${products.length} (de ${raw.length})`, "Descarga: " + pagelog.join(" | "), ""];
 for (const [f, v] of Object.entries(fam).sort((a, b) => b[1].n - a[1].n)) {
   lines.push(`${f}: ${v.n}`);
   for (const [s, n] of Object.entries(v.subs).sort((a, b) => b[1] - a[1])) lines.push(`   - ${s}: ${n}`);
