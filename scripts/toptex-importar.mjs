@@ -45,6 +45,13 @@ const products = raw.filter(p => p.saleState === "active").map(p => {
     args: [es(p.salesArguments), es(p.salesArguments2), es(p.salesArguments3)].filter(Boolean),
     org: esList(p.organic).length ? 1 : 0, img: (p.images || []).map(i => i.url_image).filter(Boolean).slice(0, 6),
     colors, sizes,
+    brand: p.brand || "", style: esList(p.style)[0] || "", fit: esList(p.fit)[0] || "",
+    world: esList(p.world), act: esList(p.activity), nolabel: p.labelType === "no_label" ? 1 : 0,
+    oeko: p.oekoTex === "1" ? 1 : 0, rec: (p.recycled || []).filter(Boolean).length ? 1 : 0,
+    big: p.largeSizes === "1" ? 1 : 0, hood: p.hood === "Oui" ? 1 : 0, cert: esList(p.organic),
+    finish: esList(p.productFinish)[0] || "", neck: esList(p.neckType)[0] || "",
+    pockets: esList(p.typePockets)[0] || "", waterproof: esList(p.waterproof)[0] || "",
+    created: p.createdDate || "",
   };
 });
 
