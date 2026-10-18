@@ -134,6 +134,32 @@ for (const p of src) {
   };
 }
 
+// Productos repetidos: la misma prenda en versión orgánica (ORG) y "en conversión" (IC),
+// o dos referencias con la misma foto. Se muestra una sola y las otras referencias van dentro.
+{
+  const keyOf = it => it.r.replace(/(ORG|IC)$/, "");
+  const groups = new Map();
+  const byImg = new Map();
+  for (const it of items) {
+    let k = keyOf(it);
+    if (byImg.has(it.i)) k = byImg.get(it.i); else byImg.set(it.i, k);
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(it);
+  }
+  const keep = new Set();
+  for (const g of groups.values()) {
+    g.sort((a, b) => b.k.length - a.k.length || (/ORG$/.test(b.r) - /ORG$/.test(a.r)));
+    const main = g[0]; keep.add(main);
+    if (g.length > 1) {
+      main.v = g.slice(1).map(x => x.r);
+      main.n = main.n.replace(/\s+IC\b/, "").replace(/\s{2,}/g, " ").trim();
+    }
+  }
+  const before = items.length;
+  for (let i = items.length - 1; i >= 0; i--) if (!keep.has(items[i])) items.splice(i, 1);
+  console.log(`Repetidos unidos: ${before - items.length}`);
+}
+
 // Orden recomendado: categorías principales primero; dentro, las prendas con más colores
 const catOrder = Object.fromEntries(CATS.map((c, i) => [c[0], i]));
 items.sort((a, b) => catOrder[a.c] - catOrder[b.c] || a.o - b.o || b.k.length - a.k.length);

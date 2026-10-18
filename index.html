@@ -675,7 +675,7 @@ function prep(){
       k[4]=h||"#DDD";
     });
     var g=it.g.split("").map(function(x){return GENL[x];}).join(" ");
-    it.t=norm([it.r,it.n,D.subs[it.s],it.st,g,it.k.map(function(k){return k[0];}).join(" "),
+    it.t=norm([it.r,(it.v||[]).join(" "),it.n,D.subs[it.s],it.st,g,it.k.map(function(k){return k[0];}).join(" "),
       it.f.indexOf("e")>=0?"ecologica organica reciclada sostenible":"",it.f.indexOf("h")>=0?"capucha":"",it.f.indexOf("l")>=0?"sin etiqueta":"",
       it.u.map(function(u){return D.world[u];}).join(" ")].join(" "));
   });
@@ -789,7 +789,7 @@ function sorted(list){
   else if(S.o==="col") l.sort(function(a,b){return b.k.length-a.k.length;});
   else if(S.o==="new") l.sort(function(a,b){return (b.f.indexOf("n")>=0)-(a.f.indexOf("n")>=0)||a.ix-b.ix;});
   var qn=norm(S.q).replace(/\s+/g,"");
-  if(qn&&S.o==="rec"){var ex=l.filter(function(it){return norm(it.r)===qn;});if(ex.length){l=ex.concat(l.filter(function(it){return ex.indexOf(it)<0;}));return l;}}
+  if(qn&&S.o==="rec"){var ex=l.filter(function(it){return norm(it.r)===qn||(it.v||[]).some(function(v){return norm(v)===qn;});});if(ex.length){l=ex.concat(l.filter(function(it){return ex.indexOf(it)<0;}));return l;}}
   if(S.o==="az"||S.o==="col"||S.o==="new"){}
   else if(QT.length){ /* con búsqueda: primero las que lo tienen en el nombre */
     l.sort(function(a,b){var na=norm(a.n),nb=norm(b.n);var sa=QT.filter(function(t){return t.some(function(v){return na.indexOf(v)>=0;});}).length,sb=QT.filter(function(t){return t.some(function(v){return nb.indexOf(v)>=0;});}).length;return sb-sa||a.ix-b.ix;});
@@ -897,7 +897,7 @@ function renderProduct(it){
     if(it.f.indexOf("l")>=0)badges.push("Sin etiqueta: lista para tu marca");
     (f.cert||[]).forEach(function(c){badges.push(c);});
     if(it.f.indexOf("x")>=0)badges.push("Tallas grandes");
-    var specs=[["Referencia",it.r],["Composición",f.comp],["Gramaje",f.peso],["Corte",f.fit],["Acabado",f.fin],["Cuello",f.neck],["Bolsillos",f.pk],["Impermeable",f.wp],["Colores",it.k.length+" disponibles"],["Personalización","Estampado, bordado, serigrafía o DTF"]].filter(function(s){return s[1];});
+    var specs=[["Referencia",it.r+((it.v||[]).length?" (también "+it.v.join(", ")+")":"")],["Composición",f.comp],["Gramaje",f.peso],["Corte",f.fit],["Acabado",f.fin],["Cuello",f.neck],["Bolsillos",f.pk],["Impermeable",f.wp],["Colores",it.k.length+" disponibles"],["Personalización","Estampado, bordado, serigrafía o DTF"]].filter(function(s){return s[1];});
     var wa="https://wa.me/34682368645?text="+encodeURIComponent("Hola, me interesa este producto del catálogo: "+it.n+" (ref. "+it.r+")");
     box.innerHTML='<a class="back" href="'+(lastCat||"#catalogo")+'">Volver al catálogo</a>'+
      '<div class="pd"><div class="pgal"><div class="big"><img alt="'+esc(it.n)+'"></div><div class="thumbs"></div></div>'+
