@@ -1,30 +1,90 @@
-Productos activos: 197 (de 200)
-Páginas: p1: 100 (total_count=2988, page_number=1) | p2: 100 (total_count=2988, page_number=2) | p3: 0 (total_count=undefined, page_number=undefined) … p2: 100 (total_count=2988, page_number=2) | p3: 0 (total_count=undefined, page_number=undefined)
+Productos activos: 2769 (de 2988)
+Descarga: intento 1: 200 | intento 2: 200 | intento 3: 200 | intento 4: 200 | intento 5: 200 | archivo: 2988 productos
 
-Ropa: 78
-   - Chaquetas: 25
-   - Pantalones: 16
-   - Camisetas: 9
-   - Camisas / Sobrecamisas: 6
-   - Camisas / Blusas: 5
-   - Sudaderas: 5
-   - Chalecos: 4
-   - Faldas: 4
-   - Vestidos: 3
-   - Chalecos acolchados: 1
-Headwear & Accesorios: 72
-   - Gorras: 32
-   - Gorros: 26
-   - Pañuelos / Bufandas / Bragas de cuello: 5
-   - Guantes: 3
-   - Sombreros & accesorios: 2
-   - Pasamontañas: 2
-   - Gorro Bobs: 1
-   - Boinas: 1
-Equipaje: 45
-   - Bolsas: 41
-   - Accesorios Equipaje: 4
-Calzado y accesorios: 1
-   - Calzado de Seguridad: 1
-Accesorios: 1
-   - Gafas y fundas: 1
+Ropa: 1618
+   - Camisetas: 264
+   - Chaquetas: 247
+   - Sudaderas: 203
+   - Pantalones: 172
+   - Polos: 148
+   - Camisas / Sobrecamisas: 122
+   - Bermudas / Shorts: 93
+   - Chalecos acolchados: 69
+   - Delantales: 61
+   - Chalecos: 43
+   - Jerseys / Cárdigans: 40
+   - Tirantes: 28
+   - Batas de trabajo: 21
+   - Camisetas deportiva: 16
+   - Vestidos: 14
+   - Túnicas: 12
+   - Faldas: 11
+   - Vaqueros: 10
+   - Camisas / Blusas: 10
+   - Petos: 10
+   - Ponchos: 9
+   - Monos: 8
+   - Bodys: 4
+   - Bañadores: 3
+Headwear & Accesorios: 417
+   - Gorras: 229
+   - Gorros: 75
+   - Guantes: 24
+   - Gorro Bobs: 19
+   - Pañuelos / Bufandas / Bragas de cuello: 16
+   - Sombreros & accesorios: 16
+   - Cascos: 14
+   - Cintas Cabeza: 7
+   - Boinas: 5
+   - Bandanas: 5
+   - Pasamontañas: 4
+   - Sombreros bandana: 2
+   - Tapones: 1
+Equipaje: 372
+   - Bolsas: 344
+   - Maletas: 12
+   - Accesorios Equipaje: 11
+   - Fundas: 4
+   - Cestas: 1
+Calzado y accesorios: 88
+   - Calzado de Seguridad: 53
+   - Zapatos Lifestyle / Ocio: 14
+   - Calzado de trabajo: 13
+   - Accesorios para calzado: 8
+Ropa Accesorios: 57
+   - Pañuelos: 30
+   - Cinturones: 12
+   - Corbatas: 8
+   - Rodilleras: 5
+   - Cinta para cuello: 1
+   - Tirantes: 1
+Ropa interior: 50
+   - Calcetines: 34
+   - Ropas interior: 6
+   - Boxers / Caleçons: 6
+   - Sujetadores Deporte: 4
+Línea de hogar: 45
+   - Baño: 31
+   - Mesa / Cocina: 9
+   - Decoración: 5
+Accesorios: 36
+   - Paraguas: 14
+   - Gafas y fundas: 6
+   - Mascarillas: 6
+   - Brazaletes: 5
+   - Poches d'identité: 3
+   - Bandes réfléchissantes: 2
+Equipamientos deportivos: 34
+   - Accesorios deportivos: 22
+   - Balones y accesorios: 8
+   - Equipo de inflado: 2
+   - Tacos y accesorios: 1
+   - Equipamiento de entrenamiento y campo: 1
+Peluches: 32
+   - Peluches: 31
+   - Ropa y Accesorios Peluche: 1
+Pijamas: 13
+   - Pijamas: 13
+Drinkwear: 7
+   - Botellas de deporte: 4
+   - Portabotellas: 3
