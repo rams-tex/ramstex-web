@@ -1,0 +1,30 @@
+name: Prueba API TopTex
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  explorar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/toptex-explorar.mjs
+        continue-on-error: true
+        env:
+          TOPTEX_API_KEY: ${{ secrets.TOPTEX_API_KEY }}
+          TOPTEX_USER: ${{ secrets.TOPTEX_USER }}
+          TOPTEX_PASSWORD: ${{ secrets.TOPTEX_PASSWORD }}
+      - name: Guardar resultado en la rama diagnostico
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git fetch origin diagnostico || true
+          mv diagnostico/toptex.txt /tmp/toptex.txt
+          git checkout -B diagnostico origin/diagnostico 2>/dev/null || git checkout -B diagnostico
+          mkdir -p diagnostico && cp /tmp/toptex.txt diagnostico/toptex.txt
+          git add -f diagnostico/toptex.txt
+          git commit -m "Resultado prueba API TopTex" || true
+          git push -f origin diagnostico
