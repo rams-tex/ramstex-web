@@ -134,25 +134,32 @@ for (const p of src) {
   };
 }
 
-// Productos repetidos: la misma prenda en versión orgánica (ORG) y "en conversión" (IC),
-// o dos referencias con la misma foto. Se muestra una sola y las otras referencias van dentro.
+// Productos repetidos. Se unen en una sola ficha:
+//  - la misma prenda en versión orgánica (ORG) y "en conversión" (IC);
+//  - la misma foto con el mismo nombre salvo cantidades o medidas (p. ej. toallas 30x50 / 50x100).
+// No se unen productos distintos que comparten foto (un conjunto: chaqueta y pantalón, leggings y top…).
 {
-  const keyOf = it => it.r.replace(/(ORG|IC)$/, "");
+  let H = {};
+  try { H = JSON.parse(readFileSync("data/huellas.json", "utf8")); } catch (e) {}
+  const nameKey = n => nrm(n).replace(/\bic\b/g, "").replace(/[\d.,]+\s*(x\s*[\d.,]+)?\s*(cm|mm|ml|l|m|g|unidades|uds?)?\b/g, "").replace(/[-–(),]/g, " ").replace(/\s+/g, " ").trim();
+  const keyOf = it => {
+    const base = it.r.replace(/(ORG|IC)$/, "");
+    if (base !== it.r) return "ref:" + base;
+    const h = H[it.r]?.h;
+    return h ? "img:" + h + "|" + it.c + "|" + nameKey(it.n) : "ref:" + it.r;
+  };
   const groups = new Map();
-  const byImg = new Map();
-  for (const it of items) {
-    let k = keyOf(it);
-    if (byImg.has(it.i)) k = byImg.get(it.i); else byImg.set(it.i, k);
-    if (!groups.has(k)) groups.set(k, []);
-    groups.get(k).push(it);
-  }
+  for (const it of items) { const k = keyOf(it); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(it); }
   const keep = new Set();
   for (const g of groups.values()) {
-    g.sort((a, b) => b.k.length - a.k.length || (/ORG$/.test(b.r) - /ORG$/.test(a.r)));
+    g.sort((a, b) => b.k.length - a.k.length || (/ORG$/.test(b.r) - /ORG$/.test(a.r)) || a.r.localeCompare(b.r));
     const main = g[0]; keep.add(main);
     if (g.length > 1) {
       main.v = g.slice(1).map(x => x.r);
-      main.n = main.n.replace(/\s+IC\b/, "").replace(/\s{2,}/g, " ").trim();
+      main.n = main.n.replace(/\s+IC\b/, "");
+      if (g.some(x => !/(ORG|IC)$/.test(x.r))) main.n = main.n.replace(/\s*-?\s*\d+\s*x\s*\d+\s*cm\b/i, "").replace(/\bde \d+ /i, "de ");
+      main.n = main.n.replace(/\s{2,}/g, " ").trim();
+      console.log("  unidos:", [main.r, ...main.v].join(" + "), "·", main.n);
     }
   }
   const before = items.length;

@@ -18,6 +18,9 @@ jobs:
           TOPTEX_API_KEY: ${{ secrets.TOPTEX_API_KEY }}
           TOPTEX_USER: ${{ secrets.TOPTEX_USER }}
           TOPTEX_PASSWORD: ${{ secrets.TOPTEX_PASSWORD }}
+      - run: npm install --no-save sharp@0.33.5
+      - run: node scripts/fotos-huella.mjs
+        continue-on-error: true
       - run: node scripts/catalogo-construir.mjs
       - name: Guardar catálogo actualizado
         run: |
