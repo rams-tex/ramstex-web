@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ramstex: damos vida a tus ideas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F7F6; --surface:#FFFFFF; --text:#111111; --muted:#5A5A5A;
+  --red:#982626; --red-text:#982626; --on-red:#FFFFFF; --line:#D6D6D2; --tint:#EDEDEB;
+  --ink:#141414; --on-ink:#F4F4F2; --ink-muted:#A9A9A5; --ink-line:#2E2E2E;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121212; --surface:#1C1C1C; --text:#F2F2F0; --muted:#A8A8A4;
+    --red:#A62B2B; --red-text:#F0615F; --on-red:#FFFFFF; --line:#353533; --tint:#202020;
+    --ink:#0A0A0A; --on-ink:#F4F4F2; --ink-muted:#A9A9A5; --ink-line:#2A2A2A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121212; --surface:#1C1C1C; --text:#F2F2F0; --muted:#A8A8A4;
+  --red:#A62B2B; --red-text:#F0615F; --on-red:#FFFFFF; --line:#353533; --tint:#202020;
+  --ink:#0A0A0A; --on-ink:#F4F4F2; --ink-muted:#A9A9A5; --ink-line:#2A2A2A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font:400 1.0625rem/1.6 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:env(safe-area-inset-bottom,0px)}
+h1,h2,h3{font-family:"Bricolage Grotesque",Figtree,system-ui,sans-serif;line-height:1.05;margin:0;letter-spacing:-0.02em}
+a{color:inherit}
+img{max-width:100%}
+button{font-family:inherit}
+:focus-visible{outline:3px solid var(--red-text);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+[hidden]{display:none!important}
+
+/* ---------- Cabecera ---------- */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+.logo{display:block;line-height:0;flex:none}
+.logo img{height:26px;width:auto;display:block}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .logo{background:#fff;padding:6px 10px;border-radius:8px}}
+:root[data-theme="dark"] .logo{background:#fff;padding:6px 10px;border-radius:8px}
+.dnav{display:flex;gap:24px;align-items:center;font-weight:500;font-size:.98rem}
+.dnav a{text-decoration:none;color:var(--muted)}
+.dnav a:hover,.dnav a[aria-current="page"]{color:var(--text)}
+.dnav .btn{padding:10px 18px;font-size:.95rem;color:var(--on-red)}
+.menubtn{display:none;align-items:center;gap:10px;background:var(--text);color:var(--bg);border:0;border-radius:999px;padding:10px 16px;font:600 .95rem Figtree,sans-serif;cursor:pointer}
+.menubtn svg{width:18px;height:18px}
+.menu{position:fixed;left:0;right:0;top:calc(68px + env(safe-area-inset-top,0px));bottom:0;background:var(--bg);z-index:19;overflow:auto;padding:12px 24px 40px}
+.menu a.mi{display:flex;justify-content:space-between;align-items:center;text-decoration:none;font:700 1.6rem "Bricolage Grotesque",sans-serif;padding:16px 0;border-bottom:1px solid var(--line);letter-spacing:-0.01em}
+.menu a.mi::after{content:"";width:10px;height:10px;border-right:2.5px solid var(--red-text);border-top:2.5px solid var(--red-text);transform:rotate(45deg)}
+.menu .mcta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
+.menu .mcta .btn{text-align:center;padding:14px 10px}
+
+/* ---------- Botones ---------- */
+.btn{display:inline-block;background:var(--red);color:var(--on-red);font-weight:600;text-decoration:none;padding:15px 26px;border-radius:999px;border:0;font-size:1rem;cursor:pointer;line-height:1.2}
+.btn:hover{filter:brightness(1.12)}
+.btn.ghost{background:transparent;color:var(--text);box-shadow:inset 0 0 0 2px var(--line)}
+.btn.ghost:hover{filter:none;box-shadow:inset 0 0 0 2px var(--text)}
+.btn.light{background:var(--on-ink);color:#111}
+
+/* ---------- Portada ---------- */
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:56px 0 72px}
+.hero h1{font-size:clamp(2.9rem,6.6vw,5.6rem);font-weight:800}
+.hero p{max-width:32rem;color:var(--muted);font-size:1.18rem;margin:22px 0 30px}
+.ctas{display:flex;flex-wrap:wrap;gap:10px}
+.mosaic{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mosaic a{display:block;border-radius:18px;overflow:hidden;background:var(--tint);aspect-ratio:3/4}
+.mosaic a:first-child{grid-row:span 2;aspect-ratio:auto}
+.mosaic img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+
+/* ---------- Banda de técnicas ---------- */
+.band{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.art img{display:block;width:100%;height:auto;border-radius:28px}
+.tech{display:grid;grid-template-columns:repeat(4,1fr)}
+.tech div{padding:26px 22px;border-left:1px solid var(--line)}
+.tech div:first-child{border-left:0;padding-left:0}
+.tech b{display:block;font:700 1.2rem "Bricolage Grotesque",sans-serif}
+.tech span{color:var(--muted);font-size:.95rem}
+
+/* ---------- Secciones ---------- */
+section{padding:80px 0}
+.shead{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:36px}
+h2{font-size:clamp(2rem,4.4vw,3.2rem);font-weight:700;max-width:18ch}
+.lead{color:var(--muted);max-width:38rem;margin:14px 0 0}
+.about{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
+.about .big{font-size:1.35rem;line-height:1.45;font-weight:500;margin:0 0 18px}
+.about p{color:var(--muted);margin:0 0 14px}
+.services{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.svc{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:26px 26px 28px;border-top:5px solid var(--red)}
+.svc h3{font-size:1.4rem;margin-bottom:10px}
+.svc p{margin:0;color:var(--muted)}
+
+/* ---------- Banda catálogo ---------- */
+.catband{background:var(--tint);padding:80px 0;overflow:hidden}
+.catband .lead{color:var(--muted)}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.strip a{display:block;text-decoration:none;color:var(--text)}
+.strip .ph{aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:#fff}
+.strip img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .3s}
+.strip a:hover img{transform:scale(1.03)}
+.strip span{display:block;margin-top:10px;font-weight:600}
+@media (prefers-reduced-motion: reduce){.strip img{transition:none}}
+
+/* ---------- Pasos ---------- */
+.steps{list-style:none;counter-reset:s;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.steps li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--red);color:var(--on-red);font:800 1.25rem "Bricolage Grotesque",sans-serif;margin-bottom:16px}
+.steps h3{font-size:1.2rem;margin:0 0 6px}
+.steps p{margin:0;color:var(--muted);font-size:1rem}
+
+/* ---------- Trabajos ---------- */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.shot{aspect-ratio:1/1;background:var(--tint);border:2px dashed var(--line);border-radius:18px;display:flex;flex-direction:column;justify-content:flex-end;padding:16px}
+.shot b{font:700 1.08rem "Bricolage Grotesque",sans-serif}
+.shot span{color:var(--muted);font-size:.9rem}
+
+/* ---------- Contacto ---------- */
+.contact{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.channels{display:grid;gap:10px;margin-top:26px}
+.channel{display:flex;align-items:center;gap:14px;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:var(--bg)}
+.channel:hover{border-color:var(--red-text)}
+.channel .ic{flex:none;width:40px;height:40px;border-radius:50%;background:var(--red);color:var(--on-red);display:grid;place-items:center}
+.channel .ic svg{width:20px;height:20px}
+.channel b{display:block;font:700 1.05rem "Bricolage Grotesque",sans-serif}
+.channel span{color:var(--muted);font-size:.95rem}
+form{display:grid;gap:14px;align-content:start}
+label{font-weight:600;font-size:.95rem;display:grid;gap:6px}
+input,textarea{font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:13px 14px;width:100%}
+textarea{min-height:130px;resize:vertical}
+
+/* ---------- Pie ---------- */
+footer{background:var(--tint);color:var(--muted);border-top:1px solid var(--line);padding:48px 0 calc(40px + env(safe-area-inset-bottom,0px));margin-top:80px}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.flogo{font:800 1.6rem "Bricolage Grotesque",sans-serif;letter-spacing:.06em;color:var(--text)}
+.flogo i{font-style:normal;color:var(--red-text)}
+footer p{margin:8px 0 0;font-size:.95rem}
+.flinks{display:flex;gap:20px;flex-wrap:wrap;font-size:.95rem}
+.flinks a{text-decoration:none;color:var(--text)}
+.flinks a:hover{text-decoration:underline}
+
+/* ---------- WhatsApp flotante ---------- */
+.wa{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:15;width:56px;height:56px;border-radius:50%;background:var(--red);color:#fff;display:none;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.wa svg{width:26px;height:26px}
+
+/* ---------- Catálogo ---------- */
+.cat{padding-top:40px;padding-bottom:80px}
+.cat h1{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800}
+.sub{color:var(--muted);max-width:40rem;margin:12px 0 26px}
+.note{background:var(--tint);border:1px dashed var(--line);border-radius:12px;padding:10px 16px;color:var(--muted);font-size:.95rem;margin-bottom:26px}
+.bar{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+.search{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:13px 20px;width:100%}
+.cartbtn{font:600 1rem Figtree,sans-serif;background:var(--red);color:var(--on-red);border:0;border-radius:999px;padding:13px 22px;cursor:pointer;white-space:nowrap}
+.filters{display:grid;gap:12px;margin:18px 0 6px}
+.group{display:flex;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none;padding:2px}
+.group::-webkit-scrollbar{display:none}
+.glabel{font-weight:600;font-size:.92rem;color:var(--muted);margin-right:4px;flex:none;width:52px}
+.chip{flex:none;font:500 .95rem Figtree,sans-serif;color:var(--text);background:transparent;border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.sw{flex:none;width:28px;height:28px;border-radius:50%;border:1px solid var(--line);cursor:pointer;padding:0}
+.sw[aria-pressed="true"]{outline:3px solid var(--red-text);outline-offset:2px}
+.count{color:var(--muted);margin:16px 0;font-size:.98rem}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.frame{display:block;aspect-ratio:4/5;background:#fff;position:relative;overflow:hidden}
+.frame img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.frame img.pack{object-fit:contain;padding:6%}
+.info{padding:14px 16px 16px;display:grid;gap:7px;flex:1;align-content:start}
+.info h3{font-size:1.06rem;font-weight:700}
+.info h3 a{text-decoration:none}
+.meta{color:var(--muted);font-size:.9rem}
+.cname{font-size:.9rem;font-weight:600;min-height:1.4em}
+.dots{display:flex;flex-wrap:wrap;gap:6px}
+.dot{width:22px;height:22px;border-radius:50%;border:1px solid var(--line);cursor:pointer;padding:0}
+.dot[aria-pressed="true"]{outline:2px solid var(--red-text);outline-offset:2px}
+.cardbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.add,.more{font:600 .9rem Figtree,sans-serif;border-radius:999px;padding:9px 10px;cursor:pointer;text-align:center;text-decoration:none;line-height:1.2}
+.add{color:var(--on-red);background:var(--red);border:0}
+.more{color:var(--text);background:transparent;border:1px solid var(--line)}
+.empty{grid-column:1/-1;color:var(--muted);padding:40px 0}
+.panel{position:fixed;right:0;top:0;bottom:0;width:min(400px,100%);background:var(--surface);border-left:1px solid var(--line);padding:24px;padding-top:calc(24px + env(safe-area-inset-top,0px));transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;gap:14px;z-index:40;overflow:auto;visibility:hidden}
+.panel.open{transform:none;visibility:visible}
+@media (prefers-reduced-motion: reduce){.panel{transition:none}}
+.panel h2{font-size:1.5rem}
+.panel ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.panel li{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.panel li button{background:none;border:0;color:var(--red-text);font:inherit;cursor:pointer;text-decoration:underline}
+.send{display:block;text-align:center;background:var(--red);color:var(--on-red);font-weight:600;text-decoration:none;padding:14px 22px;border-radius:999px}
+.close{align-self:flex-end;background:none;border:0;font:inherit;color:var(--muted);cursor:pointer}
+
+/* ---------- Ficha de producto ---------- */
+.back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--muted);font-weight:500;margin-bottom:20px}
+.back::before{content:"";width:8px;height:8px;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg)}
+.pd{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:start}
+.pgal .big{aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:#fff;border:1px solid var(--line)}
+.pgal .big img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.pgal .big img.pack{object-fit:contain;padding:6%}
+.thumbs{display:flex;gap:10px;margin-top:12px}
+.thumbs button{width:76px;aspect-ratio:4/5;border-radius:12px;overflow:hidden;border:1px solid var(--line);padding:0;background:#fff;cursor:pointer}
+.thumbs button[aria-pressed="true"]{outline:2px solid var(--red-text);outline-offset:2px}
+.thumbs img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.pinfo h1{font-size:clamp(2rem,4vw,3rem);font-weight:800}
+.pinfo .meta{font-size:1rem;margin-top:8px}
+.pinfo .desc{color:var(--muted);margin:18px 0 22px}
+.pinfo h3{font-size:1.05rem;margin:22px 0 10px}
+.pinfo .dots .dot{width:30px;height:30px}
+.specs{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;margin:0;border-top:1px solid var(--line);padding-top:18px}
+.specs dt{color:var(--muted)}
+.specs dd{margin:0;font-weight:500}
+.pinfo .btn{width:100%;text-align:center;margin-top:26px}
+
+/* ---------- Móvil ---------- */
+@media (max-width:900px){
+  .dnav{display:none}
+  .menubtn{display:inline-flex}
+  .wa{display:grid}
+  .hero{grid-template-columns:1fr;gap:28px;padding:32px 0 40px}
+  .hero p{font-size:1.06rem;margin:16px 0 22px}
+  .mosaic{grid-template-columns:repeat(3,1fr);gap:8px}
+  .mosaic a{border-radius:12px}
+  .mosaic a:first-child{grid-row:auto;aspect-ratio:3/4}
+  .tech{grid-template-columns:1fr 1fr}
+  .tech div{padding:18px 14px;border-left:0;border-top:1px solid var(--line)}
+  .tech div:nth-child(-n+2){border-top:0}
+  .tech div:nth-child(odd){padding-left:0;border-right:1px solid var(--line)}
+  .tech b{font-size:1.05rem}
+  .tech span{font-size:.85rem}
+  section{padding:52px 0}
+  .shead{margin-bottom:24px}
+  .about{grid-template-columns:1fr;gap:16px}
+  .about .big{font-size:1.15rem}
+  .services{grid-template-columns:1fr;gap:12px}
+  .svc{padding:20px;border-radius:16px}
+  .svc h3{font-size:1.2rem}
+  .catband{padding:52px 0}
+  .strip{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;scrollbar-width:none}
+  .strip::-webkit-scrollbar{display:none}
+  .strip a{flex:0 0 60%;scroll-snap-align:start}
+  .steps{grid-template-columns:1fr;gap:10px}
+  .steps li{display:grid;grid-template-columns:44px 1fr;column-gap:14px;padding:16px;border-radius:16px}
+  .steps li::before{grid-row:span 2;margin:0}
+  .gallery{grid-template-columns:1fr 1fr;gap:10px}
+  .shot{border-radius:14px;padding:12px}
+  .shot b{font-size:.95rem}
+  .contact{grid-template-columns:1fr;padding:24px 18px;border-radius:20px;gap:28px}
+  footer{margin-top:52px}
+  .cat{padding-top:20px;padding-bottom:60px}
+  .ctas{display:grid;grid-template-columns:1fr 1fr}
+  .ctas .btn{text-align:center;padding:14px 10px}
+  .pinfo h1{font-size:2rem}
+  .bar{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr 1fr;gap:10px}
+  .info{padding:10px 10px 12px;gap:5px}
+  .info h3{font-size:.95rem}
+  .meta{font-size:.82rem}
+  .info .spec{display:none}
+  .dot{width:18px;height:18px}
+  .cardbtns{grid-template-columns:1fr}
+  .add,.more{font-size:.85rem;padding:8px}
+  .pd{grid-template-columns:1fr;gap:20px}
+  .pinfo .dots .dot{width:28px;height:28px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#inicio" aria-label="Ramstex, inicio"><img src="logo.png" alt="Ramstex" width="160" height="27"></a>
+    <nav class="dnav" aria-label="Principal">
+      <a href="#catalogo" data-view="cat">Catálogo</a>
+      <a href="#quienes">Quiénes somos</a>
+      <a href="#hacemos">Qué hacemos</a>
+      <a href="#proceso">Cómo trabajamos</a>
+      <a href="#trabajos">Trabajos</a>
+      <a class="btn" href="#contacto">Pide presupuesto</a>
+    </nav>
+    <button class="menubtn" id="menubtn" type="button" aria-expanded="false" aria-controls="menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path id="mi1" d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <span id="menulabel">Menú</span>
+    </button>
+  </div>
+</header>
+
+<div class="menu" id="menu" hidden>
+  <a class="mi" href="#inicio">Inicio</a>
+  <a class="mi" href="#catalogo">Catálogo</a>
+  <a class="mi" href="#quienes">Quiénes somos</a>
+  <a class="mi" href="#hacemos">Qué hacemos</a>
+  <a class="mi" href="#proceso">Cómo trabajamos</a>
+  <a class="mi" href="#trabajos">Trabajos</a>
+  <a class="mi" href="#contacto">Contacto</a>
+  <div class="mcta">
+    <a class="btn" href="https://wa.me/34682368645" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="btn ghost" href="mailto:info@ramstex.com">Correo</a>
+  </div>
+</div>
+
+<!-- =============== INICIO =============== -->
+<div id="view-home">
+  <div class="wrap" id="inicio">
+    <div class="hero">
+      <div>
+        <h1>Damos vida a tus ideas.</h1>
+        <p>Creamos ropa y merchandising personalizados para empresas, eventos, equipos y proyectos personales. Tú nos cuentas la idea y nosotros la convertimos en producto.</p>
+        <div class="ctas">
+          <a class="btn" href="#contacto">Pide presupuesto</a>
+          <a class="btn ghost" href="#catalogo">Ver catálogo</a>
+        </div>
+      </div>
+      <div class="art"><img src="hero.svg" alt="Prendas personalizadas colgadas en una burra, camisetas dobladas y una bobina de hilo" width="640" height="560"></div>
+    </div>
+  </div>
+
+  <section id="quienes">
+    <div class="wrap about">
+      <h2>Quiénes somos</h2>
+      <div>
+        <p class="big">Somos una empresa que crea ropa y merchandising personalizados para todo tipo de empresas, eventos, marcas y proyectos personales.</p>
+        <p>Al sacar adelante nuestra propia marca de ropa, Rams 23, conocimos el oficio desde dentro. De esa experiencia surgió Ramstex: ponerla al servicio de otras empresas, eventos y proyectos.</p>
+        <p>Trabajamos con muchos proveedores, así que podemos ofrecerte una gran variedad de prendas, tejidos y acabados, y elegir contigo la opción que mejor encaja con tu proyecto y tu presupuesto.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="hacemos" style="padding-top:0">
+    <div class="wrap">
+      <div class="shead">
+        <div>
+          <h2>Qué hacemos</h2>
+          <p class="lead">Un único proveedor para vestir y equipar a tu empresa, tu evento o tu grupo.</p>
+        </div>
+      </div>
+      <div class="services">
+        <div class="svc"><h3>Ropa para empresas y equipos</h3><p>Uniformes, polos, sudaderas y camisetas con tu logo bordado o estampado, con tallas y colores a elegir.</p></div>
+        <div class="svc"><h3>Eventos y celebraciones</h3><p>Camisetas para ferias, fiestas, torneos, despedidas de soltero y cualquier grupo que quiera ir a juego.</p></div>
+        <div class="svc"><h3>Merchandising</h3><p>Libretas, bolígrafos, mecheros y todo lo que se te ocurra para regalar a clientes o vender en tu marca.</p></div>
+        <div class="svc"><h3>Marcas y proyectos propios</h3><p>Producimos tu colección o tu primera tirada. Te ayudamos a pasar de la idea a la prenda terminada.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="catband">
+    <div class="wrap">
+      <div class="shead">
+        <div>
+          <h2>Elige tu prenda</h2>
+          <p class="lead">Camisetas, polos, sudaderas y chaquetas listas para personalizar con tu logo.</p>
+        </div>
+        <a class="btn" href="#catalogo">Ver catálogo</a>
+      </div>
+      <div class="strip">
+        <a href="#producto-8"><div class="ph"><img src="foto/NS401.jpg" alt="" loading="lazy"></div><span>Sudaderas con capucha</span></a>
+        <a href="#producto-1"><div class="ph"><img src="foto/PA438.jpg" alt="" loading="lazy"></div><span>Camisetas técnicas</span></a>
+        <a href="#producto-7"><div class="ph"><img src="foto/NS400.jpg" alt="" loading="lazy"></div><span>Sudaderas</span></a>
+        <a href="#producto-6"><div class="ph"><img src="foto/04449.jpg" alt="" loading="lazy"></div><span>Chaquetas</span></a>
+      </div>
+    </div>
+  </div>
+
+  <section id="proceso">
+    <div class="wrap">
+      <div class="shead"><h2>Cómo trabajamos</h2></div>
+      <ol class="steps">
+        <li><h3>Nos cuentas la idea</h3><p>Qué necesitas, cuántas piezas y para cuándo.</p></li>
+        <li><h3>Diseñamos tu proyecto</h3><p>Preparamos el diseño de tus prendas y lo ajustamos contigo hasta que quede como quieres.</p></li>
+        <li><h3>Hacemos el presupuesto</h3><p>Con el diseño claro, te damos un precio cerrado y los plazos.</p></li>
+        <li><h3>Producimos y entregamos</h3><p>Cuando lo apruebas, lo producimos, lo revisamos y te lo enviamos.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="trabajos" style="padding-top:0">
+    <div class="wrap">
+      <div class="shead">
+        <div>
+          <h2>Trabajos recientes</h2>
+          <p class="lead">Algunos de los encargos que hemos producido.</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <div class="shot"><b>Camisetas para un evento</b><span>Foto del trabajo</span></div>
+        <div class="shot"><b>Sudaderas de empresa</b><span>Foto del trabajo</span></div>
+        <div class="shot"><b>Merchandising de marca</b><span>Foto del trabajo</span></div>
+        <div class="shot"><b>Despedida de soltero</b><span>Foto del trabajo</span></div>
+        <div class="shot"><b>Equipo deportivo</b><span>Foto del trabajo</span></div>
+        <div class="shot"><b>Colección propia</b><span>Foto del trabajo</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" style="padding-top:0">
+    <div class="wrap">
+      <div class="contact">
+        <div>
+          <h2>Cuéntanos tu idea</h2>
+          <p class="lead">Escríbenos con lo que tengas pensado, aunque sea a medias. Te respondemos con una propuesta y un precio.</p>
+          <div class="channels">
+            <a class="channel" href="https://wa.me/34682368645" target="_blank" rel="noopener"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg></span><span><b>WhatsApp</b><span>682 368 645</span></span></a>
+            <a class="channel" href="mailto:info@ramstex.com"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><span><b>Correo</b><span>info@ramstex.com</span></span></a>
+            <a class="channel ig" href="https://www.instagram.com/rams_tex/" target="_blank" rel="noopener"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg></span><span><b>Instagram</b><span>@rams_tex</span></span></a>
+          </div>
+        </div>
+        <form id="f">
+          <label>Nombre<input name="n" required autocomplete="name"></label>
+          <label>Correo o teléfono<input name="c" required></label>
+          <label>Qué necesitas<textarea name="m" required placeholder="Por ejemplo: 40 camisetas con nuestro logo para una feria en marzo"></textarea></label>
+          <button class="btn" type="submit">Enviar consulta</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- =============== CATÁLOGO =============== -->
+<div id="view-cat" hidden>
+  <div class="wrap cat">
+    <p class="note">Prueba con 9 prendas reales. Si funciona bien, añadiremos muchas más.</p>
+    <h1>Elige tu prenda</h1>
+    <p class="sub">Busca y filtra entre las prendas que podemos personalizar para ti. Añade las que te interesen a tu presupuesto y te respondemos con el diseño y el precio.</p>
+    <div class="bar">
+      <input class="search" id="q" type="search" placeholder="Busca por nombre, por ejemplo: sudadera" aria-label="Buscar prendas" autocomplete="off">
+      <button class="cartbtn" id="cartbtn" type="button">Mi presupuesto (<span id="cc">0</span>)</button>
+    </div>
+    <div class="filters">
+      <div class="group" id="ftype"><span class="glabel">Tipo</span></div>
+      <div class="group" id="fgen"><span class="glabel">Para</span></div>
+      <div class="group" id="fcol"><span class="glabel">Color</span></div>
+    </div>
+    <p class="count" id="count" aria-live="polite"></p>
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+<!-- =============== FICHA =============== -->
+<div id="view-prod" hidden>
+  <div class="wrap cat" id="prod"></div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="flogo"><i>RAMS</i>TEX</div>
+      <p>Ropa y merchandising personalizados.</p>
+    </div>
+    <div class="flinks">
+      <a href="#catalogo">Catálogo</a>
+      <a href="https://wa.me/34682368645" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="mailto:info@ramstex.com">info@ramstex.com</a>
+      <a class="ig" href="https://www.instagram.com/rams_tex/" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+</footer>
+
+<a class="wa" href="https://wa.me/34682368645" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg></a>
+
+<aside class="panel" id="panel" aria-label="Mi presupuesto">
+  <button class="close" id="close" type="button">Cerrar</button>
+  <h2>Mi presupuesto</h2>
+  <ul id="list"></ul>
+  <p id="none" class="meta">Todavía no has añadido ninguna prenda.</p>
+  <a class="send" id="send" href="mailto:info@ramstex.com">Pedir presupuesto</a>
+</aside>
+
+<script>
+// Pon aquí la dirección del Instagram de Ramstex (por ejemplo https://www.instagram.com/tu_usuario/).
+var INSTAGRAM_URL = "https://www.instagram.com/rams_tex/";
+document.querySelectorAll(".ig").forEach(function(a){a.href=INSTAGRAM_URL;});
+
+document.getElementById("f").addEventListener("submit", function(e){
+  e.preventDefault();
+  var d = new FormData(e.target);
+  var body = "Nombre: " + d.get("n") + "\nContacto: " + d.get("c") + "\n\n" + d.get("m");
+  window.location.href = "mailto:info@ramstex.com?subject=" + encodeURIComponent("Consulta desde la web") + "&body=" + encodeURIComponent(body);
+});
+
+/* ---------- Menú desplegable ---------- */
+var menu=document.getElementById("menu"),mbtn=document.getElementById("menubtn");
+function setMenu(open){
+  menu.hidden=!open; mbtn.setAttribute("aria-expanded",open);
+  document.getElementById("menulabel").textContent=open?"Cerrar":"Menú";
+  document.getElementById("mi1").setAttribute("d",open?"M6 6l12 12M18 6L6 18":"M4 7h16M4 12h16M4 17h16");
+  document.body.style.overflow=open?"hidden":"";
+}
+mbtn.onclick=function(){setMenu(menu.hidden);};
+menu.addEventListener("click",function(e){if(e.target.closest("a"))setMenu(false);});
+
+/* ---------- Datos del catálogo ---------- */
+var SC={
+ "102":["Blanco","#FFFFFF",["Blanco"]],"117":["Blanco absoluto","#FFFFFF",["Blanco"]],"104":["Blanco hueso","#F4F1E8",["Beige"]],
+ "101":["Natural","#E9E0CC",["Beige"]],"119":["Lino","#D8CDB6",["Beige"]],"123":["Cuerda","#CBBFA8",["Beige"]],
+ "309":["Negro profundo","#111111",["Negro"]],"312":["Negro","#111111",["Negro"]],
+ "342":["Gris puro","#9B9B9B",["Gris"]],"380":["Gris claro","#CFCFCF",["Gris"]],"350":["Gris mezcla","#B4B4B4",["Gris"]],"360":["Gris mezcla","#B4B4B4",["Gris"]],
+ "381":["Gris ratón","#8C8E92",["Gris"]],"384":["Gris oscuro","#4A4A4D",["Gris"]],"300":["Ash","#D6D6D4",["Gris"]],"370":["Antracita","#3A3D40",["Gris"]],
+ "145":["Rojo","#C8102E",["Rojo"]],"173":["Rojo Folk","#B3382C",["Rojo"]],"141":["Rosa pálido","#F4C9D0",["Rosa"]],"172":["Rosa Folk","#E57A93",["Rosa"]],
+ "272":["Verde pradera","#4F9D4A",["Verde"]],"269":["Army","#5A6140",["Verde"]],
+ "241":["Azul royal","#1F4DB5",["Azul"]],"244":["Denim","#3D5D82",["Azul"]],"319":["French marino","#1B2A4A",["Azul"]],
+ "295":["Azul piscina","#00A3C4",["Azul"]],"321":["Aqua","#62C5C9",["Azul"]],"232":["Azul profundo","#1D3B6B",["Azul"]],"171":["Astral violeta","#6B4E9B",["Morado"]],
+ "917":["Negro / Rojo","linear-gradient(135deg,#111 50%,#C8102E 50%)",["Negro","Rojo"]],
+ "970":["Negro / Gris mezcla","linear-gradient(135deg,#111 50%,#B4B4B4 50%)",["Negro","Gris"]],
+ "993":["Antracita mezcla / Negro","linear-gradient(135deg,#3A3D40 50%,#111 50%)",["Gris","Negro"]],
+ "874":["Azul marino / Rojo vivo","linear-gradient(135deg,#1B2A4A 50%,#E0182D 50%)",["Azul","Rojo"]],
+ "520":["Gris mezcla / French marino","linear-gradient(135deg,#B4B4B4 50%,#1B2A4A 50%)",["Gris","Azul"]],
+ "975":["Azul marino / Gris","linear-gradient(135deg,#1B2A4A 50%,#B4B4B4 50%)",["Azul","Gris"]]
+};
+var EK={
+ WHITE:["Blanco","#FFFFFF",["Blanco"]],BLACK:["Negro","#111111",["Negro"]],AQUABLUE:["Azul aqua","#5BC0DE",["Azul"]],CORAL:["Coral","#FF7F6B",["Naranja"]],
+ DARKGREY:["Gris oscuro","#4A4A4D",["Gris"]],FINEGREY:["Gris claro","#C7C9CC",["Gris"]],FLUORESCENTORANGE:["Naranja flúor","#FF6A00",["Naranja"]],
+ FLUORESCENTYELLOW:["Amarillo flúor","#E5F20C",["Amarillo"]],FORESTGREEN:["Verde bosque","#1F5A3A",["Verde"]],FUCHSIA:["Fucsia","#D81B7E",["Rosa"]],
+ ICEMINT:["Menta","#C8EBDD",["Verde"]],KELLYGREEN:["Verde Kelly","#2E9B3F",["Verde"]],BRIGHTROYAL:["Azul royal","#1F4DB5",["Azul"]],CLASSICRED:["Rojo clásico","#C8102E",["Rojo"]],
+ CONVOYGREY:["Gris convoy","#6E7075",["Gris"]],FRENCHNAVY:["Marino","#1B2A4A",["Azul"]],LIGHTOXFORD:["Gris Oxford claro","#D5D8DC",["Gris"]],
+ NAVYBLUE:["Azul marino","#1B2A4A",["Azul"]],IVORY:["Marfil","#F3EEDD",["Beige"]],ORGANICKHAKI:["Caqui","#7C7A4F",["Verde"]],SEABLUE:["Azul mar","#2F6F9F",["Azul"]],
+ ADRIATICBLUE:["Azul Adriático","#1E78B4",["Azul"]],ALMONDGREEN:["Verde almendra","#A8B89A",["Verde"]],ANTIQUEROSE:["Rosa antiguo","#C78793",["Rosa"]],
+ AQUAMARINE:["Aguamarina","#7FD1C7",["Azul"]],DARKCAMEL:["Camel oscuro","#A5764B",["Beige"]],PETALROSE:["Rosa pétalo","#EBB9C4",["Rosa"]],
+ MOONGREYHEATHER:["Gris luna","#B9BBBE",["Gris"]],RAWNATURAL:["Natural crudo","#E2D8C3",["Beige"]],DARKCHERRY:["Cereza oscuro","#6D1230",["Rojo"]],
+ HIBISCUSRED:["Rojo hibisco","#C9283E",["Rojo"]],JADEGREEN:["Verde jade","#1FA37A",["Verde"]],PEACOCKBLUE:["Azul pavo real","#0E6E8C",["Azul"]],POPPYRED:["Rojo amapola","#E4332D",["Rojo"]]
+};
+function cols(ref,keys,tab){return keys.map(function(k){var d=tab[k];return {n:d[0],h:d[1],f:d[2],u:"img/"+ref+"_"+k+".jpg"};});}
+var ITEMS=[
+ {n:"Camiseta cuello redondo",t:"Camisetas",g:"Unisex",ref:"11380",comp:"Algodón 100% semipeinado",peso:"150 g/m²",tallas:"XXS a 5XL",
+  d:"Camiseta unisex de cuello redondo en punto liso. Un básico para estampar con cualquier técnica.",
+  cols:cols("11380",["102","309","342","380","350","381","384","117","300","104","101","123"],SC)},
+ {n:"Camiseta técnica de deporte",t:"Camisetas",g:"Hombre",ref:"PA438",comp:"Poliéster 100%",peso:"140 g/m²",tallas:"XS a 5XL",
+  d:"Tejido ligero de secado rápido, mangas raglán y doble pespunte en cuello, mangas y bajo. Pensada para equipos y eventos deportivos.",
+  cols:cols("PA438",["WHITE","BLACK","AQUABLUE","CORAL","DARKGREY","FINEGREY","FLUORESCENTORANGE","FLUORESCENTYELLOW","FORESTGREEN","FUCHSIA","ICEMINT","KELLYGREEN"],EK)},
+ {n:"Camiseta clásica",t:"Camisetas",g:"Unisex",ref:"RUZT180",comp:"Algodón 100% Ring-Spun",peso:"180 g/m²",tallas:"S a 4XL",
+  d:"Corte tubular, cuello de canalé 1x1 con doble pespunte y cinta de hombro a hombro. Superficie lisa, muy buena para estampar.",
+  cols:cols("RUZT180",["WHITE","BLACK","BRIGHTROYAL","CLASSICRED","CONVOYGREY","FRENCHNAVY","LIGHTOXFORD"],EK)},
+ {n:"Camiseta ecológica infantil",t:"Camisetas",g:"Infantil",ref:"NS307",comp:"Algodón orgánico 100%",peso:"155 g/m²",tallas:"De 2 a 14 años",
+  d:"Corte recto, tacto suave y refuerzo en hombros. Sin etiqueta de marca para personalizarla fácilmente.",
+  cols:cols("NS307",["WHITE","BLACK","DARKCHERRY","HIBISCUSRED","IVORY","JADEGREEN","MOONGREYHEATHER","NAVYBLUE","ORGANICKHAKI","PEACOCKBLUE","PETALROSE","POPPYRED"],EK)},
+ {n:"Polo piqué",t:"Polos",g:"Unisex",ref:"04439",comp:"Algodón 100% peinado",peso:"210 g/m²",tallas:"S a 5XL",
+  d:"Polo de piqué con 20 colores. Ideal para uniformes con el logo bordado.",
+  cols:cols("04439",["102","104","101","119","312","342","360","381","145","173","141","172","171","295","321","241","244","319","272","269"],SC)},
+ {n:"Sudadera con capucha bicolor",t:"Sudaderas",g:"Unisex",ref:"04853",comp:"Algodón y poliéster reciclado",peso:"280 g/m²",tallas:"XS a 3XL",
+  d:"Sudadera con capucha y cordones en color de contraste, en felpa perchada.",
+  cols:cols("04853",["917","970","993","874","520","975"],SC)},
+ {n:"Chaqueta softshell",t:"Chaquetas",g:"Hombre",ref:"04449",comp:"Poliéster reciclado",peso:"270 g/m²",tallas:"S a 4XL",
+  d:"Softshell de 3 capas con capucha, membrana impermeable y transpirable y forro polar interior.",
+  cols:cols("04449",["312","370","241","232"],SC)},
+ {n:"Sudadera ecológica cuello redondo",t:"Sudaderas",g:"Unisex",ref:"NS400",comp:"Algodón orgánico y poliéster reciclado",peso:"350 g/m²",tallas:"XXS a 4XL",
+  d:"Corte recto con lavado enzimático y felpa de baja contracción. Canalé en cuello, bajo y puños.",
+  cols:cols("NS400",["WHITE","BLACK","NAVYBLUE","IVORY","ORGANICKHAKI","SEABLUE","FORESTGREEN"],EK)},
+ {n:"Sudadera ecológica con capucha",t:"Sudaderas",g:"Unisex",ref:"NS401",comp:"Algodón orgánico y poliéster reciclado",peso:"350 g/m²",tallas:"XXS a 4XL",
+  d:"Capucha forrada, bolsillo canguro y cordón con puntas de metal reciclado. Felpa de baja contracción.",
+  cols:cols("NS401",["WHITE","BLACK","ADRIATICBLUE","ALMONDGREEN","ANTIQUEROSE","AQUAMARINE","DARKCAMEL","PETALROSE","MOONGREYHEATHER","RAWNATURAL","IVORY","NAVYBLUE"],EK)}
+];
+ITEMS.forEach(function(it,i){it.id=i;it.cur=-1;it.main="foto/"+it.ref+".jpg";});
+var FAM={Blanco:"#FFFFFF",Beige:"#E4D9BF",Negro:"#111111",Gris:"#9B9B9B",Rojo:"#C8102E",Rosa:"#E8749A",Naranja:"#F28C28",Amarillo:"#F2C500",Verde:"#4F9D4A",Azul:"#1F4DB5",Morado:"#6B4E9B"};
+var state={q:"",type:"Todos",gen:"Todos",col:"Todos"}, cart={};
+var $=function(i){return document.getElementById(i)};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+
+/* foto: principal (con modelo) hasta que se elige un color; luego la foto de ese color */
+function photoOf(it){return it.cur<0?it.main:it.cols[it.cur].u;}
+function setImg(img,it){img.src=photoOf(it);img.className=it.cur<0?"":"pack";}
+function colorLabel(it){return it.cur<0?"Elige un color":"Color: "+it.cols[it.cur].n;}
+
+function uniq(k){var a=["Todos"];ITEMS.forEach(function(i){if(a.indexOf(i[k])<0)a.push(i[k])});return a;}
+function chips(id,vals,key){
+  var box=$(id);
+  vals.forEach(function(v){
+    var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=v;
+    b.setAttribute("aria-pressed",v==="Todos");
+    b.onclick=function(){state[key]=v;[].forEach.call(box.querySelectorAll(".chip"),function(x){x.setAttribute("aria-pressed",x===b)});render();};
+    box.appendChild(b);
+  });
+}
+chips("ftype",uniq("t"),"type");
+chips("fgen",uniq("g"),"gen");
+(function(){
+  var box=$("fcol");
+  ["Todos"].concat(Object.keys(FAM)).forEach(function(v){
+    var b=document.createElement("button");b.type="button";
+    if(v==="Todos"){b.className="chip";b.textContent="Todos";}
+    else{b.className="sw";b.style.background=FAM[v];b.setAttribute("aria-label",v);b.title=v;}
+    b.setAttribute("aria-pressed",v==="Todos");
+    b.onclick=function(){state.col=v;[].forEach.call(box.querySelectorAll("button"),function(x){x.setAttribute("aria-pressed",x===b)});render();};
+    box.appendChild(b);
+  });
+})();
+$("q").addEventListener("input",function(e){state.q=e.target.value.toLowerCase().trim();render();});
+function hasFam(it,f){return it.cols.some(function(c){return c.f.indexOf(f)>=0;});}
+
+function dotsFor(it,onPick){
+  var d=document.createElement("div");d.className="dots";
+  it.cols.forEach(function(col,i){
+    var b=document.createElement("button");b.type="button";b.className="dot";b.style.background=col.h;b.title=col.n;b.setAttribute("aria-label",col.n);b.setAttribute("aria-pressed",i===it.cur);
+    b.onclick=function(){it.cur=i;[].forEach.call(d.children,function(x){x.setAttribute("aria-pressed",x===b)});onPick();};
+    d.appendChild(b);
+  });
+  return d;
+}
+function addToCart(it){
+  var c=it.cur<0?"color por decidir":it.cols[it.cur].n;
+  cart[it.id+"-"+c]={n:it.n,c:c,r:it.ref};cartUI();
+}
+
+function render(){
+  var list=ITEMS.filter(function(it){
+    return (state.type==="Todos"||it.t===state.type)&&(state.gen==="Todos"||it.g===state.gen)&&(state.col==="Todos"||hasFam(it,state.col))&&(!state.q||(it.n+" "+it.t+" "+it.g).toLowerCase().indexOf(state.q)>=0);
+  });
+  $("count").textContent=list.length+(list.length===1?" prenda":" prendas");
+  var g=$("grid");g.innerHTML="";
+  if(!list.length){g.innerHTML='<p class="empty">No hay prendas con esos filtros. Prueba a quitar alguno.</p>';return;}
+  list.forEach(function(it){
+    var c=document.createElement("article");c.className="card";
+    c.innerHTML='<a class="frame" href="#producto-'+it.id+'"><img alt="'+esc(it.n)+'" loading="lazy" decoding="async"></a>'+
+      '<div class="info"><h3><a href="#producto-'+it.id+'">'+esc(it.n)+'</a></h3><div class="meta">'+it.t+' · '+it.g+'</div>'+
+      '<div class="meta spec">'+esc(it.comp)+' · '+it.peso+'</div><div class="cname"></div><div class="dh"></div>'+
+      '<div class="cardbtns"><a class="more" href="#producto-'+it.id+'">Ver ficha</a><button class="add" type="button">Añadir</button></div></div>';
+    var img=c.querySelector(".frame img"); setImg(img,it); c.querySelector(".cname").textContent=colorLabel(it);
+    c.querySelector(".dh").replaceWith(dotsFor(it,function(){setImg(img,it);c.querySelector(".cname").textContent=colorLabel(it);}));
+    c.querySelector(".add").onclick=function(){addToCart(it);};
+    g.appendChild(c);
+  });
+}
+
+function renderProduct(it){
+  var box=$("prod");
+  box.innerHTML='<a class="back" href="#catalogo">Volver al catálogo</a>'+
+   '<div class="pd"><div class="pgal"><div class="big"><img alt="'+esc(it.n)+'"></div><div class="thumbs"></div></div>'+
+   '<div class="pinfo"><h1>'+esc(it.n)+'</h1><div class="meta">'+it.t+' · '+it.g+'</div><p class="desc">'+esc(it.d)+'</p>'+
+   '<h3 class="pcol"></h3><div class="dh"></div>'+
+   '<h3>Características</h3><dl class="specs"><dt>Composición</dt><dd>'+esc(it.comp)+'</dd><dt>Gramaje</dt><dd>'+it.peso+'</dd><dt>Tallas</dt><dd>'+it.tallas+'</dd><dt>Colores</dt><dd>'+it.cols.length+' disponibles</dd><dt>Personalización</dt><dd>Estampado, bordado o serigrafía</dd></dl>'+
+   '<button class="btn" type="button" id="padd">Añadir a mi presupuesto</button></div></div>';
+  var big=box.querySelector(".big img"), th=box.querySelector(".thumbs");
+  function thumbs(){
+    th.innerHTML="";
+    var opts=[{u:it.main,cur:-1,l:"Foto principal"}];
+    if(it.cur>=0) opts.push({u:it.cols[it.cur].u,cur:it.cur,l:it.cols[it.cur].n});
+    opts.forEach(function(o){
+      var b=document.createElement("button");b.type="button";b.setAttribute("aria-label",o.l);
+      b.setAttribute("aria-pressed",(big.dataset.view||"main")===(o.cur<0?"main":"col"));
+      b.innerHTML='<img src="'+o.u+'" alt="" style="'+(o.cur<0?"":"object-fit:contain;padding:8%")+'">';
+      b.onclick=function(){big.dataset.view=o.cur<0?"main":"col";big.src=o.u;big.className=o.cur<0?"":"pack";thumbs();};
+      th.appendChild(b);
+    });
+  }
+  function upd(){
+    big.dataset.view=it.cur<0?"main":"col"; setImg(big,it);
+    box.querySelector(".pcol").textContent=colorLabel(it); thumbs();
+  }
+  box.querySelector(".dh").replaceWith(dotsFor(it,upd));
+  $("padd").onclick=function(){addToCart(it);$("panel").classList.add("open");};
+  upd();
+}
+
+function cartUI(){
+  var ids=Object.keys(cart);
+  $("cc").textContent=ids.length;
+  var ul=$("list");ul.innerHTML="";
+  ids.forEach(function(id){
+    var li=document.createElement("li");
+    li.innerHTML='<span>'+esc(cart[id].n)+' ('+esc(cart[id].c)+')</span>';
+    var b=document.createElement("button");b.type="button";b.textContent="Quitar";b.onclick=function(){delete cart[id];cartUI();};
+    li.appendChild(b);ul.appendChild(li);
+  });
+  $("none").style.display=ids.length?"none":"block";
+  var body="Hola, me interesan estas prendas:\n\n"+ids.map(function(id){return "- "+cart[id].n+" ("+cart[id].c+") [ref. "+cart[id].r+"]"}).join("\n")+"\n\nCantidad y logo/diseño: ";
+  $("send").href="mailto:info@ramstex.com?subject="+encodeURIComponent("Presupuesto desde el catálogo")+"&body="+encodeURIComponent(body);
+}
+$("cartbtn").onclick=function(){$("panel").classList.add("open");};
+$("close").onclick=function(){$("panel").classList.remove("open");};
+
+/* ---------- Navegación entre páginas ---------- */
+var VH=$("view-home"),VC=$("view-cat"),VP=$("view-prod"),first=true;
+function route(){
+  var h=location.hash, m=h.match(/^#producto-(\d+)$/);
+  document.querySelectorAll(".dnav a[data-view]").forEach(function(a){a.removeAttribute("aria-current");});
+  if(h==="#catalogo"){VH.hidden=true;VP.hidden=true;VC.hidden=false;render();window.scrollTo(0,0);
+    document.querySelector('.dnav a[data-view="cat"]').setAttribute("aria-current","page");}
+  else if(m&&ITEMS[+m[1]]){VH.hidden=true;VC.hidden=true;VP.hidden=false;renderProduct(ITEMS[+m[1]]);window.scrollTo(0,0);}
+  else{
+    var wasOther=!VH.hidden?false:true; VC.hidden=true;VP.hidden=true;VH.hidden=false;
+    if(h==="#inicio"||!h){window.scrollTo(0,0);}
+    else if(wasOther||first){var t=document.querySelector(h); if(t) t.scrollIntoView();}
+  }
+  first=false;
+}
+window.addEventListener("hashchange",route);
+render();cartUI();route();
+</script>
+</body>
+</html>
