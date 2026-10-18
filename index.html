@@ -209,8 +209,9 @@ footer p{margin:8px 0 0;font-size:.95rem}
 img.pack{object-fit:contain!important;padding:6%}
 .tag{position:absolute;left:10px;top:10px;background:#fff;color:#111;font:600 .75rem Figtree,sans-serif;padding:4px 9px;border-radius:999px;box-shadow:0 1px 4px rgba(0,0,0,.12)}
 .info{padding:14px 16px 16px;display:grid;gap:7px;flex:1;align-content:start}
-.ref{font-size:.78rem;font-weight:600;letter-spacing:.04em;color:var(--muted);text-transform:uppercase}
-.pinfo .ref{font-size:.9rem;display:block;margin-bottom:6px}
+.ref{font:700 1.04rem/1.2 "Bricolage Grotesque",Figtree,sans-serif;color:var(--red-text);letter-spacing:.01em}
+.pinfo .ref{font-size:clamp(1.5rem,2.8vw,2.1rem);font-weight:800;display:block;margin-bottom:6px}
+@media (max-width:900px){.info .ref{font-size:.93rem}.pinfo .ref{font-size:1.5rem}}
 .info h3{font-size:1.04rem;font-weight:700;line-height:1.2}
 .info h3 a{text-decoration:none}
 .meta{color:var(--muted);font-size:.9rem}
