@@ -1,5 +1,5 @@
 Productos activos: 2769 (de 2988)
-Descarga: intento 1: 200 | intento 2: 200 | intento 3: 200 | intento 4: 200 | intento 5: 200 | archivo: 2988 productos
+Descarga: intento 1: 200 | intento 2: 200 | intento 3: 200 | intento 4: 200 | intento 5: 200 | intento 6: 200 | intento 7: 200 | intento 8: 200 | intento 9: 200 | intento 10: 200 | intento 11: 200 | archivo: 2988 productos
 
 Ropa: 1618
    - Camisetas: 264
@@ -88,3 +88,139 @@ Pijamas: 13
 Drinkwear: 7
    - Botellas de deporte: 4
    - Portabotellas: 3
+
+CAMPOS PRODUCTO:
+  2in1 = "0"
+  3threads = "1"
+  activity = []
+  alternatives = {"bodywarmer":[],"forAdults":[],"forBabies":[],"forKids":["K4029"],"forLadies":["K4028"],"forMen":["K4027"],"highSet":[],"jacket":[],"largeSize":[],"longLength"…
+  antiStaticStandards = [""]
+  antiTheft = [{"es":""}]
+  ascending = "0"
+  averageWeight = "516 g"
+  brand = "Kariban"
+  breathabilityLevel = [""]
+  breathable = [{"es":""}]
+  cabFormat = "0"
+  catalogPages = ""
+  catalogReference = "K4027"
+  collection = "Organic"
+  composition = {"es":"85% Algodón, 15% Poliéster"}
+  cooler = "0"
+  createdDate = "2022-04-17 12:11:03"
+  decorationArea = ""
+  description = {"es":"85% algodón orgánico / 15% poliéster reciclado post-consumer. Superficie exterior 100% algodón peinado. Felpa perchada de 3 hilos con tratamiento LSF (Lo…
+  designation = {"es":"Sudadera capucha ecorresponsable hombre"}
+  detachableHood = "0"
+  family = {"es":"Ropa"}
+  fireResistanceStandards = [""]
+  fit = [{"es":"Recto"}]
+  fleeceJacket = "0"
+  footwearStandards = [""]
+  gender = [{"es":"Hombre"}]
+  hiVizStandards = [""]
+  hood = "Oui"
+  images = [{"image_id":"634497","last_update":"2025-06-12 01:15:52.000000","rights_end":"2027-12-31-00-00-00","rights_start":"2024-11-20-00-00-00","url":"https://media.eu…
+  labelType = "no_label"
+  largeSizes = "1"
+  lastChange = "2026-10-18 13:44:24"
+  lining = [{"es":""}]
+  mainMaterials = []
+  moreThanTenColors = "1"
+  neckType = [{"es":""}]
+  oekoTex = "1"
+  opening = [{"es":""}]
+  organic = [{"es":"GOTS"},{"es":"Algodón orgánico"}]
+  panelsNumber = [{"es":""}]
+  pictograms = {"additionnalPictograms":[{"caption":{"es":"Producto sin etiqueta de marca para facilitar la personalización"}}],"brand":[{"caption":{"es":""}},{"caption":{"es"…
+  productFinish = [{"es":"Perchado"}]
+  recycled = ["Polyester recyclé"]
+  removableSleeves = "0"
+  reversible = "0"
+  saleState = "active"
+  salesArguments = {"es":"34 colores disponibles en 8 tallas."}
+  salesArguments2 = {"es":"Confección de 3 hilos LSF (Low Shrinkage Fleece): resistencia y estabilidad al lavado."}
+  salesArguments3 = {"es":"No label : 100 % personalizable con la marca."}
+  softshell = [{"es":""}]
+  style = [{"es":"Sudadera capucha"}]
+  sub_family = {"es":"Sudaderas"}
+  supplierReference = "K4027"
+  surfaceTreatments = [{"es":"Enzimas"}]
+  technicalFiles = {"es":"cdn.toptex.com/technical_files/K4027_technicalfile_TTFR_KB_es.pdf"}
+  technologies = [""]
+  threadsFeature = [{"es":"Peinado"}]
+  transferredFrom = ""
+  treatments = [{"es":""}]
+  triblend = "0"
+  typeFastening = [{"es":""}]
+  typePockets = [{"es":"Canguro"}]
+  typeWeaving = [{"es":"Perchada"}]
+  vegan = ["PETA Vegan"]
+  waterproof = [{"es":""}]
+  waterproofnessLevel = [""]
+  weatherStandards = [""]
+  world = [{"es":"Turismo y cultura"},{"es":"Medios de comunicación y merchandising"},{"es":"Venta al por menor"},{"es":"Promoción y organización de eventos"},{"es":"Medi…
+CAMPOS COLOR:
+  colors = {"es":"Ash Heather"}
+  colorsCMYK = []
+  colorsDominant = [{"es":"Gris"}]
+  colorsHexa = []
+  colorsPantone = ["Based on Warm gray 1C"]
+  colorsPantoneTCX = ["Based on 13-4108TCX"]
+  colorsRGB = []
+  createdDate = "2022-04-17 13:56:35"
+  lastChange = "2026-10-17 20:58:58"
+  packshots = {"BACK":{"image_id":"385693","last_update":"2025-09-11 05:55:15.000000","rights_end":null,"rights_start":null,"url":"https://media.europeancatalog.com/ws.php?ac…
+  saleState = "active"
+CAMPOS TALLA:
+  barCode = ""
+  boxHeight = "34 cm"
+  boxLength = "60 cm"
+  boxWidth = "40 cm"
+  capacity = ""
+  chestCircumferenceCm = "92/96"
+  chestCircumferenceInch = "35.4/37"
+  coatingWeight_en = "280 gsm"
+  coatingWeight_fr = "280 g/m²"
+  collarSizeCm = ""
+  collarSizeInch = ""
+  colorCode = "67981"
+  countryOfOrigin = ["BD"]
+  createdDate = "2022-04-17 13:41:06"
+  crotchSizeCm = ""
+  crotchSizeInch = ""
+  customsCode = "61102099"
+  customsWeight = "0,516 kg"
+  diameter = ""
+  dimensions = ""
+  ean = "3663938215693"
+  footCm = ""
+  footInch = ""
+  grossBoxWeight = "11.12 kg"
+  headCircumferenceCm = ""
+  headCircumferenceInch = ""
+  height = ""
+  hipCircumferenceCm = ""
+  hipCircumferenceInch = ""
+  isDiscontinued = 0
+  isNew = 0
+  legLengthCm = ""
+  legLengthInch = ""
+  length = ""
+  orderMode = ["unite"]
+  productReference = "K4027A"
+  saleState = "active"
+  size = "S"
+  sizeAge = ""
+  sizeCode = "67958"
+  sizeCountry = {"be":"S","de":"S","dk":"S","es":"S","fr":"S","it":"S","nl":"S","pt":"S","swe":"S","uk":"S"}
+  sku = "K4027A_67981_67958"
+  sortOrder = 28
+  statureSizeCm = ""
+  statureSizeInch = ""
+  unitsPerBox = 20
+  unitsPerBundle = 5
+  unitsPerPack = 0
+  waistSizeCm = "76/80"
+  waistSizeInch = "29.1/30.7"
+  width = ""
