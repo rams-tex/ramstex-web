@@ -20,12 +20,16 @@ async function json(path, opts) {
 const auth = await json("/v3/authenticate", { method: "POST", headers: { "x-api-key": KEY, "Content-Type": "application/json" }, body: JSON.stringify({ username: USER, password: PASS }) });
 const H = { headers: { "x-api-key": KEY, "x-toptex-authorization": auth.token } };
 
-const PAGE = 100; let page = 1, total = Infinity; const raw = [];
-while ((page - 1) * PAGE < total) {
+const PAGE = 100; const raw = []; const pagelog = [];
+for (let page = 1; page <= 200; page++) {
   const d = await json(`/v3/products/all?lang=es&usage_right=b2b_b2c&page_size=${PAGE}&page_number=${page}`, H);
-  total = d.total_count; raw.push(...(d.items || [])); console.log(`Página ${page}: ${raw.length}/${total}`); page++;
+  const items = d.items || (Array.isArray(d) ? d : []);
+  pagelog.push(`p${page}: ${items.length} (total_count=${d.total_count}, page_number=${d.page_number})`);
+  console.log(pagelog.at(-1));
+  if (!items.length) break;
+  raw.push(...items);
+  if (items.length < PAGE && raw.length >= Number(d.total_count || 0)) break;
 }
-
 const weight = p => { for (const c of p.colors || []) for (const s of c.sizes || []) if (s.coatingWeight_fr) return s.coatingWeight_fr; return ""; };
 const products = raw.filter(p => p.saleState === "active").map(p => {
   const colors = (p.colors || []).filter(c => c.saleState !== "inactive").map(c => ({
@@ -47,7 +51,7 @@ mkdirSync("data", { recursive: true });
 writeFileSync("data/toptex.json", JSON.stringify(products));
 const fam = {};
 for (const p of products) { fam[p.fam] ??= { n: 0, subs: {} }; fam[p.fam].n++; fam[p.fam].subs[p.sub] = (fam[p.fam].subs[p.sub] || 0) + 1; }
-const lines = [`Productos activos: ${products.length} (de ${raw.length})`, ""];
+const lines = [`Productos activos: ${products.length} (de ${raw.length})`, "Páginas: " + pagelog.slice(0,3).join(" | ") + " … " + pagelog.slice(-2).join(" | "), ""];
 for (const [f, v] of Object.entries(fam).sort((a, b) => b[1].n - a[1].n)) {
   lines.push(`${f}: ${v.n}`);
   for (const [s, n] of Object.entries(v.subs).sort((a, b) => b[1] - a[1])) lines.push(`   - ${s}: ${n}`);
