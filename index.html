@@ -840,6 +840,7 @@ function dotsFor(it,max,onPick){
   return d;
 }
 function card(it){
+  it.cur=-1; /* siempre empieza con la foto principal */
   var c=document.createElement("article");c.className="card";
   var href="#producto/"+encodeURIComponent(it.r);
   var tag=it.f.indexOf("n")>=0?"Novedad":(it.f.indexOf("e")>=0?"Ecológico":"");
