@@ -24,7 +24,7 @@ const PAGE = 100; const raw = []; const pagelog = [];
 for (let page = 1; page <= 200; page++) {
   const d = await json(`/v3/products/all?lang=es&usage_right=b2b_b2c&page_size=${PAGE}&page_number=${page}`, H);
   const items = d.items || (Array.isArray(d) ? d : []);
-  pagelog.push(`p${page}: ${items.length} (total_count=${d.total_count}, page_number=${d.page_number})`);
+  pagelog.push(`p${page}: ${items.length} (total_count=${d.total_count}, page_number=${d.page_number}) claves=${Object.keys(d).join(',')} ${items.length?'':JSON.stringify(d).slice(0,300)}`);
   console.log(pagelog.at(-1));
   if (!items.length) break;
   raw.push(...items);
