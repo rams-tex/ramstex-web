@@ -81,7 +81,7 @@ for (const p of src) {
     g: [...new Set((p.gen || []).map(g => GEN[g]).filter(Boolean))].join(""),
     w: grams(p.peso), f: flags, u: usoOf(p.world).map(worldI),
     st: clean(p.style), i: stem(main),
-    k: colors.map(c => [c.n, c.hex || "", [...new Set((c.dom || []).map(d => COLFIX[d] || d))].map(domI), stem(c.img)]),
+    k: colors.map(c => [String(c.n || "").replace(/\s*\(x?\d+\)/gi, "").trim(), /^#?[0-9a-f]{6}$/i.test(c.hex || "") ? "#" + c.hex.replace("#", "") : "", [...new Set((c.dom || []).map(d => COLFIX[d] || d))].map(domI), stem(c.img)]),
     z: (p.sizes || []).length ? [p.sizes[0], p.sizes[p.sizes.length - 1]].filter((v, i, a) => a.indexOf(v) === i).join(" a ") : "",
   });
   (fichas[cat[0]] ??= {})[p.ref] = {
