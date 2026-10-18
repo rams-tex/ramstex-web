@@ -166,39 +166,67 @@ footer p{margin:8px 0 0;font-size:.95rem}
 /* ---------- Catálogo ---------- */
 .cat{padding-top:40px;padding-bottom:80px}
 .cat h1{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800}
-.sub{color:var(--muted);max-width:40rem;margin:12px 0 26px}
-.note{background:var(--tint);border:1px dashed var(--line);border-radius:12px;padding:10px 16px;color:var(--muted);font-size:.95rem;margin-bottom:26px}
+.sub{color:var(--muted);max-width:44rem;margin:12px 0 22px}
 .bar{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
 .search{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:13px 20px;width:100%}
 .cartbtn{font:600 1rem Figtree,sans-serif;background:var(--red);color:var(--on-red);border:0;border-radius:999px;padding:13px 22px;cursor:pointer;white-space:nowrap}
-.filters{display:grid;gap:12px;margin:18px 0 6px}
-.group{display:flex;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none;padding:2px}
-.group::-webkit-scrollbar{display:none}
-.glabel{font-weight:600;font-size:.92rem;color:var(--muted);margin-right:4px;flex:none;width:52px}
-.chip{flex:none;font:500 .95rem Figtree,sans-serif;color:var(--text);background:transparent;border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer}
+.cats{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:18px 0 4px;padding:3px}
+.cats::-webkit-scrollbar{display:none}
+.chip{flex:none;font:500 .95rem Figtree,sans-serif;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 15px;cursor:pointer}
+.chip small{color:var(--muted);font-size:.8rem;margin-left:5px}
 .chip[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
-.sw{flex:none;width:28px;height:28px;border-radius:50%;border:1px solid var(--line);cursor:pointer;padding:0}
-.sw[aria-pressed="true"]{outline:3px solid var(--red-text);outline-offset:2px}
-.count{color:var(--muted);margin:16px 0;font-size:.98rem}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.chip[aria-pressed="true"] small{color:inherit;opacity:.7}
+.catlay{display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:start;margin-top:16px}
+.side{position:sticky;top:84px;max-height:calc(100vh - 100px);overflow:auto;padding-right:8px;scrollbar-width:thin}
+.side details{border-bottom:1px solid var(--line);padding:12px 0}
+.side details:first-of-type{padding-top:0}
+.side summary{font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;font-size:1rem}
+.side summary::-webkit-details-marker{display:none}
+.side summary::after{content:"";width:7px;height:7px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);margin-right:4px}
+.side details[open] summary::after{transform:rotate(-135deg)}
+.opts{display:grid;gap:1px;margin-top:8px}
+.opt{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:.95rem;cursor:pointer;line-height:1.3}
+.opt input{width:18px;height:18px;accent-color:var(--red);margin:0;flex:none}
+.opt .n{margin-left:auto;color:var(--muted);font-size:.82rem;padding-left:8px}
+.opt .sq{width:18px;height:18px;border-radius:50%;border:1px solid var(--line);flex:none}
+.opt.off{opacity:.38}
+.showall{background:none;border:0;color:var(--red-text);font:600 .9rem Figtree,sans-serif;cursor:pointer;padding:6px 0;text-align:left}
+.tools{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
+.count{color:var(--muted);margin:0;font-size:.98rem}
+.count b{color:var(--text)}
+.tright{display:flex;gap:8px;align-items:center}
+.sort{font:500 .95rem Figtree,sans-serif;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 14px}
+.fbtn{display:none;font:600 .95rem Figtree,sans-serif;background:var(--text);color:var(--bg);border:0;border-radius:999px;padding:9px 16px;cursor:pointer}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin:-4px 0 14px}
+.pill{border:0;background:var(--tint);border-radius:999px;padding:6px 12px;font:500 .88rem Figtree,sans-serif;cursor:pointer;color:var(--text)}
+.pill::after{content:" ×";color:var(--muted)}
+.pill.clear{background:none;color:var(--red-text);text-decoration:underline}
+.pill.clear::after{content:""}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
 .frame{display:block;aspect-ratio:4/5;background:#fff;position:relative;overflow:hidden}
 .frame img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
-.frame img.pack{object-fit:contain;padding:6%}
+img.pack{object-fit:contain!important;padding:6%}
+.tag{position:absolute;left:10px;top:10px;background:#fff;color:#111;font:600 .75rem Figtree,sans-serif;padding:4px 9px;border-radius:999px;box-shadow:0 1px 4px rgba(0,0,0,.12)}
 .info{padding:14px 16px 16px;display:grid;gap:7px;flex:1;align-content:start}
-.info h3{font-size:1.06rem;font-weight:700}
+.info h3{font-size:1.04rem;font-weight:700;line-height:1.2}
 .info h3 a{text-decoration:none}
 .meta{color:var(--muted);font-size:.9rem}
-.cname{font-size:.9rem;font-weight:600;min-height:1.4em}
-.dots{display:flex;flex-wrap:wrap;gap:6px}
+.cname{font-size:.88rem;font-weight:600;min-height:1.4em}
+.dots{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .dot{width:22px;height:22px;border-radius:50%;border:1px solid var(--line);cursor:pointer;padding:0}
 .dot[aria-pressed="true"]{outline:2px solid var(--red-text);outline-offset:2px}
-.cardbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.dmore{font-size:.82rem;color:var(--muted);text-decoration:none}
+.cardbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto;padding-top:6px}
 .add,.more{font:600 .9rem Figtree,sans-serif;border-radius:999px;padding:9px 10px;cursor:pointer;text-align:center;text-decoration:none;line-height:1.2}
 .add{color:var(--on-red);background:var(--red);border:0}
+.add.done{background:var(--text);color:var(--bg)}
 .more{color:var(--text);background:transparent;border:1px solid var(--line)}
 .empty{grid-column:1/-1;color:var(--muted);padding:40px 0}
-.panel{position:fixed;right:0;top:0;bottom:0;width:min(400px,100%);background:var(--surface);border-left:1px solid var(--line);padding:24px;padding-top:calc(24px + env(safe-area-inset-top,0px));transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;gap:14px;z-index:40;overflow:auto;visibility:hidden}
+.moreb{display:block;margin:30px auto 0}
+.skel{aspect-ratio:4/6;border-radius:18px;background:var(--tint)}
+.sheethead,.sheetfoot{display:none}
+.panel{position:fixed;right:0;top:0;bottom:0;width:min(400px,100%);background:var(--surface);border-left:1px solid var(--line);padding:24px;padding-top:calc(24px + env(safe-area-inset-top,0px));transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;gap:14px;z-index:50;overflow:auto;visibility:hidden}
 .panel.open{transform:none;visibility:visible}
 @media (prefers-reduced-motion: reduce){.panel{transition:none}}
 .panel h2{font-size:1.5rem}
@@ -212,22 +240,59 @@ footer p{margin:8px 0 0;font-size:.95rem}
 .back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--muted);font-weight:500;margin-bottom:20px}
 .back::before{content:"";width:8px;height:8px;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg)}
 .pd{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:start}
+.pgal{position:sticky;top:88px}
 .pgal .big{aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:#fff;border:1px solid var(--line)}
 .pgal .big img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
-.pgal .big img.pack{object-fit:contain;padding:6%}
-.thumbs{display:flex;gap:10px;margin-top:12px}
-.thumbs button{width:76px;aspect-ratio:4/5;border-radius:12px;overflow:hidden;border:1px solid var(--line);padding:0;background:#fff;cursor:pointer}
+.thumbs{display:flex;gap:10px;margin-top:12px;overflow-x:auto;scrollbar-width:none;padding:3px}
+.thumbs button{flex:none;width:72px;aspect-ratio:4/5;border-radius:12px;overflow:hidden;border:1px solid var(--line);padding:0;background:#fff;cursor:pointer}
 .thumbs button[aria-pressed="true"]{outline:2px solid var(--red-text);outline-offset:2px}
 .thumbs img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
-.pinfo h1{font-size:clamp(2rem,4vw,3rem);font-weight:800}
+.pinfo h1{font-size:clamp(1.9rem,3.6vw,2.8rem);font-weight:800}
 .pinfo .meta{font-size:1rem;margin-top:8px}
-.pinfo .desc{color:var(--muted);margin:18px 0 22px}
-.pinfo h3{font-size:1.05rem;margin:22px 0 10px}
+.pinfo .desc{color:var(--muted);margin:18px 0 6px}
+.args{margin:10px 0 0;padding-left:20px;color:var(--muted)}
+.args li{margin:3px 0}
+.pinfo h3{font-size:1.05rem;margin:24px 0 10px}
 .pinfo .dots .dot{width:30px;height:30px}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.badges span{background:var(--tint);border-radius:999px;padding:5px 12px;font-size:.86rem;font-weight:500}
+.sizes{display:flex;flex-wrap:wrap;gap:6px}
+.sizes span{border:1px solid var(--line);border-radius:8px;padding:4px 10px;font-size:.9rem;min-width:40px;text-align:center}
 .specs{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;margin:0;border-top:1px solid var(--line);padding-top:18px}
 .specs dt{color:var(--muted)}
 .specs dd{margin:0;font-weight:500}
-.pinfo .btn{width:100%;text-align:center;margin-top:26px}
+.pbtns{display:grid;gap:10px;margin-top:26px}
+.pbtns .btn{width:100%;text-align:center}
+.related{margin-top:64px}
+.related h2{font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:20px}
+.related .grid{grid-template-columns:repeat(4,1fr)}
+
+@media (max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}.related .grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:900px){
+  .cat{padding-top:20px;padding-bottom:60px}
+  .bar{grid-template-columns:1fr}
+  .catlay{grid-template-columns:1fr;margin-top:10px}
+  .side{display:none;position:fixed;inset:0;z-index:45;background:var(--bg);max-height:none;padding:calc(12px + env(safe-area-inset-top,0px)) 20px 100px;overflow:auto}
+  .side.open{display:block}
+  .sheethead{display:flex;justify-content:space-between;align-items:center;padding:6px 0 12px;border-bottom:1px solid var(--line);margin-bottom:12px}
+  .sheethead b{font:700 1.4rem "Bricolage Grotesque",sans-serif}
+  .sheethead button{background:none;border:0;font:600 1rem Figtree,sans-serif;color:var(--muted);cursor:pointer}
+  .sheetfoot{display:block;position:fixed;left:0;right:0;bottom:0;padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line)}
+  .sheetfoot .btn{width:100%;text-align:center}
+  .fbtn{display:inline-flex}
+  .grid,.related .grid{grid-template-columns:1fr 1fr;gap:10px}
+  .info{padding:10px 10px 12px;gap:5px}
+  .info h3{font-size:.93rem}
+  .meta{font-size:.8rem}
+  .dot{width:18px;height:18px}
+  .cardbtns{grid-template-columns:1fr}
+  .add,.more{font-size:.85rem;padding:8px}
+  .pd{grid-template-columns:1fr;gap:20px}
+  .pgal{position:static}
+  .pinfo h1{font-size:1.8rem}
+  .pinfo .dots .dot{width:28px;height:28px}
+  .related{margin-top:44px}
+}
 
 /* ---------- Móvil ---------- */
 @media (max-width:900px){
@@ -382,15 +447,15 @@ footer p{margin:8px 0 0;font-size:.95rem}
       <div class="shead">
         <div>
           <h2>Elige tu prenda</h2>
-          <p class="lead">Camisetas, polos, sudaderas y chaquetas listas para personalizar con tu logo.</p>
+          <p class="lead">Más de 2.700 prendas y productos listos para personalizar con tu logo: camisetas, sudaderas, polos, chaquetas, gorras, bolsas y mucho más.</p>
         </div>
         <a class="btn" href="#catalogo">Ver catálogo</a>
       </div>
       <div class="strip">
-        <a href="#producto-8"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/NS401-21_2027.jpg?w=1000" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/NS401.jpg'"></div><span>Sudaderas con capucha</span></a>
-        <a href="#producto-1"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/PA438-2_2025.jpg?w=1000" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/PA438.jpg'"></div><span>Camisetas técnicas</span></a>
-        <a href="#producto-7"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/NS400-21_2027.jpg?w=1000" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/NS400.jpg'"></div><span>Sudaderas</span></a>
-        <a href="#producto-6"><div class="ph"><img src="https://s7g3.scene7.com/is/image/soloinvest/n04449A?$big_image_web$&wid=1000&hei=1500&qlt=90&fmt=jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/04449.jpg'"></div><span>Chaquetas</span></a>
+        <a href="#catalogo?c=sudaderas&amp;f=h"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/NS401-21_2027.jpg?w=1000" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/NS401.jpg'"></div><span>Sudaderas con capucha</span></a>
+        <a href="#catalogo?c=camisetas"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/PA438-2_2025.jpg?w=1000" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/PA438.jpg'"></div><span>Camisetas</span></a>
+        <a href="#catalogo?c=sudaderas"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/NS400-21_2027.jpg?w=1000" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/NS400.jpg'"></div><span>Sudaderas</span></a>
+        <a href="#catalogo?c=chaquetas"><div class="ph"><img src="https://s7g3.scene7.com/is/image/soloinvest/n04449A?$big_image_web$&wid=1000&hei=1500&qlt=90&fmt=jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='foto/04449.jpg'"></div><span>Chaquetas y chalecos</span></a>
       </div>
     </div>
   </div>
@@ -452,20 +517,37 @@ footer p{margin:8px 0 0;font-size:.95rem}
 <!-- =============== CATÁLOGO =============== -->
 <div id="view-cat" hidden>
   <div class="wrap cat">
-    <p class="note">Prueba con 9 prendas reales. Si funciona bien, añadiremos muchas más.</p>
     <h1>Elige tu prenda</h1>
-    <p class="sub">Busca y filtra entre las prendas que podemos personalizar para ti. Añade las que te interesen a tu presupuesto y te respondemos con el diseño y el precio.</p>
+    <p class="sub" id="catsub">Prendas y productos listos para personalizar con tu logo. Filtra por tipo, color, gramaje o uso, añade lo que te interese a tu presupuesto y te respondemos con el diseño y el precio.</p>
     <div class="bar">
-      <input class="search" id="q" type="search" placeholder="Busca por nombre, por ejemplo: sudadera" aria-label="Buscar prendas" autocomplete="off">
+      <input class="search" id="q" type="search" placeholder="Busca: sudadera con capucha, gorra, delantal…" aria-label="Buscar en el catálogo" autocomplete="off">
       <button class="cartbtn" id="cartbtn" type="button">Mi presupuesto (<span id="cc">0</span>)</button>
     </div>
-    <div class="filters">
-      <div class="group" id="ftype"><span class="glabel">Tipo</span></div>
-      <div class="group" id="fgen"><span class="glabel">Para</span></div>
-      <div class="group" id="fcol"><span class="glabel">Color</span></div>
+    <div class="cats" id="cats" role="group" aria-label="Categorías"></div>
+    <div class="catlay">
+      <aside class="side" id="side" aria-label="Filtros">
+        <div class="sheethead"><b>Filtros</b><button type="button" id="sideclose">Cerrar</button></div>
+        <div id="facets"></div>
+        <div class="sheetfoot"><button class="btn" type="button" id="sideok">Ver resultados</button></div>
+      </aside>
+      <div>
+        <div class="tools">
+          <p class="count" id="count" aria-live="polite"></p>
+          <div class="tright">
+            <button class="fbtn" id="fbtn" type="button">Filtros</button>
+            <select class="sort" id="sort" aria-label="Ordenar">
+              <option value="rec">Recomendados</option>
+              <option value="new">Novedades primero</option>
+              <option value="col">Más colores</option>
+              <option value="az">Nombre (A–Z)</option>
+            </select>
+          </div>
+        </div>
+        <div class="pills" id="pills"></div>
+        <div class="grid" id="grid"></div>
+        <button class="btn ghost moreb" id="moreb" type="button" hidden>Ver más</button>
+      </div>
     </div>
-    <p class="count" id="count" aria-live="polite"></p>
-    <div class="grid" id="grid"></div>
   </div>
 </div>
 
@@ -522,218 +604,334 @@ function setMenu(open){
 mbtn.onclick=function(){setMenu(menu.hidden);};
 menu.addEventListener("click",function(e){if(e.target.closest("a"))setMenu(false);});
 
-/* ---------- Datos del catálogo ---------- */
-var SC={
- "102":["Blanco","#FFFFFF",["Blanco"]],"117":["Blanco absoluto","#FFFFFF",["Blanco"]],"104":["Blanco hueso","#F4F1E8",["Beige"]],
- "101":["Natural","#E9E0CC",["Beige"]],"119":["Lino","#D8CDB6",["Beige"]],"123":["Cuerda","#CBBFA8",["Beige"]],
- "309":["Negro profundo","#111111",["Negro"]],"312":["Negro","#111111",["Negro"]],
- "342":["Gris puro","#9B9B9B",["Gris"]],"380":["Gris claro","#CFCFCF",["Gris"]],"350":["Gris mezcla","#B4B4B4",["Gris"]],"360":["Gris mezcla","#B4B4B4",["Gris"]],
- "381":["Gris ratón","#8C8E92",["Gris"]],"384":["Gris oscuro","#4A4A4D",["Gris"]],"300":["Ash","#D6D6D4",["Gris"]],"370":["Antracita","#3A3D40",["Gris"]],
- "145":["Rojo","#C8102E",["Rojo"]],"173":["Rojo Folk","#B3382C",["Rojo"]],"141":["Rosa pálido","#F4C9D0",["Rosa"]],"172":["Rosa Folk","#E57A93",["Rosa"]],
- "272":["Verde pradera","#4F9D4A",["Verde"]],"269":["Army","#5A6140",["Verde"]],
- "241":["Azul royal","#1F4DB5",["Azul"]],"244":["Denim","#3D5D82",["Azul"]],"319":["French marino","#1B2A4A",["Azul"]],
- "295":["Azul piscina","#00A3C4",["Azul"]],"321":["Aqua","#62C5C9",["Azul"]],"232":["Azul profundo","#1D3B6B",["Azul"]],"171":["Astral violeta","#6B4E9B",["Morado"]],
- "917":["Negro / Rojo","linear-gradient(135deg,#111 50%,#C8102E 50%)",["Negro","Rojo"]],
- "970":["Negro / Gris mezcla","linear-gradient(135deg,#111 50%,#B4B4B4 50%)",["Negro","Gris"]],
- "993":["Antracita mezcla / Negro","linear-gradient(135deg,#3A3D40 50%,#111 50%)",["Gris","Negro"]],
- "874":["Azul marino / Rojo vivo","linear-gradient(135deg,#1B2A4A 50%,#E0182D 50%)",["Azul","Rojo"]],
- "520":["Gris mezcla / French marino","linear-gradient(135deg,#B4B4B4 50%,#1B2A4A 50%)",["Gris","Azul"]],
- "975":["Azul marino / Gris","linear-gradient(135deg,#1B2A4A 50%,#B4B4B4 50%)",["Azul","Gris"]]
-};
-var EK={
- WHITE:["Blanco","#FFFFFF",["Blanco"]],BLACK:["Negro","#111111",["Negro"]],AQUABLUE:["Azul aqua","#5BC0DE",["Azul"]],CORAL:["Coral","#FF7F6B",["Naranja"]],
- DARKGREY:["Gris oscuro","#4A4A4D",["Gris"]],FINEGREY:["Gris claro","#C7C9CC",["Gris"]],FLUORESCENTORANGE:["Naranja flúor","#FF6A00",["Naranja"]],
- FLUORESCENTYELLOW:["Amarillo flúor","#E5F20C",["Amarillo"]],FORESTGREEN:["Verde bosque","#1F5A3A",["Verde"]],FUCHSIA:["Fucsia","#D81B7E",["Rosa"]],
- ICEMINT:["Menta","#C8EBDD",["Verde"]],KELLYGREEN:["Verde Kelly","#2E9B3F",["Verde"]],BRIGHTROYAL:["Azul royal","#1F4DB5",["Azul"]],CLASSICRED:["Rojo clásico","#C8102E",["Rojo"]],
- CONVOYGREY:["Gris convoy","#6E7075",["Gris"]],FRENCHNAVY:["Marino","#1B2A4A",["Azul"]],LIGHTOXFORD:["Gris Oxford claro","#D5D8DC",["Gris"]],
- NAVYBLUE:["Azul marino","#1B2A4A",["Azul"]],IVORY:["Marfil","#F3EEDD",["Beige"]],ORGANICKHAKI:["Caqui","#7C7A4F",["Verde"]],SEABLUE:["Azul mar","#2F6F9F",["Azul"]],
- ADRIATICBLUE:["Azul Adriático","#1E78B4",["Azul"]],ALMONDGREEN:["Verde almendra","#A8B89A",["Verde"]],ANTIQUEROSE:["Rosa antiguo","#C78793",["Rosa"]],
- AQUAMARINE:["Aguamarina","#7FD1C7",["Azul"]],DARKCAMEL:["Camel oscuro","#A5764B",["Beige"]],PETALROSE:["Rosa pétalo","#EBB9C4",["Rosa"]],
- MOONGREYHEATHER:["Gris luna","#B9BBBE",["Gris"]],RAWNATURAL:["Natural crudo","#E2D8C3",["Beige"]],DARKCHERRY:["Cereza oscuro","#6D1230",["Rojo"]],
- HIBISCUSRED:["Rojo hibisco","#C9283E",["Rojo"]],JADEGREEN:["Verde jade","#1FA37A",["Verde"]],PEACOCKBLUE:["Azul pavo real","#0E6E8C",["Azul"]],POPPYRED:["Rojo amapola","#E4332D",["Rojo"]]
-};
-/* Fotos en alta calidad directamente de los proveedores; si alguna falla, se usa la copia local */
-var SOLURL="https://s7g3.scene7.com/is/image/soloinvest/", ECURL="https://cdn.europeancatalog.com/";
-var ECSTEM={"NS307_HIBISCUSRED":"PS_NS307-2_HIBISCUSRED","NS307_IVORY":"PS_NS307-3_IVORY","NS307_JADEGREEN":"PS_NS307-3_JADEGREEN",
- "NS401_ADRIATICBLUE":"PS_NS401-2_ADRIATICBLUE","NS401_ANTIQUEROSE":"PS_NS401-2_ANTIQUEROSE","NS401_DARKCAMEL":"PS_NS401-2_DARKCAMEL","NS401_PETALROSE":"PS_NS401-2_PETALROSE"};
-var ECMAIN={"PA438":"PA438-2_2025","RUZT180":"RUZT180-2_2023","NS307":"NS307-20_2023","NS400":"NS400-21_2027","NS401":"NS401-21_2027"};
-function isSol(ref){return /^\d+$/.test(ref);}
-function colorUrl(ref,k){
-  if(isSol(ref)) return SOLURL+"n"+ref+k+"A?$big_image_web$&wid=900&hei=1100&qlt=90&fmt=jpg";
-  return ECURL+"packshots/"+(ECSTEM[ref+"_"+k]||("PS_"+ref+"_"+k))+".png?w=900";
-}
-function mainUrl(ref){
-  if(isSol(ref)) return SOLURL+"n"+ref+"A?$big_image_web$&wid=1000&hei=1500&qlt=90&fmt=jpg";
-  return ECURL+"pictures/"+ECMAIN[ref]+".jpg?w=1000";
-}
-function loadImg(img,url,fb){img.onerror=function(){img.onerror=null;img.src=fb;};img.src=url;}
-function cols(ref,keys,tab){return keys.map(function(k){var d=tab[k];return {n:d[0],h:d[1],f:d[2],u:colorUrl(ref,k),fb:"img/"+ref+"_"+k+".jpg"};});}
-var ITEMS=[
- {n:"Camiseta cuello redondo",t:"Camisetas",g:"Unisex",ref:"11380",comp:"Algodón 100% semipeinado",peso:"150 g/m²",tallas:"XXS a 5XL",
-  d:"Camiseta unisex de cuello redondo en punto liso. Un básico para estampar con cualquier técnica.",
-  cols:cols("11380",["102","309","342","380","350","381","384","117","300","104","101","123"],SC)},
- {n:"Camiseta técnica de deporte",t:"Camisetas",g:"Hombre",ref:"PA438",comp:"Poliéster 100%",peso:"140 g/m²",tallas:"XS a 5XL",
-  d:"Tejido ligero de secado rápido, mangas raglán y doble pespunte en cuello, mangas y bajo. Pensada para equipos y eventos deportivos.",
-  cols:cols("PA438",["WHITE","BLACK","AQUABLUE","CORAL","DARKGREY","FINEGREY","FLUORESCENTORANGE","FLUORESCENTYELLOW","FORESTGREEN","FUCHSIA","ICEMINT","KELLYGREEN"],EK)},
- {n:"Camiseta clásica",t:"Camisetas",g:"Unisex",ref:"RUZT180",comp:"Algodón 100% Ring-Spun",peso:"180 g/m²",tallas:"S a 4XL",
-  d:"Corte tubular, cuello de canalé 1x1 con doble pespunte y cinta de hombro a hombro. Superficie lisa, muy buena para estampar.",
-  cols:cols("RUZT180",["WHITE","BLACK","BRIGHTROYAL","CLASSICRED","CONVOYGREY","FRENCHNAVY","LIGHTOXFORD"],EK)},
- {n:"Camiseta ecológica infantil",t:"Camisetas",g:"Infantil",ref:"NS307",comp:"Algodón orgánico 100%",peso:"155 g/m²",tallas:"De 2 a 14 años",
-  d:"Corte recto, tacto suave y refuerzo en hombros. Sin etiqueta de marca para personalizarla fácilmente.",
-  cols:cols("NS307",["WHITE","BLACK","DARKCHERRY","HIBISCUSRED","IVORY","JADEGREEN","MOONGREYHEATHER","NAVYBLUE","ORGANICKHAKI","PEACOCKBLUE","PETALROSE","POPPYRED"],EK)},
- {n:"Polo piqué",t:"Polos",g:"Unisex",ref:"04439",comp:"Algodón 100% peinado",peso:"210 g/m²",tallas:"S a 5XL",
-  d:"Polo de piqué con 20 colores. Ideal para uniformes con el logo bordado.",
-  cols:cols("04439",["102","104","101","119","312","342","360","381","145","173","141","172","171","295","321","241","244","319","272","269"],SC)},
- {n:"Sudadera con capucha bicolor",t:"Sudaderas",g:"Unisex",ref:"04853",comp:"Algodón y poliéster reciclado",peso:"280 g/m²",tallas:"XS a 3XL",
-  d:"Sudadera con capucha y cordones en color de contraste, en felpa perchada.",
-  cols:cols("04853",["917","970","993","874","520","975"],SC)},
- {n:"Chaqueta softshell",t:"Chaquetas",g:"Hombre",ref:"04449",comp:"Poliéster reciclado",peso:"270 g/m²",tallas:"S a 4XL",
-  d:"Softshell de 3 capas con capucha, membrana impermeable y transpirable y forro polar interior.",
-  cols:cols("04449",["312","370","241","232"],SC)},
- {n:"Sudadera ecológica cuello redondo",t:"Sudaderas",g:"Unisex",ref:"NS400",comp:"Algodón orgánico y poliéster reciclado",peso:"350 g/m²",tallas:"XXS a 4XL",
-  d:"Corte recto con lavado enzimático y felpa de baja contracción. Canalé en cuello, bajo y puños.",
-  cols:cols("NS400",["WHITE","BLACK","NAVYBLUE","IVORY","ORGANICKHAKI","SEABLUE","FORESTGREEN"],EK)},
- {n:"Sudadera ecológica con capucha",t:"Sudaderas",g:"Unisex",ref:"NS401",comp:"Algodón orgánico y poliéster reciclado",peso:"350 g/m²",tallas:"XXS a 4XL",
-  d:"Capucha forrada, bolsillo canguro y cordón con puntas de metal reciclado. Felpa de baja contracción.",
-  cols:cols("NS401",["WHITE","BLACK","ADRIATICBLUE","ALMONDGREEN","ANTIQUEROSE","AQUAMARINE","DARKCAMEL","PETALROSE","MOONGREYHEATHER","RAWNATURAL","IVORY","NAVYBLUE"],EK)}
-];
-ITEMS.forEach(function(it,i){it.id=i;it.cur=-1;it.main=mainUrl(it.ref);it.mainFb="foto/"+it.ref+".jpg";});
-var FAM={Blanco:"#FFFFFF",Beige:"#E4D9BF",Negro:"#111111",Gris:"#9B9B9B",Rojo:"#C8102E",Rosa:"#E8749A",Naranja:"#F28C28",Amarillo:"#F2C500",Verde:"#4F9D4A",Azul:"#1F4DB5",Morado:"#6B4E9B"};
-var state={q:"",type:"Todos",gen:"Todos",col:"Todos"}, cart={};
+/* ================= CATÁLOGO ================= */
 var $=function(i){return document.getElementById(i)};
-function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function norm(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");}
+function fmt(n){return n.toLocaleString("es-ES");}
 
-/* foto: principal (con modelo) hasta que se elige un color; luego la foto de ese color */
-function photoOf(it){return it.cur<0?it.main:it.cols[it.cur].u;}
-function fbOf(it){return it.cur<0?it.mainFb:it.cols[it.cur].fb;}
-function setImg(img,it){loadImg(img,photoOf(it),fbOf(it));img.className=it.cur<0?"":"pack";}
-function colorLabel(it){return it.cur<0?"Elige un color":"Color: "+it.cols[it.cur].n;}
+/* Fotos: directamente del proveedor, en alta calidad */
+var IMG="https://cdn.europeancatalog.com/", IMG2="https://cdn.toptex.com/";
+function isPack(st){return st.indexOf("packshots/")===0;}
+function ext(st){return isPack(st)?".png":".jpg";}
+function setSrc(img,st,w){
+  img.onerror=function(){img.onerror=null;img.src=IMG2+st+ext(st);};
+  img.src=IMG+st+ext(st)+"?w="+(w||700);
+  img.classList.toggle("pack",isPack(st));
+}
 
-function uniq(k){var a=["Todos"];ITEMS.forEach(function(i){if(a.indexOf(i[k])<0)a.push(i[k])});return a;}
-function chips(id,vals,key){
-  var box=$(id);
-  vals.forEach(function(v){
-    var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=v;
-    b.setAttribute("aria-pressed",v==="Todos");
-    b.onclick=function(){state[key]=v;[].forEach.call(box.querySelectorAll(".chip"),function(x){x.setAttribute("aria-pressed",x===b)});render();};
-    box.appendChild(b);
+var GENL={H:"Hombre",M:"Mujer",U:"Unisex",N:"Niños",B:"Bebés"};
+var FLAGS=[["e","Ecológico o reciclado"],["l","Sin etiqueta, ideal para personalizar"],["h","Con capucha"],["x","Tallas grandes"],["k","Certificado OEKO-TEX"],["n","Novedades"]];
+var WB={l:["Ligero (hasta 160 g/m²)",1,160],m:["Medio (161 a 240 g/m²)",161,240],p:["Grueso (más de 240 g/m²)",241,99999]};
+var DOMHEX={Blanco:"#FFFFFF",Beige:"#E4D9BF",Gris:"#9B9B9B",Negro:"#111111",Azul:"#1F4DB5",Verde:"#4F9D4A",Rojo:"#C8102E",Rosa:"#E8749A",Naranja:"#F28C28",Amarillo:"#F2C500",Violeta:"#6B4E9B",Marrón:"#7B4A2A",Estampado:"repeating-linear-gradient(45deg,#ddd 0 4px,#888 4px 8px)",Multicolor:"conic-gradient(#C8102E,#F2C500,#4F9D4A,#1F4DB5,#C8102E)"};
+/* Tono aproximado del punto de color a partir del nombre */
+var NAMEHEX=[["navy","#1B2A4A"],["marino","#1B2A4A"],["royal","#1F4DB5"],["sky","#8EC5E8"],["celeste","#8EC5E8"],["turquoise","#1FB5B0"],["turquesa","#1FB5B0"],["aqua","#62C5C9"],["denim","#3D5D82"],["petrol","#1F5466"],["bottle","#0B4F2E"],["forest","#1F5A3A"],["kelly","#2E9B3F"],["lime","#A6CE39"],["mint","#B8E2CF"],["olive","#6B6B3A"],["khaki","#7C7A4F"],["kaki","#7C7A4F"],["army","#5A6140"],["camo","#5A6140"],["burgundy","#6D1230"],["wine","#6D1230"],["granate","#6D1230"],["cherry","#8E1B32"],["coral","#FF7F6B"],["fuchsia","#D81B7E"],["fucsia","#D81B7E"],["pink","#E8749A"],["rosa","#E8749A"],["purple","#5E3A87"],["violet","#6B4E9B"],["lilac","#B9A2D6"],["lavender","#B9A2D6"],["orange","#F28C28"],["naranja","#F28C28"],["gold","#D4A72C"],["mustard","#C9A227"],["yellow","#F2C500"],["amarillo","#F2C500"],["sand","#D8C8A8"],["camel","#B8895A"],["chocolate","#4A2C1D"],["brown","#6B4226"],["marron","#6B4226"],["natural","#E9E0CC"],["ivory","#F3EEDD"],["cream","#F3EEDD"],["off white","#F4F1E8"],["beige","#E4D9BF"],["charcoal","#3A3D40"],["anthracite","#3A3D40"],["antracita","#3A3D40"],["dark grey","#4A4A4D"],["light grey","#CFCFCF"],["ash","#D6D6D4"],["heather","#B4B4B4"],["grey","#9B9B9B"],["gray","#9B9B9B"],["gris","#9B9B9B"],["silver","#C0C0C0"],["black","#111111"],["negro","#111111"],["white","#FFFFFF"],["blanco","#FFFFFF"],["red","#C8102E"],["rojo","#C8102E"],["green","#4F9D4A"],["verde","#4F9D4A"],["blue","#1F4DB5"],["azul","#1F4DB5"]];
+
+var STOP={de:1,del:1,con:1,para:1,la:1,el:1,los:1,las:1,y:1,en:1,un:1,una:1,a:1,por:1};
+var SYN={hoodie:["capucha"],hoody:["capucha"],tshirt:["camiseta"],playera:["camiseta"],remera:["camiseta"],cap:["gorra"],beanie:["gorro"],tote:["bolsa"],bag:["bolsa"],bolso:["bolsa"],backpack:["mochila"],chubasquero:["impermeable","chubasquero","cortavientos","lluvia"],cazadora:["chaqueta","cazadora"],abrigo:["chaqueta","parka","abrigo"],plumifero:["acolchad","plumifero"],polar:["polar"],sueter:["jersey"],mandil:["delantal"],short:["short","bermuda"],bermuda:["bermuda","short"],nino:["nino","infantil"],nina:["nino","infantil"],infantil:["nino","infantil"],kids:["nino","infantil"],bebe:["bebe"],chica:["mujer"],chico:["hombre"],eco:["ecologic"],ecologica:["ecologic"],ecologico:["ecologic"],organico:["ecologic","organic"],sostenible:["ecologic"],reciclado:["reciclad","ecologic"],tecnica:["tecnic","deport","sport"],deporte:["deport","sport","tecnic"],deportiva:["deport","sport","tecnic"],running:["deport","sport","running"],trabajo:["trabajo","work","laboral"],hosteleria:["delantal","hosteleria","cocina","camarero"],cocina:["cocina","delantal"],zapatilla:["zapat","calzado"],calcetin:["calcetin"]};
+function stemW(w){if(w.length>5&&/es$/.test(w))return w.slice(0,-2);if(w.length>3&&/s$/.test(w))return w.slice(0,-1);return w;}
+
+var D=null, ITEMS=[], CATN={}, FICHAS={};
+var S={q:"",c:"",s:[],g:[],col:[],w:[],u:[],f:[],o:"rec"}, SHOWN=24, QT=[];
+var KEYS=["s","g","col","w","u","f"];
+
+function prep(){
+  D.cats.forEach(function(c){CATN[c[0]]=c[1];});
+  ITEMS=D.items;
+  ITEMS.forEach(function(it,i){
+    it.ix=i; it.cur=-1;
+    it.k.forEach(function(k){
+      var nn=norm(k[0]), h=k[1];
+      if(!h){for(var j=0;j<NAMEHEX.length;j++){if(nn.indexOf(NAMEHEX[j][0])>=0){h=NAMEHEX[j][1];break;}}}
+      if(!h&&k[2].length) h=DOMHEX[D.doms[k[2][0]]];
+      k[4]=h||"#DDD";
+    });
+    var g=it.g.split("").map(function(x){return GENL[x];}).join(" ");
+    it.t=norm([it.n,D.subs[it.s],it.st,g,it.k.map(function(k){return k[0];}).join(" "),
+      it.f.indexOf("e")>=0?"ecologica organica reciclada sostenible":"",it.f.indexOf("h")>=0?"capucha":"",it.f.indexOf("l")>=0?"sin etiqueta":"",
+      it.u.map(function(u){return D.world[u];}).join(" ")].join(" "));
+  });
+  $("catsub").textContent="Más de "+fmt(Math.floor(ITEMS.length/100)*100)+" prendas y productos listos para personalizar con tu logo. Filtra por tipo, color, gramaje o uso, añade lo que te interese a tu presupuesto y te respondemos con el diseño y el precio.";
+}
+function parseQ(){
+  QT=norm(S.q).split(/[^a-z0-9ñ]+/).filter(function(w){return w&&!STOP[w];}).map(function(w){
+    var v=[stemW(w)]; (SYN[w]||SYN[stemW(w)]||[]).forEach(function(x){v.push(x);}); return v;
   });
 }
-chips("ftype",uniq("t"),"type");
-chips("fgen",uniq("g"),"gen");
-(function(){
-  var box=$("fcol");
-  ["Todos"].concat(Object.keys(FAM)).forEach(function(v){
-    var b=document.createElement("button");b.type="button";
-    if(v==="Todos"){b.className="chip";b.textContent="Todos";}
-    else{b.className="sw";b.style.background=FAM[v];b.setAttribute("aria-label",v);b.title=v;}
-    b.setAttribute("aria-pressed",v==="Todos");
-    b.onclick=function(){state.col=v;[].forEach.call(box.querySelectorAll("button"),function(x){x.setAttribute("aria-pressed",x===b)});render();};
-    box.appendChild(b);
-  });
-})();
-$("q").addEventListener("input",function(e){state.q=e.target.value.toLowerCase().trim();render();});
-function hasFam(it,f){return it.cols.some(function(c){return c.f.indexOf(f)>=0;});}
+function match(it,skip){
+  if(skip!=="c"&&S.c&&it.c!==S.c) return false;
+  if(skip!=="s"&&S.s.length&&S.s.indexOf(String(it.s))<0) return false;
+  if(skip!=="g"&&S.g.length&&!S.g.some(function(g){return it.g.indexOf(g)>=0||((g==="H"||g==="M")&&it.g.indexOf("U")>=0);})) return false;
+  if(skip!=="col"&&S.col.length&&!it.k.some(function(k){return k[2].some(function(d){return S.col.indexOf(String(d))>=0;});})) return false;
+  if(skip!=="w"&&S.w.length&&!S.w.some(function(w){var b=WB[w];return it.w>=b[1]&&it.w<=b[2];})) return false;
+  if(skip!=="u"&&S.u.length&&!it.u.some(function(u){return S.u.indexOf(String(u))>=0;})) return false;
+  if(skip!=="f"&&S.f.length&&!S.f.every(function(f){return it.f.indexOf(f)>=0;})) return false;
+  if(QT.length&&!QT.every(function(t){return t.some(function(v){return it.t.indexOf(v)>=0;});})) return false;
+  return true;
+}
+function countBy(skip,fn){var m={};ITEMS.forEach(function(it){if(match(it,skip))fn(it).forEach(function(v){m[v]=(m[v]||0)+1;});});return m;}
+function uniqA(a){return a.filter(function(v,i){return a.indexOf(v)===i;});}
 
-function dotsFor(it,onPick){
+/* ---------- Estado en la dirección (para volver atrás y compartir) ---------- */
+function toHash(){
+  var p=new URLSearchParams(); if(S.c)p.set("c",S.c);
+  KEYS.forEach(function(k){if(S[k].length)p.set(k,S[k].join("."));});
+  if(S.q)p.set("q",S.q); if(S.o!=="rec")p.set("o",S.o);
+  var s=p.toString(), h="#catalogo"+(s?"?"+s:"");
+  if(location.hash!==h) history.replaceState(null,"",h);
+  lastCat=h;
+}
+function fromHash(h){
+  var i=h.indexOf("?"), p=new URLSearchParams(i<0?"":h.slice(i+1));
+  S.c=p.get("c")||""; S.q=p.get("q")||""; S.o=p.get("o")||"rec";
+  KEYS.forEach(function(k){S[k]=p.get(k)?p.get(k).split("."):[];});
+  $("q").value=S.q; $("sort").value=S.o; parseQ();
+}
+
+/* ---------- Pintar ---------- */
+var OPEN={s:true,g:true,u:true,col:true,w:false,f:false}, ALL={};
+function facetGroup(key,title,opts){
+  if(!opts.length) return "";
+  var lim=ALL[key]?999:8, html='<details data-k="'+key+'"'+(OPEN[key]?" open":"")+'><summary>'+title+'</summary><div class="opts">';
+  opts.forEach(function(o,i){
+    if(i>=lim) return;
+    var on=S[key].indexOf(o.v)>=0;
+    html+='<label class="opt'+(!o.n&&!on?" off":"")+'"><input type="checkbox" data-k="'+key+'" value="'+esc(o.v)+'"'+(on?" checked":"")+'>'+(o.sw?'<span class="sq" style="background:'+o.sw+'"></span>':"")+'<span>'+esc(o.l)+'</span><span class="n">'+fmt(o.n||0)+'</span></label>';
+  });
+  if(opts.length>lim) html+='<button type="button" class="showall" data-k="'+key+'">Ver todos ('+opts.length+')</button>';
+  return html+'</div></details>';
+}
+function renderFacets(){
+  var h="";
+  var sc=countBy("s",function(it){return [String(it.s)];});
+  var subs=Object.keys(sc).concat(S.s).filter(function(v,i,a){return a.indexOf(v)===i;});
+  h+=facetGroup("s","Tipo",subs.map(function(v){return {v:v,l:D.subs[+v],n:sc[v]||0};}).sort(function(a,b){return b.n-a.n;}));
+  var gc=countBy("g",function(it){var g=it.g.split("");if(it.g.indexOf("U")>=0){g.push("H","M");}return uniqA(g);});
+  h+=facetGroup("g","Para",["H","M","U","N","B"].map(function(v){return {v:v,l:GENL[v],n:gc[v]||0};}).filter(function(o){return o.n||S.g.indexOf(o.v)>=0;}));
+  var uc=countBy("u",function(it){return it.u.map(String);});
+  h+=facetGroup("u","Uso o sector",D.world.map(function(n,i){return {v:String(i),l:n,n:uc[i]||0};}).filter(function(o){return o.n||S.u.indexOf(o.v)>=0;}).sort(function(a,b){return b.n-a.n;}));
+  var cc=countBy("col",function(it){var a=[];it.k.forEach(function(k){k[2].forEach(function(d){a.push(String(d));});});return uniqA(a);});
+  h+=facetGroup("col","Color",D.doms.map(function(n,i){return {v:String(i),l:n,n:cc[i]||0,sw:DOMHEX[n]||"#ccc"};}).filter(function(o){return o.n||S.col.indexOf(o.v)>=0;}));
+  var wc=countBy("w",function(it){return Object.keys(WB).filter(function(w){return it.w>=WB[w][1]&&it.w<=WB[w][2];});});
+  h+=facetGroup("w","Gramaje",Object.keys(WB).map(function(w){return {v:w,l:WB[w][0],n:wc[w]||0};}).filter(function(o){return o.n||S.w.indexOf(o.v)>=0;}));
+  var fc=countBy("f",function(it){return it.f.split("");});
+  h+=facetGroup("f","Características",FLAGS.map(function(f){return {v:f[0],l:f[1],n:fc[f[0]]||0};}).filter(function(o){return o.n||S.f.indexOf(o.v)>=0;}));
+  $("facets").innerHTML=h;
+}
+function renderCats(){
+  var cc=countBy("c",function(it){return [it.c];}), total=0;
+  Object.keys(cc).forEach(function(k){total+=cc[k];});
+  var h='<button type="button" class="chip" data-c="" aria-pressed="'+(!S.c)+'">Todo<small>'+fmt(total)+'</small></button>';
+  D.cats.forEach(function(c){
+    if(!cc[c[0]]&&S.c!==c[0]) return;
+    h+='<button type="button" class="chip" data-c="'+c[0]+'" aria-pressed="'+(S.c===c[0])+'">'+esc(c[1])+'<small>'+fmt(cc[c[0]]||0)+'</small></button>';
+  });
+  $("cats").innerHTML=h;
+}
+function labelOf(k,v){
+  if(k==="s")return D.subs[+v]; if(k==="g")return GENL[v]; if(k==="col")return D.doms[+v];
+  if(k==="w")return WB[v][0].replace(/ \(.*/,""); if(k==="u")return D.world[+v];
+  if(k==="f"){for(var i=0;i<FLAGS.length;i++)if(FLAGS[i][0]===v)return FLAGS[i][1].replace(/,.*/,"");}
+  return v;
+}
+function renderPills(){
+  var h="", n=0;
+  if(S.q){h+='<button type="button" class="pill" data-k="q">«'+esc(S.q)+'»</button>';n++;}
+  KEYS.forEach(function(k){S[k].forEach(function(v){h+='<button type="button" class="pill" data-k="'+k+'" data-v="'+esc(v)+'">'+esc(labelOf(k,v))+'</button>';n++;});});
+  if(n>1||(n&&S.c)) h+='<button type="button" class="pill clear" data-k="all">Borrar filtros</button>';
+  $("pills").innerHTML=h;
+  var fn=KEYS.reduce(function(a,k){return a+S[k].length;},0);
+  $("fbtn").textContent=fn?"Filtros ("+fn+")":"Filtros";
+}
+function sorted(list){
+  var l=list.slice();
+  if(S.o==="az") l.sort(function(a,b){return a.n.localeCompare(b.n,"es");});
+  else if(S.o==="col") l.sort(function(a,b){return b.k.length-a.k.length;});
+  else if(S.o==="new") l.sort(function(a,b){return (b.f.indexOf("n")>=0)-(a.f.indexOf("n")>=0)||a.ix-b.ix;});
+  else if(QT.length){ /* con búsqueda: primero las que lo tienen en el nombre */
+    l.sort(function(a,b){var na=norm(a.n),nb=norm(b.n);var sa=QT.filter(function(t){return t.some(function(v){return na.indexOf(v)>=0;});}).length,sb=QT.filter(function(t){return t.some(function(v){return nb.indexOf(v)>=0;});}).length;return sb-sa||a.ix-b.ix;});
+  }
+  return l;
+}
+var LIST=[];
+function renderCat(keepShown){
+  if(!D) return;
+  if(!keepShown) SHOWN=24;
+  toHash(); renderCats(); renderFacets(); renderPills();
+  LIST=sorted(ITEMS.filter(function(it){return match(it);}));
+  $("count").innerHTML="<b>"+fmt(LIST.length)+"</b> "+(LIST.length===1?"producto":"productos");
+  $("sideok").textContent="Ver "+fmt(LIST.length)+" productos";
+  var g=$("grid"); g.innerHTML="";
+  if(!LIST.length){g.innerHTML='<p class="empty">No hay productos con esos filtros. Prueba a quitar alguno o escríbenos y te lo buscamos.</p>';$("moreb").hidden=true;return;}
+  LIST.slice(0,SHOWN).forEach(function(it){g.appendChild(card(it));});
+  var rest=LIST.length-SHOWN;
+  $("moreb").hidden=rest<=0; $("moreb").textContent="Ver más ("+fmt(rest)+" más)";
+}
+function colorLabel(it){return it.cur<0?(it.k.length+(it.k.length===1?" color":" colores")):"Color: "+it.k[it.cur][0];}
+function photo(it){return it.cur<0?it.i:(it.k[it.cur][3]||it.i);}
+function dotsFor(it,max,onPick){
   var d=document.createElement("div");d.className="dots";
-  it.cols.forEach(function(col,i){
-    var b=document.createElement("button");b.type="button";b.className="dot";b.style.background=col.h;b.title=col.n;b.setAttribute("aria-label",col.n);b.setAttribute("aria-pressed",i===it.cur);
-    b.onclick=function(){it.cur=i;[].forEach.call(d.children,function(x){x.setAttribute("aria-pressed",x===b)});onPick();};
+  it.k.forEach(function(k,i){
+    if(i>=max) return;
+    var b=document.createElement("button");b.type="button";b.className="dot";b.style.background=k[4];b.title=k[0];b.setAttribute("aria-label",k[0]);b.setAttribute("aria-pressed",i===it.cur);
+    b.onclick=function(){it.cur=(it.cur===i?-1:i);[].forEach.call(d.querySelectorAll(".dot"),function(x,j){x.setAttribute("aria-pressed",j===it.cur);});onPick();};
     d.appendChild(b);
   });
+  if(it.k.length>max){var a=document.createElement("a");a.className="dmore";a.href="#producto/"+encodeURIComponent(it.r);a.textContent="+"+(it.k.length-max);d.appendChild(a);}
   return d;
 }
-function addToCart(it){
-  var c=it.cur<0?"color por decidir":it.cols[it.cur].n;
-  cart[it.id+"-"+c]={n:it.n,c:c,r:it.ref};cartUI();
+function card(it){
+  var c=document.createElement("article");c.className="card";
+  var href="#producto/"+encodeURIComponent(it.r);
+  var tag=it.f.indexOf("n")>=0?"Novedad":(it.f.indexOf("e")>=0?"Ecológico":"");
+  c.innerHTML='<a class="frame" href="'+href+'"><img alt="'+esc(it.n)+'" loading="lazy" decoding="async">'+(tag?'<span class="tag">'+tag+'</span>':"")+'</a>'+
+    '<div class="info"><h3><a href="'+href+'">'+esc(it.n)+'</a></h3><div class="meta">'+esc(D.subs[it.s])+(it.w?" · "+it.w+" g/m²":"")+'</div>'+
+    '<div class="cname"></div><div class="dh"></div>'+
+    '<div class="cardbtns"><a class="more" href="'+href+'">Ver ficha</a><button class="add" type="button">Añadir</button></div></div>';
+  var img=c.querySelector("img"), cn=c.querySelector(".cname");
+  setSrc(img,photo(it),600); cn.textContent=colorLabel(it);
+  c.querySelector(".dh").replaceWith(dotsFor(it,10,function(){setSrc(img,photo(it),600);cn.textContent=colorLabel(it);}));
+  var ad=c.querySelector(".add"); ad.onclick=function(){addToCart(it);ad.textContent="Añadido";ad.classList.add("done");};
+  return c;
 }
 
-function render(){
-  var list=ITEMS.filter(function(it){
-    return (state.type==="Todos"||it.t===state.type)&&(state.gen==="Todos"||it.g===state.gen)&&(state.col==="Todos"||hasFam(it,state.col))&&(!state.q||(it.n+" "+it.t+" "+it.g).toLowerCase().indexOf(state.q)>=0);
-  });
-  $("count").textContent=list.length+(list.length===1?" prenda":" prendas");
-  var g=$("grid");g.innerHTML="";
-  if(!list.length){g.innerHTML='<p class="empty">No hay prendas con esos filtros. Prueba a quitar alguno.</p>';return;}
-  list.forEach(function(it){
-    var c=document.createElement("article");c.className="card";
-    c.innerHTML='<a class="frame" href="#producto-'+it.id+'"><img alt="'+esc(it.n)+'" loading="lazy" decoding="async"></a>'+
-      '<div class="info"><h3><a href="#producto-'+it.id+'">'+esc(it.n)+'</a></h3><div class="meta">'+it.t+' · '+it.g+'</div>'+
-      '<div class="meta spec">'+esc(it.comp)+' · '+it.peso+'</div><div class="cname"></div><div class="dh"></div>'+
-      '<div class="cardbtns"><a class="more" href="#producto-'+it.id+'">Ver ficha</a><button class="add" type="button">Añadir</button></div></div>';
-    var img=c.querySelector(".frame img"); setImg(img,it); c.querySelector(".cname").textContent=colorLabel(it);
-    c.querySelector(".dh").replaceWith(dotsFor(it,function(){setImg(img,it);c.querySelector(".cname").textContent=colorLabel(it);}));
-    c.querySelector(".add").onclick=function(){addToCart(it);};
-    g.appendChild(c);
-  });
-}
+/* ---------- Eventos del catálogo ---------- */
+$("cats").addEventListener("click",function(e){var b=e.target.closest("[data-c]");if(!b)return;S.c=b.dataset.c;S.s=[];renderCat();});
+$("facets").addEventListener("change",function(e){
+  var i=e.target; if(!i.dataset.k) return; var a=S[i.dataset.k], p=a.indexOf(i.value);
+  if(i.checked&&p<0)a.push(i.value); if(!i.checked&&p>=0)a.splice(p,1); renderCat();
+});
+$("facets").addEventListener("click",function(e){var b=e.target.closest(".showall");if(b){ALL[b.dataset.k]=true;renderFacets();}});
+$("facets").addEventListener("toggle",function(e){if(e.target.dataset&&e.target.dataset.k)OPEN[e.target.dataset.k]=e.target.open;},true);
+$("pills").addEventListener("click",function(e){
+  var b=e.target.closest(".pill");if(!b)return;var k=b.dataset.k;
+  if(k==="all"){S.q="";$("q").value="";parseQ();KEYS.forEach(function(x){S[x]=[];});}
+  else if(k==="q"){S.q="";$("q").value="";parseQ();}
+  else S[k].splice(S[k].indexOf(b.dataset.v),1);
+  renderCat();
+});
+var qt; $("q").addEventListener("input",function(e){clearTimeout(qt);qt=setTimeout(function(){S.q=e.target.value.trim();parseQ();renderCat();},180);});
+$("sort").onchange=function(){S.o=this.value;renderCat();};
+$("moreb").onclick=function(){
+  var g=$("grid"), from=SHOWN; SHOWN+=24;
+  LIST.slice(from,SHOWN).forEach(function(it){g.appendChild(card(it));});
+  var rest=LIST.length-SHOWN; $("moreb").hidden=rest<=0; $("moreb").textContent="Ver más ("+fmt(rest)+" más)";
+};
+function side(open){$("side").classList.toggle("open",open);document.body.style.overflow=open?"hidden":"";}
+$("fbtn").onclick=function(){side(true);}; $("sideclose").onclick=$("sideok").onclick=function(){side(false);};
 
+/* ---------- Ficha de producto ---------- */
+function fichaOf(it,cb){
+  if(FICHAS[it.c]) return cb(FICHAS[it.c][it.r]||{});
+  fetch("data/fichas/"+it.c+".json").then(function(r){return r.json();}).then(function(d){FICHAS[it.c]=d;cb(d[it.r]||{});}).catch(function(){cb({});});
+}
 function renderProduct(it){
-  var box=$("prod");
-  box.innerHTML='<a class="back" href="#catalogo">Volver al catálogo</a>'+
-   '<div class="pd"><div class="pgal"><div class="big"><img alt="'+esc(it.n)+'"></div><div class="thumbs"></div></div>'+
-   '<div class="pinfo"><h1>'+esc(it.n)+'</h1><div class="meta">'+it.t+' · '+it.g+'</div><p class="desc">'+esc(it.d)+'</p>'+
-   '<h3 class="pcol"></h3><div class="dh"></div>'+
-   '<h3>Características</h3><dl class="specs"><dt>Composición</dt><dd>'+esc(it.comp)+'</dd><dt>Gramaje</dt><dd>'+it.peso+'</dd><dt>Tallas</dt><dd>'+it.tallas+'</dd><dt>Colores</dt><dd>'+it.cols.length+' disponibles</dd><dt>Personalización</dt><dd>Estampado, bordado o serigrafía</dd></dl>'+
-   '<button class="btn" type="button" id="padd">Añadir a mi presupuesto</button></div></div>';
-  var big=box.querySelector(".big img"), th=box.querySelector(".thumbs");
-  function thumbs(){
-    th.innerHTML="";
-    var opts=[{u:it.main,fb:it.mainFb,cur:-1,l:"Foto principal"}];
-    if(it.cur>=0) opts.push({u:it.cols[it.cur].u,fb:it.cols[it.cur].fb,cur:it.cur,l:it.cols[it.cur].n});
-    opts.forEach(function(o){
-      var b=document.createElement("button");b.type="button";b.setAttribute("aria-label",o.l);
-      b.setAttribute("aria-pressed",(big.dataset.view||"main")===(o.cur<0?"main":"col"));
-      b.innerHTML='<img alt="" style="'+(o.cur<0?"":"object-fit:contain;padding:8%")+'">';
-      loadImg(b.querySelector("img"),o.u,o.fb);
-      b.onclick=function(){big.dataset.view=o.cur<0?"main":"col";loadImg(big,o.u,o.fb);big.className=o.cur<0?"":"pack";thumbs();};
-      th.appendChild(b);
-    });
-  }
-  function upd(){
-    big.dataset.view=it.cur<0?"main":"col"; setImg(big,it);
-    box.querySelector(".pcol").textContent=colorLabel(it); thumbs();
-  }
-  box.querySelector(".dh").replaceWith(dotsFor(it,upd));
-  $("padd").onclick=function(){addToCart(it);$("panel").classList.add("open");};
-  upd();
+  var box=$("prod"); it.cur=-1;
+  box.innerHTML='<a class="back" href="'+(lastCat||"#catalogo")+'">Volver al catálogo</a><p class="meta">Cargando…</p>';
+  fichaOf(it,function(f){
+    var gen=it.g.split("").map(function(x){return GENL[x];}).join(", ");
+    var badges=[];
+    if(it.f.indexOf("l")>=0)badges.push("Sin etiqueta: lista para tu marca");
+    (f.cert||[]).forEach(function(c){badges.push(c);});
+    if(it.f.indexOf("x")>=0)badges.push("Tallas grandes");
+    var specs=[["Composición",f.comp],["Gramaje",f.peso],["Corte",f.fit],["Acabado",f.fin],["Cuello",f.neck],["Bolsillos",f.pk],["Impermeable",f.wp],["Colores",it.k.length+" disponibles"],["Personalización","Estampado, bordado, serigrafía o DTF"]].filter(function(s){return s[1];});
+    var wa="https://wa.me/34682368645?text="+encodeURIComponent("Hola, me interesa este producto del catálogo: "+it.n+" (ref. "+it.r+")");
+    box.innerHTML='<a class="back" href="'+(lastCat||"#catalogo")+'">Volver al catálogo</a>'+
+     '<div class="pd"><div class="pgal"><div class="big"><img alt="'+esc(it.n)+'"></div><div class="thumbs"></div></div>'+
+     '<div class="pinfo"><h1>'+esc(it.n)+'</h1><div class="meta">'+esc(D.subs[it.s])+(gen?" · "+esc(gen):"")+'</div>'+
+     (badges.length?'<div class="badges">'+badges.map(function(b){return "<span>"+esc(b)+"</span>";}).join("")+'</div>':"")+
+     (f.d?'<p class="desc">'+esc(f.d)+'</p>':"")+
+     ((f.a||[]).length?'<ul class="args">'+f.a.map(function(a){return "<li>"+esc(a)+"</li>";}).join("")+'</ul>':"")+
+     '<h3 class="pcol"></h3><div class="dh"></div>'+
+     ((f.sizes||[]).length?'<h3>Tallas</h3><div class="sizes">'+f.sizes.map(function(s){return "<span>"+esc(s)+"</span>";}).join("")+'</div>':"")+
+     '<h3>Características</h3><dl class="specs">'+specs.map(function(s){return "<dt>"+s[0]+"</dt><dd>"+esc(s[1])+"</dd>";}).join("")+'</dl>'+
+     '<div class="pbtns"><button class="btn" type="button" id="padd">Añadir a mi presupuesto</button><a class="btn ghost" href="'+wa+'" target="_blank" rel="noopener">Preguntar por WhatsApp</a></div></div></div>'+
+     '<div class="related" id="related"></div>';
+    var big=box.querySelector(".big img"), th=box.querySelector(".thumbs");
+    var pics=(f.img&&f.img.length?f.img:[it.i]), view=pics[0];
+    function thumbs(){
+      th.innerHTML="";
+      var opts=pics.slice(); if(it.cur>=0&&it.k[it.cur][3]) opts.push(it.k[it.cur][3]);
+      opts.forEach(function(st){
+        var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Ver foto");b.setAttribute("aria-pressed",st===view);
+        b.innerHTML='<img alt="">'; setSrc(b.querySelector("img"),st,200);
+        b.onclick=function(){view=st;setSrc(big,st,1000);thumbs();};
+        th.appendChild(b);
+      });
+    }
+    function upd(){
+      view=it.cur>=0&&it.k[it.cur][3]?it.k[it.cur][3]:pics[0]; setSrc(big,view,1000);
+      box.querySelector(".pcol").textContent=it.cur<0?"Colores ("+it.k.length+")":"Color: "+it.k[it.cur][0]; thumbs();
+    }
+    box.querySelector(".dh").replaceWith(dotsFor(it,999,upd));
+    $("padd").onclick=function(){addToCart(it);$("panel").classList.add("open");};
+    upd();
+    var rel=ITEMS.filter(function(x){return x.s===it.s&&x!==it;}).slice(0,4);
+    if(rel.length){var r=$("related");r.innerHTML='<h2>También te puede interesar</h2><div class="grid"></div>';rel.forEach(function(x){x.cur=-1;r.querySelector(".grid").appendChild(card(x));});}
+  });
 }
 
+/* ---------- Presupuesto ---------- */
+var cart={};
+try{cart=JSON.parse(localStorage.getItem("ramstex-presupuesto")||"{}")||{};}catch(e){cart={};}
+function addToCart(it){var c=it.cur<0?"color por decidir":it.k[it.cur][0];cart[it.r+"|"+c]={n:it.n,c:c,r:it.r};cartUI();}
 function cartUI(){
-  var ids=Object.keys(cart);
-  $("cc").textContent=ids.length;
-  var ul=$("list");ul.innerHTML="";
+  try{localStorage.setItem("ramstex-presupuesto",JSON.stringify(cart));}catch(e){}
+  var ids=Object.keys(cart); $("cc").textContent=ids.length;
+  var ul=$("list"); ul.innerHTML="";
   ids.forEach(function(id){
-    var li=document.createElement("li");
-    li.innerHTML='<span>'+esc(cart[id].n)+' ('+esc(cart[id].c)+')</span>';
+    var li=document.createElement("li"); li.innerHTML='<span>'+esc(cart[id].n)+' ('+esc(cart[id].c)+')</span>';
     var b=document.createElement("button");b.type="button";b.textContent="Quitar";b.onclick=function(){delete cart[id];cartUI();};
-    li.appendChild(b);ul.appendChild(li);
+    li.appendChild(b); ul.appendChild(li);
   });
   $("none").style.display=ids.length?"none":"block";
-  var body="Hola, me interesan estas prendas:\n\n"+ids.map(function(id){return "- "+cart[id].n+" ("+cart[id].c+") [ref. "+cart[id].r+"]"}).join("\n")+"\n\nCantidad y logo/diseño: ";
+  var body="Hola, me interesan estos productos:\n\n"+ids.map(function(id){return "- "+cart[id].n+" ("+cart[id].c+") [ref. "+cart[id].r+"]";}).join("\n")+"\n\nCantidad y logo/diseño: ";
   $("send").href="mailto:info@ramstex.com?subject="+encodeURIComponent("Presupuesto desde el catálogo")+"&body="+encodeURIComponent(body);
 }
 $("cartbtn").onclick=function(){$("panel").classList.add("open");};
 $("close").onclick=function(){$("panel").classList.remove("open");};
 
+/* ---------- Carga de datos ---------- */
+var loading=null;
+function ensureData(cb){
+  if(D) return cb();
+  if(!loading){
+    $("grid").innerHTML=new Array(7).join('<div class="skel"></div>');
+    loading=fetch("data/catalogo.json").then(function(r){return r.json();}).then(function(d){D=d;prep();});
+  }
+  loading.then(cb).catch(function(){$("grid").innerHTML='<p class="empty">No se ha podido cargar el catálogo. Vuelve a intentarlo en un momento.</p>';});
+}
+
 /* ---------- Navegación entre páginas ---------- */
-var VH=$("view-home"),VC=$("view-cat"),VP=$("view-prod"),first=true;
+var VH=$("view-home"),VC=$("view-cat"),VP=$("view-prod"),first=true,lastCat="",catScroll=0,inCat=false;
 function route(){
-  var h=location.hash, m=h.match(/^#producto-(\d+)$/);
+  var h=location.hash||"";
   document.querySelectorAll(".dnav a[data-view]").forEach(function(a){a.removeAttribute("aria-current");});
-  if(h==="#catalogo"){VH.hidden=true;VP.hidden=true;VC.hidden=false;render();window.scrollTo(0,0);
-    document.querySelector('.dnav a[data-view="cat"]').setAttribute("aria-current","page");}
-  else if(m&&ITEMS[+m[1]]){VH.hidden=true;VC.hidden=true;VP.hidden=false;renderProduct(ITEMS[+m[1]]);window.scrollTo(0,0);}
-  else{
-    var wasOther=!VH.hidden?false:true; VC.hidden=true;VP.hidden=true;VH.hidden=false;
+  if(inCat) catScroll=window.scrollY;
+  if(h.indexOf("#catalogo")===0){
+    var back=(h===lastCat&&D);
+    VH.hidden=true;VP.hidden=true;VC.hidden=false;inCat=true;
+    document.querySelector('.dnav a[data-view="cat"]').setAttribute("aria-current","page");
+    fromHash(h);
+    ensureData(function(){renderCat(back); window.scrollTo(0,back?catScroll:0);});
+    if(!back) window.scrollTo(0,0);
+  } else if(h.indexOf("#producto/")===0){
+    inCat=false; VH.hidden=true;VC.hidden=true;VP.hidden=false; window.scrollTo(0,0);
+    var ref=decodeURIComponent(h.slice(10));
+    ensureData(function(){
+      var it=ITEMS.filter(function(x){return x.r===ref;})[0];
+      if(it) renderProduct(it); else $("prod").innerHTML='<a class="back" href="#catalogo">Volver al catálogo</a><p>Este producto ya no está disponible.</p>';
+    });
+  } else {
+    inCat=false;
+    var wasOther=VH.hidden; VC.hidden=true;VP.hidden=true;VH.hidden=false;
     if(h==="#inicio"||!h){window.scrollTo(0,0);}
     else if(wasOther||first){var t=document.querySelector(h); if(t) t.scrollIntoView();}
   }
   first=false;
 }
 window.addEventListener("hashchange",route);
-render();cartUI();route();
+cartUI(); route();
 </script>
 </body>
 </html>

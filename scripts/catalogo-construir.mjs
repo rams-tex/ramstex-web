@@ -32,12 +32,29 @@ const SUBFIX = {
   "Cintas Cabeza": "Cintas para la cabeza", "Zapatos Lifestyle / Ocio": "Zapatillas y ocio", "Calzado de Seguridad": "Calzado de seguridad",
   "Accesorios Equipaje": "Accesorios de viaje", "Sujetadores Deporte": "Sujetadores deportivos", "Tirantes": "Camisetas de tirantes",
 };
+// "Uso o sector": agrupa los sectores del proveedor en pocos grupos claros
+const USO = [
+  ["Empresas y uniformes", /^(Recepción|Negocios|Venta al por menor|Artesanía y comercio|Distribución logística)$/],
+  ["Ropa de trabajo y seguridad", /^(Ropa de trabajo|EPI|Industria y seguridad|Jardinería y bricolaje|Logística Instalación Seguridad)/],
+  ["Hostelería y restauración", /^(CHR y profesiones de la restauración|Restauración)$/],
+  ["Eventos y merchandising", /^(Promoción y organización de eventos|Medios de comunicación y merchandising|Souvenir y licencias|Festivales|Fan Zone|Turismo y cultura)/],
+  ["Deporte y equipos", /^(Deporte|Deportes|Después del partido|Antes del partido|Entrenamiento|Jugadores|Clubes Deportivos|Aficionados|Multideporte|Uniforme deportivo)/],
+  ["Colegios y universidades", /^(Escuela y universidad|Schoolwear)$/],
+  ["Viaje, playa y camping", /^(Compras y playa|Viaje|Campings|Tiendas de temporada)$/],
+  ["Navidad", /^(Navidad|Espíritu navideño)$/],
+  ["Salud y belleza", /^Salud/],
+];
+const usoOf = list => [...new Set((list || []).map(w => (USO.find(u => u[1].test(w)) || [])[0]).filter(Boolean))];
 const GEN = { Hombre: "H", Mujer: "M", Unisex: "U", "Niños": "N", Bebes: "B" };
 const COLFIX = { Mulicolor: "Multicolor", "Diseño": "Estampado" };
 
 const brands = [...new Set(src.map(p => p.brand).filter(Boolean))].sort((a, b) => b.length - a.length);
 const brandRe = brands.length ? new RegExp("\\b(" + brands.map(b => b.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")\\b\\s*[®™]?", "gi") : null;
-const clean = t => (brandRe ? String(t || "").replace(brandRe, "").replace(/\s{2,}/g, " ").trim() : String(t || "").trim());
+const clean = t => {
+  let s = String(t || "").replace(/<br\s*\/?>/gi, " ").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&");
+  if (brandRe) s = s.replace(brandRe, "");
+  return s.replace(/(?:\s+[A-Z0-9][\w-]*)*\s*\S*[™®]\S*/g, "").replace(/\s+([,.])/g, "$1").replace(/\s*\([\d-]+\)/g, "").replace(/["“”]/g, "").replace(/\s{2,}/g, " ").trim();
+};
 const stem = u => String(u || "").replace(/^https?:\/\/[^/]+\//, "").replace(/\.(jpg|png)$/i, "");
 const grams = t => { const m = String(t || "").match(/(\d+)/); return m ? +m[1] : 0; };
 
@@ -62,7 +79,7 @@ for (const p of src) {
   items.push({
     r: p.ref, n: clean(p.name), c: cat[0], s: subI(sub),
     g: [...new Set((p.gen || []).map(g => GEN[g]).filter(Boolean))].join(""),
-    w: grams(p.peso), f: flags, u: [...new Set(p.world || [])].map(worldI),
+    w: grams(p.peso), f: flags, u: usoOf(p.world).map(worldI),
     st: clean(p.style), i: stem(main),
     k: colors.map(c => [c.n, c.hex || "", [...new Set((c.dom || []).map(d => COLFIX[d] || d))].map(domI), stem(c.img)]),
     z: (p.sizes || []).length ? [p.sizes[0], p.sizes[p.sizes.length - 1]].filter((v, i, a) => a.indexOf(v) === i).join(" a ") : "",
