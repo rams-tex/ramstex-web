@@ -1,4 +1,5 @@
 Productos activos: 197 (de 200)
+Páginas: p1: 100 (total_count=2988, page_number=1) | p2: 100 (total_count=2988, page_number=2) | p3: 0 (total_count=undefined, page_number=undefined) … p2: 100 (total_count=2988, page_number=2) | p3: 0 (total_count=undefined, page_number=undefined)
 
 Ropa: 78
    - Chaquetas: 25
