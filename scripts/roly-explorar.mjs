@@ -53,7 +53,7 @@ const token = typeof login.data === "string" ? login.data
 if (!token) { log("Sin token. Respuesta:", typeof login.data === "string" ? login.data.slice(0, 200) : JSON.stringify(shape(login.data))); process.exit(0); }
 const H = { headers: { Authorization: "Bearer " + token } };
 
-const brand = "roly";
+const brand = process.env.MARCA || "stamina";
 const cats = await call(`/api/v1/item/categories/tree?lang=es-ES&brand=${brand}`, H);
 const flat = []; const walk = (a, d) => (a || []).forEach(c => { flat.push("  ".repeat(d) + c.category + " [" + c.id + "] " + c.models); walk(c.subcategories, d + 1); });
 walk(cats.data, 0); log("== ÁRBOL DE CATEGORÍAS\n" + flat.join("\n"));
