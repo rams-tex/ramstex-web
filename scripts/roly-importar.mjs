@@ -87,8 +87,16 @@ for (const [code, rows] of byModel) {
   const a = rows[0], m = models[code] || {};
   const [fam, sub] = famOf(a);
   // Nombre: "CAMISETA ATOMIC 150 T/XS BLANCO" -> "Camiseta Atomic 150"
-  let name = a.itemname.replace(/\s+T\/\S+.*$/, "").trim();
-  name = cap(name).replace(/\bWoman\b/i, "mujer").replace(/\bChild\b/i, "infantil").replace(/\bKids?\b/i, "infantil").replace(/\bL\/s\b/i, "manga larga").replace(/\bS\/s\b/i, "");
+  const full = a.itemname.replace(/\s+T\/\S+.*$/, "").trim();
+  const mname = String(a.modelname || "").trim().toUpperCase();
+  const pos = mname ? full.toUpperCase().lastIndexOf(mname) : -1;
+  let type = (pos > 0 ? full.slice(0, pos) : full.split(" ")[0]).trim().toLowerCase();
+  const ACC = { pantalon: "pantalón", calcetin: "calcetín", algodon: "algodón", nautico: "náutico", termica: "térmica", termico: "térmico", tecnica: "técnica", tecnico: "técnico", chandal: "chándal", bañador: "bañador", camion: "camión", ignifugo: "ignífugo", ignifuga: "ignífuga" };
+  type = type.split(/\s+/).map(w => ACC[w] || w).join(" ")
+    .replace(/^(camiseta|camisa|top) tirantes/, "$1 de tirantes").replace(/^(sudadera|chaqueta|parka|cortavientos) capucha/, "$1 con capucha")
+    .replace(/\bm\/l\b/, "manga larga").replace(/\bm\/c\b/, "manga corta");
+  let model = cap(mname || "").replace(/\bWoman\b/i, "mujer").replace(/\bChild\b/i, "infantil").replace(/\bKids?\b/i, "infantil").replace(/\bL\/s\b/i, "manga larga").replace(/\bS\/s\b/i, "").replace(/\s+/g, " ").trim();
+  let name = (type.charAt(0).toUpperCase() + type.slice(1) + (model && pos > 0 ? " " + model : "")).trim();
   const kids = rows.some(r => r.isforchildren === "True");
   const gen = [];
   if (sub === "Bodys") gen.push("Bebes");
