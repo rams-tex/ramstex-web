@@ -118,6 +118,8 @@ h2{font-size:clamp(2rem,4.4vw,3.2rem);font-weight:700;max-width:18ch}
 .svc{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:26px 26px 28px;border-top:5px solid var(--red)}
 .svc h3{font-size:1.4rem;margin-bottom:10px}
 .svc p{margin:0;color:var(--muted)}
+.svclink{display:inline-block;margin-top:14px;font-weight:600;color:var(--red-text);text-decoration:none}
+.svclink::after{content:" →"}
 
 /* ---------- Banda catálogo ---------- */
 .catband{background:var(--tint);padding:80px 0;overflow:hidden}
@@ -137,7 +139,7 @@ h2{font-size:clamp(2rem,4.4vw,3.2rem);font-weight:700;max-width:18ch}
 .steps h3{font-size:1.2rem;margin:0 0 6px}
 .steps p{margin:0;color:var(--muted);font-size:1rem}
 
-/* ---------- Trabajos ---------- */
+/* ---------- Casos de éxito ---------- */
 .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .shot{aspect-ratio:1/1;background:var(--tint);border:2px dashed var(--line);border-radius:18px;display:flex;flex-direction:column;justify-content:flex-end;padding:16px}
 .shot b{font:700 1.08rem "Bricolage Grotesque",sans-serif}
@@ -392,10 +394,11 @@ img.pack{object-fit:contain!important;padding:6%}
     <a class="logo" href="#inicio" aria-label="Ramstex, inicio"><svg xmlns="http://www.w3.org/2000/svg" viewBox="88.75 599.47 412.53 66.07" aria-hidden="true" focusable="false"><path class="r" d="M 105.484375 628.738281 L 117.542969 628.738281 C 119.867188 628.738281 122.035156 628.175781 124.042969 627.042969 C 127.5625 625.035156 129.320312 622.175781 129.320312 618.46875 C 129.320312 616.335938 128.628906 614.355469 127.246094 612.535156 C 124.921875 609.519531 121.65625 608.011719 117.449219 608.011719 L 97.285156 608.011719 L 97.285156 628.832031 L 105.578125 628.832031 Z M 136.671875 659.738281 L 138.179688 664.542969 L 130.261719 664.542969 L 129.507812 661.8125 C 127.4375 654.964844 125.550781 649.71875 123.855469 646.078125 C 121.84375 641.867188 119.300781 638.601562 116.222656 636.277344 L 97.285156 636.277344 L 97.285156 664.542969 L 89.746094 664.542969 L 89.746094 632.507812 L 89.84375 604.335938 L 89.84375 600.566406 L 93.609375 600.566406 L 117.449219 600.472656 C 122.347656 600.472656 126.617188 601.980469 130.261719 604.996094 C 134.660156 608.578125 136.859375 613.066406 136.859375 618.46875 C 136.859375 620.480469 136.480469 622.460938 135.726562 624.40625 C 133.96875 629.117188 130.605469 632.542969 125.644531 634.675781 C 129.289062 638.949219 132.964844 647.300781 136.671875 659.738281 "/><path class="r" d="M 150.613281 664.542969 L 142.417969 664.542969 L 144.679688 659.269531 L 169.175781 602.734375 L 170.210938 600.472656 L 175.113281 600.472656 L 176.148438 602.734375 L 200.644531 659.269531 L 202.90625 664.542969 L 194.710938 664.542969 L 193.671875 662.28125 L 172.660156 613.757812 L 151.652344 662.28125 Z M 150.613281 664.542969 "/><path class="r" d="M 219.773438 664.542969 L 212.234375 664.542969 L 212.234375 600.472656 L 218.453125 600.472656 L 219.394531 602.734375 L 241.445312 651.542969 L 263.398438 602.734375 L 264.339844 600.472656 L 270.558594 600.472656 L 270.558594 604.242188 L 270.652344 660.773438 L 270.652344 664.542969 L 263.113281 664.542969 L 263.113281 660.773438 L 263.019531 621.765625 L 244.835938 662.28125 L 243.894531 664.542969 L 238.996094 664.542969 L 238.050781 662.28125 L 219.773438 621.765625 Z M 219.773438 664.542969 "/><path class="r" d="M 319.835938 618.375 C 319.835938 616.179688 319.050781 614.199219 317.480469 612.441406 C 314.78125 609.488281 311.105469 608.011719 306.457031 608.011719 C 303.753906 608.011719 301.210938 608.640625 298.824219 609.894531 C 294.992188 611.90625 293.078125 614.734375 293.078125 618.375 C 293.078125 619.003906 293.234375 619.664062 293.546875 620.355469 C 294.617188 622.425781 298.164062 624.625 304.195312 626.949219 C 311.667969 629.902344 316.160156 631.722656 317.667969 632.414062 C 325.269531 636.246094 329.070312 640.988281 329.070312 646.640625 C 329.007812 650.664062 327.308594 654.367188 323.984375 657.761719 C 319.394531 662.28125 313.554688 664.542969 306.457031 664.542969 C 300.300781 664.542969 294.992188 662.816406 290.535156 659.363281 C 286.074219 655.78125 283.84375 651.542969 283.84375 646.640625 L 291.382812 646.640625 C 291.441406 648.84375 292.386719 650.851562 294.207031 652.671875 C 297.285156 655.5625 301.367188 657.007812 306.457031 657.007812 C 309.660156 657.007812 312.644531 656.316406 315.40625 654.933594 C 319.488281 652.863281 321.53125 650.097656 321.53125 646.640625 C 321.53125 645.953125 321.34375 645.261719 320.96875 644.570312 C 319.898438 642.433594 316.316406 640.171875 310.226562 637.785156 C 302.8125 634.898438 298.382812 633.105469 296.941406 632.414062 C 289.339844 628.644531 285.539062 623.96875 285.539062 618.375 C 285.539062 614.292969 287.046875 610.585938 290.0625 607.257812 C 294.207031 602.734375 299.671875 600.472656 306.457031 600.472656 C 311.859375 600.472656 316.570312 602.042969 320.589844 605.183594 C 325.113281 608.765625 327.375 613.164062 327.375 618.375 Z M 319.835938 618.375 "/><path class="t" d="M 379.949219 600.472656 L 383.71875 600.472656 L 383.71875 608.011719 L 363.085938 608.011719 L 363.085938 664.542969 L 355.546875 664.542969 L 355.546875 608.011719 L 334.722656 608.011719 L 334.722656 600.472656 Z M 379.949219 600.472656 "/><path class="t" d="M 440.25 600.472656 L 440.25 608.011719 L 402.5625 608.011719 L 402.5625 628.738281 L 430.074219 628.738281 L 430.074219 636.277344 L 402.5625 636.277344 L 402.5625 657.007812 L 440.25 657.007812 L 440.25 664.542969 L 395.023438 664.542969 L 395.023438 600.472656 Z M 440.25 600.472656 "/><path class="t" d="M 488.210938 602.074219 L 489.339844 600.472656 L 498.574219 600.472656 L 494.429688 606.410156 L 476.90625 631.285156 L 496.125 658.609375 L 500.273438 664.542969 L 491.039062 664.542969 L 489.90625 662.941406 L 472.289062 637.878906 L 454.667969 662.941406 L 453.535156 664.542969 L 444.304688 664.542969 L 448.449219 658.609375 L 467.671875 631.285156 L 450.144531 606.410156 L 446 600.472656 L 455.234375 600.472656 L 456.363281 602.074219 L 472.289062 624.6875 Z M 488.210938 602.074219 "/></svg></a>
     <nav class="dnav" aria-label="Principal">
       <a href="#catalogo" data-view="cat">Catálogo</a>
+      <a href="#merchandising" data-view="merch">Merchandising</a>
       <a href="#quienes">Quiénes somos</a>
       <a href="#hacemos">Qué hacemos</a>
       <a href="#proceso">Cómo trabajamos</a>
-      <a href="#trabajos">Trabajos</a>
+      <a href="#casos">Casos de éxito</a>
       <a class="btn" href="#contacto">Pide presupuesto</a>
     </nav>
     <button class="menubtn" id="menubtn" type="button" aria-expanded="false" aria-controls="menu">
@@ -408,10 +411,11 @@ img.pack{object-fit:contain!important;padding:6%}
 <div class="menu" id="menu" hidden>
   <a class="mi" href="#inicio">Inicio</a>
   <a class="mi" href="#catalogo">Catálogo</a>
+  <a class="mi" href="#merchandising">Merchandising</a>
   <a class="mi" href="#quienes">Quiénes somos</a>
   <a class="mi" href="#hacemos">Qué hacemos</a>
   <a class="mi" href="#proceso">Cómo trabajamos</a>
-  <a class="mi" href="#trabajos">Trabajos</a>
+  <a class="mi" href="#casos">Casos de éxito</a>
   <a class="mi" href="#contacto">Contacto</a>
   <div class="mcta">
     <a class="btn" href="https://wa.me/34682368645" target="_blank" rel="noopener">WhatsApp</a>
@@ -462,7 +466,7 @@ img.pack{object-fit:contain!important;padding:6%}
       <div class="services">
         <div class="svc"><h3>Ropa para empresas y equipos</h3><p>Uniformes, polos, sudaderas y camisetas con tu logo bordado o estampado, con tallas y colores a elegir.</p></div>
         <div class="svc"><h3>Eventos y celebraciones</h3><p>Camisetas para ferias, fiestas, torneos, despedidas de soltero y cualquier grupo que quiera ir a juego.</p></div>
-        <div class="svc"><h3>Merchandising</h3><p>Libretas, bolígrafos, mecheros y todo lo que se te ocurra para regalar a clientes o vender en tu marca.</p></div>
+        <div class="svc"><h3>Merchandising</h3><p>Tazas, botellas, bolígrafos, libretas, tecnología y todo lo que se te ocurra para regalar a clientes o vender en tu marca.</p><a class="svclink" href="#merchandising">Ver merchandising</a></div>
         <div class="svc"><h3>Marcas y proyectos propios</h3><p>Producimos tu colección o tu primera tirada. Te ayudamos a pasar de la idea a la prenda terminada.</p></div>
       </div>
     </div>
@@ -498,12 +502,12 @@ img.pack{object-fit:contain!important;padding:6%}
     </div>
   </section>
 
-  <section id="trabajos" style="padding-top:0">
+  <section id="casos" style="padding-top:0">
     <div class="wrap">
       <div class="shead">
         <div>
-          <h2>Trabajos recientes</h2>
-          <p class="lead">Algunos de los encargos que hemos producido.</p>
+          <h2>Casos de éxito</h2>
+          <p class="lead">Proyectos que hemos hecho realidad para empresas, eventos y marcas.</p>
         </div>
       </div>
       <div class="gallery">
@@ -543,7 +547,7 @@ img.pack{object-fit:contain!important;padding:6%}
 <!-- =============== CATÁLOGO =============== -->
 <div id="view-cat" hidden>
   <div class="wrap cat">
-    <h1>Elige tu prenda</h1>
+    <h1 id="cattitle">Elige tu prenda</h1>
     <p class="sub" id="catsub">Prendas y productos listos para personalizar con tu logo. Filtra por tipo, color, gramaje o uso, añade lo que te interese a tu presupuesto y te respondemos con el diseño y el precio.</p>
     <div class="bar">
       <input class="search" id="q" type="search" placeholder="Busca por nombre o referencia: sudadera, gorra, K330…" aria-label="Buscar en el catálogo" autocomplete="off">
@@ -591,6 +595,7 @@ img.pack{object-fit:contain!important;padding:6%}
     </div>
     <div class="flinks">
       <a href="#catalogo">Catálogo</a>
+      <a href="#merchandising">Merchandising</a>
       <a href="https://wa.me/34682368645" target="_blank" rel="noopener">WhatsApp</a>
       <a href="mailto:info@ramstex.com">info@ramstex.com</a>
       <a class="ig" href="https://www.instagram.com/rams_tex/" target="_blank" rel="noopener">Instagram</a>
@@ -682,14 +687,15 @@ function prep(){
       it.f.indexOf("e")>=0?"ecologica organica reciclada sostenible":"",it.f.indexOf("h")>=0?"capucha":"",it.f.indexOf("l")>=0?"sin etiqueta":"",
       it.u.map(function(u){return D.world[u];}).join(" ")].join(" "));
   });
-  $("catsub").textContent="Más de "+fmt(Math.floor(ITEMS.length/100)*100)+" prendas y productos listos para personalizar con tu logo. Filtra por tipo, color, gramaje o uso, añade lo que te interese a tu presupuesto y te respondemos con el diseño y el precio.";
 }
 function parseQ(){
   QT=norm(S.q).split(/[^a-z0-9ñ]+/).filter(function(w){return w&&!STOP[w];}).map(function(w){
     var v=[stemW(w)]; (SYN[w]||SYN[stemW(w)]||[]).forEach(function(x){v.push(x);}); return v;
   });
 }
+var SEC="cat"; function isM(c){return c.indexOf("m-")===0;} function BASE(){return SEC==="merch"?"#merchandising":"#catalogo";}
 function match(it,skip){
+  if(isM(it.c)!==(SEC==="merch")) return false;
   if(skip!=="c"&&S.c&&it.c!==S.c) return false;
   if(skip!=="s"&&S.s.length&&S.s.indexOf(String(it.s))<0) return false;
   if(skip!=="g"&&S.g.length&&!S.g.some(function(g){return it.g.indexOf(g)>=0||((g==="H"||g==="M")&&it.g.indexOf("U")>=0);})) return false;
@@ -711,7 +717,7 @@ function toHash(){
   var p=new URLSearchParams(); if(S.c)p.set("c",S.c);
   KEYS.forEach(function(k){if(S[k].length)p.set(k,S[k].join("."));});
   if(S.q)p.set("q",S.q); if(S.o!=="rec")p.set("o",S.o);
-  var s=p.toString(), h="#catalogo"+(s?"?"+s:"");
+  var s=p.toString(), h=BASE()+(s?"?"+s:"");
   if(location.hash!==h) history.replaceState(null,"",h);
   lastCat=h;
 }
@@ -766,6 +772,7 @@ function renderCats(){
   Object.keys(cc).forEach(function(k){total+=cc[k];});
   var h='<button type="button" class="chip" data-c="" aria-pressed="'+(!S.c)+'">Todas las categorías</button>';
   D.cats.forEach(function(c){
+    if(isM(c[0])!==(SEC==="merch")) return;
     if(!cc[c[0]]&&S.c!==c[0]) return;
     h+='<button type="button" class="chip" data-c="'+c[0]+'" aria-pressed="'+(S.c===c[0])+'">'+esc(c[1])+'<small>'+fmt(cc[c[0]]||0)+'</small></button>';
   });
@@ -807,20 +814,30 @@ function isLanding(){return !S.c&&!QT.length&&!KEYS.some(function(k){return S[k]
 function renderLanding(){
   var h="";
   D.cats.forEach(function(c){
+    if(isM(c[0])!==(SEC==="merch")) return;
     var kw=TILEKW[c[0]], pick=null;
     if(TILEPIC[c[0]]) pick=ITEMS.filter(function(x){return x.r===TILEPIC[c[0]];})[0]||null;
-    for(var i=0;i<ITEMS.length&&!pick;i++){var it=ITEMS[i];if(it.c!==c[0]||it.i.indexOf("pictures/")!==0)continue;if(!pick)pick=it;if(!kw||norm(it.n).indexOf(kw)===0){pick=it;break;}}
-    h+='<a class="tile" href="#catalogo?c='+c[0]+'" data-c="'+c[0]+'"><div class="ph"><img alt="" loading="lazy" decoding="async" data-st="'+(pick?pick.i:"")+'"></div><b>'+esc(c[1])+'</b><span>'+fmt(c[2])+' productos</span></a>';
+    for(var i=0;i<ITEMS.length&&!pick;i++){var it=ITEMS[i];if(it.c!==c[0]||(!isM(it.c)&&it.i.indexOf("pictures/")!==0))continue;if(!pick)pick=it;if(!kw||norm(it.n).indexOf(kw)===0){pick=it;break;}}
+    h+='<a class="tile" href="'+BASE()+'?c='+c[0]+'" data-c="'+c[0]+'"><div class="ph"><img alt="" loading="lazy" decoding="async" data-st="'+(pick?pick.i:"")+'"></div><b>'+esc(c[1])+'</b><span>'+fmt(c[2])+' productos</span></a>';
   });
-  $("landing").innerHTML=h;
+  $("landing").innerHTML=h; $("landing").dataset.sec=SEC;
   [].forEach.call($("landing").querySelectorAll("img"),function(img){if(img.dataset.st)setSrc(img,img.dataset.st,600);});
+}
+function secTexts(){
+  var n=ITEMS.filter(function(it){return isM(it.c)===(SEC==="merch");}).length, r=fmt(Math.floor(n/100)*100);
+  $("cattitle").textContent=SEC==="merch"?"Merchandising":"Elige tu prenda";
+  $("catsub").textContent=SEC==="merch"
+    ?"Más de "+r+" artículos promocionales para personalizar con tu logo: tazas, botellas, bolígrafos, libretas, tecnología, bolsas y mucho más. Añade lo que te interese a tu presupuesto y te respondemos con el diseño y el precio."
+    :"Más de "+r+" prendas y productos listos para personalizar con tu logo. Filtra por tipo, color, gramaje o uso, añade lo que te interese a tu presupuesto y te respondemos con el diseño y el precio.";
+  $("q").placeholder=SEC==="merch"?"Busca por nombre o referencia: taza, bolígrafo, power bank…":"Busca por nombre o referencia: sudadera, gorra, K330…";
 }
 function renderCat(keepShown){
   if(!D) return;
+  secTexts();
   if(!keepShown) SHOWN=24;
   toHash(); renderCats();
   var land=isLanding(); $("landing").hidden=!land; $("catlay").hidden=land;
-  if(land){ if(!$("landing").firstChild) renderLanding(); return; }
+  if(land){ if($("landing").dataset.sec!==SEC) renderLanding(); return; }
   renderFacets(); renderPills();
   LIST=sorted(ITEMS.filter(function(it){return match(it);}));
   $("count").innerHTML="<b>"+fmt(LIST.length)+"</b> "+(LIST.length===1?"producto":"productos");
@@ -900,7 +917,7 @@ function renderProduct(it){
     if(it.f.indexOf("l")>=0)badges.push("Sin etiqueta: lista para tu marca");
     (f.cert||[]).forEach(function(c){badges.push(c);});
     if(it.f.indexOf("x")>=0)badges.push("Tallas grandes");
-    var specs=[["Referencia",it.r+((it.v||[]).length?" (también "+it.v.join(", ")+")":"")],["Composición",f.comp],["Gramaje",f.peso],["Corte",f.fit],["Acabado",f.fin],["Cuello",f.neck],["Bolsillos",f.pk],["Impermeable",f.wp],["Colores",it.k.length+" disponibles"],["Personalización","Estampado, bordado, serigrafía o DTF"]].filter(function(s){return s[1];});
+    var specs=[["Referencia",it.r+((it.v||[]).length?" (también "+it.v.join(", ")+")":"")],["Composición",f.comp],["Gramaje",f.peso],["Corte",f.fit],["Acabado",f.fin],["Cuello",f.neck],["Bolsillos",f.pk],["Impermeable",f.wp],["Colores",it.k.length+" disponibles"],["Personalización",isM(it.c)?"Impresión o grabado con tu logo (según el artículo)":"Estampado, bordado, serigrafía o DTF"]].filter(function(s){return s[1];});
     var wa="https://wa.me/34682368645?text="+encodeURIComponent("Hola, me interesa este producto del catálogo: "+it.n+" (ref. "+it.r+")");
     box.innerHTML='<a class="back" href="'+(lastCat||"#catalogo")+'">Volver al catálogo</a>'+
      '<div class="pd"><div class="pgal"><div class="big"><img alt="'+esc(it.n)+'"></div><div class="thumbs"></div></div>'+
@@ -974,10 +991,12 @@ function route(){
   var h=location.hash||"";
   document.querySelectorAll(".dnav a[data-view]").forEach(function(a){a.removeAttribute("aria-current");});
   if(inCat) catScroll=window.scrollY;
-  if(h.indexOf("#catalogo")===0){
+  if(h.indexOf("#catalogo")===0||h.indexOf("#merchandising")===0){
     var back=(h===lastCat&&D);
+    var nsec=h.indexOf("#merchandising")===0?"merch":"cat";
+    if(nsec!==SEC){SEC=nsec;back=false;}
     VH.hidden=true;VP.hidden=true;VC.hidden=false;inCat=true;
-    document.querySelector('.dnav a[data-view="cat"]').setAttribute("aria-current","page");
+    var nav=document.querySelector('.dnav a[data-view="'+SEC+'"]'); if(nav) nav.setAttribute("aria-current","page");
     fromHash(h);
     ensureData(function(){renderCat(back); window.scrollTo(0,back?catScroll:0);});
     if(!back) window.scrollTo(0,0);
@@ -986,7 +1005,7 @@ function route(){
     var ref=decodeURIComponent(h.slice(10));
     ensureData(function(){
       var it=ITEMS.filter(function(x){return x.r===ref;})[0];
-      if(it) renderProduct(it); else $("prod").innerHTML='<a class="back" href="#catalogo">Volver al catálogo</a><p>Este producto ya no está disponible.</p>';
+      if(it){SEC=isM(it.c)?"merch":"cat"; renderProduct(it);} else $("prod").innerHTML='<a class="back" href="#catalogo">Volver al catálogo</a><p>Este producto ya no está disponible.</p>';
     });
   } else {
     inCat=false;

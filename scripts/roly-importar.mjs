@@ -51,8 +51,24 @@ const FAM = {
   "GORROS": ["Headwear & Accesorios", "Gorros"], "GORRAS": ["Headwear & Accesorios", "Gorras"], "PAÑUELOS": ["Ropa Accesorios", "Pañuelos"],
 };
 // Subfamilias más precisas según la ropa (alta visibilidad, pantalones dentro de chándal, etc.)
+// Stamina (merchandising) va a su propio apartado de la web, con estas categorías
+const MERCH = [
+  ["m-tec", /\b(technology|sound|chargers|usb_|tech_accessories|technology_multifunc)/],
+  ["m-esc", /\b(writing_office|writing|notebooks|diaries_calendars|office_accessories|ball_pens|pencils)\b/],
+  ["m-taz", /\b(eating_drinkware|bottles_thermos_flas|mugs|take_away)\b/],
+  ["m-bol", /\b(bags_travel|bags|bags_travel_backpack|trolley|travel_accessories|cooler_bags)\b/],
+  ["m-eve", /\b(party|conferences_fairs|cheering|hats_bands|trophies)\b/],
+  ["m-ver", /\b(summer|beach_items|sunglasses|bags_coolers)\b/],
+  ["m-inv", /\b(winter|rain|cold)\b/],
+  ["m-dep", /\b(sport_selfcare|selfcare|sport_leisure|cosmetic|travel_caps)\b/],
+  ["m-nav", /\b(christmas)\b/],
+  ["m-out", /\b(outdoor|tools_pets|tools|car_accessories|pets_accessories)\b/],
+  ["m-hog", /\b(home_gifts|kitchen|keyrings|decoration_games)\b/],
+];
+const merchOf = ids => (MERCH.find(m => m[1].test(ids)) || ["m-hog"])[0];
 function famOf(it) {
   const f = (it.family || "").trim(), n = (it.itemname || "").toUpperCase();
+  if (it._brand === "stamina") return ["Merchandising", f ? f.charAt(0) + f.slice(1).toLowerCase().replace(/\bbluetooth\b/, "Bluetooth").replace(/\busb\b/, "USB") : "Varios"];
   if (f === "ALTA VISIBILIDAD" || f === "IGNÍFUGOS" || f === "CHANDALS" || f === "CONJUNTOS DEPORTIVOS") {
     if (/^CAMISETA/.test(n)) return ["Ropa", "Camisetas"];
     if (/^POLO/.test(n)) return ["Ropa", "Polos"];
@@ -110,8 +126,10 @@ for (const [code, rows] of byModel) {
   if (hv) name += " alta visibilidad";
   name = name.charAt(0).toUpperCase() + name.slice(1);
   const kids = rows.some(r => r.isforchildren === "True");
+  const isMerch = a._brand === "stamina";
   const gen = [];
-  if (sub === "Bodys") gen.push("Bebes");
+  if (isMerch) {}
+  else if (sub === "Bodys") gen.push("Bebes");
   else {
     const g = a.gender;
     if (g === "Hombre" || g === "Mujer" || g === "Unisex") gen.push(g);
@@ -128,7 +146,7 @@ for (const [code, rows] of byModel) {
       img: views[0] || r.productimage || "", new: r.isnovelty === "True" ? 1 : 0,
     });
   }
-  const sizes = [...new Map(rows.slice().sort((x, y) => (x.sizecode || "").localeCompare(y.sizecode || "")).map(r => [r.sizename, 1])).keys()];
+  const sizes = isMerch ? [] : [...new Map(rows.slice().sort((x, y) => (x.sizecode || "").localeCompare(y.sizecode || "")).map(r => [r.sizename, 1])).keys()];
   const modelImgs = listOf(m.images).filter(u => /\/model\//.test(u));
   const mainImg = a.modelimage || modelImgs[0] || [...colors.values()][0]?.img;
   const imgs = [...new Set([mainImg, ...modelImgs].filter(Boolean))].slice(0, 6);
@@ -142,7 +160,8 @@ for (const [code, rows] of byModel) {
     world: worldOf(ids), act: [], nolabel: /etiqueta (removible|desprendible|arrancable)|sin etiqueta|tear.?away/i.test(a.observations + desc) ? 1 : 0,
     oeko: 0, rec: /reciclad/i.test(comp + desc) ? 1 : 0, big: sizes.some(s => /^[4-9]XL$/.test(s)) ? 1 : 0,
     hood: /capucha/i.test(desc + name) ? 1 : 0, cert: [], finish: "", neck: "", pockets: "", waterproof: /impermeable/i.test(desc) ? "Sí" : "",
-    created: rows.some(r => r.isnovelty === "True") ? "2026" : "", source: "roly", alt: [a.modelid].filter(Boolean),
+    created: rows.some(r => r.isnovelty === "True") ? "2026" : "", source: a._brand, alt: [a.modelid].filter(Boolean),
+    ...(isMerch ? { merch: merchOf(ids), world: [] } : {}),
   });
 }
 mkdirSync("data", { recursive: true });

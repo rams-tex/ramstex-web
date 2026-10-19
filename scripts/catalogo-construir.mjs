@@ -23,7 +23,12 @@ const CATS = [
   ["interior", "Ropa interior y calcetines", (f) => f === "Ropa interior"],
   ["hogar", "Hogar", (f) => f === "Línea de hogar"],
   ["complementos", "Complementos", (f) => /^(Ropa Accesorios|Accesorios|Equipamientos deportivos)$/.test(f)],
-  ["otros", "Más ropa", () => true],
+  ["otros", "Más ropa", (f) => f !== "Merchandising"],
+  // Apartado de Merchandising (Stamina): la categoría viene ya decidida en p.merch
+  ["m-tec", "Tecnología", null], ["m-esc", "Escritura y oficina", null], ["m-taz", "Tazas, botellas y menaje", null],
+  ["m-bol", "Bolsas, mochilas y viaje", null], ["m-eve", "Ferias, fiestas y eventos", null], ["m-ver", "Verano y playa", null],
+  ["m-inv", "Invierno y lluvia", null], ["m-dep", "Deporte y cuidado personal", null], ["m-hog", "Hogar y regalos", null],
+  ["m-out", "Herramientas, coche y outdoor", null], ["m-nav", "Navidad", null],
 ];
 // Nombres de subfamilia más claros
 const SUBFIX = {
@@ -113,7 +118,8 @@ for (const p of src) {
   const main = p.img?.[0] || colors[0]?.img;
   if (!main) continue; // sin ninguna foto no se publica
   seen.add(p.ref);
-  const cat = CATS.find(c => c[2](p.fam, p.sub));
+  const cat = p.merch ? CATS.find(c => c[0] === p.merch) : CATS.find(c => c[2] && c[2](p.fam, p.sub));
+  if (!cat) continue;
   const sub = SUBFIX[p.sub] || p.sub || cat[1];
   const flags = [
     p.org || p.rec ? "e" : "", p.nolabel ? "l" : "", p.big ? "x" : "", p.oeko ? "k" : "",
@@ -175,7 +181,7 @@ items.sort((a, b) => catOrder[a.c] - catOrder[b.c] || a.o - b.o || b.k.length - 
 
 const counts = {};
 for (const it of items) counts[it.c] = (counts[it.c] || 0) + 1;
-const cats = CATS.filter(c => counts[c[0]]).map(c => [c[0], c[1], counts[c[0]]]);
+const cats = CATS.filter(c => counts[c[0]]).map(c => [c[0], c[1], counts[c[0]], c[0].startsWith("m-") ? 1 : 0]);
 
 writeFileSync("data/catalogo.json", JSON.stringify({ updated: new Date().toISOString().slice(0, 10), cats, subs: SUBS, world: WORLD, doms: DOMS, items }));
 rmSync("data/fichas", { recursive: true, force: true });
