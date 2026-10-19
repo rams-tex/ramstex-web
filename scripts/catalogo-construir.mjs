@@ -120,6 +120,15 @@ for (const p of src) {
   seen.add(p.ref);
   const cat = p.merch ? CATS.find(c => c[0] === p.merch) : CATS.find(c => c[2] && c[2](p.fam, p.sub));
   if (!cat) continue;
+  if (p.merch) {
+    // Stamina pone el color al final del nombre ("Mochila Dronte negro"): se quita
+    for (const c of p.colors || []) { const cn = nrm(c.n); if (cn && nrm(p.name).endsWith(" " + cn)) { p.name = p.name.slice(0, p.name.length - c.n.length).trim(); break; } }
+    p.name = p.name.replace(/\s+(natural|negro|blanco|plata|transparente|surtido|multicolor|azul|rojo|verde|gris|dorado|marrón|marron)$/i, "");
+    p.sub = ({ "Christmas": "Navidad", "Premium & tools": "Herramientas", "Packaging especiales": "Packaging", "Summer": "Verano", "Colegiales": "Infantil" })[p.sub] || p.sub;
+    const FIX = { baterias: "baterías", informatica: "informática", termicas: "térmicas", articulos: "artículos", "accesorios coctels": "coctelería", boton: "botón", camping: "camping" };
+    p.sub = String(p.sub || "").replace(/[a-záéíóúñ ]+/gi, w => FIX[w.toLowerCase()] ? (w[0] === w[0].toUpperCase() ? FIX[w.toLowerCase()].charAt(0).toUpperCase() + FIX[w.toLowerCase()].slice(1) : FIX[w.toLowerCase()]) : w)
+      .split(" ").map(w => FIX[w.toLowerCase()] ? (w[0] === w[0].toUpperCase() ? FIX[w.toLowerCase()].charAt(0).toUpperCase() + FIX[w.toLowerCase()].slice(1) : FIX[w.toLowerCase()]) : w).join(" ");
+  }
   const sub = SUBFIX[p.sub] || p.sub || cat[1];
   const flags = [
     p.org || p.rec ? "e" : "", p.nolabel ? "l" : "", p.big ? "x" : "", p.oeko ? "k" : "",
