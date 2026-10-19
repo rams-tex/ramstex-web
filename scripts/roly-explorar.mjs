@@ -31,10 +31,17 @@ async function call(path, opts = {}) {
   return { status: r.status, data: j };
 }
 
-const login = await call("/api/v1.1/login", {
-  method: "POST", headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ username: user, password: pass }),
-});
+let login;
+for (const [path, body] of [
+  ["/api/v1.1/login", { username: user, password: pass }],
+  ["/api/v1/login", { username: user, password: pass }],
+  ["/api/v1.1/login", { email: user, password: pass }],
+  ["/api/v1/login", { email: user, password: pass }],
+]) {
+  login = await call(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  log("Intento", path, Object.keys(body)[0], "->", login.status, typeof login.data === "object" ? JSON.stringify(shape(login.data)).slice(0, 160) : String(login.data).slice(0, 160));
+  if (login.status === 200) break;
+}
 log("Login:", login.status, typeof login.data, typeof login.data === "object" && login.data ? Object.keys(login.data).join(",") : "");
 const token = typeof login.data === "string" ? login.data
   : (login.data?.token || login.data?.access_token || login.data?.accessToken || login.data?.Token);
