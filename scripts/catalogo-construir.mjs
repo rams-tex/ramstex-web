@@ -48,7 +48,7 @@ const USO = [
 ];
 const usoOf = list => [...new Set((list || []).map(w => (USO.find(u => u[1].test(w)) || [])[0]).filter(Boolean))];
 // Orden recomendado: primero la gama principal (Kariban), adultos antes que infantil
-const brandRank = b => /^(Kariban|Kariban Premium|Native Spirit)$/i.test(b || "") ? 0 : /^(Kimood|K-up|PROACT|WK|Roly)/i.test(b || "") ? 1 : 2;
+const brandRank = b => /^(Kariban|Kariban Premium|Native Spirit)$/i.test(b || "") ? 0 : /^(Kimood|K-up|PROACT|WK|Roly|Stamina)/i.test(b || "") ? 1 : 2;
 const genRank = g => { g = g || []; if (g.includes("Unisex")) return 0; if (g.includes("Hombre")) return 1; if (g.includes("Mujer")) return 2; return 3; };
 // Manga, cuello y corte (fit): del dato del proveedor o, si falta, del nombre y la descripción
 const nrm = t => String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");

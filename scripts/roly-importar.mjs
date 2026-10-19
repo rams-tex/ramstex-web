@@ -16,10 +16,20 @@ async function call(path, opts = {}) {
 }
 const login = await call("/api/v1.1/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ username: USER, password: PASS }) });
 const H = { headers: { Authorization: "Bearer " + login.token } };
-const cat = await call("/api/v1.1/item/getcatalog?lang=es-ES&brand=roly", H);
-const mod = await call("/api/v1/model/get?lang=es-ES&brand=roly", H);
-const items = cat.item || [];
-const models = Object.fromEntries((mod.models || []).map(m => [m.modelcode, m]));
+// Marcas del grupo (Roly y Stamina). Si una marca no responde, se sigue con las demás.
+const BRANDS = ["roly", "stamina"];
+const items = [], models = {}, brandLog = [];
+for (const b of BRANDS) {
+  try {
+    const cat = await call(`/api/v1.1/item/getcatalog?lang=es-ES&brand=${b}`, H);
+    const mod = await call(`/api/v1/model/get?lang=es-ES&brand=${b}`, H);
+    const its = (cat.item || []).map(i => ({ ...i, _brand: b }));
+    items.push(...its);
+    for (const m of mod.models || []) models[m.modelcode] = m;
+    brandLog.push(`${b}: ${new Set(its.map(i => i.modelcode)).size} modelos`);
+  } catch (e) { brandLog.push(`${b}: sin datos (${e.message})`); }
+}
+console.log(brandLog.join(" | "));
 
 // Familia de Roly -> familia/subfamilia equivalentes a las de TopTex (así entran en las mismas categorías de la web)
 const FAM = {
@@ -128,7 +138,7 @@ for (const [code, rows] of byModel) {
   products.push({
     ref: code, name, fam, sub, gen, comp, peso: g ? g[1] + " g/m²" : "", desc, args: obs.slice(0, 4),
     org: /rolyeco/.test(ids) ? 1 : 0, img: imgs, colors: [...colors.values()], sizes,
-    brand: "Roly", style: "", fit: /oversize/i.test(desc + name) ? "Oversize" : /entallad|ajustad|slim/i.test(desc) ? "Entallado" : "",
+    brand: a._brand === "stamina" ? "Stamina" : "Roly", style: "", fit: /oversize/i.test(desc + name) ? "Oversize" : /entallad|ajustad|slim/i.test(desc) ? "Entallado" : "",
     world: worldOf(ids), act: [], nolabel: /etiqueta (removible|desprendible|arrancable)|sin etiqueta|tear.?away/i.test(a.observations + desc) ? 1 : 0,
     oeko: 0, rec: /reciclad/i.test(comp + desc) ? 1 : 0, big: sizes.some(s => /^[4-9]XL$/.test(s)) ? 1 : 0,
     hood: /capucha/i.test(desc + name) ? 1 : 0, cert: [], finish: "", neck: "", pockets: "", waterproof: /impermeable/i.test(desc) ? "Sí" : "",
@@ -139,6 +149,6 @@ mkdirSync("data", { recursive: true });
 writeFileSync("data/roly.json", JSON.stringify(products));
 const fams = {};
 for (const p of products) fams[p.fam + " / " + p.sub] = (fams[p.fam + " / " + p.sub] || 0) + 1;
-const out = [`Roly: ${products.length} modelos (${items.length} referencias de color y talla)`, ...Object.entries(fams).sort((a, b) => b[1] - a[1]).map(x => "  " + x.join(": "))];
+const out = [brandLog.join(" | "), `Roly + Stamina: ${products.length} modelos (${items.length} referencias de color y talla)`, ...Object.entries(fams).sort((a, b) => b[1] - a[1]).map(x => "  " + x.join(": "))];
 writeFileSync("data/roly-resumen.txt", out.join("\n"));
 console.log(out.join("\n"));
