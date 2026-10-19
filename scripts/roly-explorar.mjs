@@ -42,6 +42,11 @@ for (const [path, body] of [
   log("Intento", path, Object.keys(body)[0], "->", login.status, typeof login.data === "object" ? JSON.stringify(shape(login.data)).slice(0, 160) : String(login.data).slice(0, 160));
   if (login.status === 200) break;
 }
+if (login.status !== 200) for (const path of ["/api/v1/login", "/api/v1.1/login"]) {
+  login = await call(path, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams({ username: user, password: pass }).toString() });
+  log("Intento (formulario)", path, "->", login.status, typeof login.data === "object" ? JSON.stringify(shape(login.data)).slice(0, 160) : String(login.data).slice(0, 160));
+  if (login.status === 200) break;
+}
 log("Login:", login.status, typeof login.data, typeof login.data === "object" && login.data ? Object.keys(login.data).join(",") : "");
 const token = typeof login.data === "string" ? login.data
   : (login.data?.token || login.data?.access_token || login.data?.accessToken || login.data?.Token);
