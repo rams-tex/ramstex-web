@@ -255,6 +255,8 @@ img.pack{object-fit:contain!important;padding:6%}
 .tile .ph{aspect-ratio:4/5;background:#fff;overflow:hidden}
 .tile img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .3s}
 .tile:hover img{transform:scale(1.03)}
+.tile.m .ph{background:#fff}
+.tile.m img{object-fit:contain;object-position:center;padding:10%}
 .tile b{display:block;font:700 1.12rem "Bricolage Grotesque",sans-serif;padding:14px 16px 2px}
 .tile span{display:block;color:var(--muted);font-size:.9rem;padding:0 16px 16px}
 @media (prefers-reduced-motion: reduce){.tile img{transition:none}}
@@ -819,7 +821,7 @@ function renderLanding(){
     var kw=TILEKW[c[0]], pick=null;
     if(TILEPIC[c[0]]) pick=ITEMS.filter(function(x){return x.r===TILEPIC[c[0]];})[0]||null;
     for(var i=0;i<ITEMS.length&&!pick;i++){var it=ITEMS[i];if(it.c!==c[0]||(!isM(it.c)&&it.i.indexOf("pictures/")!==0))continue;if(!pick)pick=it;if(!kw||norm(it.n).indexOf(kw)===0){pick=it;break;}}
-    h+='<a class="tile" href="'+BASE()+'?c='+c[0]+'" data-c="'+c[0]+'"><div class="ph"><img alt="" loading="lazy" decoding="async" data-st="'+(pick?pick.i:"")+'"></div><b>'+esc(c[1])+'</b><span>'+fmt(c[2])+' productos</span></a>';
+    h+='<a class="tile'+(isM(c[0])?" m":"")+'" href="'+BASE()+'?c='+c[0]+'" data-c="'+c[0]+'"><div class="ph"><img alt="" loading="lazy" decoding="async" data-st="'+(pick?pick.i:"")+'"></div><b>'+esc(c[1])+'</b><span>'+fmt(c[2])+' productos</span></a>';
   });
   $("landing").innerHTML=h; $("landing").dataset.sec=SEC;
   [].forEach.call($("landing").querySelectorAll("img"),function(img){if(img.dataset.st)setSrc(img,img.dataset.st,600);});
