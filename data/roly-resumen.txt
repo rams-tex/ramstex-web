@@ -1,0 +1,26 @@
+Roly: 401 modelos (17713 referencias de color y talla)
+  Ropa / Camisetas: 90
+  Ropa / Chaquetas: 85
+  Ropa / Pantalones: 63
+  Ropa / Polos: 33
+  Ropa / Sudaderas: 26
+  Calzado y accesorios / Calzado de Seguridad: 18
+  Ropa / Bermudas / Shorts: 15
+  Ropa / Camisas / Sobrecamisas: 10
+  Ropa / Delantales: 10
+  Ropa / Chalecos: 8
+  Calzado y accesorios / Zapatos Lifestyle / Ocio: 8
+  Ropa / Camisetas deportiva: 6
+  Equipaje / Bolsas: 4
+  Ropa / Jerseys / Cárdigans: 4
+  Ropa / Batas de trabajo: 3
+  Ropa / Bodys: 3
+  Headwear & Accesorios / Gorros: 3
+  Ropa / Monos: 2
+  Ropa / Bañadores: 2
+  Ropa interior / Calcetines: 2
+  Ropa interior / Ropas interior: 2
+  Ropa / Faldas: 1
+  Headwear & Accesorios / Gorras: 1
+  Ropa Accesorios / Pañuelos: 1
+  Ropa / Petos: 1

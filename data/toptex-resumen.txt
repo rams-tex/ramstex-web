@@ -1,5 +1,5 @@
 Productos activos: 2769 (de 2987)
-Descarga: intento 1: 200 | intento 2: 200 | intento 3: 200 | intento 4: 200 | intento 5: 200 | intento 6: 200 | archivo: 2987 productos
+Descarga: intento 1: 200 | intento 2: 200 | intento 3: 200 | intento 4: 200 | intento 5: 200 | archivo: 2987 productos
 
 Ropa: 1618
    - Camisetas: 264
