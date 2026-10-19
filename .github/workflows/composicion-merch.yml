@@ -1,0 +1,21 @@
+name: Crear imagen merchandising
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  crear:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save sharp@0.33.5
+      - run: node scripts/composicion-merch.mjs
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add merch-home.jpg merch-home-900.jpg
+          git diff --cached --quiet || git commit -m "Imagen de merchandising para la portada [skip netlify]"
+          git push
