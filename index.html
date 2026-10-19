@@ -133,6 +133,19 @@ h2{font-size:clamp(2rem,4.4vw,3.2rem);font-weight:700;max-width:18ch}
 .strip span{display:block;margin-top:10px;font-weight:600}
 @media (prefers-reduced-motion: reduce){.strip img{transition:none}}
 
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.duocard{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:24px;overflow:hidden;text-decoration:none;color:var(--text);transition:transform .25s,box-shadow .25s}
+.duocard:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.08)}
+.duoimg{aspect-ratio:4/3;background:#fff;overflow:hidden}
+.duoimg img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block}
+.merchgrid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:0}
+.merchgrid img{object-fit:contain;object-position:center;padding:10%;min-height:0}
+.duotxt{padding:24px 26px 28px;display:grid;gap:10px;justify-items:start}
+.duotxt h3{font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800}
+.duotxt p{margin:0;color:var(--muted)}
+.duotxt .btn{margin-top:6px}
+@media (prefers-reduced-motion: reduce){.duocard{transition:none}}
+@media (max-width:900px){.duo{grid-template-columns:1fr;gap:14px}.duocard{border-radius:18px}.duotxt{padding:18px 18px 22px}}
 /* ---------- Pasos ---------- */
 .steps{list-style:none;counter-reset:s;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .steps li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px}
@@ -479,16 +492,32 @@ img.pack{object-fit:contain!important;padding:6%}
     <div class="wrap">
       <div class="shead">
         <div>
-          <h2>Elige tu prenda</h2>
-          <p class="lead">Más de 2.700 prendas y productos listos para personalizar con tu logo: camisetas, sudaderas, polos, chaquetas, gorras, bolsas y mucho más.</p>
+          <h2>Elige tu producto</h2>
+          <p class="lead">Ropa o merchandising: todo listo para personalizar con tu logo.</p>
         </div>
-        <a class="btn" href="#catalogo">Ver catálogo</a>
       </div>
-      <div class="strip">
-        <a href="#catalogo?c=camisetas"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/NS315-13_2023.jpg?w=800" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.toptex.com/pictures/NS315-13_2023.jpg'"></div><span>Camisetas</span></a>
-        <a href="#catalogo?c=sudaderas"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/NS401-21_2027.jpg?w=800" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.toptex.com/pictures/NS401-21_2027.jpg'"></div><span>Sudaderas</span></a>
-        <a href="#catalogo?c=polos"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/K241-4_2025.jpg?w=800" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.toptex.com/pictures/K241-4_2025.jpg'"></div><span>Polos</span></a>
-        <a href="#catalogo?c=chaquetas"><div class="ph"><img src="https://cdn.europeancatalog.com/pictures/K422-8_2026.jpg?w=800" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.toptex.com/pictures/K422-8_2026.jpg'"></div><span>Chaquetas y chalecos</span></a>
+      <div class="duo">
+        <a class="duocard" href="#catalogo">
+          <div class="duoimg"><img src="https://cdn.europeancatalog.com/pictures/NS401-21_2027.jpg?w=1000" alt="Pareja con sudaderas con capucha" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.toptex.com/pictures/NS401-21_2027.jpg'"></div>
+          <div class="duotxt">
+            <h3>Textil</h3>
+            <p>Camisetas, sudaderas, polos, chaquetas, ropa de trabajo y mucho más. Miles de prendas en todos los colores y tallas.</p>
+            <span class="btn">Ver catálogo</span>
+          </div>
+        </a>
+        <a class="duocard" href="#merchandising">
+          <div class="duoimg merchgrid">
+            <img src="https://static.gorfactory.es/images/models/1061/model/large/1061_60_1_1.jpg" alt="Altavoz" loading="lazy">
+            <img src="https://static.gorfactory.es/images/models/8073/model/large/8073_31_1_1.jpg" alt="Libreta con bolígrafo" loading="lazy">
+            <img src="https://static.gorfactory.es/images/models/4122/model/large/4122_281_1_1.jpg" alt="Botella térmica" loading="lazy">
+            <img src="https://static.gorfactory.es/images/models/7124/model/large/7124_03_1_1.jpg" alt="Mochila" loading="lazy">
+          </div>
+          <div class="duotxt">
+            <h3>Merchandising</h3>
+            <p>Tazas, botellas, bolígrafos, libretas, tecnología, bolsas y regalos de empresa para llevar tu marca a todas partes.</p>
+            <span class="btn">Ver merchandising</span>
+          </div>
+        </a>
       </div>
     </div>
   </div>
