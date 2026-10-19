@@ -907,7 +907,7 @@ $("fbtn").onclick=function(){side(true);}; $("sideclose").onclick=$("sideok").on
 /* ---------- Ficha de producto ---------- */
 function fichaOf(it,cb){
   if(FICHAS[it.c]) return cb(FICHAS[it.c][it.r]||{});
-  fetch("data/fichas/"+it.c+".json?v="+BUILD).then(function(r){return r.json();}).then(function(d){FICHAS[it.c]=d;cb(d[it.r]||{});}).catch(function(){cb({});});
+  fetch("data/fichas/"+it.c+".json?v="+BUILD,{cache:"no-cache"}).then(function(r){return r.json();}).then(function(d){FICHAS[it.c]=d;cb(d[it.r]||{});}).catch(function(){cb({});});
 }
 function renderProduct(it){
   var box=$("prod"); it.cur=-1;
@@ -981,7 +981,7 @@ function ensureData(cb){
   if(D) return cb();
   if(!loading){
     $("grid").innerHTML=new Array(7).join('<div class="skel"></div>');
-    loading=fetch("data/catalogo.json?v="+BUILD).then(function(r){return r.json();}).then(function(d){D=d;prep();});
+    loading=fetch("data/catalogo.json?v="+BUILD,{cache:"no-cache"}).then(function(r){return r.json();}).then(function(d){D=d;prep();});
   }
   loading.then(cb).catch(function(){$("grid").innerHTML='<p class="empty">No se ha podido cargar el catálogo. Vuelve a intentarlo en un momento.</p>';});
 }
