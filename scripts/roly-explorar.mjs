@@ -53,16 +53,21 @@ const token = typeof login.data === "string" ? login.data
 if (!token) { log("Sin token. Respuesta:", typeof login.data === "string" ? login.data.slice(0, 200) : JSON.stringify(shape(login.data))); process.exit(0); }
 const H = { headers: { Authorization: "Bearer " + token } };
 
-for (const brand of ["ROLY", "roly", "R", "1"]) {
-  const c = await call(`/api/v1/item/categories/tree?lang=es-ES&brand=${brand}`, H);
-  log(`\n== Categorías (brand=${brand}) -> ${c.status}`);
-  if (c.status === 200) { log(JSON.stringify(shape(c.data), null, 1).slice(0, 4000)); 
-    const cat = await call(`/api/v1.1/item/getcatalog?lang=es-ES&brand=${brand}`, H);
-    log(`\n== Catálogo (brand=${brand}) -> ${cat.status}`);
-    log(JSON.stringify(shape(cat.data), null, 1).slice(0, 8000));
-    const m = await call(`/api/v1/model/get?lang=es-ES&brand=${brand}`, H);
-    log(`\n== Modelos (brand=${brand}) -> ${m.status}`);
-    log(JSON.stringify(shape(m.data), null, 1).slice(0, 5000));
-    break;
-  } else log(JSON.stringify(c.data).slice(0, 300));
-}
+const brand = "roly";
+const cats = await call(`/api/v1/item/categories/tree?lang=es-ES&brand=${brand}`, H);
+const flat = []; const walk = (a, d) => (a || []).forEach(c => { flat.push("  ".repeat(d) + c.category + " [" + c.id + "] " + c.models); walk(c.subcategories, d + 1); });
+walk(cats.data, 0); log("== ÁRBOL DE CATEGORÍAS\n" + flat.join("\n"));
+const cat = await call(`/api/v1.1/item/getcatalog?lang=es-ES&brand=${brand}`, H);
+const items = cat.data.item || [];
+const cnt = (k) => { const m = {}; items.forEach(it => m[it[k]] = (m[it[k]] || 0) + 1); return Object.entries(m).sort((a, b) => b[1] - a[1]).slice(0, 60).map(x => x.join(": ")).join(" | "); };
+log("\n== items:", items.length, "modelos:", new Set(items.map(i => i.modelcode)).size);
+for (const k of ["family", "gender", "isforchildren", "isnovelty", "isoutlet", "sizename", "originalbrand"]) log(k, "=>", cnt(k));
+const sample = items.filter(i => /^CA6424|^CA6502|^SU1070/.test(i.modelcode));
+const one = items.find(i => i.family && /CAMISETA/i.test(i.family)) ;
+const mc = (sample[0] || one).modelcode;
+log("\n== EJEMPLO COMPLETO modelo", mc);
+items.filter(i => i.modelcode === mc).slice(0, 4).forEach(i => log(JSON.stringify(Object.fromEntries(Object.entries(i).filter(([k]) => !PRIV.test(k))))));
+log("\n== colores del modelo", mc, [...new Set(items.filter(i => i.modelcode === mc).map(i => i.colorcode + " " + i.colorname))].join(", "));
+const m = await call(`/api/v1/model/get?lang=es-ES&brand=${brand}`, H);
+log("\n== MODELO completo", JSON.stringify((m.data.models || []).find(x => x.modelcode === mc)));
+log("\n== nombres de modelos (muestra)", (m.data.models || []).slice(0, 60).map(x => x.modelcode + " " + x.modelname + " · " + x.family + " · " + x.category.split(",")[0]).join("\n"));
