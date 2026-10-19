@@ -87,16 +87,18 @@ for (const [code, rows] of byModel) {
   const a = rows[0], m = models[code] || {};
   const [fam, sub] = famOf(a);
   // Nombre: "CAMISETA ATOMIC 150 T/XS BLANCO" -> "Camiseta Atomic 150"
-  const full = a.itemname.replace(/\s+T\/\S+.*$/, "").trim();
-  const mname = String(a.modelname || "").trim().toUpperCase();
-  const pos = mname ? full.toUpperCase().lastIndexOf(mname) : -1;
-  let type = (pos > 0 ? full.slice(0, pos) : full.split(" ")[0]).trim().toLowerCase();
-  const ACC = { pantalon: "pantalón", calcetin: "calcetín", algodon: "algodón", nautico: "náutico", termica: "térmica", termico: "térmico", tecnica: "técnica", tecnico: "técnico", chandal: "chándal", bañador: "bañador", camion: "camión", ignifugo: "ignífugo", ignifuga: "ignífuga" };
-  type = type.split(/\s+/).map(w => ACC[w] || w).join(" ")
+  const full = a.itemname.replace(/\s+T\/\S+.*$/, "").trim().replace(/\bM\/L\b/i, "MANGA LARGA").replace(/\bM\/C\b/i, "MANGA CORTA");
+  const MW = new Set(String(a.modelname || "").toUpperCase().replace(/\b(WOMAN|CHILD|KIDS?|L\/S|S\/S)\b/g, "").split(/\s+/).filter(Boolean));
+  const ACC = { pantalon: "pantalón", calcetin: "calcetín", algodon: "algodón", nautico: "náutico", termica: "térmica", termico: "térmico", tecnica: "técnica", tecnico: "técnico", chandal: "chándal", camion: "camión", ignifugo: "ignífugo", ignifuga: "ignífuga", futbol: "fútbol", woman: "mujer", child: "infantil", kids: "infantil", kid: "infantil" };
+  const TYPE = { PANTALONES: "Pantalón", CAMISETAS: "Camiseta", POLOS: "Polo", SUDADERAS: "Sudadera", CHAQUETAS: "Chaqueta", BERMUDAS: "Bermuda", LEGGINGS: "Leggings", CAMISAS: "Camisa", CHALECOS: "Chaleco", PARKAS: "Parka", SOFTSHELLS: "Softshell", POLARES: "Polar" };
+  let hv = false;
+  let words = full.split(/\s+/).filter(w => { if (/^AV$/i.test(w)) { hv = true; return false; } return true; });
+  if (words.length && MW.has(words[0].toUpperCase()) && TYPE[a.family]) words.unshift(TYPE[a.family]);
+  let name = words.map((w, k) => MW.has(w.toUpperCase()) ? cap(w) : (ACC[w.toLowerCase()] || w.toLowerCase())).join(" ")
     .replace(/^(camiseta|camisa|top) tirantes/, "$1 de tirantes").replace(/^(sudadera|chaqueta|parka|cortavientos) capucha/, "$1 con capucha")
-    .replace(/\bm\/l\b/, "manga larga").replace(/\bm\/c\b/, "manga corta");
-  let model = cap(mname || "").replace(/\bWoman\b/i, "mujer").replace(/\bChild\b/i, "infantil").replace(/\bKids?\b/i, "infantil").replace(/\bL\/s\b/i, "manga larga").replace(/\bS\/s\b/i, "").replace(/\s+/g, " ").trim();
-  let name = (type.charAt(0).toUpperCase() + type.slice(1) + (model && pos > 0 ? " " + model : "")).trim();
+    .replace(/\s+/g, " ").trim();
+  if (hv) name += " alta visibilidad";
+  name = name.charAt(0).toUpperCase() + name.slice(1);
   const kids = rows.some(r => r.isforchildren === "True");
   const gen = [];
   if (sub === "Bodys") gen.push("Bebes");
