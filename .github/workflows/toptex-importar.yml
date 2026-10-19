@@ -1,4 +1,4 @@
-name: Importar catálogo TopTex
+name: Importar catálogo
 on:
   workflow_dispatch:
   schedule:
@@ -18,6 +18,11 @@ jobs:
           TOPTEX_API_KEY: ${{ secrets.TOPTEX_API_KEY }}
           TOPTEX_USER: ${{ secrets.TOPTEX_USER }}
           TOPTEX_PASSWORD: ${{ secrets.TOPTEX_PASSWORD }}
+      - run: node scripts/roly-importar.mjs
+        continue-on-error: true
+        env:
+          ROLY_USER: ${{ secrets.ROLY_USER }}
+          ROLY_PASSWORD: ${{ secrets.ROLY_PASSWORD }}
       - run: npm install --no-save sharp@0.33.5
       - run: node scripts/fotos-huella.mjs
         continue-on-error: true
@@ -27,5 +32,5 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
           git add data
-          git diff --cached --quiet || git commit -m "Catálogo TopTex actualizado"
+          git diff --cached --quiet || git commit -m "Catálogo actualizado"
           git push

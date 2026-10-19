@@ -640,12 +640,15 @@ function fmt(n){return n.toLocaleString("es-ES");}
 
 /* Fotos: directamente del proveedor, en alta calidad */
 var IMG="https://cdn.europeancatalog.com/", IMG2="https://cdn.toptex.com/";
-function isPack(st){return st.indexOf("packshots/")===0;}
-function ext(st){return isPack(st)?".png":".jpg";}
+var IMGR="https://static.gorfactory.es/images/models/";
+function isR(st){return st.indexOf("R:")===0;}
+function isPack(st){return st.indexOf("packshots/")===0||(isR(st)&&st.indexOf("/views/")>0);}
+function ext(st){return isR(st)?".jpg":(isPack(st)?".png":".jpg");}
 function setSrc(img,st,w){
+  img.classList.toggle("pack",isPack(st));
+  if(isR(st)){img.onerror=null;img.src=IMGR+st.slice(2)+".jpg";return;}
   img.onerror=function(){img.onerror=null;img.src=IMG2+st+ext(st);};
   img.src=IMG+st+ext(st)+"?w="+(w||700);
-  img.classList.toggle("pack",isPack(st));
 }
 
 var GENL={H:"Hombre",M:"Mujer",U:"Unisex",N:"Niños",B:"Bebés"};

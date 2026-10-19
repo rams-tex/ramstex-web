@@ -5,6 +5,8 @@
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
 
 const src = JSON.parse(readFileSync("data/toptex.json", "utf8"));
+// Otros proveedores con el mismo formato (si existen)
+for (const f of ["data/roly.json"]) { try { src.push(...JSON.parse(readFileSync(f, "utf8"))); } catch (e) {} }
 
 // Categorías de la web (nombre propio de Ramstex) a partir de familia/subfamilia del proveedor
 const CATS = [
@@ -46,7 +48,7 @@ const USO = [
 ];
 const usoOf = list => [...new Set((list || []).map(w => (USO.find(u => u[1].test(w)) || [])[0]).filter(Boolean))];
 // Orden recomendado: primero la gama principal (Kariban), adultos antes que infantil
-const brandRank = b => /^(Kariban|Kariban Premium|Native Spirit)$/i.test(b || "") ? 0 : /^(Kimood|K-up|PROACT|WK)/i.test(b || "") ? 1 : 2;
+const brandRank = b => /^(Kariban|Kariban Premium|Native Spirit)$/i.test(b || "") ? 0 : /^(Kimood|K-up|PROACT|WK|Roly)/i.test(b || "") ? 1 : 2;
 const genRank = g => { g = g || []; if (g.includes("Unisex")) return 0; if (g.includes("Hombre")) return 1; if (g.includes("Mujer")) return 2; return 3; };
 // Manga, cuello y corte (fit): del dato del proveedor o, si falta, del nombre y la descripción
 const nrm = t => String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -96,7 +98,7 @@ const clean = t => {
   if (brandRe) s = s.replace(brandRe, "");
   return s.replace(/(?:\s+[A-Z0-9][\w-]*)*\s*\S*[™®]\S*/g, "").replace(/\s+([,.])/g, "$1").replace(/\s*\([\d-]+\)/g, "").replace(/["“”]/g, "").replace(/\s{2,}/g, " ").trim();
 };
-const stem = u => String(u || "").replace(/^https?:\/\/[^/]+\//, "").replace(/\.(jpg|png)$/i, "");
+const stem = u => { u = String(u || ""); if (/static\.gorfactory\.es\/images\/models\//.test(u)) return "R:" + u.replace(/^.*\/images\/models\//, "").replace(/\.(jpg|png)$/i, ""); return u.replace(/^https?:\/\/[^/]+\//, "").replace(/\.(jpg|png)$/i, ""); };
 const grams = t => { const m = String(t || "").match(/(\d+)/); return m ? +m[1] : 0; };
 
 const idx = arr => v => { let i = arr.indexOf(v); if (i < 0) { arr.push(v); i = arr.length - 1; } return i; };
@@ -118,7 +120,7 @@ for (const p of src) {
     colors.some(c => c.new) || (p.created && p.created >= "2026") ? "n" : "", p.hood ? "h" : "",
   ].join("");
   items.push({
-    r: p.ref, n: clean(p.name), c: cat[0], s: subI(sub),
+    r: p.ref, n: clean(p.name), c: cat[0], s: subI(sub), ...(p.alt?.length ? { v: p.alt } : {}),
     g: [...new Set((p.gen || []).map(g => GEN[g]).filter(Boolean))].join(""),
     w: grams(p.peso), f: flags, u: usoOf(p.world).map(worldI),
     st: clean(p.style), i: stem(main),
@@ -155,7 +157,7 @@ for (const p of src) {
     g.sort((a, b) => b.k.length - a.k.length || (/ORG$/.test(b.r) - /ORG$/.test(a.r)) || a.r.localeCompare(b.r));
     const main = g[0]; keep.add(main);
     if (g.length > 1) {
-      main.v = g.slice(1).map(x => x.r);
+      main.v = [...(main.v || []), ...g.slice(1).flatMap(x => [x.r, ...(x.v || [])])];
       main.n = main.n.replace(/\s+IC\b/, "");
       if (g.some(x => !/(ORG|IC)$/.test(x.r))) main.n = main.n.replace(/\s*-?\s*\d+\s*x\s*\d+\s*cm\b/i, "").replace(/\bde \d+ /i, "de ");
       main.n = main.n.replace(/\s{2,}/g, " ").trim();

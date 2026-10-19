@@ -5,18 +5,19 @@ import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import sharp from "sharp";
 
 const src = JSON.parse(readFileSync("data/toptex.json", "utf8"));
+for (const f of ["data/roly.json"]) { try { src.push(...JSON.parse(readFileSync(f, "utf8"))); } catch (e) {} }
 const old = existsSync("data/huellas.json") ? JSON.parse(readFileSync("data/huellas.json", "utf8")) : {};
 const out = {};
 const todo = [];
 for (const p of src) {
   const u = p.img?.[0] || p.colors?.find(c => c.img)?.img;
   if (!p.ref || !u) continue;
-  const stem = u.replace(/^https?:\/\/[^/]+\//, "");
+  const stem = /gorfactory/.test(u) ? "R:" + u.replace(/^.*\/images\/models\//, "") : u.replace(/^https?:\/\/[^/]+\//, "");
   if (old[p.ref] && old[p.ref].s === stem) { out[p.ref] = old[p.ref]; continue; }
   todo.push([p.ref, stem]);
 }
 async function hash(stem) {
-  const url = "https://cdn.europeancatalog.com/" + stem + "?w=120";
+  const url = /^R:/.test(stem) ? "https://static.gorfactory.es/images/models/" + stem.slice(2) : "https://cdn.europeancatalog.com/" + stem + "?w=120";
   for (let i = 0; i < 3; i++) {
     try {
       const r = await fetch(url);
