@@ -1,27 +1,131 @@
 roly: 409 modelos | stamina: 1597 modelos
-Roly + Stamina: 720 modelos (22893 referencias de color y talla)
-  Equipaje / Bolsas: 267
+Roly + Stamina: 1998 modelos (22893 referencias de color y talla)
+  Merchandising / Bolsas: 153
+  Merchandising / Mochilas: 110
+  Merchandising / Bolígrafos: 94
   Ropa / Camisetas: 90
-  Ropa / Chaquetas: 90
+  Ropa / Chaquetas: 85
+  Merchandising / Bidones: 77
+  Merchandising / Llaveros: 68
   Ropa / Pantalones: 63
+  Merchandising / Libretas: 56
+  Merchandising / Escritura: 52
+  Merchandising / Tazas: 52
+  Merchandising / Cargadores: 48
+  Merchandising / Tazas y vajilla: 46
+  Merchandising / Premium & tools: 46
+  Merchandising / Vasos: 38
   Ropa / Polos: 33
+  Merchandising / Neceseres: 33
+  Merchandising / Accesorios informatica: 32
+  Merchandising / Bolsas termicas: 32
+  Merchandising / Altavoces Bluetooth: 30
   Ropa / Sudaderas: 26
-  Headwear & Accesorios / Gorras: 25
-  Ropa / Delantales: 18
+  Merchandising / Baterias externas: 26
+  Merchandising / Gorras: 24
+  Merchandising / Salud y belleza: 23
+  Merchandising / Christmas: 23
+  Merchandising / Juegos: 21
+  Merchandising / Paraguas: 20
+  Merchandising / Accesorios de viaje: 19
   Calzado y accesorios / Calzado de Seguridad: 18
+  Merchandising / Lápices: 16
+  Merchandising / Lanyards: 16
   Ropa / Bermudas / Shorts: 15
-  Headwear & Accesorios / Gorros: 14
-  Calzado y accesorios / Zapatos Lifestyle / Ocio: 13
+  Merchandising / Varios: 14
+  Merchandising / Abridores: 13
+  Merchandising / Complementos: 13
+  Merchandising / Auriculares boton: 13
+  Merchandising / Estuches: 13
+  Merchandising / Menaje de cocina: 13
+  Merchandising / Memorias USB: 13
+  Merchandising / Fiambreras: 12
+  Merchandising / Gafas de sol: 12
+  Merchandising / Gorros: 11
+  Merchandising / Toallas: 11
+  Merchandising / Velas: 11
   Ropa / Camisas / Sobrecamisas: 10
+  Ropa / Delantales: 10
+  Merchandising / Navajas: 9
+  Merchandising / Articulos fiesta: 9
+  Merchandising / Packaging especiales: 9
   Ropa / Chalecos: 8
+  Calzado y accesorios / Zapatos Lifestyle / Ocio: 8
+  Merchandising / Artículos para mascotas: 8
+  Merchandising / Delantales: 8
+  Merchandising / Soportes: 8
+  Merchandising / Tablas de cortar: 8
+  Merchandising / Alfombrillas ratón: 7
+  Merchandising / Carpetas: 7
+  Merchandising / Linternas: 7
+  Merchandising / Pulseras: 7
+  Merchandising / Sombreros: 7
+  Merchandising / Tarjeteros: 7
   Ropa / Camisetas deportiva: 6
+  Merchandising / Mantas: 6
+  Merchandising / Accesorios coctels: 6
+  Merchandising / Abanicos: 6
+  Merchandising / Parasoles: 6
+  Merchandising / Sanitario: 6
+  Merchandising / Sacacorchos: 6
+  Merchandising / Ventiladores: 6
+  Merchandising / Agendas: 5
+  Merchandising / Chubasqueros: 5
+  Merchandising / Cubiertos: 5
+  Merchandising / Balones: 5
+  Merchandising / Maletas: 5
+  Merchandising / Monederos: 5
+  Merchandising / Peines: 5
+  Merchandising / Relojes (no pulsera): 5
+  Merchandising / Relojes: 5
+  Merchandising / Calzado: 5
+  Equipaje / Bolsas: 4
   Ropa / Jerseys / Cárdigans: 4
+  Merchandising / Calendarios: 4
+  Merchandising / Espejos: 4
+  Merchandising / Localizadores: 4
+  Merchandising / Peluches: 4
+  Merchandising / Fundas: 4
+  Merchandising / Auriculares diadema: 4
+  Merchandising / Jarras: 4
+  Merchandising / Manoplas: 4
+  Merchandising / Portadocumentos: 4
+  Merchandising / Riñoneras: 4
+  Merchandising / Summer: 4
+  Merchandising / Termos: 4
   Ropa / Batas de trabajo: 3
   Ropa / Bodys: 3
-  Ropa Accesorios / Pañuelos: 3
+  Headwear & Accesorios / Gorros: 3
+  Merchandising / Ceniceros: 3
+  Merchandising / Bragas para el cuello: 3
+  Merchandising / Cepillos de dientes: 3
+  Merchandising / Calentadores de tazas: 3
+  Merchandising / Estaciones meteorológicas: 3
+  Merchandising / Macetas: 3
+  Merchandising / Posavasos: 3
+  Merchandising / Sillas: 3
   Ropa / Monos: 2
   Ropa / Bañadores: 2
   Ropa interior / Calcetines: 2
-  Ropa / Petos: 2
   Ropa interior / Ropas interior: 2
+  Merchandising / Básculas: 2
+  Merchandising / Barbacoa: 2
+  Merchandising / Enfriadores: 2
+  Merchandising / Estuches organizadores: 2
+  Merchandising / Humidificadores: 2
+  Merchandising / Identificadores: 2
+  Merchandising / Metros: 2
+  Merchandising / Pañuelos: 2
+  Merchandising / Sets de quesos: 2
+  Merchandising / Ratones: 2
+  Merchandising / Winter days: 2
   Ropa / Faldas: 1
+  Headwear & Accesorios / Gorras: 1
+  Ropa Accesorios / Pañuelos: 1
+  Ropa / Petos: 1
+  Merchandising / Ambientadores: 1
+  Merchandising / Antiestrés: 1
+  Merchandising / Colegiales: 1
+  Merchandising / Portafotos: 1
+  Merchandising / Petos deportivos: 1
+  Merchandising / Textiles: 1
