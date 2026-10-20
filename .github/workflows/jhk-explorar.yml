@@ -1,0 +1,25 @@
+name: Prueba API JHK
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  explorar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/jhk-explorar.mjs
+        continue-on-error: true
+        env:
+          JHK_TOKEN: ${{ secrets.JHK_TOKEN }}
+      - name: Guardar resultado en la rama diagnostico
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout -B diagnostico
+          git add -f diagnostico/jhk.txt
+          git commit -m "Resultado prueba API JHK" || true
+          git push -f origin diagnostico
