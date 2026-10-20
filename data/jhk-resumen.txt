@@ -1,13 +1,13 @@
 JHK: 230 modelos
-  Camisetas: 81
+  Camisetas: 79
   Sudaderas: 40
   Pantalones: 24
   Camisas / Sobrecamisas: 24
-  Chaquetas: 22
   Polos: 22
+  Chaquetas: 21
+  Chalecos: 6
   Bodys: 5
   Delantales: 4
-  Chalecos: 3
   Boxers / Caleçons: 3
   Bermudas / Shorts: 1
   Monos: 1
