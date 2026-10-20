@@ -1,5 +1,5 @@
 Productos activos: 2769 (de 2986)
-Descarga: intento 1: 200 | intento 2: 200 | intento 3: 200 | intento 4: 200 | intento 5: 200 | intento 6: 200 | archivo: 2986 productos
+Descarga: intento 1: 200 | intento 2: 200 | intento 3: 200 | intento 4: 200 | intento 5: 200 | archivo: 2986 productos
 
 Ropa: 1618
    - Camisetas: 264
@@ -89,7 +89,7 @@ Drinkwear: 7
    - Botellas de deporte: 4
    - Portabotellas: 3
 
-VISTAS DE COLOR: {"BACK":9991,"FACE":14160,"SIDE":8817,"FACE SIDE":1702,"undefined":17,"FLATSHOT FACE":175,"FACE CAP":184,"FLATSHOT BACK":90}
+VISTAS DE COLOR: {"BACK":19982,"FACE":28320,"SIDE":17634,"FACE SIDE":3404,"undefined":34,"FLATSHOT FACE":350,"FACE CAP":368,"FLATSHOT BACK":180}
 
 CAMPOS PRODUCTO:
   2in1 = "0"

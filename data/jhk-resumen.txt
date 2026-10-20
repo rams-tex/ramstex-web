@@ -9,5 +9,5 @@ JHK: 230 modelos
   Bodys: 5
   Delantales: 4
   Boxers / Caleçons: 3
-  Bermudas / Shorts: 1
   Monos: 1
+  Bermudas / Shorts: 1
