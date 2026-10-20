@@ -963,7 +963,8 @@ function stockUI(it,f){
     s.z.forEach(function(z,i){
       var n=q[i]; if(n===null||n===undefined) return;
       var txt=n<=0?"Agotado":(cap&&n>=500?"500+":fmt(n))+(n>0?" uds":"");
-      h+='<div class="stkc'+(n<=0?" out":"")+'"><b>'+esc(z)+'</b><span>'+txt+'</span></div>';
+      var zl=/^(one size|única|unica|talla única|tu|u)$/i.test(z)?"Talla única":z;
+      h+='<div class="stkc'+(n<=0?" out":"")+'"><b>'+esc(zl)+'</b><span>'+txt+'</span></div>';
     });
     h+='</div>';
     var u=new Date(d.updated);
