@@ -18,13 +18,24 @@ async function get(path) {
   let j; try { j = JSON.parse(t); } catch { j = t.slice(0, 300); }
   log(`\n== ${path} -> ${r.status}`); return j;
 }
-const wh = await get("/gallery/warehouses.json"); log(JSON.stringify(shape(wh), null, 1).slice(0, 2000));
-const cats = await get("/gallery/categories.json"); log(JSON.stringify(shape(cats), null, 1).slice(0, 3000));
-log("Categorías completas:", JSON.stringify(cats).slice(0, 4000));
-const prods = await get("/gallery/camisetas/products.json"); log(JSON.stringify(shape(prods), null, 1).slice(0, 6000));
-// Una ficha concreta
-const first = Array.isArray(prods) ? prods[0] : (prods.products || prods.items || Object.values(prods)[0] || [])[0];
-log("Primer producto (claves):", first ? Object.keys(first).join(", ") : "-");
-const ref = first && (first.reference || first.ref || first.code || first.slug);
-const w = Array.isArray(wh) ? (wh[0]?.slug || wh[0]?.code || wh[0]?.id) : Object.keys(wh || {})[0];
-if (ref) { const p = await get(`/clothes/${w || "es"}/${ref}/product.json`); log(JSON.stringify(shape(p), null, 1).slice(0, 8000)); }
+const quiet = async path => { const r = await fetch(B + path); try { return await r.json(); } catch { return null; } };
+const cats = await quiet("/gallery/categories.json");
+const mains = cats.filter(c => c.slug && c.categories).map(c => [c.slug, Object.values(c.categories).map(x => x.slug)]);
+const all = new Map();
+for (const [m, subs] of mains) for (const sub of subs) {
+  const list = await quiet(`/gallery/${sub}/main/${m}/products.json`) || [];
+  log(`${m}/${sub}: ${list.length}`);
+  for (const p of list) { const e = all.get(p.reference) || { p, where: [] }; e.where.push(m + "/" + sub); all.set(p.reference, e); }
+}
+for (const l of Object.values(cats.find(c => c.name === "LINES")?.categories || {})) {
+  const list = await quiet(`/gallery/${l.slug}/products.json`) || []; log(`linea ${l.slug}: ${list.length}`);
+}
+log("Modelos distintos:", all.size);
+log("Ejemplo galería:", JSON.stringify([...all.values()].slice(0, 3).map(e => ({ ...e.p, where: e.where }))));
+const ref = [...all.keys()][0];
+const p = await quiet(`/clothes/5/${ref}/product.json`);
+log("Claves ficha:", Object.keys(p).join(", "));
+for (const [k, v] of Object.entries(p)) if (!["combinations", "sizes", "colors"].includes(k)) log("  ", k, "=", JSON.stringify(v).slice(0, 400));
+log("Color ejemplo:", JSON.stringify(Object.values(p.colors)[0]));
+log("Talla ejemplo:", JSON.stringify(Object.values(p.sizes)[0]));
+const c0 = Object.values(p.combinations)[0]; log("Combinación ejemplo claves:", JSON.stringify(Object.keys(Object.values(c0)[0])));
