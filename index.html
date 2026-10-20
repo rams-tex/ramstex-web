@@ -288,6 +288,7 @@ img.pack{object-fit:contain!important;padding:6%}
 .thumbs button{flex:none;width:64px;aspect-ratio:2/3;border-radius:12px;overflow:hidden;border:1px solid var(--line);padding:0;background:#fff;cursor:pointer}
 .thumbs button[aria-pressed="true"]{outline:2px solid var(--red-text);outline-offset:2px}
 .thumbs img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.thumbs img.pack{object-position:center;padding:10%}
 .pinfo h1{font-size:clamp(1.9rem,3.6vw,2.8rem);font-weight:800}
 .pinfo .meta{font-size:1rem;margin-top:8px}
 .pinfo .desc{color:var(--muted);margin:18px 0 6px}
@@ -844,7 +845,7 @@ function sorted(list){
 }
 var LIST=[];
 /* Foto elegida para cada categoría (referencia del producto) */
-var TILEPIC={camisetas:"NS315",polos:"K241",sudaderas:"K474",chaquetas:"K422",camisas:"K551",pantalones:"K7021",trabajo:"K8000",gorras:"NS040",bolsas:"NS133",calzado:"K840",interior:"K815",hogar:"K140",complementos:"KP878",otros:"NS5028","m-tec":"BS1061","m-esc":"NB8073","m-taz":"BI4122","m-bol":"BO7124","m-eve":"LY7053","m-ver":"FB2150","m-inv":"UM5607","m-dep":"TW7057","m-hog":"FT1853","m-out":"LN1773","m-nav":"XM1300"};
+var TILEPIC={camisetas:"NS315",polos:"K241",sudaderas:"NS401",chaquetas:"K422",camisas:"K551",pantalones:"K7021",trabajo:"K8000",gorras:"NS040",bolsas:"NS133",calzado:"K840",interior:"K815",hogar:"K140",complementos:"KP878",otros:"NS5028","m-tec":"BS1061","m-esc":"NB8073","m-taz":"BI4122","m-bol":"BO7124","m-eve":"LY7053","m-ver":"FB2150","m-inv":"UM5607","m-dep":"TW7057","m-hog":"FT1853","m-out":"LN1773","m-nav":"XM1300"};
 var TILEKW={camisetas:"camiseta",polos:"polo",sudaderas:"sudadera",chaquetas:"chaqueta",camisas:"camisa ",pantalones:"pantal",trabajo:"delantal",gorras:"gorra",bolsas:"bolsa",calzado:"zapat",interior:"calcet",hogar:"toalla"};
 function isLanding(){return !S.c&&!QT.length&&!KEYS.some(function(k){return S[k].length;});}
 function renderLanding(){

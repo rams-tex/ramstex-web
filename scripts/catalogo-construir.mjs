@@ -93,6 +93,8 @@ function fitOf(p) {
   if (/recto|regular|confortable|clasic/.test(f)) return "Regular / recto";
   return "";
 }
+// Número pseudoaleatorio fijo a partir de la referencia (FNV-1a): mezcla sin cambiar en cada visita
+const mix = s => { let h = 2166136261; for (const ch of String(s)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; };
 const GEN = { Hombre: "H", Mujer: "M", Unisex: "U", "Niños": "N", Bebes: "B" };
 const COLFIX = { Mulicolor: "Multicolor", "Diseño": "Estampado" };
 
@@ -140,7 +142,7 @@ for (const p of src) {
     w: grams(p.peso), f: flags, u: usoOf(p.world).map(worldI),
     st: clean(p.style), i: stem(main),
     k: colors.map(c => [String(c.n || "").replace(/\s*\(x?\d+\)/gi, "").trim(), /^#?[0-9a-f]{6}$/i.test(c.hex || "") ? "#" + c.hex.replace("#", "") : "", [...new Set((c.dom || []).map(d => COLFIX[d] || d))].map(domI), stem(c.img)]),
-    o: brandRank(p.brand) * 10 + genRank(p.gen),
+    o: genRank(p.gen) >= 3 ? 1 : 0, h: mix(p.ref),
     m: sleeveOf(p, cat[0]), cu: neckOf(p, cat[0]), ft: fitOf(p),
     z: (p.sizes || []).length ? [p.sizes[0], p.sizes[p.sizes.length - 1]].filter((v, i, a) => a.indexOf(v) === i).join(" a ") : "",
   });
@@ -186,7 +188,9 @@ for (const p of src) {
 
 // Orden recomendado: categorías principales primero; dentro, las prendas con más colores
 const catOrder = Object.fromEntries(CATS.map((c, i) => [c[0], i]));
-items.sort((a, b) => catOrder[a.c] - catOrder[b.c] || a.o - b.o || b.k.length - a.k.length);
+// Orden: adultos antes que infantil; dentro, una mezcla estable de todos los proveedores (siempre la misma)
+items.sort((a, b) => catOrder[a.c] - catOrder[b.c] || a.o - b.o || a.h - b.h);
+for (const it of items) delete it.h;
 
 const counts = {};
 for (const it of items) counts[it.c] = (counts[it.c] || 0) + 1;
