@@ -299,6 +299,12 @@ img.pack{object-fit:contain!important;padding:6%}
 .badges span{background:var(--tint);border-radius:999px;padding:5px 12px;font-size:.86rem;font-weight:500}
 .sizes{display:flex;flex-wrap:wrap;gap:6px}
 .sizes span{border:1px solid var(--line);border-radius:8px;padding:4px 10px;font-size:.9rem;min-width:40px;text-align:center}
+.stk{display:flex;flex-wrap:wrap;gap:6px}
+.stkc{border:1px solid var(--line);border-radius:10px;padding:6px 10px;min-width:64px;text-align:center;background:var(--surface)}
+.stkc b{display:block;font-size:.9rem}
+.stkc span{font-size:.82rem;color:var(--muted)}
+.stkc.out{opacity:.5}
+.stku{margin-top:8px;font-size:.8rem}
 .specs{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;margin:0;border-top:1px solid var(--line);padding-top:18px}
 .specs dt{color:var(--muted)}
 .specs dd{margin:0;font-weight:500}
@@ -938,6 +944,33 @@ function fichaOf(it,cb){
   if(FICHAS[it.c]) return cb(FICHAS[it.c][it.r]||{});
   fetch("data/fichas/"+it.c+".json?v="+BUILD,{cache:"no-cache"}).then(function(r){return r.json();}).then(function(d){FICHAS[it.c]=d;cb(d[it.r]||{});}).catch(function(){cb({});});
 }
+/* ---------- Stock (se carga solo al abrir una ficha) ---------- */
+var STOCK={};
+function stockOf(c,cb){
+  if(STOCK[c]!==undefined) return cb(STOCK[c]);
+  fetch("data/stock/"+c+".json?v="+BUILD,{cache:"no-cache"}).then(function(r){return r.ok?r.json():null;}).then(function(d){STOCK[c]=d;cb(d);}).catch(function(){STOCK[c]=null;cb(null);});
+}
+function stockUI(it,f){
+  var box=$("pstock"); if(!box) return;
+  stockOf(it.c,function(d){
+    var s=d&&d.s&&d.s[it.r];
+    if(!s){box.innerHTML='<p class="meta">Consúltanos el stock de este producto y te respondemos enseguida.</p>';return;}
+    if(it.cur<0){box.innerHTML='<p class="meta">Elige un color para ver las unidades disponibles por talla.</p>';return;}
+    var code=(f.cc||[])[it.cur], q=s.q[code];
+    if(!q){box.innerHTML='<p class="meta">Consúltanos el stock de este color.</p>';return;}
+    var cap=f.src==="roly"||f.src==="stamina";
+    var h='<div class="stk">';
+    s.z.forEach(function(z,i){
+      var n=q[i]; if(n===null||n===undefined) return;
+      var txt=n<=0?"Agotado":(cap&&n>=500?"500+":fmt(n))+(n>0?" uds":"");
+      h+='<div class="stkc'+(n<=0?" out":"")+'"><b>'+esc(z)+'</b><span>'+txt+'</span></div>';
+    });
+    h+='</div>';
+    var u=new Date(d.updated);
+    h+='<p class="meta stku">Stock del proveedor actualizado el '+u.toLocaleDateString("es-ES",{day:"numeric",month:"long"})+' a las '+u.toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"})+'.</p>';
+    box.innerHTML=h;
+  });
+}
 function renderProduct(it){
   var box=$("prod"); it.cur=-1;
   box.innerHTML='<a class="back" href="'+(lastCat||"#catalogo")+'">Volver al catálogo</a><p class="meta">Cargando…</p>';
@@ -957,6 +990,7 @@ function renderProduct(it){
      ((f.a||[]).length?'<ul class="args">'+f.a.map(function(a){return "<li>"+esc(a)+"</li>";}).join("")+'</ul>':"")+
      '<h3 class="pcol"></h3><div class="dh"></div>'+
      ((f.sizes||[]).length?'<h3>Tallas</h3><div class="sizes">'+f.sizes.map(function(s){return "<span>"+esc(s)+"</span>";}).join("")+'</div>':"")+
+     '<h3>Stock disponible</h3><div class="pstock" id="pstock"><p class="meta">Cargando stock…</p></div>'+
      '<h3>Características</h3><dl class="specs">'+specs.map(function(s){return "<dt>"+s[0]+"</dt><dd>"+esc(s[1])+"</dd>";}).join("")+'</dl>'+
      '<div class="pbtns"><button class="btn" type="button" id="padd">Añadir a mi presupuesto</button><a class="btn ghost" href="'+wa+'" target="_blank" rel="noopener">Preguntar por WhatsApp</a></div></div></div>'+
      '<div class="related" id="related"></div>';
@@ -978,7 +1012,7 @@ function renderProduct(it){
     }
     function upd(){
       view=it.cur>=0&&it.k[it.cur][3]?it.k[it.cur][3]:pics[0]; setSrc(big,view,1000);
-      box.querySelector(".pcol").textContent=it.cur<0?"Colores ("+it.k.length+")":"Color: "+it.k[it.cur][0]; thumbs();
+      box.querySelector(".pcol").textContent=it.cur<0?"Colores ("+it.k.length+")":"Color: "+it.k[it.cur][0]; thumbs(); stockUI(it,f);
     }
     box.querySelector(".dh").replaceWith(dotsFor(it,999,upd));
     $("padd").onclick=function(){addToCart(it);$("panel").classList.add("open");};

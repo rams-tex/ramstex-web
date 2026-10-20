@@ -54,7 +54,7 @@ function otherViews(ps) {
 const weight = p => { for (const c of p.colors || []) for (const s of c.sizes || []) if (s.coatingWeight_fr) return s.coatingWeight_fr; return ""; };
 const products = raw.filter(p => p.saleState === "active").map(p => {
   const colors = (p.colors || []).filter(c => c.saleState !== "inactive").map(c => ({
-    n: es(c.colors), hex: (c.colorsHexa || [])[0] || "", dom: esList(c.colorsDominant),
+    code: String((c.sizes || [])[0]?.colorCode || ""), n: es(c.colors), hex: (c.colorsHexa || [])[0] || "", dom: esList(c.colorsDominant),
     img: frontPackshot(c.packshots), views: otherViews(c.packshots),
     new: (c.sizes || []).some(s => s.isNew) ? 1 : 0,
   }));

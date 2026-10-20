@@ -142,7 +142,7 @@ for (const [code, rows] of byModel) {
     if (colors.has(r.colorcode)) continue;
     const views = listOf(r.viewsimages);
     colors.set(r.colorcode, {
-      n: cap(r.colorname), hex: "", dom: domOf(r.colorname),
+      code: String(r.colorcode), n: cap(r.colorname), hex: "", dom: domOf(r.colorname),
       img: views[0] || r.productimage || "", views: [views.find(v => /_2_1\.jpg$/.test(v)), views.find(v => /_7_1\.jpg$/.test(v))].filter(Boolean), new: r.isnovelty === "True" ? 1 : 0,
     });
   }
@@ -160,6 +160,7 @@ for (const [code, rows] of byModel) {
     world: worldOf(ids), act: [], nolabel: /etiqueta (removible|desprendible|arrancable)|sin etiqueta|tear.?away/i.test(a.observations + desc) ? 1 : 0,
     oeko: 0, rec: /reciclad/i.test(comp + desc) ? 1 : 0, big: sizes.some(s => /^[4-9]XL$/.test(s)) ? 1 : 0,
     hood: /capucha/i.test(desc + name) ? 1 : 0, cert: [], finish: "", neck: "", pockets: "", waterproof: /impermeable/i.test(desc) ? "Sí" : "",
+    sizecodes: Object.fromEntries(rows.map(r => [r.sizecode, r.sizename])),
     created: rows.some(r => r.isnovelty === "True") ? "2026" : "", source: a._brand, alt: [a.modelid].filter(Boolean),
     ...(isMerch ? { merch: merchOf(ids), world: [] } : {}),
   });

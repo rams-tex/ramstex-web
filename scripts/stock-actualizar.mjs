@@ -1,0 +1,93 @@
+// Descarga el stock de TopTex, Roly/Stamina y JHK y lo guarda por categoría en data/stock/<cat>.json.
+// La web solo lo carga al abrir una ficha, así que el catálogo no va más lento.
+// Formato: { updated, s: { ref: { z: [tallas], q: { códigoColor: [uds por talla] } } } }
+import { readFileSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
+
+const cat = JSON.parse(readFileSync("data/catalogo.json", "utf8"));
+const catOf = Object.fromEntries(cat.items.map(i => [i.r, i.c]));
+const stock = {}; // ref -> { size -> { code -> qty } }
+const put = (ref, code, size, qty) => {
+  if (!catOf[ref] || !size) return;
+  ((stock[ref] ??= {})[size] ??= {})[code] = Math.max(0, Math.round(+qty || 0));
+};
+const log = [];
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// ---------- TopTex (fichero completo de inventario) ----------
+try {
+  const K = process.env.TOPTEX_API_KEY;
+  const a = await (await fetch("https://api.toptex.io/v3/authenticate", { method: "POST", headers: { "x-api-key": K, "Content-Type": "application/json" }, body: JSON.stringify({ username: process.env.TOPTEX_USER, password: process.env.TOPTEX_PASSWORD }) })).json();
+  const H = { headers: { "x-api-key": K, "x-toptex-authorization": a.token } };
+  const f = await (await fetch("https://api.toptex.io/v3/products/inventory?result_in_file=1", H)).json();
+  let items = [];
+  for (let i = 0; i < 30 && !items.length; i++) {
+    const r = await fetch(f.link);
+    if (r.ok) { const d = await r.json(); items = d.items || (Array.isArray(d) ? d : []); }
+    if (!items.length) await sleep(20000);
+  }
+  for (const it of items) {
+    const w = (it.warehouses || []).find(x => x.id === "toptex");
+    put(it.catalogReference, String(it.colorCode), it.size, w ? w.stock : 0);
+  }
+  log.push(`TopTex: ${items.length} referencias`);
+} catch (e) { log.push("TopTex: error " + e.message); }
+
+// ---------- Roly y Stamina (almacén 01) ----------
+try {
+  const B = "https://clientsws.gorfactory.es:2096";
+  const l = await (await fetch(B + "/api/v1.1/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ username: process.env.ROLY_USER, password: process.env.ROLY_PASSWORD }) })).json();
+  const roly = JSON.parse(readFileSync("data/roly.json", "utf8"));
+  const byModel = Object.fromEntries(roly.map(p => [p.ref, p]));
+  for (const brand of ["roly", "stamina"]) {
+    const fd = new FormData(); fd.append("whscode", "01"); fd.append("brand", brand);
+    const r = await fetch(B + "/api/v1/stock/getuserstock", { method: "POST", headers: { Authorization: "Bearer " + l.token }, body: fd });
+    const d = await r.json();
+    const rows = Array.isArray(d) ? d : (d.stock || []);
+    let n = 0;
+    for (const row of rows) {
+      const sku = String(row.sku || "");
+      const p = byModel[sku.slice(0, 6)];
+      if (!p) continue;
+      const rest = sku.slice(p.ref.length);
+      const sizeCode = rest.slice(0, 2), colorCode = rest.slice(2);
+      const size = (p.sizecodes || {})[sizeCode] || (p.merch ? "Única" : sizeCode);
+      put(p.ref, colorCode, size, row.onhand); n++;
+    }
+    log.push(`${brand}: ${n} referencias`);
+  }
+} catch (e) { log.push("Roly: error " + e.message); }
+
+// ---------- JHK (ficha de cada producto) ----------
+try {
+  const T = process.env.JHK_TOKEN;
+  const jhk = JSON.parse(readFileSync("data/jhk.json", "utf8"));
+  const refs = jhk.map(p => p.ref).filter(r => catOf[r]);
+  let n = 0;
+  await Promise.all(Array.from({ length: 6 }, async (_, w) => {
+    for (let i = w; i < refs.length; i += 6) {
+      try {
+        const r = await fetch(`https://www.jhktshirt.com/app/es/api/${T}/clothes/5/${encodeURIComponent(refs[i])}/product.json`);
+        const p = await r.json();
+        for (const [code, sizes] of Object.entries(p.combinations || {})) for (const [size, v] of Object.entries(sizes || {})) { put(refs[i], code, size, v.stock); n++; }
+      } catch (e) {}
+    }
+  }));
+  log.push(`JHK: ${n} referencias`);
+} catch (e) { log.push("JHK: error " + e.message); }
+
+// ---------- Guardar por categoría ----------
+const ORDER = ["XXS", "XS", "S", "M", "L", "XL", "XXL", "2XL", "3XL", "XXXL", "4XL", "5XL", "6XL"];
+const rank = s => { const i = ORDER.indexOf(String(s).toUpperCase()); if (i >= 0) return i; const n = parseFloat(s); return isNaN(n) ? 100 : 50 + n / 1000; };
+const files = {};
+for (const [ref, bySize] of Object.entries(stock)) {
+  const z = Object.keys(bySize).sort((a, b) => rank(a) - rank(b));
+  const codes = [...new Set(z.flatMap(s => Object.keys(bySize[s])))];
+  const q = Object.fromEntries(codes.map(c => [c, z.map(s => bySize[s][c] ?? null)]));
+  (files[catOf[ref]] ??= {})[ref] = { z, q };
+}
+if (Object.keys(stock).length < 1000) { console.error("Muy pocos datos de stock, no se actualiza:", log.join(" | ")); process.exit(1); }
+rmSync("data/stock", { recursive: true, force: true });
+mkdirSync("data/stock", { recursive: true });
+const updated = new Date().toISOString();
+for (const [c, s] of Object.entries(files)) writeFileSync(`data/stock/${c}.json`, JSON.stringify({ updated, s }));
+console.log(log.join(" | "), "| productos con stock:", Object.keys(stock).length);

@@ -146,7 +146,7 @@ for (const p of src) {
   });
   (fichas[cat[0]] ??= {})[p.ref] = {
     d: clean(p.desc), a: (p.args || []).map(clean).filter(Boolean), comp: p.comp || "", peso: p.peso || "",
-    img: (p.img || []).map(stem), sizes: p.sizes || [], cv: colors.map(c => (c.views || []).map(stem)), fit: p.fit || "", fin: p.finish || "", neck: p.neck || "",
+    img: (p.img || []).map(stem), sizes: p.sizes || [], cv: colors.map(c => (c.views || []).map(stem)), cc: colors.map(c => c.code || ""), src: p.source || "toptex", fit: p.fit || "", fin: p.finish || "", neck: p.neck || "",
     pk: p.pockets || "", wp: p.waterproof || "", cert: [...(p.cert || []), p.oeko ? "OEKO-TEX" : "", p.rec ? "Materiales reciclados" : ""].filter(Boolean),
   };
 }

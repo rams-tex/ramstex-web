@@ -99,7 +99,7 @@ await Promise.all(Array.from({ length: N }, async (_, w) => {
     let name = [(type && !new RegExp("^" + type, "i").test(model) ? type : ""), model, ...[...new Set(extras)], who].filter(Boolean).join(" ").replace(/\s{2,}/g, " ").trim();
     if (type && name.toLowerCase() === type.toLowerCase()) name += " " + ref;
     const colors = Object.values(p.colors || {}).sort((a, b) => +a.r_order - +b.r_order).map(c => ({
-      n: cap(c.name), hex: "", dom: domOf(c.name), img: `${IMG}sku/jhktshirt_${ref.toLowerCase()}_${String(c.reference).toLowerCase()}.jpg`, views: ["back", "side"].map(v => `${IMG}sku/jhktshirt_${ref.toLowerCase()}_${String(c.reference).toLowerCase()}_${v}.jpg`), new: 0,
+      code: String(c.reference), n: cap(c.name), hex: "", dom: domOf(c.name), img: `${IMG}sku/jhktshirt_${ref.toLowerCase()}_${String(c.reference).toLowerCase()}.jpg`, views: ["back", "side"].map(v => `${IMG}sku/jhktshirt_${ref.toLowerCase()}_${String(c.reference).toLowerCase()}_${v}.jpg`), new: 0,
     }));
     const sizes = Object.values(p.sizes || {}).sort((a, b) => +a.r_order - +b.r_order).map(s => s.name);
     const imgs = (p.images || []).map(u => (u.startsWith("//") ? "https:" : "") + u).filter(Boolean);
