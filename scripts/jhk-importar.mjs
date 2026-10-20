@@ -23,6 +23,8 @@ const TYPE = { Camisetas: "Camiseta", Sudaderas: "Sudadera", Polos: "Polo", Chaq
 // Si un producto solo aparece en una "línea", se deduce el tipo por el nombre
 function subFromName(n) {
   n = n.toLowerCase();
+  if (/\bmono\b|overall|coverall/.test(n)) return ["Ropa", "Monos"];
+  if (/pantal/.test(n)) return SUB.pantalones; if (/camiseta/.test(n)) return SUB.camisetas; if (/chaqueta|parka/.test(n)) return SUB.chaquetas;
   if (/polo/.test(n)) return SUB.polos; if (/sweat|hood|sudadera|crew/.test(n)) return SUB.sudaderas;
   if (/fleece|polar/.test(n)) return SUB.polares; if (/shirt.*(long|oxford|popelin)|camisa|oxford/.test(n) && !/t-shirt|tshirt/.test(n)) return SUB.camisas;
   if (/short|bermuda/.test(n)) return ["Ropa", "Bermudas / Shorts"]; if (/pant|trouser|jogger|legging/.test(n)) return SUB.pantalones;
@@ -66,7 +68,7 @@ await Promise.all(Array.from({ length: N }, async (_, w) => {
     const ref = refs[i], e = found.get(ref);
     const p = await get(`/clothes/5/${encodeURIComponent(ref)}/product.json`);
     if (!p || !p.reference) continue;
-    const [fam, sub] = e.sub || subFromName(p.name || e.name);
+    const [fam, sub] = (e.sub && !e.lines.has("professional")) ? e.sub : subFromName(p.name || e.name);
     const html = String(p.description_html || "");
     const first = strip((html.match(/<p[^>]*>([\s\S]*?)<\/p>/i) || [])[1] || p.description_plain || "");
     const lis = [...html.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)].map(m => strip(m[1])).filter(Boolean);
@@ -76,10 +78,25 @@ await Promise.all(Array.from({ length: N }, async (_, w) => {
     if (gen.includes("Hombre") && gen.includes("Mujer")) gen = ["Unisex", ...gen.filter(x => x === "Niños" || x === "Bebes")];
     if (!gen.length) gen = /lady|woman|mujer/i.test(p.name) ? ["Mujer"] : /kid|child|infant|niñ/i.test(p.name) ? ["Niños"] : ["Unisex"];
     // Nombre: tipo de prenda + nombre del modelo, sin "Man/Lady/Kid"
-    let model = String(p.name || e.name).replace(/\s+/g, " ").trim()
-      .replace(/\b(t-?shirt|camiseta)\b/ig, "").replace(/\bman\b/ig, "hombre").replace(/\b(lady|woman)\b/ig, "mujer").replace(/\b(kids?|child)\b/ig, "infantil").replace(/\s{2,}/g, " ").trim();
+    const raw = String(p.name || e.name).replace(/\([^)]*\)/g, " ").replace(/\s+/g, " ").trim();
+    let who = /\b(lady|woman|women)\b/i.test(raw) ? "mujer" : /\b(kids?|child|children|junior)\b/i.test(raw) ? "infantil" : /\bman\b|\bmen\b/i.test(raw) && gen.length === 1 && gen[0] === "Hombre" ? "hombre" : "";
+    const extras = [];
+    let model = raw
+      .replace(/\b(lady|woman|women|kids?|child|children|junior|man|men)\b/ig, " ")
+      .replace(/\b(t-?shirts?|camiseta|sweatshirt|sweat|shirt|pants|trousers|jacket|vest|polo)\b/ig, m => { if (/sweat/i.test(m)) return " "; return " "; })
+      .replace(/\bfull[ -]?zip\b/ig, () => { extras.push("con cremallera"); return " "; })
+      .replace(/\bhood(ed|ie)?\b/ig, () => { extras.push("con capucha"); return " "; })
+      .replace(/\bcrew ?neck\b/ig, () => { extras.push("cuello redondo"); return " "; })
+      .replace(/\bv-?neck\b/ig, () => { extras.push("cuello de pico"); return " "; })
+      .replace(/\btank( top)?\b/ig, () => { extras.push("de tirantes"); return " "; })
+      .replace(/\b(long sleeves?|LS)\b/g, () => { extras.push("manga larga"); return " "; })
+      .replace(/\b(short sleeves?|SS)\b/g, () => { extras.push("manga corta"); return " "; })
+      .replace(/\bking ?size\b/ig, () => { extras.push("tallas grandes"); return " "; })
+      .replace(/\bpique\b/ig, "piqué").replace(/\bkangaroo\b/ig, "canguro")
+      .replace(/[\/]+/g, " ").replace(/\s{2,}/g, " ").trim();
     const type = TYPE[sub] || "";
-    const name = (type && !new RegExp("^" + type, "i").test(model) ? type + " " : "") + model;
+    let name = [(type && !new RegExp("^" + type, "i").test(model) ? type : ""), model, ...[...new Set(extras)], who].filter(Boolean).join(" ").replace(/\s{2,}/g, " ").trim();
+    if (type && name.toLowerCase() === type.toLowerCase()) name += " " + ref;
     const colors = Object.values(p.colors || {}).sort((a, b) => +a.r_order - +b.r_order).map(c => ({
       n: cap(c.name), hex: "", dom: domOf(c.name), img: `${IMG}sku/jhktshirt_${ref.toLowerCase()}_${String(c.reference).toLowerCase()}.jpg`, new: 0,
     }));
