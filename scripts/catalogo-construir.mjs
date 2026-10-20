@@ -58,6 +58,24 @@ const brandRank = b => /^(Kariban|Kariban Premium|Native Spirit)$/i.test(b || ""
 const genRank = g => { g = g || []; if (g.includes("Unisex")) return 0; if (g.includes("Hombre")) return 1; if (g.includes("Mujer")) return 2; return 3; };
 // Manga, cuello y corte (fit): del dato del proveedor o, si falta, del nombre y la descripción
 const nrm = t => String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+// Reclasificación por nombre (solo casos claros). [patrón, categoría destino, categorías de origen que se respetan]
+const RECAT = [
+  [/^(pantalon|short|bermuda|leggin|malla|falda)\b/, "pantalones", ["interior", "trabajo", "pantalones"]],
+  [/\bslip\b|^boxer|^calzoncillo/, "interior", []],
+  [/^polo\b/, "polos", ["interior", "trabajo"]],
+  [/^(camiseta|top)\b/, "camisetas", ["interior", "trabajo", "otros"]],
+  [/^sudadera\b/, "sudaderas", ["trabajo"]],
+  [/^(chaleco|parka|softshell|cortavientos)\b/, "chaquetas", ["trabajo"]],
+  [/^chaqueta\b/, "chaquetas", ["sudaderas", "trabajo"]],
+  [/^(casaca cocinero|chaqueta de cocina)/, "trabajo", []],
+  [/^bolsa\b/, "bolsas", []],
+];
+function recatByName(name, from) {
+  const n = nrm(name);
+  if (/pijama/.test(n)) return null;
+  for (const [re, to, keep] of RECAT) if (re.test(n)) return to !== from && !keep.includes(from) ? to : null;
+  return null;
+}
 const TOPS = new Set(["camisetas", "polos", "sudaderas", "camisas", "trabajo", "otros"]);
 function sleeveOf(p, cat) {
   if (!TOPS.has(cat) && cat !== "chaquetas") return "";
@@ -121,8 +139,13 @@ for (const p of src) {
   const main = p.img?.[0] || colors[0]?.img;
   if (!main) continue; // sin ninguna foto no se publica
   seen.add(p.ref);
-  const cat = p.merch ? CATS.find(c => c[0] === p.merch) : CATS.find(c => c[2] && c[2](p.fam, p.sub));
+  let cat = p.merch ? CATS.find(c => c[0] === p.merch) : CATS.find(c => c[2] && c[2](p.fam, p.sub));
   if (!cat) continue;
+  if (!p.merch) { // el proveedor a veces clasifica mal: si el nombre dice claramente qué es, manda el nombre
+    if (/^camiseta slip\b/i.test(p.name)) p.name = p.name.replace(/^camiseta\s+/i, "");
+    const to = recatByName(p.name, cat[0]);
+    if (to) cat = CATS.find(c => c[0] === to) || cat;
+  }
   if (p.merch) {
     // Stamina pone el color al final del nombre ("Mochila Dronte negro"): se quita
     for (const c of p.colors || []) { const cn = nrm(c.n); if (cn && nrm(p.name).endsWith(" " + cn)) { p.name = p.name.slice(0, p.name.length - c.n.length).trim(); break; } }
@@ -143,7 +166,7 @@ for (const p of src) {
     w: grams(p.peso), f: flags, u: usoOf(p.world).map(worldI),
     st: clean(p.style), i: stem(main),
     k: colors.map(c => [String(c.n || "").replace(/\s*\(x?\d+\)/gi, "").trim(), /^#?[0-9a-f]{6}$/i.test(c.hex || "") ? "#" + c.hex.replace("#", "") : "", [...new Set((c.dom || []).map(d => COLFIX[d] || d))].map(domI), stem(c.img)]),
-    o: genRank(p.gen) >= 3 ? 1 : 0, h: mix(p.ref),
+    o: genRank(p.gen) >= 3 ? 1 : 0, h: mix(p.ref), b: String(p.brand || p.source || ""),
     m: sleeveOf(p, cat[0]), cu: neckOf(p, cat[0]), ft: fitOf(p),
     z: (p.sizes || []).length ? [p.sizes[0], p.sizes[p.sizes.length - 1]].filter((v, i, a) => a.indexOf(v) === i).join(" a ") : "",
   });
@@ -189,9 +212,33 @@ for (const p of src) {
 
 // Orden recomendado: categorías principales primero; dentro, las prendas con más colores
 const catOrder = Object.fromEntries(CATS.map((c, i) => [c[0], i]));
-// Orden: adultos antes que infantil; dentro, una mezcla estable de todos los proveedores (siempre la misma)
-items.sort((a, b) => catOrder[a.c] - catOrder[b.c] || a.o - b.o || a.h - b.h);
-for (const it of items) delete it.h;
+// Orden: en cada categoría, primero ~20 "top ventas" probables (básicos de marcas fuertes, con muchos colores
+// y foto con modelo); después el resto mezclado de forma estable (siempre igual), adultos antes que infantil.
+const isPackSt = st => st.startsWith("packshots/") || (st.startsWith("R:") && st.includes("/views/")) || (st.startsWith("J:") && st.indexOf("sku/") === 2);
+const brandScore = b => /^(kariban|kariban premium|native spirit)$/i.test(b) ? 30 : /^(roly|stamina)$/i.test(b) ? 24 : /jhk/i.test(b) ? 22 : /^(proact|wk|k-up|kimood)/i.test(b) ? 14 : 0;
+const NICHE = /alta visibilidad|tirantes|ign[ií]fug|antiest|desechable|reflectant|beb[eé]|ni[ñn]o|ni[ñn]a|infantil|kids|premam|maternidad|perro|mascota|sanitari|balaclava|pasamonta/i;
+const mainSub = {};
+{ const cnt = {}; for (const it of items) { const k = it.c + "|" + it.s; cnt[k] = (cnt[k] || 0) + 1; }
+  for (const [k, n] of Object.entries(cnt)) { const [c, s] = k.split("|"); if (!mainSub[c] || n > mainSub[c][1]) mainSub[c] = [+s, n]; } }
+const score = it => brandScore(it.b) + Math.min(it.k.length, 30) + (it.o ? -40 : 10) + (mainSub[it.c][0] === it.s ? 12 : 0)
+  - (NICHE.test(it.n) ? 30 : 0) - (!it.c.startsWith("m-") && isPackSt(it.i) ? 15 : 0);
+const TOP = 20;
+const byCat = {};
+for (const it of items) (byCat[it.c] ??= []).push(it);
+for (const list of Object.values(byCat)) {
+  const ranked = list.slice().sort((a, b) => score(b) - score(a) || a.h - b.h);
+  const perBrand = {}, perModel = {}, perSub = {}, top = [], subMax = list[0].c.startsWith("m-") ? 3 : 8;
+  const model = n => nrm(n).replace(/\b(hombre|mujer|unisex|nino|nina|ninos|chico|chica|adulto)\b/g, "").replace(/\s+/g, " ").trim();
+  for (const it of ranked) {
+    if (top.length >= TOP) break;
+    const bk = it.b.toLowerCase(), mk = model(it.n);
+    if ((perBrand[bk] || 0) >= 8 || (perModel[mk] || 0) >= 2 || (perSub[it.s] || 0) >= subMax) continue; // variedad: no todo de una marca ni el mismo modelo repetido
+    perBrand[bk] = (perBrand[bk] || 0) + 1; perSub[it.s] = (perSub[it.s] || 0) + 1; perModel[mk] = (perModel[mk] || 0) + 1; top.push(it);
+  }
+  top.forEach((it, i) => { it.t0 = i + 1; });
+}
+items.sort((a, b) => catOrder[a.c] - catOrder[b.c] || (a.t0 || 999) - (b.t0 || 999) || a.o - b.o || a.h - b.h);
+for (const it of items) { delete it.h; delete it.b; delete it.t0; }
 
 const counts = {};
 for (const it of items) counts[it.c] = (counts[it.c] || 0) + 1;
