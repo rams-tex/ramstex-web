@@ -23,6 +23,10 @@ jobs:
         env:
           ROLY_USER: ${{ secrets.ROLY_USER }}
           ROLY_PASSWORD: ${{ secrets.ROLY_PASSWORD }}
+      - run: node scripts/jhk-importar.mjs
+        continue-on-error: true
+        env:
+          JHK_TOKEN: ${{ secrets.JHK_TOKEN }}
       - run: npm install --no-save sharp@0.33.5
       - run: node scripts/fotos-huella.mjs
         continue-on-error: true

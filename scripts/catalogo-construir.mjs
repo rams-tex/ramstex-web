@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
 
 const src = JSON.parse(readFileSync("data/toptex.json", "utf8"));
 // Otros proveedores con el mismo formato (si existen)
-for (const f of ["data/roly.json"]) { try { src.push(...JSON.parse(readFileSync(f, "utf8"))); } catch (e) {} }
+for (const f of ["data/roly.json", "data/jhk.json"]) { try { src.push(...JSON.parse(readFileSync(f, "utf8"))); } catch (e) {} }
 
 // Categorías de la web (nombre propio de Ramstex) a partir de familia/subfamilia del proveedor
 const CATS = [
@@ -103,7 +103,7 @@ const clean = t => {
   if (brandRe) s = s.replace(brandRe, "");
   return s.replace(/(?:\s+[A-Z0-9][\w-]*)*\s*\S*[™®]\S*/g, "").replace(/\s+([,.])/g, "$1").replace(/\s*\([\d-]+\)/g, "").replace(/["“”]/g, "").replace(/\s{2,}/g, " ").trim();
 };
-const stem = u => { u = String(u || ""); if (/static\.gorfactory\.es\/images\/models\//.test(u)) return "R:" + u.replace(/^.*\/images\/models\//, "").replace(/\.(jpg|png)$/i, ""); return u.replace(/^https?:\/\/[^/]+\//, "").replace(/\.(jpg|png)$/i, ""); };
+const stem = u => { u = String(u || ""); if (/resources\.jhktshirt\.com\/pictures\//.test(u)) return "J:" + u.replace(/^.*resources\.jhktshirt\.com\/pictures\//, "").replace(/\.(jpg|png)(\?.*)?$/i, ""); if (/static\.gorfactory\.es\/images\/models\//.test(u)) return "R:" + u.replace(/^.*\/images\/models\//, "").replace(/\.(jpg|png)$/i, ""); return u.replace(/^https?:\/\/[^/]+\//, "").replace(/\.(jpg|png)$/i, ""); };
 const grams = t => { const m = String(t || "").match(/(\d+)/); return m ? +m[1] : 0; };
 
 const idx = arr => v => { let i = arr.indexOf(v); if (i < 0) { arr.push(v); i = arr.length - 1; } return i; };

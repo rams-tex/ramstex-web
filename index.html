@@ -674,11 +674,14 @@ function fmt(n){return n.toLocaleString("es-ES");}
 var IMG="https://cdn.europeancatalog.com/", IMG2="https://cdn.toptex.com/";
 var IMGR="https://static.gorfactory.es/images/models/";
 function isR(st){return st.indexOf("R:")===0;}
-function isPack(st){return st.indexOf("packshots/")===0||(isR(st)&&st.indexOf("/views/")>0);}
+var IMGJ="https://s3-eu-west-1.amazonaws.com/resources.jhktshirt.com/pictures/";
+function isJ(st){return st.indexOf("J:")===0;}
+function isPack(st){return st.indexOf("packshots/")===0||(isR(st)&&st.indexOf("/views/")>0)||(isJ(st)&&st.indexOf("sku/")===2);}
 function ext(st){return isR(st)?".jpg":(isPack(st)?".png":".jpg");}
 function setSrc(img,st,w){
   img.classList.toggle("pack",isPack(st));
   if(isR(st)){img.onerror=null;img.src=IMGR+st.slice(2)+".jpg";return;}
+  if(isJ(st)){img.onerror=null;img.src=IMGJ+st.slice(2)+".jpg";return;}
   img.onerror=function(){img.onerror=null;img.src=IMG2+st+ext(st);};
   img.src=IMG+st+ext(st)+"?w="+(w||700);
 }
@@ -844,7 +847,7 @@ function renderLanding(){
     if(isM(c[0])!==(SEC==="merch")) return;
     var kw=TILEKW[c[0]], pick=null;
     if(TILEPIC[c[0]]) pick=ITEMS.filter(function(x){return x.r===TILEPIC[c[0]];})[0]||null;
-    for(var i=0;i<ITEMS.length&&!pick;i++){var it=ITEMS[i];if(it.c!==c[0]||(!isM(it.c)&&it.i.indexOf("pictures/")!==0))continue;if(!pick)pick=it;if(!kw||norm(it.n).indexOf(kw)===0){pick=it;break;}}
+    for(var i=0;i<ITEMS.length&&!pick;i++){var it=ITEMS[i];if(it.c!==c[0]||(!isM(it.c)&&it.i.indexOf("pictures/")!==0&&!isJ(it.i)))continue;if(!pick)pick=it;if(!kw||norm(it.n).indexOf(kw)===0){pick=it;break;}}
     h+='<a class="tile'+(isM(c[0])?" m":"")+'" href="'+BASE()+'?c='+c[0]+'" data-c="'+c[0]+'"><div class="ph"><img alt="" loading="lazy" decoding="async" data-st="'+(pick?pick.i:"")+'"></div><b>'+esc(c[1])+'</b><span>'+fmt(c[2])+' productos</span></a>';
   });
   $("landing").innerHTML=h; $("landing").dataset.sec=SEC;
