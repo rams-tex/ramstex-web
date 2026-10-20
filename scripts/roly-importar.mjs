@@ -143,7 +143,7 @@ for (const [code, rows] of byModel) {
     const views = listOf(r.viewsimages);
     colors.set(r.colorcode, {
       n: cap(r.colorname), hex: "", dom: domOf(r.colorname),
-      img: views[0] || r.productimage || "", new: r.isnovelty === "True" ? 1 : 0,
+      img: views[0] || r.productimage || "", views: [views.find(v => /_2_1\.jpg$/.test(v)), views.find(v => /_7_1\.jpg$/.test(v))].filter(Boolean), new: r.isnovelty === "True" ? 1 : 0,
     });
   }
   const sizes = isMerch ? [] : [...new Map(rows.slice().sort((x, y) => (x.sizecode || "").localeCompare(y.sizecode || "")).map(r => [r.sizename, 1])).keys()];

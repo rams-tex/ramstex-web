@@ -42,11 +42,20 @@ function frontPackshot(ps) {
   const k = keys.find(k => !/BACK|DOS|SIDE|PROFIL|LATERAL|DETAIL|ZOOM|INSIDE/i.test(k)) || keys.find(k => !/BACK|DOS/i.test(k)) || keys[0];
   return k ? ps[k].url_packshot : "";
 }
+// Otras vistas del color: espalda y lateral (si existen)
+function otherViews(ps) {
+  ps = ps || {};
+  const u = k => ps[k]?.url_packshot || "";
+  const front = frontPackshot(ps);
+  const back = u("BACK") || u("FLATSHOT BACK") || u("BACK CAP");
+  const side = [u("SIDE"), u("FACE SIDE"), u("SIDE CAP")].find(x => x && x !== front) || "";
+  return [back, side].filter(Boolean);
+}
 const weight = p => { for (const c of p.colors || []) for (const s of c.sizes || []) if (s.coatingWeight_fr) return s.coatingWeight_fr; return ""; };
 const products = raw.filter(p => p.saleState === "active").map(p => {
   const colors = (p.colors || []).filter(c => c.saleState !== "inactive").map(c => ({
     n: es(c.colors), hex: (c.colorsHexa || [])[0] || "", dom: esList(c.colorsDominant),
-    img: frontPackshot(c.packshots),
+    img: frontPackshot(c.packshots), views: otherViews(c.packshots),
     new: (c.sizes || []).some(s => s.isNew) ? 1 : 0,
   }));
   const sizes = [...new Set((p.colors || []).flatMap(c => (c.sizes || []).map(s => es(s.sizeCountry) || s.size)))];
