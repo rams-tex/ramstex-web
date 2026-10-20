@@ -3,11 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ramstex: damos vida a tus ideas</title>
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!--seo-->
+<title>Ramstex | Ropa y merchandising personalizados para empresas</title>
+<meta name="description" content="Ropa y merchandising personalizados con tu logo para empresas, eventos y marcas: camisetas, sudaderas, polos, ropa de trabajo y miles de productos. Pide presupuesto.">
+<link rel="canonical" id="canon" href="https://ramstex.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ramstex">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Ramstex | Ropa y merchandising personalizados para empresas">
+<meta property="og:description" content="Ropa y merchandising personalizados con tu logo para empresas, eventos y marcas: camisetas, sudaderas, polos, ropa de trabajo y miles de productos. Pide presupuesto.">
+<meta property="og:url" content="https://ramstex.com/">
+<meta property="og:image" content="https://ramstex.com/portada-900.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ramstex.com/#org","name":"Ramstex","url":"https://ramstex.com/","logo":"https://ramstex.com/logo.png","slogan":"Damos vida a tus ideas","description":"Ropa y merchandising personalizados para empresas, eventos y marcas.","email":"info@ramstex.com","telephone":"+34 682 368 645","sameAs":["https://www.instagram.com/rams_tex/"],"contactPoint":{"@type":"ContactPoint","contactType":"customer service","email":"info@ramstex.com","telephone":"+34 682 368 645","availableLanguage":["es","ca"]}},{"@type":"WebSite","@id":"https://ramstex.com/#web","url":"https://ramstex.com/","name":"Ramstex","inLanguage":"es","publisher":{"@id":"https://ramstex.com/#org"}}]}</script>
+<!--/seo-->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#732823">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -52,11 +65,11 @@ button{font-family:inherit}
 .logo .t{fill:var(--text)}
 .dnav{display:flex;gap:24px;align-items:center;font-weight:500;font-size:.98rem}
 .dnav a{text-decoration:none;color:var(--muted);white-space:nowrap}
-@media (max-width:1180px){.dnav{display:none}.menubtn{display:inline-flex}}
 .dnav a:hover,.dnav a[aria-current="page"]{color:var(--text)}
 .dnav .btn{padding:10px 18px;font-size:.95rem;color:var(--on-red)}
 .menubtn{display:none;align-items:center;gap:10px;background:var(--text);color:var(--bg);border:0;border-radius:999px;padding:10px 16px;font:600 .95rem Figtree,sans-serif;cursor:pointer}
 .menubtn svg{width:18px;height:18px}
+@media (max-width:1180px){.dnav{display:none}.menubtn{display:inline-flex}}
 .menu{position:fixed;left:0;right:0;top:calc(68px + env(safe-area-inset-top,0px));bottom:0;background:var(--bg);z-index:19;overflow:auto;padding:12px 24px 40px}
 .menu a.mi{display:flex;justify-content:space-between;align-items:center;text-decoration:none;font:700 1.6rem "Bricolage Grotesque",sans-serif;padding:16px 0;border-bottom:1px solid var(--line);letter-spacing:-0.01em}
 .menu a.mi::after{content:"";width:10px;height:10px;border-right:2.5px solid var(--red-text);border-top:2.5px solid var(--red-text);transform:rotate(45deg)}
@@ -196,10 +209,11 @@ footer p{margin:8px 0 0;font-size:.95rem}
 .cartbtn{font:600 1rem Figtree,sans-serif;background:var(--red);color:var(--on-red);border:0;border-radius:999px;padding:13px 22px;cursor:pointer;white-space:nowrap}
 .cats{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:18px 0 4px;padding:3px}
 .cats::-webkit-scrollbar{display:none}
+a.chip{text-decoration:none;display:inline-block}
 .chip{flex:none;font:500 .95rem Figtree,sans-serif;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 15px;cursor:pointer}
 .chip small{color:var(--muted);font-size:.8rem;margin-left:5px}
-.chip[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
-.chip[aria-pressed="true"] small{color:inherit;opacity:.7}
+.chip[aria-current="page"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.chip[aria-current="page"] small{color:inherit;opacity:.7}
 .catlay{display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:start;margin-top:16px}
 .side{position:sticky;top:84px;max-height:calc(100vh - 100px);overflow:auto;padding-right:8px;scrollbar-width:thin}
 .side details{border-bottom:1px solid var(--line);padding:12px 0}
@@ -414,15 +428,15 @@ img.pack{object-fit:contain!important;padding:6%}
 
 <header class="top">
   <div class="wrap">
-    <a class="logo" href="#inicio" aria-label="Ramstex, inicio"><svg xmlns="http://www.w3.org/2000/svg" viewBox="88.75 599.47 412.53 66.07" aria-hidden="true" focusable="false"><path class="r" d="M 105.484375 628.738281 L 117.542969 628.738281 C 119.867188 628.738281 122.035156 628.175781 124.042969 627.042969 C 127.5625 625.035156 129.320312 622.175781 129.320312 618.46875 C 129.320312 616.335938 128.628906 614.355469 127.246094 612.535156 C 124.921875 609.519531 121.65625 608.011719 117.449219 608.011719 L 97.285156 608.011719 L 97.285156 628.832031 L 105.578125 628.832031 Z M 136.671875 659.738281 L 138.179688 664.542969 L 130.261719 664.542969 L 129.507812 661.8125 C 127.4375 654.964844 125.550781 649.71875 123.855469 646.078125 C 121.84375 641.867188 119.300781 638.601562 116.222656 636.277344 L 97.285156 636.277344 L 97.285156 664.542969 L 89.746094 664.542969 L 89.746094 632.507812 L 89.84375 604.335938 L 89.84375 600.566406 L 93.609375 600.566406 L 117.449219 600.472656 C 122.347656 600.472656 126.617188 601.980469 130.261719 604.996094 C 134.660156 608.578125 136.859375 613.066406 136.859375 618.46875 C 136.859375 620.480469 136.480469 622.460938 135.726562 624.40625 C 133.96875 629.117188 130.605469 632.542969 125.644531 634.675781 C 129.289062 638.949219 132.964844 647.300781 136.671875 659.738281 "/><path class="r" d="M 150.613281 664.542969 L 142.417969 664.542969 L 144.679688 659.269531 L 169.175781 602.734375 L 170.210938 600.472656 L 175.113281 600.472656 L 176.148438 602.734375 L 200.644531 659.269531 L 202.90625 664.542969 L 194.710938 664.542969 L 193.671875 662.28125 L 172.660156 613.757812 L 151.652344 662.28125 Z M 150.613281 664.542969 "/><path class="r" d="M 219.773438 664.542969 L 212.234375 664.542969 L 212.234375 600.472656 L 218.453125 600.472656 L 219.394531 602.734375 L 241.445312 651.542969 L 263.398438 602.734375 L 264.339844 600.472656 L 270.558594 600.472656 L 270.558594 604.242188 L 270.652344 660.773438 L 270.652344 664.542969 L 263.113281 664.542969 L 263.113281 660.773438 L 263.019531 621.765625 L 244.835938 662.28125 L 243.894531 664.542969 L 238.996094 664.542969 L 238.050781 662.28125 L 219.773438 621.765625 Z M 219.773438 664.542969 "/><path class="r" d="M 319.835938 618.375 C 319.835938 616.179688 319.050781 614.199219 317.480469 612.441406 C 314.78125 609.488281 311.105469 608.011719 306.457031 608.011719 C 303.753906 608.011719 301.210938 608.640625 298.824219 609.894531 C 294.992188 611.90625 293.078125 614.734375 293.078125 618.375 C 293.078125 619.003906 293.234375 619.664062 293.546875 620.355469 C 294.617188 622.425781 298.164062 624.625 304.195312 626.949219 C 311.667969 629.902344 316.160156 631.722656 317.667969 632.414062 C 325.269531 636.246094 329.070312 640.988281 329.070312 646.640625 C 329.007812 650.664062 327.308594 654.367188 323.984375 657.761719 C 319.394531 662.28125 313.554688 664.542969 306.457031 664.542969 C 300.300781 664.542969 294.992188 662.816406 290.535156 659.363281 C 286.074219 655.78125 283.84375 651.542969 283.84375 646.640625 L 291.382812 646.640625 C 291.441406 648.84375 292.386719 650.851562 294.207031 652.671875 C 297.285156 655.5625 301.367188 657.007812 306.457031 657.007812 C 309.660156 657.007812 312.644531 656.316406 315.40625 654.933594 C 319.488281 652.863281 321.53125 650.097656 321.53125 646.640625 C 321.53125 645.953125 321.34375 645.261719 320.96875 644.570312 C 319.898438 642.433594 316.316406 640.171875 310.226562 637.785156 C 302.8125 634.898438 298.382812 633.105469 296.941406 632.414062 C 289.339844 628.644531 285.539062 623.96875 285.539062 618.375 C 285.539062 614.292969 287.046875 610.585938 290.0625 607.257812 C 294.207031 602.734375 299.671875 600.472656 306.457031 600.472656 C 311.859375 600.472656 316.570312 602.042969 320.589844 605.183594 C 325.113281 608.765625 327.375 613.164062 327.375 618.375 Z M 319.835938 618.375 "/><path class="t" d="M 379.949219 600.472656 L 383.71875 600.472656 L 383.71875 608.011719 L 363.085938 608.011719 L 363.085938 664.542969 L 355.546875 664.542969 L 355.546875 608.011719 L 334.722656 608.011719 L 334.722656 600.472656 Z M 379.949219 600.472656 "/><path class="t" d="M 440.25 600.472656 L 440.25 608.011719 L 402.5625 608.011719 L 402.5625 628.738281 L 430.074219 628.738281 L 430.074219 636.277344 L 402.5625 636.277344 L 402.5625 657.007812 L 440.25 657.007812 L 440.25 664.542969 L 395.023438 664.542969 L 395.023438 600.472656 Z M 440.25 600.472656 "/><path class="t" d="M 488.210938 602.074219 L 489.339844 600.472656 L 498.574219 600.472656 L 494.429688 606.410156 L 476.90625 631.285156 L 496.125 658.609375 L 500.273438 664.542969 L 491.039062 664.542969 L 489.90625 662.941406 L 472.289062 637.878906 L 454.667969 662.941406 L 453.535156 664.542969 L 444.304688 664.542969 L 448.449219 658.609375 L 467.671875 631.285156 L 450.144531 606.410156 L 446 600.472656 L 455.234375 600.472656 L 456.363281 602.074219 L 472.289062 624.6875 Z M 488.210938 602.074219 "/></svg></a>
+    <a class="logo" href="/" aria-label="Ramstex, inicio"><svg xmlns="http://www.w3.org/2000/svg" viewBox="88.75 599.47 412.53 66.07" aria-hidden="true" focusable="false"><path class="r" d="M 105.484375 628.738281 L 117.542969 628.738281 C 119.867188 628.738281 122.035156 628.175781 124.042969 627.042969 C 127.5625 625.035156 129.320312 622.175781 129.320312 618.46875 C 129.320312 616.335938 128.628906 614.355469 127.246094 612.535156 C 124.921875 609.519531 121.65625 608.011719 117.449219 608.011719 L 97.285156 608.011719 L 97.285156 628.832031 L 105.578125 628.832031 Z M 136.671875 659.738281 L 138.179688 664.542969 L 130.261719 664.542969 L 129.507812 661.8125 C 127.4375 654.964844 125.550781 649.71875 123.855469 646.078125 C 121.84375 641.867188 119.300781 638.601562 116.222656 636.277344 L 97.285156 636.277344 L 97.285156 664.542969 L 89.746094 664.542969 L 89.746094 632.507812 L 89.84375 604.335938 L 89.84375 600.566406 L 93.609375 600.566406 L 117.449219 600.472656 C 122.347656 600.472656 126.617188 601.980469 130.261719 604.996094 C 134.660156 608.578125 136.859375 613.066406 136.859375 618.46875 C 136.859375 620.480469 136.480469 622.460938 135.726562 624.40625 C 133.96875 629.117188 130.605469 632.542969 125.644531 634.675781 C 129.289062 638.949219 132.964844 647.300781 136.671875 659.738281 "/><path class="r" d="M 150.613281 664.542969 L 142.417969 664.542969 L 144.679688 659.269531 L 169.175781 602.734375 L 170.210938 600.472656 L 175.113281 600.472656 L 176.148438 602.734375 L 200.644531 659.269531 L 202.90625 664.542969 L 194.710938 664.542969 L 193.671875 662.28125 L 172.660156 613.757812 L 151.652344 662.28125 Z M 150.613281 664.542969 "/><path class="r" d="M 219.773438 664.542969 L 212.234375 664.542969 L 212.234375 600.472656 L 218.453125 600.472656 L 219.394531 602.734375 L 241.445312 651.542969 L 263.398438 602.734375 L 264.339844 600.472656 L 270.558594 600.472656 L 270.558594 604.242188 L 270.652344 660.773438 L 270.652344 664.542969 L 263.113281 664.542969 L 263.113281 660.773438 L 263.019531 621.765625 L 244.835938 662.28125 L 243.894531 664.542969 L 238.996094 664.542969 L 238.050781 662.28125 L 219.773438 621.765625 Z M 219.773438 664.542969 "/><path class="r" d="M 319.835938 618.375 C 319.835938 616.179688 319.050781 614.199219 317.480469 612.441406 C 314.78125 609.488281 311.105469 608.011719 306.457031 608.011719 C 303.753906 608.011719 301.210938 608.640625 298.824219 609.894531 C 294.992188 611.90625 293.078125 614.734375 293.078125 618.375 C 293.078125 619.003906 293.234375 619.664062 293.546875 620.355469 C 294.617188 622.425781 298.164062 624.625 304.195312 626.949219 C 311.667969 629.902344 316.160156 631.722656 317.667969 632.414062 C 325.269531 636.246094 329.070312 640.988281 329.070312 646.640625 C 329.007812 650.664062 327.308594 654.367188 323.984375 657.761719 C 319.394531 662.28125 313.554688 664.542969 306.457031 664.542969 C 300.300781 664.542969 294.992188 662.816406 290.535156 659.363281 C 286.074219 655.78125 283.84375 651.542969 283.84375 646.640625 L 291.382812 646.640625 C 291.441406 648.84375 292.386719 650.851562 294.207031 652.671875 C 297.285156 655.5625 301.367188 657.007812 306.457031 657.007812 C 309.660156 657.007812 312.644531 656.316406 315.40625 654.933594 C 319.488281 652.863281 321.53125 650.097656 321.53125 646.640625 C 321.53125 645.953125 321.34375 645.261719 320.96875 644.570312 C 319.898438 642.433594 316.316406 640.171875 310.226562 637.785156 C 302.8125 634.898438 298.382812 633.105469 296.941406 632.414062 C 289.339844 628.644531 285.539062 623.96875 285.539062 618.375 C 285.539062 614.292969 287.046875 610.585938 290.0625 607.257812 C 294.207031 602.734375 299.671875 600.472656 306.457031 600.472656 C 311.859375 600.472656 316.570312 602.042969 320.589844 605.183594 C 325.113281 608.765625 327.375 613.164062 327.375 618.375 Z M 319.835938 618.375 "/><path class="t" d="M 379.949219 600.472656 L 383.71875 600.472656 L 383.71875 608.011719 L 363.085938 608.011719 L 363.085938 664.542969 L 355.546875 664.542969 L 355.546875 608.011719 L 334.722656 608.011719 L 334.722656 600.472656 Z M 379.949219 600.472656 "/><path class="t" d="M 440.25 600.472656 L 440.25 608.011719 L 402.5625 608.011719 L 402.5625 628.738281 L 430.074219 628.738281 L 430.074219 636.277344 L 402.5625 636.277344 L 402.5625 657.007812 L 440.25 657.007812 L 440.25 664.542969 L 395.023438 664.542969 L 395.023438 600.472656 Z M 440.25 600.472656 "/><path class="t" d="M 488.210938 602.074219 L 489.339844 600.472656 L 498.574219 600.472656 L 494.429688 606.410156 L 476.90625 631.285156 L 496.125 658.609375 L 500.273438 664.542969 L 491.039062 664.542969 L 489.90625 662.941406 L 472.289062 637.878906 L 454.667969 662.941406 L 453.535156 664.542969 L 444.304688 664.542969 L 448.449219 658.609375 L 467.671875 631.285156 L 450.144531 606.410156 L 446 600.472656 L 455.234375 600.472656 L 456.363281 602.074219 L 472.289062 624.6875 Z M 488.210938 602.074219 "/></svg></a>
     <nav class="dnav" aria-label="Principal">
-      <a href="#catalogo" data-view="cat">Catálogo</a>
-      <a href="#merchandising" data-view="merch">Merchandising</a>
-      <a href="#quienes">Quiénes somos</a>
-      <a href="#hacemos">Qué hacemos</a>
-      <a href="#proceso">Cómo trabajamos</a>
-      <a href="#casos">Casos de éxito</a>
-      <a class="btn" href="#contacto">Pide presupuesto</a>
+      <a href="/catalogo/" data-view="cat">Catálogo</a>
+      <a href="/merchandising/" data-view="merch">Merchandising</a>
+      <a href="/#quienes">Quiénes somos</a>
+      <a href="/#hacemos">Qué hacemos</a>
+      <a href="/#proceso">Cómo trabajamos</a>
+      <a href="/#casos">Casos de éxito</a>
+      <a class="btn" href="/#contacto">Pide presupuesto</a>
     </nav>
     <button class="menubtn" id="menubtn" type="button" aria-expanded="false" aria-controls="menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path id="mi1" d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -432,14 +446,14 @@ img.pack{object-fit:contain!important;padding:6%}
 </header>
 
 <div class="menu" id="menu" hidden>
-  <a class="mi" href="#inicio">Inicio</a>
-  <a class="mi" href="#catalogo">Catálogo</a>
-  <a class="mi" href="#merchandising">Merchandising</a>
-  <a class="mi" href="#quienes">Quiénes somos</a>
-  <a class="mi" href="#hacemos">Qué hacemos</a>
-  <a class="mi" href="#proceso">Cómo trabajamos</a>
-  <a class="mi" href="#casos">Casos de éxito</a>
-  <a class="mi" href="#contacto">Contacto</a>
+  <a class="mi" href="/">Inicio</a>
+  <a class="mi" href="/catalogo/">Catálogo</a>
+  <a class="mi" href="/merchandising/">Merchandising</a>
+  <a class="mi" href="/#quienes">Quiénes somos</a>
+  <a class="mi" href="/#hacemos">Qué hacemos</a>
+  <a class="mi" href="/#proceso">Cómo trabajamos</a>
+  <a class="mi" href="/#casos">Casos de éxito</a>
+  <a class="mi" href="/#contacto">Contacto</a>
   <div class="mcta">
     <a class="btn" href="https://wa.me/34682368645" target="_blank" rel="noopener">WhatsApp</a>
     <a class="btn ghost" href="mailto:info@ramstex.com">Correo</a>
@@ -457,18 +471,18 @@ img.pack{object-fit:contain!important;padding:6%}
         <p>Llevamos tu marca a <b>camisetas, sudaderas, polos, chaquetas</b> y todo tipo de <b>merchandising</b>, con estampado, bordado o serigrafía.</p>
         <p>Nos encargamos de <b>todo el proceso</b> y te asesoramos en cada paso: desde el diseño de la prenda hasta su entrega.</p>
         <div class="ctas">
-          <a class="btn wht" href="#contacto">Pide presupuesto</a>
-          <a class="btn owht" href="#catalogo">Ver catálogo</a>
+          <a class="btn wht" href="/#contacto">Pide presupuesto</a>
+          <a class="btn owht" href="/catalogo/">Ver catálogo</a>
         </div>
       </div>
-      <div class="hart"><picture><source type="image/webp" srcset="portada-900.webp 900w, portada.webp 1448w" sizes="(max-width:900px) 100vw, 600px"><img src="portada-900.png" alt="Camiseta blanca, sudadera negra con capucha y sudadera beige personalizadas con el logo de Ramstex" width="1448" height="1069" fetchpriority="high"></picture></div>
+      <div class="hart"><picture><source type="image/webp" srcset="/portada-900.webp 900w, /portada.webp 1448w" sizes="(max-width:900px) 100vw, 600px"><img src="/portada-900.png" alt="Camiseta blanca, sudadera negra con capucha y sudadera beige personalizadas con el logo de Ramstex" width="1448" height="1069" fetchpriority="high"></picture></div>
     </div>
   </div>
   </div>
 
   <section id="quienes">
     <div class="wrap about">
-      <figure class="aboutimg"><img src="taller.jpg" srcset="taller-900.jpg 900w, taller.jpg 1672w" sizes="(max-width:900px) 100vw, 560px" alt="Mesa de trabajo de Ramstex con sudaderas y camisetas dobladas, una ficha técnica y muestras de tejido" width="1672" height="941" loading="lazy" decoding="async"></figure>
+      <figure class="aboutimg"><img src="/taller.jpg" srcset="/taller-900.jpg 900w, /taller.jpg 1672w" sizes="(max-width:900px) 100vw, 560px" alt="Mesa de trabajo de Ramstex con sudaderas y camisetas dobladas, una ficha técnica y muestras de tejido" width="1672" height="941" loading="lazy" decoding="async"></figure>
       <div>
         <h2>Quiénes somos</h2>
         <p class="big">Somos una empresa que crea ropa y merchandising personalizados para todo tipo de empresas, eventos, marcas y proyectos personales.</p>
@@ -489,7 +503,7 @@ img.pack{object-fit:contain!important;padding:6%}
       <div class="services">
         <div class="svc"><h3>Ropa para empresas y equipos</h3><p>Uniformes, polos, sudaderas y camisetas con tu logo bordado o estampado, con tallas y colores a elegir.</p></div>
         <div class="svc"><h3>Eventos y celebraciones</h3><p>Camisetas para ferias, fiestas, torneos, despedidas de soltero y cualquier grupo que quiera ir a juego.</p></div>
-        <div class="svc"><h3>Merchandising</h3><p>Tazas, botellas, bolígrafos, libretas, tecnología y todo lo que se te ocurra para regalar a clientes o vender en tu marca.</p><a class="svclink" href="#merchandising">Ver merchandising</a></div>
+        <div class="svc"><h3>Merchandising</h3><p>Tazas, botellas, bolígrafos, libretas, tecnología y todo lo que se te ocurra para regalar a clientes o vender en tu marca.</p><a class="svclink" href="/merchandising/">Ver merchandising</a></div>
         <div class="svc"><h3>Marcas y proyectos propios</h3><p>Producimos tu colección o tu primera tirada. Te ayudamos a pasar de la idea a la prenda terminada.</p></div>
       </div>
     </div>
@@ -504,7 +518,7 @@ img.pack{object-fit:contain!important;padding:6%}
         </div>
       </div>
       <div class="duo">
-        <a class="duocard" href="#catalogo">
+        <a class="duocard" href="/catalogo/">
           <div class="duoimg"><img src="https://images.unsplash.com/photo-1699275303942-47957eea44b1?w=1200&h=900&fit=crop&auto=format&q=80" alt="Sudaderas con capucha de colores colgadas en un perchero" loading="lazy"></div>
           <div class="duotxt">
             <h3>Textil</h3>
@@ -512,8 +526,8 @@ img.pack{object-fit:contain!important;padding:6%}
             <span class="btn">Ver catálogo</span>
           </div>
         </a>
-        <a class="duocard" href="#merchandising">
-          <div class="duoimg"><img src="merch-home-900.jpg" srcset="merch-home-900.jpg 900w, merch-home.jpg 1600w" sizes="(max-width:900px) 100vw, 560px" alt="Mochila, botella, libreta, gorra, taza, altavoz, bolígrafo, batería y lanyard personalizables" loading="lazy"></div>
+        <a class="duocard" href="/merchandising/">
+          <div class="duoimg"><img src="/merch-home-900.jpg" srcset="/merch-home-900.jpg 900w, /merch-home.jpg 1600w" sizes="(max-width:900px) 100vw, 560px" alt="Mochila, botella, libreta, gorra, taza, altavoz, bolígrafo, batería y lanyard personalizables" loading="lazy"></div>
           <div class="duotxt">
             <h3>Merchandising</h3>
             <p>Tazas, botellas, bolígrafos, libretas, tecnología, bolsas y regalos de empresa para llevar tu marca a todas partes.</p>
@@ -628,8 +642,8 @@ img.pack{object-fit:contain!important;padding:6%}
       <p>Ropa y merchandising personalizados.</p>
     </div>
     <div class="flinks">
-      <a href="#catalogo">Catálogo</a>
-      <a href="#merchandising">Merchandising</a>
+      <a href="/catalogo/">Catálogo</a>
+      <a href="/merchandising/">Merchandising</a>
       <a href="https://wa.me/34682368645" target="_blank" rel="noopener">WhatsApp</a>
       <a href="mailto:info@ramstex.com">info@ramstex.com</a>
       <a class="ig" href="https://www.instagram.com/rams_tex/" target="_blank" rel="noopener">Instagram</a>
@@ -652,7 +666,7 @@ img.pack{object-fit:contain!important;padding:6%}
 var INSTAGRAM_URL = "https://www.instagram.com/rams_tex/";
 document.querySelectorAll(".ig").forEach(function(a){a.href=INSTAGRAM_URL;});
 
-document.getElementById("f").addEventListener("submit", function(e){
+var FORM=document.getElementById("f"); if(FORM) FORM.addEventListener("submit", function(e){
   e.preventDefault();
   var d = new FormData(e.target);
   var body = "Nombre: " + d.get("n") + "\nContacto: " + d.get("c") + "\n\n" + d.get("m");
@@ -676,6 +690,13 @@ var $=function(i){return document.getElementById(i)};
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 function norm(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");}
 function fmt(n){return n.toLocaleString("es-ES");}
+/* Direcciones reales para Google (igual que scripts/seo-categorias.mjs) */
+function slug(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");}
+function prodSlug(r,n){var x=slug(n);if(x.length>70)x=x.slice(0,70).replace(/-[^-]*$/,"");return slug(r)+(x?"-"+x:"");}
+function pURL(it){return "/producto/"+prodSlug(it.r,it.n)+"/";}
+var CS={}; function cURL(c){return (isM(c)?"/merchandising/":"/catalogo/")+(CS[c]?CS[c][4]+"/":"");}
+var SITE="https://ramstex.com", HOMETITLE="Ramstex | Ropa y merchandising personalizados para empresas";
+function setMeta(title,path){document.title=title;var l=document.getElementById("canon");if(l)l.href=SITE+path;}
 
 /* Fotos: directamente del proveedor, en alta calidad */
 var IMG="https://cdn.europeancatalog.com/", IMG2="https://cdn.toptex.com/";
@@ -709,7 +730,7 @@ var S={q:"",c:"",s:[],g:[],m:[],cu:[],ft:[],col:[],w:[],u:[],f:[],o:"rec"}, SHOW
 var KEYS=["s","g","m","cu","ft","col","w","u","f"];
 
 function prep(){
-  D.cats.forEach(function(c){CATN[c[0]]=c[1];});
+  D.cats.forEach(function(c){CATN[c[0]]=c[1];CS[c[0]]=c;});
   ITEMS=D.items;
   ITEMS.forEach(function(it,i){
     it.ix=i; it.cur=-1;
@@ -730,7 +751,7 @@ function parseQ(){
     var v=[stemW(w)]; (SYN[w]||SYN[stemW(w)]||[]).forEach(function(x){v.push(x);}); return v;
   });
 }
-var SEC="cat"; function isM(c){return c.indexOf("m-")===0;} function BASE(){return SEC==="merch"?"#merchandising":"#catalogo";}
+var SEC="cat"; function isM(c){return c.indexOf("m-")===0;} function BASE(){return SEC==="merch"?"/merchandising/":"/catalogo/";}
 function match(it,skip){
   if(isM(it.c)!==(SEC==="merch")) return false;
   if(skip!=="c"&&S.c&&it.c!==S.c) return false;
@@ -751,16 +772,21 @@ function uniqA(a){return a.filter(function(v,i){return a.indexOf(v)===i;});}
 
 /* ---------- Estado en la dirección (para volver atrás y compartir) ---------- */
 function toHash(){
-  var p=new URLSearchParams(); if(S.c)p.set("c",S.c);
+  var p=new URLSearchParams();
   KEYS.forEach(function(k){if(S[k].length)p.set(k,S[k].join("."));});
   if(S.q)p.set("q",S.q); if(S.o!=="rec")p.set("o",S.o);
-  var s=p.toString(), h=BASE()+(s?"?"+s:"");
-  if(location.hash!==h) history.replaceState(null,"",h);
+  var s=p.toString(), base=S.c&&CS[S.c]?cURL(S.c):BASE(), h=base+(s?"?"+s:"");
+  if(location.pathname+location.search!==h){history.replaceState(null,"",h+location.hash);lastRouted=location.href;}
   lastCat=h;
+  var c=S.c&&CS[S.c];
+  setMeta(c?c[5]+" | Ramstex":(SEC==="merch"?"Merchandising personalizado para empresas | Ramstex":"Catálogo de ropa personalizada para empresas | Ramstex"),base);
 }
-function fromHash(h){
-  var i=h.indexOf("?"), p=new URLSearchParams(i<0?"":h.slice(i+1));
-  S.c=p.get("c")||""; S.q=p.get("q")||""; S.o=p.get("o")||"rec";
+var OLDC="";
+function fromHash(){
+  var p=new URLSearchParams(location.search), sl=location.pathname.split("/")[2]||"";
+  S.c=""; if(sl) D.cats.forEach(function(c){if(c[4]===sl&&isM(c[0])===(SEC==="merch"))S.c=c[0];});
+  if(OLDC){S.c=OLDC;OLDC="";}
+  S.q=p.get("q")||""; S.o=p.get("o")||"rec";
   KEYS.forEach(function(k){S[k]=p.get(k)?p.get(k).split("."):[];});
   $("q").value=S.q; $("sort").value=S.o; parseQ();
 }
@@ -807,11 +833,11 @@ function renderFacets(){
 function renderCats(){
   var cc=countBy("c",function(it){return [it.c];}), total=0;
   Object.keys(cc).forEach(function(k){total+=cc[k];});
-  var h='<button type="button" class="chip" data-c="" aria-pressed="'+(!S.c)+'">Todas las categorías</button>';
+  var h='<a class="chip" data-c="" href="'+BASE()+'"'+(!S.c?' aria-current="page"':"")+'>Todas las categorías</a>';
   D.cats.forEach(function(c){
     if(isM(c[0])!==(SEC==="merch")) return;
     if(!cc[c[0]]&&S.c!==c[0]) return;
-    h+='<button type="button" class="chip" data-c="'+c[0]+'" aria-pressed="'+(S.c===c[0])+'">'+esc(c[1])+'<small>'+fmt(cc[c[0]]||0)+'</small></button>';
+    h+='<a class="chip" data-c="'+c[0]+'" href="'+cURL(c[0])+'"'+(S.c===c[0]?' aria-current="page"':"")+'>'+esc(c[1])+'<small>'+fmt(cc[c[0]]||0)+'</small></a>';
   });
   $("cats").innerHTML=h;
 }
@@ -855,15 +881,16 @@ function renderLanding(){
     var kw=TILEKW[c[0]], pick=null;
     if(TILEPIC[c[0]]) pick=ITEMS.filter(function(x){return x.r===TILEPIC[c[0]];})[0]||null;
     for(var i=0;i<ITEMS.length&&!pick;i++){var it=ITEMS[i];if(it.c!==c[0]||(!isM(it.c)&&it.i.indexOf("pictures/")!==0&&!isJ(it.i)))continue;if(!pick)pick=it;if(!kw||norm(it.n).indexOf(kw)===0){pick=it;break;}}
-    h+='<a class="tile'+(isM(c[0])?" m":"")+'" href="'+BASE()+'?c='+c[0]+'" data-c="'+c[0]+'"><div class="ph"><img alt="" loading="lazy" decoding="async" data-st="'+(pick?pick.i:"")+'"></div><b>'+esc(c[1])+'</b><span>'+fmt(c[2])+' productos</span></a>';
+    h+='<a class="tile'+(isM(c[0])?" m":"")+'" href="'+cURL(c[0])+'" data-c="'+c[0]+'"><div class="ph"><img alt="" loading="lazy" decoding="async" data-st="'+(pick?pick.i:"")+'"></div><b>'+esc(c[1])+'</b><span>'+fmt(c[2])+' productos</span></a>';
   });
   $("landing").innerHTML=h; $("landing").dataset.sec=SEC;
   [].forEach.call($("landing").querySelectorAll("img"),function(img){if(img.dataset.st)setSrc(img,img.dataset.st,600);});
 }
 function secTexts(){
   var n=ITEMS.filter(function(it){return isM(it.c)===(SEC==="merch");}).length, r=fmt(Math.floor(n/100)*100);
-  $("cattitle").textContent=SEC==="merch"?"Merchandising":"Elige tu prenda";
-  $("catsub").textContent=SEC==="merch"
+  var cs=S.c&&CS[S.c];
+  $("cattitle").textContent=cs&&cs[6]?cs[6]:(SEC==="merch"?"Merchandising":"Elige tu prenda");
+  $("catsub").textContent=cs&&cs[7]?cs[7]:SEC==="merch"
     ?"Más de "+r+" artículos promocionales para personalizar con tu logo: tazas, botellas, bolígrafos, libretas, tecnología, bolsas y mucho más. Añade lo que te interese a tu presupuesto y te respondemos con el diseño y el precio."
     :"Más de "+r+" prendas y productos listos para personalizar con tu logo. Filtra por tipo, color, gramaje o uso, añade lo que te interese a tu presupuesto y te respondemos con el diseño y el precio.";
   $("q").placeholder=SEC==="merch"?"Busca por nombre o referencia: taza, bolígrafo, power bank…":"Busca por nombre o referencia: sudadera, gorra, K330…";
@@ -895,13 +922,13 @@ function dotsFor(it,max,onPick){
     b.onclick=function(){it.cur=(it.cur===i?-1:i);[].forEach.call(d.querySelectorAll(".dot"),function(x,j){x.setAttribute("aria-pressed",j===it.cur);});onPick();};
     d.appendChild(b);
   });
-  if(it.k.length>max){var a=document.createElement("a");a.className="dmore";a.href="#producto/"+encodeURIComponent(it.r);a.textContent="+"+(it.k.length-max);d.appendChild(a);}
+  if(it.k.length>max){var a=document.createElement("a");a.className="dmore";a.href=pURL(it);a.textContent="+"+(it.k.length-max);d.appendChild(a);}
   return d;
 }
 function card(it){
   it.cur=-1; /* siempre empieza con la foto principal */
   var c=document.createElement("article");c.className="card";
-  var href="#producto/"+encodeURIComponent(it.r);
+  var href=pURL(it);
   var tag=it.f.indexOf("n")>=0?"Novedad":(it.f.indexOf("e")>=0?"Ecológico":"");
   c.innerHTML='<a class="frame" href="'+href+'"><img alt="'+esc(it.n)+'" loading="lazy" decoding="async">'+(tag?'<span class="tag">'+tag+'</span>':"")+'</a>'+
     '<div class="info"><span class="ref">Ref. '+esc(it.r)+'</span><h3><a href="'+href+'">'+esc(it.n)+'</a></h3><div class="meta">'+esc(D.subs[it.s])+(it.w?" · "+it.w+" g/m²":"")+'</div>'+
@@ -915,8 +942,8 @@ function card(it){
 }
 
 /* ---------- Eventos del catálogo ---------- */
-$("landing").addEventListener("click",function(e){var a=e.target.closest("[data-c]");if(!a)return;e.preventDefault();S.c=a.dataset.c;S.s=[];renderCat();window.scrollTo(0,0);});
-$("cats").addEventListener("click",function(e){var b=e.target.closest("[data-c]");if(!b)return;S.c=b.dataset.c;S.s=[];renderCat();});
+/* las fichas de categoría son enlaces normales: los gestiona la navegación general */
+$("cats").addEventListener("click",function(e){var b=e.target.closest("[data-c]");if(!b||e.metaKey||e.ctrlKey||e.shiftKey)return;e.preventDefault();S.c=b.dataset.c;S.s=[];renderCat();});
 $("facets").addEventListener("change",function(e){
   var i=e.target; if(!i.dataset.k) return; var a=S[i.dataset.k], p=a.indexOf(i.value);
   if(i.checked&&p<0)a.push(i.value); if(!i.checked&&p>=0)a.splice(p,1); renderCat();
@@ -943,13 +970,13 @@ $("fbtn").onclick=function(){side(true);}; $("sideclose").onclick=$("sideok").on
 /* ---------- Ficha de producto ---------- */
 function fichaOf(it,cb){
   if(FICHAS[it.c]) return cb(FICHAS[it.c][it.r]||{});
-  fetch("data/fichas/"+it.c+".json?v="+BUILD,{cache:"no-cache"}).then(function(r){return r.json();}).then(function(d){FICHAS[it.c]=d;cb(d[it.r]||{});}).catch(function(){cb({});});
+  fetch("/data/fichas/"+it.c+".json?v="+BUILD,{cache:"no-cache"}).then(function(r){return r.json();}).then(function(d){FICHAS[it.c]=d;cb(d[it.r]||{});}).catch(function(){cb({});});
 }
 /* ---------- Stock (se carga solo al abrir una ficha) ---------- */
 var STOCK={};
 function stockOf(c,cb){
   if(STOCK[c]!==undefined) return cb(STOCK[c]);
-  fetch("data/stock/"+c+".json?v="+BUILD,{cache:"no-cache"}).then(function(r){return r.ok?r.json():null;}).then(function(d){STOCK[c]=d;cb(d);}).catch(function(){STOCK[c]=null;cb(null);});
+  fetch("/data/stock/"+c+".json?v="+BUILD,{cache:"no-cache"}).then(function(r){return r.ok?r.json():null;}).then(function(d){STOCK[c]=d;cb(d);}).catch(function(){STOCK[c]=null;cb(null);});
 }
 function stockUI(it,f){
   var box=$("pstock"); if(!box) return;
@@ -975,7 +1002,10 @@ function stockUI(it,f){
 }
 function renderProduct(it){
   var box=$("prod"); it.cur=-1;
-  box.innerHTML='<a class="back" href="'+(lastCat||"#catalogo")+'">Volver al catálogo</a><p class="meta">Cargando…</p>';
+  var backH=lastCat||cURL(it.c);
+  setMeta(it.n+" personalizable (ref. "+it.r+") | Ramstex",pURL(it));
+  if(box.dataset.pre===it.r) box.dataset.pre=""; /* ficha ya escrita en la página: se deja mientras carga */
+  else box.innerHTML='<a class="back" href="'+backH+'">Volver al catálogo</a><p class="meta">Cargando…</p>';
   fichaOf(it,function(f){
     var gen=it.g.split("").map(function(x){return GENL[x];}).join(", ");
     var badges=[];
@@ -984,7 +1014,7 @@ function renderProduct(it){
     if(it.f.indexOf("x")>=0)badges.push("Tallas grandes");
     var specs=[["Referencia",it.r+((it.v||[]).length?" (también "+it.v.join(", ")+")":"")],["Composición",f.comp],["Gramaje",f.peso],["Corte",f.fit],["Acabado",f.fin],["Cuello",f.neck],["Bolsillos",f.pk],["Impermeable",f.wp],["Colores",it.k.length+" disponibles"],["Personalización",isM(it.c)?"Impresión o grabado con tu logo (según el artículo)":"Estampado, bordado, serigrafía o DTF"]].filter(function(s){return s[1];});
     var wa="https://wa.me/34682368645?text="+encodeURIComponent("Hola, me interesa este producto del catálogo: "+it.n+" (ref. "+it.r+")");
-    box.innerHTML='<a class="back" href="'+(lastCat||"#catalogo")+'">Volver al catálogo</a>'+
+    box.innerHTML='<a class="back" href="'+backH+'">Volver al catálogo</a>'+
      '<div class="pd"><div class="pgal"><div class="big"><img alt="'+esc(it.n)+'"></div><div class="thumbs"></div></div>'+
      '<div class="pinfo"><span class="ref">Ref. '+esc(it.r)+'</span><h1>'+esc(it.n)+'</h1><div class="meta">'+esc(D.subs[it.s])+(gen?" · "+esc(gen):"")+'</div>'+
      (badges.length?'<div class="badges">'+badges.map(function(b){return "<span>"+esc(b)+"</span>";}).join("")+'</div>':"")+
@@ -1049,43 +1079,76 @@ var loading=null;
 function ensureData(cb){
   if(D) return cb();
   if(!loading){
-    $("grid").innerHTML=new Array(7).join('<div class="skel"></div>');
-    loading=fetch("data/catalogo.json?v="+BUILD,{cache:"no-cache"}).then(function(r){return r.json();}).then(function(d){D=d;prep();});
+    if(!$("grid").querySelector(".card")) $("grid").innerHTML=new Array(7).join('<div class="skel"></div>'); /* si ya hay productos escritos en la página, se dejan mientras carga */
+    loading=fetch("/data/catalogo.json?v="+BUILD,{cache:"no-cache"}).then(function(r){return r.json();}).then(function(d){D=d;prep();});
   }
   loading.then(cb).catch(function(){$("grid").innerHTML='<p class="empty">No se ha podido cargar el catálogo. Vuelve a intentarlo en un momento.</p>';});
 }
 
 /* ---------- Navegación entre páginas ---------- */
 var VH=$("view-home"),VC=$("view-cat"),VP=$("view-prod"),first=true,lastCat="",catScroll=0,inCat=false;
+function findProd(sl){
+  var it=null, best=0;
+  ITEMS.forEach(function(x){if(it&&best>999)return; if(prodSlug(x.r,x.n)===sl){it=x;best=1000;return;} var r=slug(x.r); if(r.length>best&&(sl===r||sl.indexOf(r+"-")===0)){it=x;best=r.length;}});
+  return it;
+}
 function route(){
-  var h=location.hash||"";
+  var path=location.pathname, h=location.hash||"", full=path+location.search;
+  lastRouted=location.href;
   document.querySelectorAll(".dnav a[data-view]").forEach(function(a){a.removeAttribute("aria-current");});
   if(inCat) catScroll=window.scrollY;
-  if(h.indexOf("#catalogo")===0||h.indexOf("#merchandising")===0){
-    var back=(h===lastCat&&D);
-    var nsec=h.indexOf("#merchandising")===0?"merch":"cat";
+  if(/^\/(catalogo|merchandising)\//.test(path)){
+    var back=(full===lastCat&&D);
+    var nsec=path.indexOf("/merchandising/")===0?"merch":"cat";
     if(nsec!==SEC){SEC=nsec;back=false;}
     VH.hidden=true;VP.hidden=true;VC.hidden=false;inCat=true;
     var nav=document.querySelector('.dnav a[data-view="'+SEC+'"]'); if(nav) nav.setAttribute("aria-current","page");
-    fromHash(h);
-    ensureData(function(){renderCat(back); window.scrollTo(0,back?catScroll:0);});
+    ensureData(function(){fromHash(); renderCat(back); window.scrollTo(0,back?catScroll:0);});
     if(!back) window.scrollTo(0,0);
-  } else if(h.indexOf("#producto/")===0){
+  } else if(path.indexOf("/producto/")===0){
     inCat=false; VH.hidden=true;VC.hidden=true;VP.hidden=false; window.scrollTo(0,0);
-    var ref=decodeURIComponent(h.slice(10));
+    var sl=decodeURIComponent(path.split("/")[2]||"");
     ensureData(function(){
-      var it=ITEMS.filter(function(x){return x.r===ref;})[0];
-      if(it){SEC=isM(it.c)?"merch":"cat"; renderProduct(it);} else $("prod").innerHTML='<a class="back" href="#catalogo">Volver al catálogo</a><p>Este producto ya no está disponible.</p>';
+      var it=findProd(sl);
+      if(it){
+        if(pURL(it)!==path) history.replaceState(null,"",pURL(it)); /* dirección antigua o con otro nombre */
+        SEC=isM(it.c)?"merch":"cat"; renderProduct(it);
+      } else $("prod").innerHTML='<a class="back" href="/catalogo/">Volver al catálogo</a><p>Este producto ya no está disponible.</p>';
     });
   } else {
     inCat=false;
+    if(!VH.children.length){location.reload();return;} /* página sin el contenido de inicio: se carga entera */
     var wasOther=VH.hidden; VC.hidden=true;VP.hidden=true;VH.hidden=false;
+    setMeta(HOMETITLE,"/");
     if(h==="#inicio"||!h){window.scrollTo(0,0);}
     else if(wasOther||first){var t=document.querySelector(h); if(t) t.scrollIntoView();}
   }
   first=false;
 }
-window.addEventListener("hashchange",route);
+/* Enlaces internos: se cambia de página sin recargar (igual de rápido que antes) */
+var lastRouted="";
+document.addEventListener("click",function(e){
+  if(e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
+  var a=e.target.closest("a"); if(!a||a.target||a.hasAttribute("download")||!a.href) return;
+  var u=new URL(a.href,location.href); if(u.origin!==location.origin) return;
+  if(!/^\/($|catalogo\/|merchandising\/|producto\/)/.test(u.pathname)) return;
+  if(u.pathname===location.pathname&&u.search===location.search&&u.hash) return; /* ancla en la misma página */
+  if(u.pathname==="/"&&!VH.children.length) return; /* el inicio se carga entero */
+  e.preventDefault();
+  if(u.href!==location.href) history.pushState(null,"",u.href);
+  route();
+});
+window.addEventListener("popstate",function(){if(location.href!==lastRouted)route();});
+window.addEventListener("hashchange",function(){oldHash();if(location.href!==lastRouted)route();});
+if("scrollRestoration" in history) history.scrollRestoration="manual";
+/* Direcciones antiguas con # (enlaces ya compartidos) */
+function oldHash(){
+  var h=location.hash, m=h.match(/^#(catalogo|merchandising)(\?.*)?$/);
+  if(m){var p=new URLSearchParams((m[2]||"").slice(1)); OLDC=p.get("c")||""; p.delete("c"); var q=p.toString(); history.replaceState(null,"","/"+m[1]+"/"+(q?"?"+q:""));}
+  else if(h.indexOf("#producto/")===0) history.replaceState(null,"","/producto/"+slug(decodeURIComponent(h.slice(10)))+"/");
+  else if(h==="#inicio") history.replaceState(null,"","/");
+}
+oldHash();
 cartUI(); route();
 </script>
 </body>

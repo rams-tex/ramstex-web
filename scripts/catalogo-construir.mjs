@@ -3,6 +3,7 @@
 //   data/fichas/<cat>.json  -> descripción y detalles, que se cargan al abrir una ficha
 // No incluye precios ni marcas de proveedor.
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
+import { SEO_CATS } from "./seo-categorias.mjs";
 
 const src = JSON.parse(readFileSync("data/toptex.json", "utf8"));
 // Otros proveedores con el mismo formato (si existen)
@@ -194,7 +195,8 @@ for (const it of items) delete it.h;
 
 const counts = {};
 for (const it of items) counts[it.c] = (counts[it.c] || 0) + 1;
-const cats = CATS.filter(c => counts[c[0]]).map(c => [c[0], c[1], counts[c[0]], c[0].startsWith("m-") ? 1 : 0]);
+// [id, nombre, nº productos, merch, slug, título SEO, H1, texto de entrada]
+const cats = CATS.filter(c => counts[c[0]]).map(c => { const t = SEO_CATS[c[0]] || [c[0], c[1], c[1], ""]; return [c[0], c[1], counts[c[0]], c[0].startsWith("m-") ? 1 : 0, ...t]; });
 
 writeFileSync("data/catalogo.json", JSON.stringify({ updated: new Date().toISOString().slice(0, 10), cats, subs: SUBS, world: WORLD, doms: DOMS, items }));
 rmSync("data/fichas", { recursive: true, force: true });
