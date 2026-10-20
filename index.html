@@ -1017,10 +1017,10 @@ function renderProduct(it){
     box.innerHTML='<a class="back" href="'+backH+'">Volver al catálogo</a>'+
      '<div class="pd"><div class="pgal"><div class="big"><img alt="'+esc(it.n)+'"></div><div class="thumbs"></div></div>'+
      '<div class="pinfo"><span class="ref">Ref. '+esc(it.r)+'</span><h1>'+esc(it.n)+'</h1><div class="meta">'+esc(D.subs[it.s])+(gen?" · "+esc(gen):"")+'</div>'+
+     '<h3 class="pcol"></h3><div class="dh"></div>'+
      (badges.length?'<div class="badges">'+badges.map(function(b){return "<span>"+esc(b)+"</span>";}).join("")+'</div>':"")+
      (f.d?'<p class="desc">'+esc(f.d)+'</p>':"")+
      ((f.a||[]).length?'<ul class="args">'+f.a.map(function(a){return "<li>"+esc(a)+"</li>";}).join("")+'</ul>':"")+
-     '<h3 class="pcol"></h3><div class="dh"></div>'+
      ((f.sizes||[]).length?'<h3>Tallas</h3><div class="sizes">'+f.sizes.map(function(s){return "<span>"+esc(s)+"</span>";}).join("")+'</div>':"")+
      '<h3>Stock disponible</h3><div class="pstock" id="pstock"><p class="meta">Cargando stock…</p></div>'+
      '<h3>Características</h3><dl class="specs">'+specs.map(function(s){return "<dt>"+s[0]+"</dt><dd>"+esc(s[1])+"</dd>";}).join("")+'</dl>'+

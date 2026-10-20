@@ -175,10 +175,10 @@ for (const it of D.items) {
     `<div class="pd"><div class="pgal"><div class="big">${img(pics[0], 1000, it.n, ' fetchpriority="high"')}</div><div class="thumbs">` +
     pics.map((st, i) => `<button type="button" aria-label="Ver foto" aria-pressed="${i === 0}">${img(st, 200, "", ' loading="lazy"')}</button>`).join("") + `</div></div>` +
     `<div class="pinfo"><span class="ref">Ref. ${esc(it.r)}</span><h1>${esc(it.n)}</h1><div class="meta">${esc(D.subs[it.s])}${gen ? " · " + esc(gen) : ""}</div>` +
+    `<h3 class="pcol">Colores (${it.k.length})</h3><div class="dots">${it.k.map(k => `<button type="button" class="dot" style="background:${esc(dotColor(k))}" title="${esc(k[0])}" aria-label="${esc(k[0])}" aria-pressed="false"></button>`).join("")}</div>` +
     (badges.length ? `<div class="badges">${badges.map(b => `<span>${esc(b)}</span>`).join("")}</div>` : "") +
     (f.d ? `<p class="desc">${esc(f.d)}</p>` : "") +
     ((f.a || []).length ? `<ul class="args">${f.a.map(a => `<li>${esc(a)}</li>`).join("")}</ul>` : "") +
-    `<h3 class="pcol">Colores (${it.k.length})</h3><div class="dots">${it.k.map(k => `<button type="button" class="dot" style="background:${esc(dotColor(k))}" title="${esc(k[0])}" aria-label="${esc(k[0])}" aria-pressed="false"></button>`).join("")}</div>` +
     (sizes.length ? `<h3>Tallas</h3><div class="sizes">${sizes.map(s => `<span>${esc(s)}</span>`).join("")}</div>` : "") +
     `<h3>Stock disponible</h3><div class="pstock" id="pstock"><p class="meta">Cargando stock…</p></div>` +
     `<h3>Características</h3><dl class="specs">${specs.map(s => `<dt>${s[0]}</dt><dd>${esc(s[1])}</dd>`).join("")}</dl>` +
