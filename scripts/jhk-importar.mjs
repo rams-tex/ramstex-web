@@ -24,7 +24,7 @@ const TYPE = { Camisetas: "Camiseta", Sudaderas: "Sudadera", Polos: "Polo", Chaq
 function subFromName(n) {
   n = n.toLowerCase();
   if (/\bmono\b|overall|coverall/.test(n)) return ["Ropa", "Monos"];
-  if (/pantal/.test(n)) return SUB.pantalones; if (/camiseta/.test(n)) return SUB.camisetas; if (/chaqueta|parka/.test(n)) return SUB.chaquetas;
+  if (/pantal/.test(n)) return SUB.pantalones; if (/cazadora|chaqueta/.test(n)) return SUB.chaquetas; if (/camiseta/.test(n)) return SUB.camisetas; if (/chaqueta|parka/.test(n)) return SUB.chaquetas;
   if (/polo/.test(n)) return SUB.polos; if (/sweat|hood|sudadera|crew/.test(n)) return SUB.sudaderas;
   if (/fleece|polar/.test(n)) return SUB.polares; if (/shirt.*(long|oxford|popelin)|camisa|oxford/.test(n) && !/t-shirt|tshirt/.test(n)) return SUB.camisas;
   if (/short|bermuda/.test(n)) return ["Ropa", "Bermudas / Shorts"]; if (/pant|trouser|jogger|legging/.test(n)) return SUB.pantalones;
@@ -68,7 +68,8 @@ await Promise.all(Array.from({ length: N }, async (_, w) => {
     const ref = refs[i], e = found.get(ref);
     const p = await get(`/clothes/5/${encodeURIComponent(ref)}/product.json`);
     if (!p || !p.reference) continue;
-    const [fam, sub] = (e.sub && !e.lines.has("professional")) ? e.sub : subFromName(p.name || e.name);
+    let [fam, sub] = (e.sub && !e.lines.has("professional")) ? e.sub : subFromName(p.name || e.name);
+    if (/\bvest\b|chaleco/i.test(p.name || "") && sub === "Chaquetas") sub = "Chalecos";
     const html = String(p.description_html || "");
     const first = strip((html.match(/<p[^>]*>([\s\S]*?)<\/p>/i) || [])[1] || p.description_plain || "");
     const lis = [...html.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)].map(m => strip(m[1])).filter(Boolean);
@@ -89,10 +90,10 @@ await Promise.all(Array.from({ length: N }, async (_, w) => {
       .replace(/\bcrew ?neck\b/ig, () => { extras.push("cuello redondo"); return " "; })
       .replace(/\bv-?neck\b/ig, () => { extras.push("cuello de pico"); return " "; })
       .replace(/\btank( top)?\b/ig, () => { extras.push("de tirantes"); return " "; })
-      .replace(/\b(long sleeves?|LS)\b/g, () => { extras.push("manga larga"); return " "; })
-      .replace(/\b(short sleeves?|SS)\b/g, () => { extras.push("manga corta"); return " "; })
+      .replace(/\b(long sleeves?|ls)\b/ig, () => { extras.push("manga larga"); return " "; })
+      .replace(/\b(short sleeves?|ss)\b/ig, () => { extras.push("manga corta"); return " "; })
       .replace(/\bking ?size\b/ig, () => { extras.push("tallas grandes"); return " "; })
-      .replace(/\bpique\b/ig, "piqué").replace(/\bkangaroo\b/ig, "canguro")
+      .replace(/\bpique\b/ig, "piqué").replace(/\bbaby\b/ig, "bebé").replace(/\bwlt\b/ig, "").replace(/\bmedia cremallera\b/ig, "media cremallera").replace(/\bkangaroo\b/ig, "canguro")
       .replace(/[\/]+/g, " ").replace(/\s{2,}/g, " ").trim();
     const type = TYPE[sub] || "";
     let name = [(type && !new RegExp("^" + type, "i").test(model) ? type : ""), model, ...[...new Set(extras)], who].filter(Boolean).join(" ").replace(/\s{2,}/g, " ").trim();
