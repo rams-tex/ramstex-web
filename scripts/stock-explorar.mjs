@@ -9,13 +9,12 @@ try {
   const l = await (await fetch(B + "/api/v1.1/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ username: process.env.ROLY_USER, password: process.env.ROLY_PASSWORD }) })).json();
   const H = { headers: { Authorization: "Bearer " + l.token } };
   const tries = [
-    ["POST", "/api/v1/stock/getuserstock", {}], ["POST", "/api/v1/stock/getuserstock", { brand: "roly" }],
-    ["POST", "/api/v1/stock/getuserstock", { itemcodes: ["CA64240101"] }], ["POST", "/api/v1/stock/getuserstock", ["CA64240101"]],
-    ["POST", "/api/v1.1/stock/getuserstock", { brand: "roly" }], ["GET", "/api/v1/stock/get?brand=roly"], ["GET", "/api/v1.1/stock/get?brand=roly"],
-    ["GET", "/api/v1/stock/getstock?itemcode=CA64240101"], ["GET", "/api/v1/stock/getbyitem?itemcode=CA64240101"],
+    ["POST", "/api/v1/stock/getuserstock", ""], ["POST", "/api/v1/stock/getuserstock", "brand=roly"],
+    ["POST", "/api/v1/stock/getuserstock", "brand=roly&lang=es-ES"], ["POST", "/api/v1/stock/getuserstock", "itemcode=CA64240101"],
+    ["POST", "/api/v1/stock/getuserstock", "modelcode=CA6424"], ["POST", "/api/v1/stock/getuserstock", "brand=stamina"],
   ];
   for (const [m, q, body] of tries) {
-    const r = await fetch(B + q, { method: m, headers: { ...H.headers, "Content-Type": "application/json" }, ...(body !== undefined ? { body: JSON.stringify(body) } : {}) }); const t = await r.text();
+    const r = await fetch(B + q, { method: m, headers: { ...H.headers, "Content-Type": "application/x-www-form-urlencoded" }, body }); const t = await r.text();
     let j; try { j = JSON.parse(t); } catch { j = t; }
     const arr = Array.isArray(j) ? j : (j && (j.stock || j.item || j.items || j.data));
     log("\nROLY", m, q, JSON.stringify(body || ""), "->", r.status, Array.isArray(arr) ? `(${arr.length} filas) ` + hide(arr.slice(0, 4)) : hide(j).slice(0, 1500));
