@@ -227,7 +227,7 @@ const byCat = {};
 for (const it of items) (byCat[it.c] ??= []).push(it);
 for (const list of Object.values(byCat)) {
   const ranked = list.slice().sort((a, b) => score(b) - score(a) || a.h - b.h);
-  const perBrand = {}, perModel = {}, perSub = {}, top = [], subMax = list[0].c.startsWith("m-") ? 3 : 8;
+  const perBrand = {}, perModel = {}, perSub = {}, top = [], subMax = list[0].c.startsWith("m-") ? 3 : 99;
   const model = n => nrm(n).replace(/\b(hombre|mujer|unisex|nino|nina|ninos|chico|chica|adulto)\b/g, "").replace(/\s+/g, " ").trim();
   for (const it of ranked) {
     if (top.length >= TOP) break;
