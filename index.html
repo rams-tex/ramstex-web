@@ -598,7 +598,7 @@ img.pack{object-fit:contain!important;padding:6%}
     <h1 id="cattitle">Elige tu prenda</h1>
     <p class="sub" id="catsub">Prendas y productos listos para personalizar con tu logo. Filtra por tipo, color, gramaje o uso, añade lo que te interese a tu presupuesto y te respondemos con el diseño y el precio.</p>
     <div class="bar">
-      <input class="search" id="q" type="search" placeholder="Busca por nombre o referencia: sudadera, gorra, K330…" aria-label="Buscar en el catálogo" autocomplete="off">
+      <input class="search" id="q" type="search" enterkeyhint="search" placeholder="Busca por nombre o referencia: sudadera, gorra, K330…" aria-label="Buscar en el catálogo" autocomplete="off">
       <button class="cartbtn" id="cartbtn" type="button">Mi presupuesto (<span id="cc">0</span>)</button>
     </div>
     <div class="cats" id="cats" role="group" aria-label="Categorías"></div>
@@ -963,6 +963,14 @@ $("pills").addEventListener("click",function(e){
   renderCat();
 });
 var qt; $("q").addEventListener("input",function(e){clearTimeout(qt);qt=setTimeout(function(){S.q=e.target.value.trim();parseQ();renderCat();},180);});
+/* Enter (o "Buscar" en el móvil): busca al momento, cierra el teclado y lleva a los resultados */
+$("q").addEventListener("keydown",function(e){
+  if(e.key!=="Enter"&&e.keyCode!==13) return;
+  e.preventDefault(); clearTimeout(qt);
+  var v=e.target.value.trim(); if(v!==S.q){S.q=v;parseQ();renderCat();}
+  e.target.blur();
+  var t=$("catlay").hidden?$("landing"):$("count"); if(t&&window.innerWidth<900) setTimeout(function(){window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-90,behavior:"smooth"});},250);
+});
 $("sort").onchange=function(){S.o=this.value;renderCat();};
 $("moreb").onclick=function(){
   var g=$("grid"), from=SHOWN; SHOWN+=24;
