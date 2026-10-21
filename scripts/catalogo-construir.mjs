@@ -108,6 +108,8 @@ function neckOf(p, cat) {
 function fitOf(p) {
   const f = nrm(p.fit), t = nrm(p.name + " " + p.style);
   if (/oversize|amplio|loose|holgad/.test(f + " " + t)) return "Oversize / amplio";
+  // Hombros caídos (drop shoulder): se cuentan como oversize, aunque solo lo diga la descripción
+  if (/hombros? caid|hombros? descolgad|drop(ped)?[ -]?shoulder|epaules? tombante/.test(f + " " + t + " " + nrm(p.desc + " " + (p.args || []).join(" ")))) return "Oversize / amplio";
   if (/slim|entallad|skinny|ajustad|cenid/.test(f + " " + t)) return "Entallado / slim";
   if (/recto|regular|confortable|clasic/.test(f)) return "Regular / recto";
   return "";
