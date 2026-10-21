@@ -1,0 +1,27 @@
+name: Prueba API Stanley Stella
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  explorar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: echo sin dependencias
+      - run: node scripts/stanley-explorar.mjs
+        continue-on-error: true
+        env:
+          STANLEY_USER: ${{ secrets.STANLEY_USER }}
+          STANLEY_PASSWORD: ${{ secrets.STANLEY_PASSWORD }}
+      - name: Guardar resultado en la rama diagnostico
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout -B diagnostico
+          git add -f diagnostico/stanley.txt
+          git commit -m "Resultado prueba API Stanley" || true
+          git push -f origin diagnostico
