@@ -106,7 +106,7 @@ for (const s of styles) {
   const duo = Object.values(imgs).flat().find(x => x.PhotoTypeCode === "Duo" && x.PhotoStyle === "Main");
   const pics = [main ? "T:" + main.FName : stem(pick(li, "Studio", "Front")), stem(pick(li, "Studio", "Back")), stem(duo)].filter(Boolean);
   const v0 = vars[0];
-  const type = TYPE[s.Type] || s.Type || "Prenda";
+  const type = /gilet/i.test(s.StyleName) ? "Chaleco acolchado" : (TYPE[s.Type] || s.Type || "Prenda");
   const styleName = String(s.StyleName || "").replace(/^(Stanley|Stella)\s+/i, "");
   const [fam, sub] = famSub(s);
   const sizes = [...new Set(vars.map(v => v.SizeCode))].sort((a, b) => (SIZE_ORDER.indexOf(a) + 1 || 99) - (SIZE_ORDER.indexOf(b) + 1 || 99));
