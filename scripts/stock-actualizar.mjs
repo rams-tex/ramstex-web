@@ -75,6 +75,27 @@ try {
   log.push(`JHK: ${n} referencias`);
 } catch (e) { log.push("JHK: error " + e.message); }
 
+// ---------- Sol's (FTP: stocks.csv, se actualiza cada 15 min) ----------
+try {
+  const { Client } = await import("basic-ftp");
+  const c = new Client(60000);
+  await c.access({ host: "csv.sols.es", user: process.env.SOLS_FTP_USER, password: process.env.SOLS_FTP_PASSWORD, secure: false });
+  await c.downloadTo("sols-stocks.csv", "/stocks/stocks.csv");
+  c.close();
+  const sols = JSON.parse(readFileSync("data/sols.json", "utf8"));
+  const codes = Object.fromEntries(sols.map(p => [p.ref, p.colors.map(x => x.code)]));
+  let n = 0;
+  for (const line of readFileSync("sols-stocks.csv", "utf8").replace(/^\uFEFF/, "").split(/\r?\n/).slice(1)) {
+    const [sku, es, fr] = line.split(",");
+    if (!sku) continue;
+    const ref = sku.slice(0, 5), cs = codes[ref]; if (!cs) continue;
+    const col = cs.find(x => sku.startsWith(ref + x)); if (!col) continue;
+    let size = sku.slice(5 + col.length); if (size === "TUN" || size === "TU") size = "Única";
+    put(ref, col, size, (+es || 0) + (+fr || 0)); n++; /* almacén de España + Francia */
+  }
+  log.push(`Sol's: ${n} referencias`);
+} catch (e) { log.push("Sol's: error " + e.message); }
+
 // ---------- Guardar por categoría ----------
 const ORDER = ["XXS", "XS", "S", "M", "L", "XL", "XXL", "2XL", "3XL", "XXXL", "4XL", "5XL", "6XL"];
 const rank = s => { const i = ORDER.indexOf(String(s).toUpperCase()); if (i >= 0) return i; const n = parseFloat(s); return isNaN(n) ? 100 : 50 + n / 1000; };

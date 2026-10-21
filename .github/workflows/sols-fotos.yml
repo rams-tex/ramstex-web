@@ -1,0 +1,25 @@
+name: Fotos Sol's
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: datos
+jobs:
+  fotos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/sols-fotos.mjs
+      - run: node scripts/catalogo-construir.mjs
+      - name: Guardar
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add data/sols.json data/catalogo.json data/fichas
+          git diff --cached --quiet || git commit -m "Sol's: fotos comprobadas y catálogo [skip netlify]"
+          git pull --rebase -q || true
+          git push
