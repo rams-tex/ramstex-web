@@ -119,8 +119,10 @@ const COLFIX = { Mulicolor: "Multicolor", "Diseño": "Estampado" };
 
 const brands = [...new Set(src.map(p => p.brand).filter(Boolean))].sort((a, b) => b.length - a.length);
 const brandRe = brands.length ? new RegExp("\\b(" + brands.map(b => b.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")\\b\\s*[®™]?", "gi") : null;
+const ENT = { aacute: "á", eacute: "é", iacute: "í", oacute: "ó", uacute: "ú", Aacute: "Á", Eacute: "É", Iacute: "Í", Oacute: "Ó", Uacute: "Ú", ntilde: "ñ", Ntilde: "Ñ", uuml: "ü", Uuml: "Ü", ccedil: "ç", agrave: "à", egrave: "è", ograve: "ò", iexcl: "¡", iquest: "¿", ordf: "ª", ordm: "º", deg: "°", sup2: "²", sup3: "³", frac12: "½", middot: "·", laquo: "«", raquo: "»", quot: '"', apos: "'", euro: "€", reg: "®", trade: "™", copy: "©", ndash: "–", mdash: "—", hellip: "…", rsquo: "’", lsquo: "‘", rdquo: "”", ldquo: "“", times: "×", lt: "<", gt: ">" };
+const decode = s => s.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+\d?);/gi, (m, e) => e[0] === "#" ? String.fromCodePoint(e[1].toLowerCase() === "x" ? parseInt(e.slice(2), 16) : +e.slice(1)) : (ENT[e] ?? m));
 const clean = t => {
-  let s = String(t || "").replace(/<br\s*\/?>/gi, " ").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&");
+  let s = decode(String(t || "")).replace(/<br\s*\/?>/gi, " ").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&");
   if (brandRe) s = s.replace(brandRe, "");
   return s.replace(/(?:\s+[A-Z0-9][\w-]*)*\s*\S*[™®]\S*/g, "").replace(/\s+([,.])/g, "$1").replace(/\s*\([\d-]+\)/g, "").replace(/["“”]/g, "").replace(/\s{2,}/g, " ").trim();
 };
@@ -171,9 +173,9 @@ for (const p of src) {
     z: (p.sizes || []).length ? [p.sizes[0], p.sizes[p.sizes.length - 1]].filter((v, i, a) => a.indexOf(v) === i).join(" a ") : "",
   });
   (fichas[cat[0]] ??= {})[p.ref] = {
-    d: clean(p.desc), a: (p.args || []).map(clean).filter(Boolean), comp: p.comp || "", peso: p.peso || "",
-    img: (p.img || []).map(stem), sizes: p.sizes || [], cv: colors.map(c => (c.views || []).map(stem)), cc: colors.map(c => c.code || ""), src: p.source || "toptex", fit: p.fit || "", fin: p.finish || "", neck: p.neck || "",
-    pk: p.pockets || "", wp: p.waterproof || "", cert: [...(p.cert || []), p.oeko ? "OEKO-TEX" : "", p.rec ? "Materiales reciclados" : ""].filter(Boolean),
+    d: clean(p.desc), a: (p.args || []).map(clean).filter(Boolean), comp: decode(String(p.comp || "")), peso: decode(String(p.peso || "")),
+    img: (p.img || []).map(stem), sizes: p.sizes || [], cv: colors.map(c => (c.views || []).map(stem)), cc: colors.map(c => c.code || ""), src: p.source || "toptex", fit: decode(String(p.fit || "")), fin: decode(String(p.finish || "")), neck: decode(String(p.neck || "")),
+    pk: decode(String(p.pockets || "")), wp: decode(String(p.waterproof || "")), cert: [...(p.cert || []), p.oeko ? "OEKO-TEX" : "", p.rec ? "Materiales reciclados" : ""].filter(Boolean),
   };
 }
 
