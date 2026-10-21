@@ -30,7 +30,7 @@ function famSub(s) {
   const t = s.Type || "", c = s.CategoryCode || "";
   if (/sin mangas/i.test(t)) return ["Ropa", "Tirantes"];
   if (c === "TEES") return ["Ropa", "Camisetas"];
-  if (/^Polo sweatshirt$/i.test(t) || c === "SWEATSHIRTS") return ["Ropa", "Sudaderas"];
+  if (/sweatshirt/i.test(t + " " + c + " " + (s.Category || "")) || /^Sudadera/i.test(t)) return ["Ropa", "Sudaderas"];
   if (/^Polos$/.test(t)) return ["Ropa", "Polos"];
   if (/^Camisas$/.test(t)) return ["Ropa", "Camisas / Sobrecamisas"];
   if (/^Shorts$/.test(t)) return ["Ropa", "Bermudas / Shorts"];
@@ -44,9 +44,9 @@ function famSub(s) {
 const MAT = { cotton: "algodón", polyester: "poliéster", elastane: "elastano", viscose: "viscosa", nylon: "nailon", polyamide: "poliamida", wool: "lana", lyocell: "lyocell", linen: "lino", modal: "modal", acrylic: "acrílico" };
 function comp(s) {
   return String(s || "").split(",").map(part => {
-    const m = part.match(/(\d+)\s*%\s*([A-Za-z]+)(.*)/); if (!m) return part.trim();
+    const m = part.match(/(\d+)\s*%\s*(\p{L}+)(.*)/u); if (!m) return part.trim();
     const mat = MAT[m[2].toLowerCase()] || m[2].toLowerCase();
-    const q = /recycled/i.test(m[3]) ? " reciclado" : /organic/i.test(m[3]) ? " orgánico" : "";
+    const q = /recycled|reciclad/i.test(m[3]) ? " reciclado" : /organic|orgánic|organic/i.test(m[3]) ? " orgánico" : "";
     return `${m[1]}% ${mat}${q && /a$/.test(mat) ? q.replace(/o$/, "a") : q}`;
   }).filter(Boolean).join(", ");
 }
