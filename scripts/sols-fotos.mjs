@@ -18,7 +18,7 @@ async function exists(url) {
 const urls = new Set();
 for (const p of data) {
   for (const c of p.colors) { urls.add(c.img); c.views.forEach(v => urls.add(v)); ["B", "C"].forEach(s => urls.add(IMG + "vc" + p.ref + c.code + s)); }
-  ["A", "B", "C"].forEach(s => urls.add(IMG + "m" + p.ref + s));
+  ["A", "B", "C"].forEach(s => { urls.add(IMG + "m" + p.ref + s); urls.add(IMG + "n" + p.ref + s); });
 }
 const list = [...urls]; let i = 0;
 await Promise.all(Array.from({ length: 40 }, async () => { while (i < list.length) await exists(list[i++]); }));
@@ -32,7 +32,8 @@ for (const p of data) {
   p.colors = p.colors.filter(c => c.img || c.views.length);
   // Primero las fotos principales de Sol's (las de su web); después las del modelo con el primer color
   const withModel = p.colors.find(c => cache.get(IMG + "vc" + p.ref + c.code + "A"));
-  p.img = [...["A", "B", "C"].map(s => IMG + "m" + p.ref + s), ...(withModel ? ["A", "B", "C"].map(s => IMG + "vc" + p.ref + withModel.code + s) : [])].filter(u => cache.get(u));
+  const main = cache.get(IMG + "n" + p.ref + "A") ? "n" : "m"; /* "main picture" del feed */
+  p.img = [...["A", "B", "C"].map(s => IMG + main + p.ref + s), ...(withModel ? ["A", "B", "C"].map(s => IMG + "vc" + p.ref + withModel.code + s) : [])].filter(u => cache.get(u));
   delete p.imgAlt;
   if (!p.img.length && !p.colors.some(c => c.img)) sinFoto++;
 }

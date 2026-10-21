@@ -35,7 +35,7 @@ const cURL = c => (isM(c) ? "/merchandising/" : "/catalogo/") + CS[c][4] + "/";
 const pURL = it => "/producto/" + prodSlug(it.r, it.n) + "/";
 const GENL = { H: "Hombre", M: "Mujer", U: "Unisex", N: "Niños", B: "Bebés" };
 const isR = st => st.startsWith("R:"), isJ = st => st.startsWith("J:"), isS = st => st.startsWith("S:");
-const isPack = st => st.startsWith("packshots/") || (isR(st) && st.indexOf("/views/") > 0) || (isJ(st) && st.indexOf("sku/") === 2) || (isS(st) && st[2] === "n" && st[3] !== "o");
+const isPack = st => st.startsWith("packshots/") || (isR(st) && st.indexOf("/views/") > 0) || (isJ(st) && st.indexOf("sku/") === 2) || (isS(st) && st[2] === "n" && st.length > 10);
 function imgURL(st, w) {
   if (isR(st)) return "https://static.gorfactory.es/images/models/" + st.slice(2) + ".jpg";
   if (isJ(st)) return "https://s3-eu-west-1.amazonaws.com/resources.jhktshirt.com/pictures/" + st.slice(2) + ".jpg";

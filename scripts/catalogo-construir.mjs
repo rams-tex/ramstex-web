@@ -216,7 +216,7 @@ for (const p of src) {
 const catOrder = Object.fromEntries(CATS.map((c, i) => [c[0], i]));
 // Orden: en cada categoría, primero ~20 "top ventas" probables (básicos de marcas fuertes, con muchos colores
 // y foto con modelo); después el resto mezclado de forma estable (siempre igual), adultos antes que infantil.
-const isPackSt = st => st.startsWith("packshots/") || (st.startsWith("R:") && st.includes("/views/")) || (st.startsWith("J:") && st.indexOf("sku/") === 2) || (st.startsWith("S:n") && !st.startsWith("S:no"));
+const isPackSt = st => st.startsWith("packshots/") || (st.startsWith("R:") && st.includes("/views/")) || (st.startsWith("J:") && st.indexOf("sku/") === 2) || (st.startsWith("S:n") && st.length > 10);
 const brandScore = b => /^(kariban|kariban premium|native spirit)$/i.test(b) ? 30 : /^(roly|stamina)$/i.test(b) ? 24 : /jhk|^sol'?s$/i.test(b) ? 22 : /^(proact|wk|k-up|kimood)/i.test(b) ? 14 : 0;
 const NICHE = /alta visibilidad|tirantes|ign[ií]fug|antiest|desechable|reflectant|beb[eé]|ni[ñn]o|ni[ñn]a|infantil|kids|premam|maternidad|perro|mascota|sanitari|balaclava|pasamonta/i;
 const mainSub = {};
