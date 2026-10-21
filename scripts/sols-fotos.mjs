@@ -8,20 +8,27 @@ const data = JSON.parse(readFileSync("data/sols.json", "utf8"));
 const cache = new Map();
 async function exists(url) {
   if (cache.has(url)) return cache.get(url);
+  // Solo cuenta como "no existe" si el servidor lo dice claramente (404); si falla por saturación, se reintenta
   let ok = false;
-  for (let t = 0; t < 2 && !ok; t++) {
-    try { const r = await fetch(url + "?wid=20", { signal: AbortSignal.timeout(20000) }); ok = r.ok && /image/.test(r.headers.get("content-type") || ""); await r.arrayBuffer(); } catch (e) {}
+  for (let t = 0; t < 6; t++) {
+    try {
+      const r = await fetch(url + "?wid=20", { signal: AbortSignal.timeout(30000) });
+      await r.arrayBuffer();
+      if (r.ok && /image/.test(r.headers.get("content-type") || "")) { ok = true; break; }
+      if (r.status === 404 || r.status === 400) break;
+    } catch (e) {}
+    await new Promise(res => setTimeout(res, 1500 * (t + 1)));
   }
   cache.set(url, ok); return ok;
 }
-// Comprobar todo con 40 peticiones a la vez
+// Comprobar todo con 12 peticiones a la vez (más rápido hace que el servidor rechace peticiones)
 const urls = new Set();
 for (const p of data) {
   for (const c of p.colors) { urls.add(c.img); c.views.forEach(v => urls.add(v)); ["B", "C"].forEach(s => urls.add(IMG + "vc" + p.ref + c.code + s)); }
   ["A", "B", "C"].forEach(s => { urls.add(IMG + "m" + p.ref + s); urls.add(IMG + "n" + p.ref + s); });
 }
 const list = [...urls]; let i = 0;
-await Promise.all(Array.from({ length: 40 }, async () => { while (i < list.length) await exists(list[i++]); }));
+await Promise.all(Array.from({ length: 12 }, async () => { while (i < list.length) await exists(list[i++]); }));
 
 let sinFoto = 0;
 for (const p of data) {
