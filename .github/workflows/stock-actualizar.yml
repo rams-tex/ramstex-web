@@ -26,6 +26,8 @@ jobs:
           JHK_TOKEN: ${{ secrets.JHK_TOKEN }}
           SOLS_FTP_USER: ${{ secrets.SOLS_FTP_USER }}
           SOLS_FTP_PASSWORD: ${{ secrets.SOLS_FTP_PASSWORD }}
+          STANLEY_USER: ${{ secrets.STANLEY_USER }}
+          STANLEY_PASSWORD: ${{ secrets.STANLEY_PASSWORD }}
       - name: Guardar stock
         run: |
           git config user.name "github-actions"

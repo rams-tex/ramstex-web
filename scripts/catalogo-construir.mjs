@@ -7,7 +7,7 @@ import { SEO_CATS } from "./seo-categorias.mjs";
 
 const src = JSON.parse(readFileSync("data/toptex.json", "utf8"));
 // Otros proveedores con el mismo formato (si existen)
-for (const f of ["data/roly.json", "data/jhk.json", "data/sols.json"]) { try { src.push(...JSON.parse(readFileSync(f, "utf8"))); } catch (e) {} }
+for (const f of ["data/roly.json", "data/jhk.json", "data/sols.json", "data/stanley.json"]) { try { src.push(...JSON.parse(readFileSync(f, "utf8"))); } catch (e) {} }
 
 // Categorías de la web (nombre propio de Ramstex) a partir de familia/subfamilia del proveedor
 const CATS = [
@@ -126,7 +126,7 @@ const clean = t => {
   if (brandRe) s = s.replace(brandRe, "");
   return s.replace(/(?:\s+[A-Z0-9][\w-]*)*\s*\S*[™®]\S*/g, "").replace(/\s+([,.])/g, "$1").replace(/\s*\([\d-]+\)/g, "").replace(/["“”]/g, "").replace(/\s{2,}/g, " ").trim();
 };
-const stem = u => { u = String(u || ""); if (/resources\.jhktshirt\.com\/pictures\//.test(u)) return "J:" + u.replace(/^.*resources\.jhktshirt\.com\/pictures\//, "").replace(/\.(jpg|png)(\?.*)?$/i, ""); if (/s7g3\.scene7\.com\/is\/image\/soloinvest\//.test(u)) return "S:" + u.replace(/^.*\/soloinvest\//, "").replace(/\?.*$/, ""); if (/static\.gorfactory\.es\/images\/models\//.test(u)) return "R:" + u.replace(/^.*\/images\/models\//, "").replace(/\.(jpg|png)$/i, ""); return u.replace(/^https?:\/\/[^/]+\//, "").replace(/\.(jpg|png)$/i, ""); };
+const stem = u => { u = String(u || ""); if (u.startsWith("T:")) return u; if (/resources\.jhktshirt\.com\/pictures\//.test(u)) return "J:" + u.replace(/^.*resources\.jhktshirt\.com\/pictures\//, "").replace(/\.(jpg|png)(\?.*)?$/i, ""); if (/s7g3\.scene7\.com\/is\/image\/soloinvest\//.test(u)) return "S:" + u.replace(/^.*\/soloinvest\//, "").replace(/\?.*$/, ""); if (/static\.gorfactory\.es\/images\/models\//.test(u)) return "R:" + u.replace(/^.*\/images\/models\//, "").replace(/\.(jpg|png)$/i, ""); return u.replace(/^https?:\/\/[^/]+\//, "").replace(/\.(jpg|png)$/i, ""); };
 const grams = t => { const m = String(t || "").match(/(\d+)/); return m ? +m[1] : 0; };
 
 const idx = arr => v => { let i = arr.indexOf(v); if (i < 0) { arr.push(v); i = arr.length - 1; } return i; };
@@ -216,8 +216,8 @@ for (const p of src) {
 const catOrder = Object.fromEntries(CATS.map((c, i) => [c[0], i]));
 // Orden: en cada categoría, primero ~20 "top ventas" probables (básicos de marcas fuertes, con muchos colores
 // y foto con modelo); después el resto mezclado de forma estable (siempre igual), adultos antes que infantil.
-const isPackSt = st => st.startsWith("packshots/") || (st.startsWith("R:") && st.includes("/views/")) || (st.startsWith("J:") && st.indexOf("sku/") === 2) || (st.startsWith("S:n") && st.length > 10);
-const brandScore = b => /^(kariban|kariban premium|native spirit)$/i.test(b) ? 30 : /^(roly|stamina)$/i.test(b) ? 24 : /jhk|^sol'?s$/i.test(b) ? 22 : /^(proact|wk|k-up|kimood)/i.test(b) ? 14 : 0;
+const isPackSt = st => st.startsWith("packshots/") || (st.startsWith("R:") && st.includes("/views/")) || (st.startsWith("J:") && st.indexOf("sku/") === 2) || (st.startsWith("S:n") && st.length > 10) || st.startsWith("T:P");
+const brandScore = b => /^(kariban|kariban premium|native spirit)$/i.test(b) ? 30 : /^(roly|stamina)$/i.test(b) ? 24 : /jhk|^sol'?s$|stanley/i.test(b) ? 22 : /^(proact|wk|k-up|kimood)/i.test(b) ? 14 : 0;
 const NICHE = /alta visibilidad|tirantes|ign[ií]fug|antiest|desechable|reflectant|beb[eé]|ni[ñn]o|ni[ñn]a|infantil|kids|premam|maternidad|perro|mascota|sanitari|balaclava|pasamonta/i;
 const mainSub = {};
 { const cnt = {}; for (const it of items) { const k = it.c + "|" + it.s; cnt[k] = (cnt[k] || 0) + 1; }

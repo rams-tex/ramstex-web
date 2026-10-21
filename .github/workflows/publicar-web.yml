@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
   workflow_run:
-    workflows: ["Importar catálogo", "Importar catálogo TopTex", "Actualizar stock", "Fotos Sol's"]
+    workflows: ["Importar catálogo", "Importar catálogo TopTex", "Actualizar stock", "Fotos Sol's", "Importar Stanley Stella"]
     types: [completed]
   workflow_dispatch:
 permissions:
@@ -23,6 +23,25 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Recuperar fotos de Stanley/Stella (se sirven desde la web)
+        uses: actions/cache/restore@v4
+        with:
+          path: stimg
+          key: stimg-v1-${{ hashFiles('data/stanley.json') }}
+          restore-keys: stimg-v1-
+      - name: Descargar las fotos que falten
+        run: |
+          npm install --no-save sharp@0.33
+          node scripts/stanley-fotos.mjs stimg
+      - name: Guardar fotos para la próxima vez
+        uses: actions/cache/save@v4
+        with:
+          path: stimg
+          key: stimg-v1-${{ hashFiles('data/stanley.json') }}
+        continue-on-error: true
       - name: Preparar archivos de la web (sin datos internos)
         run: |
           mkdir -p _site/data
@@ -33,6 +52,7 @@ jobs:
           if [ -d data/stock ]; then cp -r data/stock _site/data/; fi
           sed -i "s/var BUILD=\"dev\"/var BUILD=\"$(date +%s)\"/" _site/index.html
           node scripts/paginas-seo.mjs _site
+          mkdir -p _site/st && cp stimg/*.webp _site/st/ 2>/dev/null || true
           echo "ramstex.com" > _site/CNAME
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5

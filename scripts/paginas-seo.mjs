@@ -34,11 +34,12 @@ const CS = Object.fromEntries(D.cats.map(c => [c[0], c]));
 const cURL = c => (isM(c) ? "/merchandising/" : "/catalogo/") + CS[c][4] + "/";
 const pURL = it => "/producto/" + prodSlug(it.r, it.n) + "/";
 const GENL = { H: "Hombre", M: "Mujer", U: "Unisex", N: "Niños", B: "Bebés" };
-const isR = st => st.startsWith("R:"), isJ = st => st.startsWith("J:"), isS = st => st.startsWith("S:");
-const isPack = st => st.startsWith("packshots/") || (isR(st) && st.indexOf("/views/") > 0) || (isJ(st) && st.indexOf("sku/") === 2) || (isS(st) && st[2] === "n" && st.length > 10);
+const isR = st => st.startsWith("R:"), isJ = st => st.startsWith("J:"), isS = st => st.startsWith("S:"), isT = st => st.startsWith("T:");
+const isPack = st => st.startsWith("packshots/") || (isR(st) && st.indexOf("/views/") > 0) || (isJ(st) && st.indexOf("sku/") === 2) || (isS(st) && st[2] === "n" && st.length > 10) || (isT(st) && st[2] === "P");
 function imgURL(st, w) {
   if (isR(st)) return "https://static.gorfactory.es/images/models/" + st.slice(2) + ".jpg";
   if (isJ(st)) return "https://s3-eu-west-1.amazonaws.com/resources.jhktshirt.com/pictures/" + st.slice(2) + ".jpg";
+  if (isT(st)) return SITE + "/st/" + st.slice(2).replace(/\.\w+$/, "") + ".webp";
   if (isS(st)) return "https://s7g3.scene7.com/is/image/soloinvest/" + st.slice(2) + "?wid=" + w;
   return "https://cdn.europeancatalog.com/" + st + (isPack(st) ? ".png" : ".jpg") + "?w=" + w;
 }

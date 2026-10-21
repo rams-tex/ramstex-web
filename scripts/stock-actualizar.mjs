@@ -96,6 +96,26 @@ try {
   log.push(`Sol's: ${n} referencias`);
 } catch (e) { log.push("Sol's: error " + e.message); }
 
+// ---------- Stanley/Stella (API de stock, almacén asignado) ----------
+try {
+  const call = async (path, extra = {}) => {
+    const r = await fetch("https://api.stanleystella.com/webrequest/" + path, { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ jsonrpc: "2.0", method: "call", params: { db_name: "production_api", user: process.env.STANLEY_USER, password: process.env.STANLEY_PASSWORD, ...extra }, id: 0 }) });
+    const j = await r.json(); if (j.error) throw new Error(path + " " + JSON.stringify(j.error).slice(0, 200));
+    return typeof j.result === "string" ? JSON.parse(j.result) : j.result;
+  };
+  const sku = {};
+  for (const s of await call("productsV2/get_json", { LanguageCode: "es_ES", Published: true }))
+    for (const v of s.Variants || []) sku[v.B2BSKUREF] = [s.StyleCode, v.ColorCode, v.SizeCode];
+  let n = 0;
+  for (const x of await call("v2/stock/get_json", { Is_Inventory: true })) {
+    const k = sku[x.SKU]; if (!k || x.Is_Inventory === false) continue;
+    const prev = stock[k[0]]?.[k[2]]?.[k[1]] || 0;
+    put(k[0], k[1], k[2], prev + (+x.Available_Quantity || 0)); n++;
+  }
+  log.push(`Stanley/Stella: ${n} referencias`);
+} catch (e) { log.push("Stanley/Stella: error " + e.message); }
+
 // ---------- Guardar por categoría ----------
 const ORDER = ["XXS", "XS", "S", "M", "L", "XL", "XXL", "2XL", "3XL", "XXXL", "4XL", "5XL", "6XL"];
 const rank = s => { const i = ORDER.indexOf(String(s).toUpperCase()); if (i >= 0) return i; const n = parseFloat(s); return isNaN(n) ? 100 : 50 + n / 1000; };

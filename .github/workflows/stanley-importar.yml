@@ -1,0 +1,44 @@
+name: Importar Stanley Stella
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "37 4 * * 1"
+permissions:
+  contents: write
+concurrency:
+  group: datos
+jobs:
+  importar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save sharp@0.33
+      - run: node scripts/stanley-importar.mjs
+        env:
+          STANLEY_USER: ${{ secrets.STANLEY_USER }}
+          STANLEY_PASSWORD: ${{ secrets.STANLEY_PASSWORD }}
+      - name: Recuperar fotos ya descargadas
+        uses: actions/cache/restore@v4
+        with:
+          path: stimg
+          key: stimg-v1-${{ hashFiles('data/stanley.json') }}
+          restore-keys: stimg-v1-
+      - run: node scripts/stanley-fotos.mjs stimg
+      - name: Guardar fotos para las próximas publicaciones
+        uses: actions/cache/save@v4
+        with:
+          path: stimg
+          key: stimg-v1-${{ hashFiles('data/stanley.json') }}
+        continue-on-error: true
+      - run: node scripts/catalogo-construir.mjs
+      - name: Guardar catálogo
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add data/stanley.json data/catalogo.json data/fichas
+          git diff --cached --quiet || git commit -m "Stanley/Stella: catálogo actualizado [skip netlify]"
+          git pull --rebase -q || true
+          git push
