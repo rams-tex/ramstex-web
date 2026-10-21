@@ -8,16 +8,17 @@ const data = JSON.parse(readFileSync("data/sols.json", "utf8"));
 const cache = new Map();
 async function exists(url) {
   if (cache.has(url)) return cache.get(url);
-  // Solo cuenta como "no existe" si el servidor lo dice claramente (404); si falla por saturación, se reintenta
-  let ok = false;
-  for (let t = 0; t < 6; t++) {
+  // Solo se descarta una foto si el servidor dice claramente que no existe (404/400).
+  // Si falla por saturación o tiempo de espera, se da por buena (la ficha oculta las miniaturas que no cargan).
+  let ok = true;
+  for (let t = 0; t < 2; t++) {
     try {
-      const r = await fetch(url + "?wid=20", { signal: AbortSignal.timeout(30000) });
+      const r = await fetch(url + "?wid=20", { signal: AbortSignal.timeout(15000) });
       await r.arrayBuffer();
       if (r.ok && /image/.test(r.headers.get("content-type") || "")) { ok = true; break; }
-      if (r.status === 404 || r.status === 400) break;
+      if (r.status === 404 || r.status === 400) { ok = false; break; }
     } catch (e) {}
-    await new Promise(res => setTimeout(res, 1500 * (t + 1)));
+    await new Promise(res => setTimeout(res, 1000));
   }
   cache.set(url, ok); return ok;
 }
