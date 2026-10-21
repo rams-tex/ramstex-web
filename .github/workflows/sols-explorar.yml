@@ -1,0 +1,27 @@
+name: Prueba FTP Sol's
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  explorar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save basic-ftp@5
+      - run: node scripts/sols-explorar.mjs
+        continue-on-error: true
+        env:
+          SOLS_FTP_USER: ${{ secrets.SOLS_FTP_USER }}
+          SOLS_FTP_PASSWORD: ${{ secrets.SOLS_FTP_PASSWORD }}
+      - name: Guardar resultado en la rama diagnostico
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout -B diagnostico
+          git add -f diagnostico/sols.txt
+          git commit -m "Resultado prueba FTP Sol's" || true
+          git push -f origin diagnostico
