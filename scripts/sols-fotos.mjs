@@ -1,5 +1,5 @@
 // Comprueba qué fotos de Sol's existen de verdad y deja en data/sols.json solo las que cargan.
-// - Foto principal del producto: modelo con el primer color que tenga fotos con modelo; si no hay, las del producto.
+// - Foto principal del producto: la principal de Sol's (m<ref>A/B/C) y después las del modelo con el primer color.
 // - Por color: delante (packshot A); espalda, lateral y foto con modelo solo si existen.
 import { readFileSync, writeFileSync } from "node:fs";
 
@@ -30,9 +30,9 @@ for (const p of data) {
     c.views = c.views.filter(v => cache.get(v));
   }
   p.colors = p.colors.filter(c => c.img || c.views.length);
+  // Primero las fotos principales de Sol's (las de su web); después las del modelo con el primer color
   const withModel = p.colors.find(c => cache.get(IMG + "vc" + p.ref + c.code + "A"));
-  if (withModel) p.img = ["A", "B", "C"].map(s => IMG + "vc" + p.ref + withModel.code + s).filter(u => cache.get(u));
-  else p.img = ["A", "B", "C"].map(s => IMG + "m" + p.ref + s).filter(u => cache.get(u));
+  p.img = [...["A", "B", "C"].map(s => IMG + "m" + p.ref + s), ...(withModel ? ["A", "B", "C"].map(s => IMG + "vc" + p.ref + withModel.code + s) : [])].filter(u => cache.get(u));
   delete p.imgAlt;
   if (!p.img.length && !p.colors.some(c => c.img)) sinFoto++;
 }

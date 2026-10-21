@@ -109,8 +109,7 @@ for (const m of M) {
     nolabel: /tear away|no label/i.test(m.label) ? 1 : 0,
     hood: /capucha/i.test(short + " " + style.join(" ")) ? 1 : 0,
     // fotos del modelo puestas en el primer color (sin logotipos), y las del producto como respaldo
-    img: [IMG + "vc" + ref + first + "A", IMG + "vc" + ref + first + "B", IMG + "vc" + ref + first + "C"],
-    imgAlt: [IMG + "m" + ref + "A", IMG + "m" + ref + "B", IMG + "m" + ref + "C"],
+    img: [IMG + "m" + ref + "A", IMG + "m" + ref + "B", IMG + "m" + ref + "C"], // fotos principales de Sol's (sols-fotos.mjs añade las del modelo)
     colors, sizes: allSizes.map(sizeName), style: "", fit: "",
     world: [...new Set(m.Universe.split(",").map(u => WORLD[u.trim()]).filter(Boolean))],
     created: m.New === "Yes" ? "2026" : "",
