@@ -27,6 +27,24 @@ const M = parseCSV(readFileSync(fModels, "utf8"));
 const S = parseCSV(readFileSync(fSkus, "utf8"));
 
 const IMG = "https://s7g3.scene7.com/is/image/soloinvest/";
+// Tejido y gramaje reales tal como los publica Sol's en la ficha de cada producto ("JERSEY 190", "RIPSTOP INTERLOCK 100").
+// El feed solo trae una franja ("≤ 129 gr/m²"), que no es el gramaje real. Se recoge de su web y se guarda en data/sols-tejido.json.
+let TEJIDO = {};
+try { TEJIDO = JSON.parse(readFileSync("data/sols-tejido.json", "utf8")); } catch (e) {}
+function tejido(raw) {
+  let t = String(raw || "").replace(/\s+/g, " ").trim();
+  if (!t) return { peso: "", fin: "", nota: "" };
+  t = t.replace(/\s*[-–]?\s*(con\s+)?tecnolog[ií]a\s+LSF.*|\s*-\s*LSF.*|\s*\(Low Shrinkage Fabric\)/i, "").trim();
+  let peso = "", nota = "", name = t;
+  let m;
+  if ((m = t.match(/(\d+)\s*gr?\/?\s*pza\.?/i))) { nota = `Peso por prenda: ${m[1]} g`; name = t.replace(m[0], ""); }
+  else if ((m = t.match(/(\d+(?:[.,]\d+)?)\s*oz\b/i))) { peso = Math.round(parseFloat(m[1].replace(",", ".")) * 33.906) + " g/m²"; name = t.replace(m[0], "") + " " + m[1] + " oz"; }
+  else if ((m = t.match(/\b(\d{2,4})\s*[TD]\b/))) { name = t; } // 210T / 600D: densidad del hilo, no es gramaje
+  else if ((m = t.match(/(\d{2,3})\s*g?\b(?!.*\d)/))) { if (+m[1] >= 60) peso = m[1] + " g/m²"; name = t.replace(m[0], ""); }
+  name = name.replace(/\s*[-–]\s*$/, "").replace(/\s+/g, " ").trim().toLowerCase();
+  name = name.replace(/(\d)([dt])\b/g, (x, d, l) => d + l.toUpperCase()).replace(/\bx(\d)/g, "x$1");
+  return { peso, fin: name ? name.charAt(0).toUpperCase() + name.slice(1) : "", nota };
+}
 const sp = s => String(s || "").replace(/ /g, " ").replace(/\s+/g, " ").trim();
 const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
 const title = s => s.toLowerCase().replace(/(^|[\s'-])(\p{L})/gu, (m, a, b) => a + b.toUpperCase());
@@ -97,19 +115,20 @@ for (const m of M) {
   const qual = sp(m.Quality).split(/<br\s*\/?>/i).map(sp).filter(Boolean);
   const style = sp(m.Style).split(/<br\s*\/?>/i).map(sp).filter(Boolean);
   const g = String(m["product weight"]).match(/(\d{2,4})\s*gr?\/m/i);
+  const tj = tejido(TEJIDO[ref]);
   const certs = k => Object.keys(m).some(h => k.test(h) && m[h]);
   const first = order[0];
   out.push({
     ref, name, fam, sub, gen, brand: sp(m.Brand) || "SOL'S", source: "sols",
-    comp: qual[0] || "", peso: g ? g[1] + " g/m²" : "",
-    desc: sp(m["Plus Product"]).replace(/\s+(de|by)\s+(SOL'S|NEOBLU|ATF|RTP APPAREL)\b/gi, "").replace(/\b(SOL'S|NEOBLU|ATF|RTP APPAREL)\s*/gi, "").replace(/\s{2,}/g, " ") || cap(short) + ".", args: [...qual.slice(1), ...style].slice(0, 5),
+    comp: qual[0] || "", peso: tj.peso, finish: tj.fin,
+    desc: sp(m["Plus Product"]).replace(/\s+(de|by)\s+(SOL'S|NEOBLU|ATF|RTP APPAREL)\b/gi, "").replace(/\b(SOL'S|NEOBLU|ATF|RTP APPAREL)\s*/gi, "").replace(/\s{2,}/g, " ") || cap(short) + ".", args: [tj.nota, ...qual.slice(1), ...style].filter(Boolean).slice(0, 5),
     org: certs(/^(ORGANIC|IC2 GOTS|OFG)/) || /\bBio\b/.test(m.Universe) ? 1 : 0,
     rec: certs(/^(GRS|RECYCLED|rPET)/) || !!sp(m["recycled materials"]) ? 1 : 0,
     oeko: certs(/^OEKOTEX/) ? 1 : 0,
     nolabel: /tear away|no label/i.test(m.label) ? 1 : 0,
     hood: /capucha/i.test(short + " " + style.join(" ")) ? 1 : 0,
     // fotos del modelo puestas en el primer color (sin logotipos), y las del producto como respaldo
-    img: [IMG + "m" + ref + "A", IMG + "m" + ref + "B", IMG + "m" + ref + "C"], // fotos principales de Sol's (sols-fotos.mjs añade las del modelo)
+    img: [..."ABC"].map(x => IMG + "n" + ref + x).concat([..."ABC"].map(x => IMG + "vc" + ref + first + x)), // foto principal de Sol's ("main picture") y fotos con modelo
     colors, sizes: allSizes.map(sizeName), style: "", fit: "",
     world: [...new Set(m.Universe.split(",").map(u => WORLD[u.trim()]).filter(Boolean))],
     created: m.New === "Yes" ? "2026" : "",
