@@ -1,14 +1,17 @@
-// Diagnóstico: tabla "Disponible" de JHK con el token (filas clave) para comparar con la web.
+// Diagnóstico: ¿la página de pedido de JHK (stock 24h y 48/72h) se puede leer con el token de la API?
 import { writeFileSync, mkdirSync } from "node:fs";
 const T = process.env.JHK_TOKEN, out = [];
-for (const [ref, id] of [["SWRA290", 54], ["SWKNGOVER", 678]]) {
-  const u = `https://www.jhktshirt.com/stock/index.php/es/depositos/ajaxloadstock?use_ks=1&tipo=available&almacen=5&producto=${id}&prodname=${ref}&token=${encodeURIComponent(T)}`;
-  const h = await (await fetch(u, { headers: { "X-Requested-With": "XMLHttpRequest" } })).text();
-  out.push(`== ${ref} ${(h.match(/nroprendas">([^<]*)/) || [])[1]} ${(h.match(/strdate">([^<]*)/) || [])[1]}`);
-  for (const tr of h.split(/<tr/).slice(1)) {
-    const cells = [...tr.matchAll(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/g)].map(m => m[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim());
-    if (/White|Black|Ivory|Total|XS/.test(cells.join(" "))) out.push(cells.join("|"));
-  }
+for (const u of [
+  `https://www.jhktshirt.com/crm/es/pedidos/newd?reference=swkngover&token=${encodeURIComponent(T)}`,
+  `https://www.jhktshirt.com/app/es/api/${T}/clothes/5/SWKNGOVER/stock.json`,
+  `https://www.jhktshirt.com/app/es/api/${T}/stock/5/SWKNGOVER.json`,
+]) {
+  try {
+    const r = await fetch(u, { redirect: "manual" });
+    const h = await r.text();
+    out.push(`== ${u.replace(T, "(token)")} -> HTTP ${r.status} ${r.headers.get("location") ? "redirige a " + r.headers.get("location").replace(T, "(token)") : ""}, ${h.length} bytes, stocknob: ${h.includes("stocknob")}`);
+    out.push(h.replace(/\s+/g, " ").slice(0, 300));
+  } catch (e) { out.push("error " + e.message); }
 }
 mkdirSync("diagnostico", { recursive: true });
 writeFileSync("diagnostico/jhk.txt", out.join("\n").replaceAll(T, "(token)"));
