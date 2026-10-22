@@ -68,7 +68,7 @@ try {
       try {
         const r = await fetch(`https://www.jhktshirt.com/app/es/api/${T}/clothes/5/${encodeURIComponent(refs[i])}/product.json`);
         const p = await r.json();
-        for (const [code, sizes] of Object.entries(p.combinations || {})) for (const [size, v] of Object.entries(sizes || {})) { put(refs[i], code, size, (+v.stock || 0) + (+v.stock_shipment || 0)); n++; /* almacén de Madrid + segundo almacén */ }
+        for (const [code, sizes] of Object.entries(p.combinations || {})) for (const [size, v] of Object.entries(sizes || {})) { put(refs[i], code, size, +v.stock || 0); n++; /* solo "stock" = disponible en Madrid, igual que la página "Disponible" de JHK. stock_shipment es mercancía en camino, NO disponible */ }
       } catch (e) {}
     }
   }));
