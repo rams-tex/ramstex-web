@@ -2,7 +2,7 @@
 import { writeFileSync, mkdirSync } from "node:fs";
 const T = process.env.JHK_TOKEN;
 const out = [];
-for (const ref of ["SWKNGOVER", "SWRAKNG", "TSRA150"]) {
+for (const ref of ["SWRA290", "SWKNGOVER"]) {
   try {
     const r = await fetch(`https://www.jhktshirt.com/app/es/api/${T}/clothes/5/${ref}/product.json`);
     const p = await r.json();
