@@ -1025,7 +1025,7 @@ function renderProduct(it){
     if(it.f.indexOf("l")>=0)badges.push("Sin etiqueta: lista para tu marca");
     (f.cert||[]).forEach(function(c){badges.push(c);});
     if(it.f.indexOf("x")>=0)badges.push("Tallas grandes");
-    var specs=[["Referencia",it.r+((it.v||[]).length?" (también "+it.v.join(", ")+")":"")],["Composición",f.comp],["Gramaje",f.peso],["Corte",f.fit],["Acabado",f.fin],["Cuello",f.neck],["Bolsillos",f.pk],["Impermeable",f.wp],["Colores",it.k.length+" disponibles"],["Personalización",isM(it.c)?"Impresión o grabado con tu logo (según el artículo)":"Estampado, bordado, serigrafía o DTF"]].filter(function(s){return s[1];});
+    var specs=[["Referencia",it.r+((it.v||[]).length?" (también "+it.v.join(", ")+")":"")],["Composición",f.comp],["Gramaje",f.peso],["Corte",f.fit],[f.src==="sols"?"Tejido":"Acabado",f.fin],["Cuello",f.neck],["Bolsillos",f.pk],["Impermeable",f.wp],["Colores",it.k.length+" disponibles"],["Personalización",isM(it.c)?"Impresión o grabado con tu logo (según el artículo)":"Estampado, bordado, serigrafía o DTF"]].filter(function(s){return s[1];});
     var wa="https://wa.me/34682368645?text="+encodeURIComponent("Hola, me interesa este producto del catálogo: "+it.n+" (ref. "+it.r+")");
     box.innerHTML='<a class="back" href="'+backH+'">Volver al catálogo</a>'+
      '<div class="pd"><div class="pgal"><div class="big"><img alt="'+esc(it.n)+'"></div><div class="thumbs"></div></div>'+

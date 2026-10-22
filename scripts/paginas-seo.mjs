@@ -170,7 +170,7 @@ for (const it of D.items) {
   if (it.f.includes("l")) badges.push("Sin etiqueta: lista para tu marca");
   (f.cert || []).forEach(b => badges.push(b));
   if (it.f.includes("x")) badges.push("Tallas grandes");
-  const specs = [["Referencia", it.r + ((it.v || []).length ? " (también " + it.v.join(", ") + ")" : "")], ["Composición", f.comp], ["Gramaje", f.peso], ["Corte", f.fit], ["Acabado", f.fin], ["Cuello", f.neck], ["Bolsillos", f.pk], ["Impermeable", f.wp], ["Colores", it.k.length + " disponibles"], ["Personalización", merch ? "Impresión o grabado con tu logo (según el artículo)" : "Estampado, bordado, serigrafía o DTF"]].filter(s => s[1]);
+  const specs = [["Referencia", it.r + ((it.v || []).length ? " (también " + it.v.join(", ") + ")" : "")], ["Composición", f.comp], ["Gramaje", f.peso], ["Corte", f.fit], [f.src === "sols" ? "Tejido" : "Acabado", f.fin], ["Cuello", f.neck], ["Bolsillos", f.pk], ["Impermeable", f.wp], ["Colores", it.k.length + " disponibles"], ["Personalización", merch ? "Impresión o grabado con tu logo (según el artículo)" : "Estampado, bordado, serigrafía o DTF"]].filter(s => s[1]);
   const pics = f.img && f.img.length ? f.img : [it.i];
   const rel = D.items.filter(x => x.s === it.s && x !== it).slice(0, 4);
   const body = `<a class="back" href="${cURL(it.c)}">Volver al catálogo</a>` +
