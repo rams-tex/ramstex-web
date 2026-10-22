@@ -57,22 +57,73 @@ try {
   }
 } catch (e) { log.push("Roly: error " + e.message); }
 
-// ---------- JHK (ficha de cada producto) ----------
+// ---------- JHK ----------
+// El stock bueno es el de la página de pedido de su área de clientes: "Stock 24h" + "Stock 48/72h"
+// (lo que puedes conseguir en 2-3 días). Se entra con el usuario de la web (JHK_USER / JHK_PASSWORD).
+// La API (JHK_TOKEN) da cifras redondeadas y "stock_shipment" no es lo mismo que 48/72h: solo se usa
+// como respaldo, y solo su "stock", si no se puede entrar en el área de clientes.
+function parseJHK(h) {
+  const i = h.indexOf("newd-color-stock-cell"); if (i < 0) return null;
+  const t = h.slice(h.lastIndexOf("<table", i), h.indexOf("</table>", i));
+  const head = t.slice(0, t.indexOf("</tr>"));
+  const sizes = [...head.matchAll(/<th[^>]*>([\s\S]*?)<\/th>/g)].map(m => m[1].replace(/<[^>]+>/g, "").trim()).slice(1).filter(x => x && x !== "Total");
+  const out = {};
+  for (const row of t.split(/<tr class="color-row"/).slice(1)) {
+    const code = (row.match(/class="bread-reference">\s*([^<\s]+)/) || [])[1];
+    if (!code) continue;
+    const cells = row.split(/<td class="content-right wp-size"/).slice(1);
+    out[code] = cells.map(c => {
+      const a = c.match(/class="stock js-stock-detail"[^>]*>\s*([\d.\s]+?)\s*</), b = c.match(/class="stocknob"[^>]*>\s*([\d.\s]+?)\s*</);
+      if (!a && !b) return null;
+      const n = x => x ? +x[1].replace(/[.\s]/g, "") : 0;
+      return n(a) + n(b);
+    });
+  }
+  return { sizes, out };
+}
 try {
-  const T = process.env.JHK_TOKEN;
   const jhk = JSON.parse(readFileSync("data/jhk.json", "utf8"));
   const refs = jhk.map(p => p.ref).filter(r => catOf[r]);
-  let n = 0;
+  let n = 0, viaWeb = 0;
+  // 1) Área de clientes
+  const jar = new Map();
+  const keep = r => { for (const c of r.headers.getSetCookie?.() || []) { const [kv] = c.split(";"); const k = kv.split("=")[0]; jar.set(k, kv); } };
+  const cookie = () => [...jar.values()].join("; ");
+  const get = async (u, opt = {}) => { let url = u, r; for (let k = 0; k < 6; k++) { r = await fetch(url, { ...opt, redirect: "manual", headers: { ...(opt.headers || {}), cookie: cookie(), "user-agent": "Mozilla/5.0 Ramstex-stock" } }); keep(r); const loc = r.headers.get("location"); if (r.status >= 300 && r.status < 400 && loc) { url = new URL(loc, url).href; opt = {}; } else break; } return r; };
+  let logged = false;
+  if (process.env.JHK_USER && process.env.JHK_PASSWORD) {
+    const L = "https://www.jhktshirt.com/app/es/login";
+    const h = await (await get(L)).text();
+    const csrf = (h.match(/name="login\[_csrf_token\]"[^>]*value="([^"]*)"/) || h.match(/value="([^"]*)"[^>]*name="login\[_csrf_token\]"/) || [])[1] || "";
+    const body = new URLSearchParams({ "login[username]": process.env.JHK_USER, "login[password]": process.env.JHK_PASSWORD, "login[_csrf_token]": csrf });
+    await get(L, { method: "POST", body, headers: { "content-type": "application/x-www-form-urlencoded" } });
+    const test = await (await get("https://www.jhktshirt.com/crm/es/pedidos/newd?reference=swkngover")).text();
+    logged = !!parseJHK(test);
+  }
+  const fromWeb = new Set();
+  if (logged) {
+    await Promise.all(Array.from({ length: 4 }, async (_, w) => {
+      for (let i = w; i < refs.length; i += 4) {
+        try {
+          const h = await (await get(`https://www.jhktshirt.com/crm/es/pedidos/newd?reference=${encodeURIComponent(refs[i].toLowerCase())}`)).text();
+          const t = parseJHK(h); if (!t) continue;
+          for (const [code, vals] of Object.entries(t.out)) vals.forEach((v, j) => { if (v !== null && t.sizes[j]) { put(refs[i], code, t.sizes[j], v); n++; } });
+          fromWeb.add(refs[i]); viaWeb++;
+        } catch (e) {}
+      }
+    }));
+  }
+  // 2) Respaldo: API (solo "stock"), para los modelos que no se hayan podido leer de la web
+  const T = process.env.JHK_TOKEN, rest = refs.filter(r => !fromWeb.has(r));
   await Promise.all(Array.from({ length: 6 }, async (_, w) => {
-    for (let i = w; i < refs.length; i += 6) {
+    for (let i = w; i < rest.length; i += 6) {
       try {
-        const r = await fetch(`https://www.jhktshirt.com/app/es/api/${T}/clothes/5/${encodeURIComponent(refs[i])}/product.json`);
-        const p = await r.json();
-        for (const [code, sizes] of Object.entries(p.combinations || {})) for (const [size, v] of Object.entries(sizes || {})) { put(refs[i], code, size, +v.stock || 0); n++; /* solo "stock" = disponible en Madrid, igual que la página "Disponible" de JHK. stock_shipment es mercancía en camino, NO disponible */ }
+        const p = await (await fetch(`https://www.jhktshirt.com/app/es/api/${T}/clothes/5/${encodeURIComponent(rest[i])}/product.json`)).json();
+        for (const [code, sizes] of Object.entries(p.combinations || {})) for (const [size, v] of Object.entries(sizes || {})) { put(rest[i], code, size, +v.stock || 0); n++; }
       } catch (e) {}
     }
   }));
-  log.push(`JHK: ${n} referencias`);
+  log.push(`JHK: ${n} referencias (${viaWeb} modelos desde el área de clientes${logged ? "" : " — sin acceso: faltan JHK_USER/JHK_PASSWORD o no se pudo entrar"}, ${rest.length} desde la API)`);
 } catch (e) { log.push("JHK: error " + e.message); }
 
 // ---------- Sol's (FTP: stocks.csv, se actualiza cada 15 min) ----------

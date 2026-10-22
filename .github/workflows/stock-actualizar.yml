@@ -24,6 +24,8 @@ jobs:
           ROLY_USER: ${{ secrets.ROLY_USER }}
           ROLY_PASSWORD: ${{ secrets.ROLY_PASSWORD }}
           JHK_TOKEN: ${{ secrets.JHK_TOKEN }}
+          JHK_USER: ${{ secrets.JHK_USER }}
+          JHK_PASSWORD: ${{ secrets.JHK_PASSWORD }}
           SOLS_FTP_USER: ${{ secrets.SOLS_FTP_USER }}
           SOLS_FTP_PASSWORD: ${{ secrets.SOLS_FTP_PASSWORD }}
           STANLEY_USER: ${{ secrets.STANLEY_USER }}
