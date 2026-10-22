@@ -183,3 +183,4 @@ mkdirSync("data/stock", { recursive: true });
 const updated = new Date().toISOString();
 for (const [c, s] of Object.entries(files)) writeFileSync(`data/stock/${c}.json`, JSON.stringify({ updated, s }));
 console.log(log.join(" | "), "| productos con stock:", Object.keys(stock).length);
+writeFileSync("data/stock/registro.txt", updated + "\n" + log.join("\n") + "\nproductos con stock: " + Object.keys(stock).length + "\n"); // resumen de la última actualización (sin datos privados)
