@@ -8,6 +8,9 @@ import { SEO_CATS } from "./seo-categorias.mjs";
 const src = JSON.parse(readFileSync("data/toptex.json", "utf8"));
 // Otros proveedores con el mismo formato (si existen)
 for (const f of ["data/roly.json", "data/jhk.json", "data/sols.json", "data/stanley.json", "data/falkross.json"]) { try { src.push(...JSON.parse(readFileSync(f, "utf8"))); } catch (e) {} }
+// Fuera: prendas de Fruit of the Loom que ya llevan su logo estampado (no sirven para personalizar)
+for (let i = src.length - 1; i >= 0; i--) { const p = src[i];
+  if (/fruit of the loom/i.test(p.brand || "") && (/vintage collection/i.test(p.brand) || /\blogo\b|estampad|\bimpres[oa]s?\b|printed/i.test(p.name || ""))) src.splice(i, 1); }
 
 // Categorías de la web (nombre propio de Ramstex) a partir de familia/subfamilia del proveedor
 const CATS = [
