@@ -1,0 +1,27 @@
+name: Prueba Falk&Ross
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  explorar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/falkross-explorar.mjs
+        continue-on-error: true
+        env:
+          FALKROSS_USER: ${{ secrets.FALKROSS_USER }}
+          FALKROSS_PASSWORD: ${{ secrets.FALKROSS_PASSWORD }}
+      - name: Guardar resultado en la rama diagnostico
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout -B diagnostico
+          git add -f diagnostico/falkross*
+          git commit -m "Resultado prueba Falk&Ross" || true
+          git push -f origin diagnostico
