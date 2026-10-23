@@ -15,13 +15,16 @@ for (const nr of ["99967", "11033", "10209"]) {
 }
 const U = process.env.FALKROSS_USER, P = process.env.FALKROSS_PASSWORD;
 if (U && P) {
-  const h = { Authorization: "Basic " + Buffer.from(`${U}:${P}`).toString("base64"), "Cache-Control": "no-cache", Connection: "close" };
-  try {
-    const r = await fetch("https://ws.falk-ross.eu/webservice/R03_000/stockinfo/falkross_de.csv", { headers: h, signal: AbortSignal.timeout(120000) });
-    const t = await r.text(); const l = t.trim().split(/\r?\n/);
-    out.push(`\nStock CSV HTTP ${r.status}: ${l.length - 1} líneas, ${l[0]} | ${l.slice(1, 6).join(" / ")}`);
-    out.push(`con verde+azul>0: ${l.slice(1).filter(x => { const c = x.split(";"); return +c[1] + +c[3] > 0; }).length}`);
-    out.push("ejemplo 99967: " + l.filter(x => x.startsWith("99967")).join(" / "));
-  } catch (e) { out.push("stock error " + e.message); }
+  out.push(`\nUsuario: ${U.length} car., empieza ${U.slice(0, 4)}, espacios ${/\s/.test(U)}; contraseña ${P.length} car., espacios ${/\s/.test(P)}`);
+  const u = U.trim(), p = P.trim();
+  const h = { Authorization: "Basic " + Buffer.from(`${u}:${p}`).toString("base64"), "Cache-Control": "no-cache", Connection: "close", "Content-type": "application/x-www-form-urlencoded" };
+  for (const [m, url] of [["GET", "R03_000/stockinfo/product/10209?format=csv"], ["POST", "R03_000/stockinfo/product/10209?format=csv"], ["GET", "R01_000/stockinfo/product/10209?format=csv"], ["GET", "R03_000/stockinfo/falkross_de.csv"]]) {
+    try {
+      const r = await fetch("https://ws.falk-ross.eu/webservice/" + url, { method: m, headers: m === "POST" ? { ...h, "Content-Length": "0" } : h, body: m === "POST" ? "" : undefined, signal: AbortSignal.timeout(120000) });
+      const t = await r.text(); const l = t.trim().split(/\r?\n/);
+      out.push(`${m} ${url} -> HTTP ${r.status} ${r.headers.get("www-authenticate") || ""}: ${l.length} líneas | ${t.slice(0, 300).replace(/\s+/g, " ")}`);
+      if (r.ok && l.length > 2) out.push(`con verde+azul>0: ${l.slice(1).filter(x => { const c = x.split(";"); return +c[1] + +c[3] > 0; }).length}`);
+    } catch (e) { out.push(m + " " + url + " error " + e.message); }
+  }
 } else out.push("\nStock: faltan secretos");
 writeFileSync("diagnostico/falkross2.txt", out.join("\n").replaceAll(P || "\u0000", "(pw)"));
