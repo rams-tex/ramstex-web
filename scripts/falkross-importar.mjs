@@ -66,9 +66,17 @@ const BYSUB = [
   [/Gorras/, "Headwear & Accesorios", "Gorras"], [/Beanies/, "Headwear & Accesorios", "Gorros"], [/Bolsas/, "Equipaje", "Bolsas"],
   [/Toallas/, "Línea de hogar", "Baño"], [/Zapatos/, "Calzado y accesorios", "Calzado de trabajo"], [/Ropa Interior/, "Ropa interior", "Calcetines"],
 ];
+// Si el nombre no empieza por el tipo de prenda, se busca la palabra en cualquier parte
+const BYWORD = [
+  [/delantal/, "Ropa", "Delantales"], [/mochila/, "Equipaje", "Mochilas"], [/trolley|maleta/, "Equipaje", "Maletas"],
+  [/toalla|manopla de bano|albornoz/, "Línea de hogar", "Baño"], [/softshell|chaqueta|parka|cortavientos/, "Ropa", "Chaquetas"],
+  [/sudadera/, "Ropa", "Sudaderas"], [/pantalon/, "Ropa", "Pantalones"], [/camiseta/, "Ropa", "Camisetas"],
+  [/\b(bolsa|bolso|rinonera|riñonera|portabotellas)\b/, "Equipaje", "Bolsas"], [/\bgorra\b/, "Headwear & Accesorios", "Gorras"],
+];
 function famSub(name, subs) {
   const n = nrm(name);
   for (const [re, f, s] of BYNAME) if (re.test(n)) return [f, s];
+  for (const [re, f, s] of BYWORD) if (re.test(n)) return [f, s];
   for (const [re, f, s] of BYSUB) if (subs.some(x => re.test(x))) return [f, s];
   return ["Ropa Accesorios", "Accesorios"];
 }
@@ -132,7 +140,7 @@ async function worker() {
     for (const k of skus) skuMap[k.art] = [ref, k.cc, k.sz];
     // Descripción: viñetas; de ahí salen gramaje y composición
     const lines = es(x, "style_description").split(/\n|·/).map(l => l.replace(/^[\s•\-·]+/, "").trim()).filter(Boolean);
-    const pesoL = lines.find(l => /^\d+\s*g\/m/.test(l)), peso = pesoL ? (pesoL.match(/^(\d+)/)[1] + " g/m²") : "";
+    const pesoL = lines.find(l => /\d+(\s*-\s*\d+)?\s*g\s*\/\s*m/.test(l)), peso = pesoL ? (pesoL.match(/(\d+)(?:\s*-\s*\d+)?\s*g\s*\/\s*m/)[1] + " g/m²") : "";
     const compL = lines.filter(l => /\d+\s*%/.test(l) && l !== pesoL);
     const rest = lines.filter(l => l !== pesoL && !compL.includes(l));
     const sizes = [...new Map(skus.sort((a, b) => a.so - b.so).map(k => [k.sz, 1])).keys()];

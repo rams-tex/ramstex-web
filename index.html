@@ -709,7 +709,7 @@ var IMGS="https://s7g3.scene7.com/is/image/soloinvest/";
 function isS(st){return st.indexOf("S:")===0;}
 function isT(st){return st.indexOf("T:")===0;}
 function isF(st){return st.indexOf("F:")===0;}
-function isPack(st){return st.indexOf("packshots/")===0||(isR(st)&&st.indexOf("/views/")>0)||(isJ(st)&&st.indexOf("sku/")===2)||(isS(st)&&st.charAt(2)==="n"&&st.length>10)||(isT(st)&&st.charAt(2)==="P")||(isF(st)&&st.indexOf("_f-")>0);}
+function isPack(st){return st.indexOf("packshots/")===0||(isR(st)&&st.indexOf("/views/")>0)||(isJ(st)&&st.indexOf("sku/")===2)||(isS(st)&&st.charAt(2)==="n"&&st.length>10)||(isT(st)&&st.charAt(2)==="P")||(isF(st)&&/_f[-_]/.test(st));}
 function ext(st){return isR(st)?".jpg":(isPack(st)?".png":".jpg");}
 function setSrc(img,st,w){
   img.classList.toggle("pack",isPack(st));

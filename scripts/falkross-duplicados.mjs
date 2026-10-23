@@ -6,6 +6,7 @@ import { readFileSync } from "node:fs";
 const FAM = ["result", "russell", "b&c", "fruitoftheloom", "regatta", "beechfield", "bagbase", "flexfit", "gildan", "quadra", "yoko", "spiro", "buildyourbrand", "westfordmill", "kustomkit", "teejays", "stormtech", "henbury", "premier", "babybugz", "larkwood", "towelcity", "shugon", "karlowsky"];
 export const familia = b => {
   const n = (b || "").toLowerCase().replace(/[®™]/g, "").replace(/[^a-z0-9&]/g, "");
+  if (n === "classics") return "flexfit"; // la línea "Classics" de Falk&Ross es Flexfit/Yupoong (TopTex la vende como Flexfit)
   return FAM.find(f => n.startsWith(f)) || n;
 };
 // Mismo producto que TopTex aunque el código no coincida
