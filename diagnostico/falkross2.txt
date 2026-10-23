@@ -1,0 +1,27 @@
+
+## 99967: fotos color 2, fotos estilo 999_67_101_m-2021_01.jpg 999_67_000_m-2021_01.jpg 999_67_101_f-2022_01.jpg 999_67_101_sl-2022_01.jpg 999_67_101_b-2022_01.jpg 999_67_101_sr-2022_01.jpg 999_67_101_d-2022_01.jpg
+https://download.falk-ross.eu/ws/picture/999_67_000_f-2022_01.jpg -> 200 image/jpeg 37620B
+http://download.falk-ross.eu/ws/picture/999_67_000_f-2022_01.jpg -> 200 image/jpeg 37620B
+http://download.falk-ross.eu/ws/picture/999_67_000_b-2022_01.jpg -> 404 text/html 1567B
+http://download.falk-ross.eu/ws/picture/999_67_000_m-2022_01.jpg -> 404 text/html 1567B
+https://www.falk-ross.eu/media/999_67_000_f-2022_01.jpg -> 404 text/html; charset=iso-8859-1 228B
+
+## 11033: fotos color 18, fotos estilo 110_33_m-2023_01.jpg 110_33_412_m-2019_02.jpg 110_33_410_m-2019_01.jpg 110_33_507_m-2019_01.jpg 110_33_121_m-2019_01.jpg 110_33_200_m-2019_01.jpg 110_33_300_m-2019_01.jpg 110_33_312_m-2019_01.jpg 110_33_605_m-2019_01.jpg 110_33_349_m-2019_01.jpg
+https://download.falk-ross.eu/ws/picture/110_33_000_f-2018_01.jpg -> 200 image/jpeg 31462B
+http://download.falk-ross.eu/ws/picture/110_33_000_f-2018_01.jpg -> 200 image/jpeg 31462B
+http://download.falk-ross.eu/ws/picture/110_33_000_b-2018_01.jpg -> 404 text/html 1567B
+http://download.falk-ross.eu/ws/picture/110_33_000_m-2018_01.jpg -> 404 text/html 1567B
+https://www.falk-ross.eu/media/110_33_000_f-2018_01.jpg -> 404 text/html; charset=iso-8859-1 228B
+
+## 10209: fotos color 48, fotos estilo 102_09_411_m-2023_01.jpg 102_09_411_m-2023_03.jpg 102_09_411_mb-2023_01.jpg 102_09_506_m-2023_02.jpg 102_09_506_m-2023_01.jpg 102_09_506_mb-2023_01.jpg 102_09_318_mb-2023_01.jpg 102_09_318_m-2023_02.jpg 102_09_318_m-2023_01.jpg
+https://download.falk-ross.eu/ws/picture/102_09_000_f-2025_01.jpg -> 200 image/jpeg 24597B
+http://download.falk-ross.eu/ws/picture/102_09_000_f-2025_01.jpg -> 200 image/jpeg 24597B
+http://download.falk-ross.eu/ws/picture/102_09_000_b-2025_01.jpg -> 404 text/html 1567B
+http://download.falk-ross.eu/ws/picture/102_09_000_m-2025_01.jpg -> 404 text/html 1567B
+https://www.falk-ross.eu/media/102_09_000_f-2025_01.jpg -> 404 text/html; charset=iso-8859-1 228B
+
+Usuario: 19 car., empieza 4301, espacios false; contraseña 8 car., espacios false
+GET R03_000/stockinfo/product/10209?format=csv -> HTTP 401 : 2 líneas | 2026-10-23 18:32:21 ; 
+POST R03_000/stockinfo/product/10209?format=csv -> HTTP 405 : 2 líneas | 2026-10-23 18:32:21 ; 
+GET R01_000/stockinfo/product/10209?format=csv -> HTTP 401 : 2 líneas | 2026-10-23 18:32:22 ; 
+GET R03_000/stockinfo/falkross_de.csv -> HTTP 401 : 2 líneas | 2026-10-23 18:32:22 ; 
