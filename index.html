@@ -676,6 +676,7 @@ var FORM=document.getElementById("f"); if(FORM) FORM.addEventListener("submit", 
 /* ---------- Menú desplegable ---------- */
 var menu=document.getElementById("menu"),mbtn=document.getElementById("menubtn");
 function setMenu(open){
+  if(open){var hb=document.querySelector("header.top").getBoundingClientRect().bottom; menu.style.top=Math.max(0,Math.round(hb))+"px";} /* el menú empieza justo debajo de la cabecera (con o sin la franja superior visible) */
   menu.hidden=!open; mbtn.setAttribute("aria-expanded",open);
   document.getElementById("menulabel").textContent=open?"Cerrar":"Menú";
   document.getElementById("mi1").setAttribute("d",open?"M6 6l12 12M18 6L6 18":"M4 7h16M4 12h16M4 17h16");
