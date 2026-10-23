@@ -42,7 +42,10 @@ export function indiceTopTex(tt) {
     if (m) { add(m[2]); add(r.replace(/^[A-Z]{2}/, "")); add(r.replace(/^[A-Z]/, "")); }
     if (PREF[f] && r.startsWith(PREF[f])) add(r.slice(PREF[f].length));
     if (f === "gildan") { const g = r.match(/^GI6400([LB]?)$/); if (g) add("64000" + g[1]); }
-    if (f === "russell") { const z = r.match(/^RUZT(\d+)(L?)$/); if (z) add(z[1] + (z[2] || "M")); }
+    if (f === "russell") {
+      const z = r.match(/^RUZT(\d+)(L?)$/); if (z) add(z[1] + (z[2] || "M"));
+      const c = r.match(/^RU(\d{3})\d([MFB])$/); if (c) add(c[1] + c[2]); // Falk&Ross recorta a 3 cifras: 8740M -> 0R874M0
+    }
     for (const x of (p.name || "").matchAll(/\b(\d\d)-(\d{3})-\d\b/g)) s.add(x[1] + x[2]);
   }
   return idx;
