@@ -1,6 +1,9 @@
 name: Prueba Falk&Ross
 on:
   workflow_dispatch:
+    inputs:
+      script:
+        default: prueba2
 permissions:
   contents: write
 jobs:
@@ -12,7 +15,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: node scripts/falkross-explorar.mjs
+      - run: node scripts/falkross-${{ github.event.inputs.script || 'prueba2' }}.mjs
         continue-on-error: true
         env:
           FALKROSS_USER: ${{ secrets.FALKROSS_USER }}
