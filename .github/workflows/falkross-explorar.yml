@@ -24,6 +24,7 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
+          cp data/falkross*.json data/falkross-resumen.txt diagnostico/ 2>/dev/null || true
           git checkout -B diagnostico
           git add -f diagnostico/falkross*
           git commit -m "Resultado prueba Falk&Ross" || true
