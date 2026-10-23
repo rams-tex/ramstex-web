@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
   workflow_run:
-    workflows: ["Importar catálogo", "Importar catálogo TopTex", "Actualizar stock", "Fotos Sol's", "Importar Stanley Stella"]
+    workflows: ["Importar catálogo", "Importar catálogo TopTex", "Actualizar stock", "Fotos Sol's", "Importar Stanley Stella", "Importar Falk&Ross"]
     types: [completed]
   workflow_dispatch:
 permissions:

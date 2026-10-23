@@ -1,4 +1,4 @@
-// Descarga el stock de TopTex, Roly/Stamina y JHK y lo guarda por categoría en data/stock/<cat>.json.
+// Descarga el stock de TopTex, Roly/Stamina, JHK, Sol's, Stanley/Stella y Falk&Ross y lo guarda por categoría en data/stock/<cat>.json.
 // La web solo lo carga al abrir una ficha, así que el catálogo no va más lento.
 // Formato: { updated, s: { ref: { z: [tallas], q: { códigoColor: [uds por talla] } } } }
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
@@ -166,6 +166,26 @@ try {
   }
   log.push(`Stanley/Stella: ${n} referencias`);
 } catch (e) { log.push("Stanley/Stella: error " + e.message); }
+
+// ---------- Falk&Ross (CSV global: verde = almacén Sembach, azul = fabricante 3-5 días; se suman) ----------
+try {
+  const U = process.env.FALKROSS_USER, P = process.env.FALKROSS_PASSWORD;
+  if (!U || !P) throw new Error("faltan credenciales");
+  const sku = JSON.parse(readFileSync("data/falkross-sku.json", "utf8"));
+  const h = { Authorization: "Basic " + Buffer.from(`${U.trim()}:${P.trim()}`).toString("base64"), "Content-type": "application/x-www-form-urlencoded", "Cache-Control": "no-cache", Connection: "close" };
+  let t = "";
+  for (let i = 0; i < 4 && !t; i++) { // una sola petición a la vez, con reintentos espaciados (lo piden así)
+    try { const r = await fetch("https://ws.falk-ross.eu/webservice/R03_000/stockinfo/falkross_de.csv", { headers: h, signal: AbortSignal.timeout(180000) }); if (r.ok) t = await r.text(); else if (r.status === 401) throw new Error("credenciales rechazadas (401)"); }
+    catch (e) { if (/401/.test(e.message)) throw e; }
+    if (!t) await sleep(30000 * 2 ** i);
+  }
+  let n = 0;
+  for (const line of t.split(/\r?\n/).slice(1)) {
+    const c = line.split(";"); const k = sku[c[0]]; if (!k) continue;
+    put(k[0], k[1], k[2], (+c[1] || 0) + (+c[3] || 0)); n++;
+  }
+  log.push(`Falk&Ross: ${n} referencias`);
+} catch (e) { log.push("Falk&Ross: error " + e.message); }
 
 // ---------- Guardar por categoría ----------
 const ORDER = ["XXS", "XS", "S", "M", "L", "XL", "XXL", "2XL", "3XL", "XXXL", "4XL", "5XL", "6XL"];

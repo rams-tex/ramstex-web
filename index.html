@@ -708,13 +708,15 @@ function isJ(st){return st.indexOf("J:")===0;}
 var IMGS="https://s7g3.scene7.com/is/image/soloinvest/";
 function isS(st){return st.indexOf("S:")===0;}
 function isT(st){return st.indexOf("T:")===0;}
-function isPack(st){return st.indexOf("packshots/")===0||(isR(st)&&st.indexOf("/views/")>0)||(isJ(st)&&st.indexOf("sku/")===2)||(isS(st)&&st.charAt(2)==="n"&&st.length>10)||(isT(st)&&st.charAt(2)==="P");}
+function isF(st){return st.indexOf("F:")===0;}
+function isPack(st){return st.indexOf("packshots/")===0||(isR(st)&&st.indexOf("/views/")>0)||(isJ(st)&&st.indexOf("sku/")===2)||(isS(st)&&st.charAt(2)==="n"&&st.length>10)||(isT(st)&&st.charAt(2)==="P")||(isF(st)&&st.indexOf("_f-")>0);}
 function ext(st){return isR(st)?".jpg":(isPack(st)?".png":".jpg");}
 function setSrc(img,st,w){
   img.classList.toggle("pack",isPack(st));
   if(isR(st)){img.onerror=null;img.src=IMGR+st.slice(2)+".jpg";return;}
   if(isJ(st)){img.onerror=null;img.src=IMGJ+st.slice(2)+".jpg";return;}
   if(isS(st)){img.onerror=null;img.src=IMGS+st.slice(2)+"?wid="+(w||700);return;}
+  if(isF(st)){img.onerror=null;img.src="https://download.falk-ross.eu/ws/picture/"+st.slice(2)+".jpg";return;}
   if(isT(st)){img.onerror=null;img.src="/st/"+st.slice(2).replace(/\.\w+$/,"")+".webp";return;}
   img.onerror=function(){img.onerror=null;img.src=IMG2+st+ext(st);};
   img.src=IMG+st+ext(st)+"?w="+(w||700);
@@ -1051,7 +1053,7 @@ function renderProduct(it){
       opts.forEach(function(st,i){
         var b=document.createElement("button");b.type="button";b.setAttribute("aria-label",it.cur>=0&&i<=cv.length&&LBL[i]?"Ver "+LBL[i].toLowerCase():"Ver foto");b.setAttribute("aria-pressed",st===view);
         b.innerHTML='<img alt="">'; var ti=b.querySelector("img"); setSrc(ti,st,200);
-        if(isJ(st)||isS(st)||isT(st)) ti.addEventListener("error",function(){b.remove();});
+        if(isJ(st)||isS(st)||isT(st)||isF(st)) ti.addEventListener("error",function(){b.remove();});
         b.onclick=function(){view=st;setSrc(big,st,1000);thumbs();};
         th.appendChild(b);
       });

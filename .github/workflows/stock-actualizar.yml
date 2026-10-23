@@ -30,6 +30,8 @@ jobs:
           SOLS_FTP_PASSWORD: ${{ secrets.SOLS_FTP_PASSWORD }}
           STANLEY_USER: ${{ secrets.STANLEY_USER }}
           STANLEY_PASSWORD: ${{ secrets.STANLEY_PASSWORD }}
+          FALKROSS_USER: ${{ secrets.FALKROSS_USER }}
+          FALKROSS_PASSWORD: ${{ secrets.FALKROSS_PASSWORD }}
       - name: Guardar stock
         run: |
           git config user.name "github-actions"

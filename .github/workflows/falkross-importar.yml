@@ -1,0 +1,28 @@
+name: Importar Falk&Ross
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 4 * * 2"
+permissions:
+  contents: write
+concurrency:
+  group: datos
+jobs:
+  importar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/falkross-importar.mjs
+      - run: node scripts/catalogo-construir.mjs
+      - name: Guardar catálogo
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add data/falkross.json data/falkross-sku.json data/falkross-resumen.txt data/catalogo.json data/fichas
+          git diff --cached --quiet || git commit -m "Falk&Ross: catálogo actualizado [skip netlify]"
+          git pull --rebase -q || true
+          git push
