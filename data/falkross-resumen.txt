@@ -1,4 +1,4 @@
-Falk&Ross: 2272 estilos; 666 ya están en TopTex (no se suben); 0 sin foto; 1606 modelos importados, 6206 colores
+Falk&Ross: 2272 estilos; 671 ya están en TopTex (no se suben); 0 sin foto; 1601 modelos importados, 6176 colores
 
 No subidos por estar ya en TopTex:
 B&C Outerwear FG001
@@ -569,6 +569,11 @@ Russell Athletic 0R570M0
 Russell Athletic 0R577M0
 Russell Athletic 0R599M0
 Russell Athletic 0R599M0
+Russell Athletic 0R762M0
+Russell Athletic 0R870F0
+Russell Athletic 0R870M0
+Russell Athletic 0R872M0
+Russell Athletic 0R874M0
 Russell Collection 0R710F0
 Russell Collection 0R710M0
 Russell Collection 0R715F0
