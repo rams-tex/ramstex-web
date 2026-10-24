@@ -23,7 +23,7 @@ writeFileSync(join(OUT, "app.js"), js);
 
 // Colores y fotos de categoría: los mismos datos que usa la web
 const pick = name => new Function(js.match(new RegExp("var " + name + "=[^\\n]*;"))[0] + "return " + name + ";")();
-const DOMHEX = pick("DOMHEX"), NAMEHEX = pick("NAMEHEX"), TILEPIC = pick("TILEPIC");
+const DOMHEX = pick("DOMHEX"), NAMEHEX = pick("NAMEHEX"), SWATCH = pick("SWATCH"), TILEPIC = pick("TILEPIC");
 
 // ---------- Utilidades ----------
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -45,12 +45,7 @@ function imgURL(st, w) {
   return "https://cdn.europeancatalog.com/" + st + (isPack(st) ? ".png" : ".jpg") + "?w=" + w;
 }
 const img = (st, w, alt, extra = "") => st ? `<img${isPack(st) ? ' class="pack"' : ""} src="${esc(imgURL(st, w))}" alt="${esc(alt)}"${extra}>` : "";
-function dotColor(k) {
-  if (k[1]) return k[1];
-  const nn = norm(k[0]);
-  for (const [w, h] of NAMEHEX) if (nn.includes(w)) return h;
-  return (k[2].length && DOMHEX[D.doms[k[2][0]]]) || "#DDD";
-}
+const dotColor = k => SWATCH(k, NAMEHEX, DOMHEX, D.doms);
 const cut = (s, n) => s.length <= n ? s : s.slice(0, n - 1).replace(/\s+\S*$/, "") + "…";
 
 // ---------- Plantilla ----------

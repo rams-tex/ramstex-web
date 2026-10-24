@@ -73,6 +73,15 @@ const RECAT = [
   [/^(casaca cocinero|chaqueta de cocina)/, "trabajo", []],
   [/^bolsa\b/, "bolsas", []],
 ];
+const pct = (comp, re) => { let t = 0; for (const m of nrm(comp).matchAll(/(\d+(?:[.,]\d+)?)\s*%\s*([a-z ]{0,25})/g)) if (re.test(m[2])) t += parseFloat(m[1].replace(",", ".")); return t; };
+function esDeportiva(p) {
+  const n = nrm(p.name), comp = p.comp || "";
+  const tecnico = pct(comp, /poli[eé]?ster|polyester|poliamid|polyamid|elast|nylon|nailon/) >= 60 || (!/\d\s*%/.test(comp) && /poliester|polyester|poliamid/.test(nrm(comp)));
+  const algodon = pct(comp, /algod|cotton|coton/) >= 60;
+  if (algodon) return false;
+  if (/deport|\bsport|multideporte|baloncesto|basket|padel|running|training|performance|rugby|futbol|fitness|tecnica|cool ?dry|quick ?dry|aircool|\bactive\b|ciclismo|bicicleta/.test(n)) return true;
+  return tecnico && usoOf(p.world).includes("Deporte y equipos");
+}
 function recatByName(name, from) {
   const n = nrm(name);
   if (/pijama/.test(n)) return null;
@@ -162,6 +171,8 @@ for (const p of src) {
     p.sub = String(p.sub || "").replace(/[a-záéíóúñ ]+/gi, w => FIX[w.toLowerCase()] ? (w[0] === w[0].toUpperCase() ? FIX[w.toLowerCase()].charAt(0).toUpperCase() + FIX[w.toLowerCase()].slice(1) : FIX[w.toLowerCase()]) : w)
       .split(" ").map(w => FIX[w.toLowerCase()] ? (w[0] === w[0].toUpperCase() ? FIX[w.toLowerCase()].charAt(0).toUpperCase() + FIX[w.toLowerCase()].slice(1) : FIX[w.toLowerCase()]) : w).join(" ");
   }
+  // Camisetas deportivas: técnicas (poliéster/poliamida) para deporte, o que el nombre dice que son de deporte
+  if (cat[0] === "camisetas" && esDeportiva(p)) p.sub = "Camisetas deportiva";
   const sub = SUBFIX[p.sub] || p.sub || cat[1];
   const flags = [
     p.org || p.rec ? "e" : "", p.nolabel ? "l" : "", p.big ? "x" : "", p.oeko ? "k" : "",
