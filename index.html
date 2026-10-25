@@ -89,35 +89,38 @@ button{font-family:inherit}
 .topbar a{text-decoration:none;color:inherit}
 .topbar a:hover{color:var(--text)}
 .tlinks{display:flex;gap:20px;align-items:center}
-.herob{--ease-io:cubic-bezier(.77,0,.175,1);--ease-out:cubic-bezier(.23,1,.32,1);background-color:var(--hbg);color:#fff;transition:background-color .75s var(--ease-io);overflow:hidden;position:relative}
-.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:32px;align-items:center;padding:56px 0 48px}
+.herob{--ease-io:cubic-bezier(.77,0,.175,1);--ease-out:cubic-bezier(.23,1,.32,1);background-color:var(--hbg);color:#fff;transition:background-color .5s var(--ease-io);overflow:hidden;position:relative}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:32px;align-items:center;padding:56px 0 130px}
 .hero h1{font-size:clamp(2.7rem,5.6vw,4.9rem);font-weight:800;color:#fff;text-wrap:balance}
 .hero .hsub{font-weight:700;font-size:1.12rem;color:#fff;margin:18px 0 14px}
 .hero p{max-width:32rem;color:rgba(255,255,255,.88);font-size:1.08rem;margin:0 0 14px}
 .hero p b{color:#fff;font-weight:700}
 .hero .ctas{margin-top:26px}
-.btn.wht{background:#fff;color:var(--hbg);transition:color .75s var(--ease-io),transform .16s var(--ease-out)}
+.btn.wht{background:#fff;color:var(--hbg);transition:color .5s var(--ease-io),transform .16s var(--ease-out)}
 .btn.owht{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.8)}
 .btn.owht:hover{filter:none;background:rgba(255,255,255,.1)}
 .herob .btn:active{transform:scale(.97)}
 /* Escenario del producto */
-.stage{position:relative;height:clamp(420px,62vh,600px);container-type:inline-size}
+.stage{position:relative;height:clamp(420px,62vh,600px);container-type:inline-size;margin-bottom:-104px}
 .words{position:absolute;left:0;right:0;top:0;height:32%;display:grid;place-items:start center;pointer-events:none;overflow:hidden;padding-top:2px}
-.words span{grid-area:1/1;font:800 min(8rem,calc(128cqw / var(--n)))/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.04em;color:rgba(255,255,255,.14);white-space:nowrap;opacity:0;transform:translateY(40px);transition:opacity .45s ease,transform .75s var(--ease-io)}
+.words span{grid-area:1/1;font:800 min(8rem,calc(128cqw / var(--n)))/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.04em;color:rgba(255,255,255,.14);white-space:nowrap;opacity:0;transform:translateY(40px);transition:opacity .3s ease,transform .5s var(--ease-io)}
 .words span.is-on{opacity:1;transform:none}
 .words span.is-off{opacity:0;transform:translateY(-40px)}
-.floor{position:absolute;left:30%;right:30%;bottom:3%;height:5%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.32),transparent);filter:blur(6px)}
+.floor{position:absolute;left:28%;right:28%;bottom:0;height:6%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.32),transparent);filter:blur(6px)}
+.tear{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:130px;z-index:1;pointer-events:none;filter:drop-shadow(0 -8px 14px rgba(0,0,0,.18))}
+.tear .tp{fill:var(--bg)}.tear .tf{fill:color-mix(in srgb,var(--bg) 70%,#fff);opacity:.9}
+.herob>.wrap{position:relative;z-index:2}
 /* Cola de productos, como un escaparate: el actual en grande y detrás los siguientes */
 .stage{--x0:0cqw;--x1:40cqw;--x2:63cqw;--x3:79cqw;--x4:94cqw;--s1:.5;--s2:.31;--s3:.2}
-.slide{position:absolute;left:50%;bottom:5%;height:calc(var(--h) * .78);width:auto;aspect-ratio:var(--ar);margin:0;transform-origin:50% 100%;
+.slide{position:absolute;left:50%;bottom:2%;height:calc(var(--h) * .78);width:auto;aspect-ratio:var(--ar);margin:0;transform-origin:50% 100%;
   transform:translateX(-50%) translateX(var(--tx,0)) translateY(var(--ty,0)) rotate(var(--tr,0deg)) scale(var(--ts,1));opacity:var(--to,1);
-  transition:transform .8s var(--ease-io),opacity .55s ease,filter .8s ease;will-change:transform}
+  transition:transform .55s var(--ease-io),opacity .4s ease;will-change:transform}
 .slide[data-pos="0"]{--tx:var(--x0);z-index:5}
 .slide[data-pos="1"]{--tx:var(--x1);--ts:var(--s1);z-index:4}
 .slide[data-pos="2"]{--tx:var(--x2);--ts:var(--s2);z-index:3}
 .slide[data-pos="3"]{--tx:var(--x3);--ts:var(--s3);--to:.9;z-index:2}
 .slide[data-pos="4"]{--tx:var(--x4);--ts:.12;--to:0;z-index:1}
-.slide[data-pos="out"]{--tx:calc(var(--x0) - 10cqw);--ty:95cqw;--tr:-14deg;--ts:1;--to:1;z-index:6;transition:transform .75s cubic-bezier(.5,0,.7,.4),opacity .2s ease .6s}
+.slide[data-pos="out"]{--tx:calc(var(--x0) - 10cqw);--ty:95cqw;--tr:-14deg;--ts:1;--to:1;z-index:6;transition:transform .5s cubic-bezier(.5,0,.7,.4),opacity .15s ease .42s}
 .slide[data-pos="1"] .prod img,.slide[data-pos="2"] .prod img,.slide[data-pos="3"] .prod img{filter:drop-shadow(0 14px 16px rgba(0,0,0,.25))}
 .prod{position:relative;width:100%;height:100%;animation:hfloat 6s ease-in-out infinite}
 .prod img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 26px 30px rgba(0,0,0,.28))}
@@ -126,12 +129,13 @@ button{font-family:inherit}
 .hcap{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0;font-weight:600;font-size:.95rem;color:rgba(255,255,255,.9);transition:opacity .3s ease}
 .hcap.fade{opacity:0}
 @keyframes hfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.hplay{position:absolute;right:24px;bottom:22px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center;cursor:pointer;opacity:.7;transition:opacity .2s ease}
+.hplay{position:absolute;right:24px;bottom:22px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(0,0,0,.06);color:var(--muted);display:grid;place-items:center;cursor:pointer;opacity:.7;transition:opacity .2s ease}
 .hplay:hover{opacity:1}
 .herob .wrap{position:relative}
 .hplay:hover{background:rgba(255,255,255,.24)}
 .hplay svg{width:14px;height:14px}
 .herob :focus-visible{outline-color:#fff}
+.hplay:focus-visible{outline-color:var(--red-text)}
 @media (prefers-reduced-motion: reduce){
   .herob,.btn.wht{transition:none}
   .slide,.words span{transition:opacity .3s ease}
@@ -416,6 +420,8 @@ img.pack{object-fit:contain!important;padding:6%}
   .stage{--x0:-13cqw;--x1:27cqw;--x2:46cqw;--x3:60cqw;--x4:74cqw;--s1:.46;--s2:.3;--s3:.2}
   .floor{left:12%;right:48%}
   .hero{padding-bottom:36px}
+  .stage{margin-bottom:0}
+  .tear{height:clamp(70px,20vw,110px)}
   .hplay{right:16px;bottom:14px}
   .hero p{font-size:1rem}
   .hero .hsub{font-size:1rem;margin:14px 0}
@@ -521,6 +527,7 @@ img.pack{object-fit:contain!important;padding:6%}
 <!-- =============== INICIO =============== -->
 <div id="view-home">
   <div class="herob" id="inicio" style="--hbg:#982626">
+  <svg class="tear" viewBox="0 0 1440 140" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="tf" d="M0,140 L0,43.0 L0.0,41.9 L24.7,50.1 L48.9,41.8 L68.0,41.0 L86.0,34.5 L98.2,36.1 L111.0,33.8 L120.4,24.6 L141.5,24.7 L159.2,27.4 L174.3,21.4 L196.6,22.5 L216.8,26.5 L242.3,21.4 L264.2,21.6 L282.9,21.9 L297.3,17.6 L314.3,20.0 L333.4,16.5 L353.3,16.4 L365.3,14.0 L388.2,14.4 L399.2,13.4 L408.8,16.5 L427.6,19.0 L442.2,19.5 L456.1,14.5 L478.3,16.7 L491.7,14.1 L514.0,16.9 L537.1,16.8 L555.4,23.2 L574.5,29.1 L586.3,41.2 L596.2,39.4 L605.6,41.8 L626.3,49.6 L649.0,60.3 L667.2,67.0 L688.9,66.8 L714.5,63.4 L726.8,56.9 L743.7,50.8 L768.5,59.8 L781.2,52.9 L799.2,46.0 L817.4,51.5 L830.8,49.0 L855.1,47.1 L869.9,54.0 L892.7,64.5 L913.4,60.0 L934.2,67.0 L954.1,61.8 L968.1,61.5 L990.2,62.1 L1008.6,69.4 L1019.4,69.9 L1034.1,70.4 L1057.3,67.1 L1082.4,60.0 L1101.0,61.5 L1114.0,59.9 L1131.0,61.5 L1152.2,53.0 L1167.6,58.2 L1179.0,61.0 L1191.5,65.4 L1203.4,66.2 L1219.6,58.9 L1240.5,55.1 L1261.2,57.4 L1279.7,59.3 L1293.7,66.6 L1304.2,71.2 L1327.9,69.7 L1350.1,70.6 L1369.4,65.3 L1383.8,63.7 L1397.9,70.7 L1412.7,70.4 L1428.9,71.4 L1440.0,70.6 L1440,140 Z"/><path class="tp" d="M0,140 L0,46.0 L0.0,45.7 L24.7,53.9 L48.9,46.8 L68.0,45.1 L86.0,38.2 L98.2,37.9 L111.0,36.8 L120.4,29.8 L141.5,27.9 L159.2,32.2 L174.3,24.0 L196.6,25.9 L216.8,28.4 L242.3,26.0 L264.2,23.3 L282.9,25.9 L297.3,18.0 L314.3,22.8 L333.4,21.4 L353.3,17.9 L365.3,17.5 L388.2,17.4 L399.2,17.9 L408.8,18.6 L427.6,24.1 L442.2,21.7 L456.1,18.2 L478.3,18.6 L491.7,17.6 L514.0,21.9 L537.1,17.5 L555.4,25.6 L574.5,33.6 L586.3,42.2 L596.2,40.1 L605.6,45.7 L626.3,54.7 L649.0,62.4 L667.2,71.7 L688.9,68.6 L714.5,66.7 L726.8,59.2 L743.7,53.6 L768.5,61.6 L781.2,54.1 L799.2,48.3 L817.4,54.7 L830.8,52.5 L855.1,51.5 L869.9,58.8 L892.7,66.0 L913.4,64.7 L934.2,70.0 L954.1,66.1 L968.1,63.4 L990.2,65.3 L1008.6,70.9 L1019.4,73.7 L1034.1,73.6 L1057.3,69.7 L1082.4,62.4 L1101.0,62.8 L1114.0,63.3 L1131.0,63.3 L1152.2,54.5 L1167.6,58.6 L1179.0,66.0 L1191.5,68.4 L1203.4,67.5 L1219.6,60.8 L1240.5,60.4 L1261.2,61.4 L1279.7,61.4 L1293.7,68.5 L1304.2,73.7 L1327.9,74.0 L1350.1,74.6 L1369.4,70.4 L1383.8,68.0 L1397.9,73.6 L1412.7,72.3 L1428.9,74.3 L1440.0,73.5 L1440,140 Z"/></svg>
   <div class="wrap">
     <div class="hero">
       <div class="htext">
@@ -779,7 +786,7 @@ menu.addEventListener("click",function(e){if(e.target.closest("a"))setMenu(false
   var slides=[].slice.call(hb.querySelectorAll(".slide")), words=[].slice.call(hb.querySelectorAll(".words span"));
   var play=document.getElementById("hplay"), icon=document.getElementById("hplayi");
   var meta=document.querySelector('meta[name="theme-color"]');
-  var DUR=2200, cur=0, timer=null, hover=false, user=true;
+  var DUR=1400, cur=0, timer=null, hover=false, user=true;
   var rm=window.matchMedia("(prefers-reduced-motion: reduce)");
   hb.style.setProperty("--dur",DUR+"ms");
   slides.forEach(function(s){var i=new Image();i.src=s.querySelector("img").src;}); /* precarga */
@@ -795,12 +802,12 @@ menu.addEventListener("click",function(e){if(e.target.closest("a"))setMenu(false
     });
     var c=slides[cur].getAttribute("data-bg"); hb.style.setProperty("--hbg",c); if(meta) meta.setAttribute("content",c);
     var t=slides[cur].querySelector("figcaption").textContent;
-    if(anim){cap.classList.add("fade");setTimeout(function(){cap.textContent=t;cap.classList.remove("fade");},380);} else cap.textContent=t;
+    if(anim){cap.classList.add("fade");cap.textContent=t;cap.classList.remove("fade");} else cap.textContent=t;
   }
   function go(n){
     if(n===cur) return; var prev=cur; cur=(n+N)%N;
     words.forEach(function(w,i){w.classList.toggle("is-on",i===cur);w.classList.toggle("is-off",i===prev);});
-    setTimeout(function(){words[prev].classList.remove("is-off");},800);
+    setTimeout(function(){words[prev].classList.remove("is-off");},550);
     layout(true); restart();
   }
   function running(){return user&&!hover&&!rm.matches&&!document.hidden;}
