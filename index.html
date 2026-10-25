@@ -90,7 +90,7 @@ button{font-family:inherit}
 .topbar a:hover{color:var(--text)}
 .tlinks{display:flex;gap:20px;align-items:center}
 .herob{--ease-io:cubic-bezier(.77,0,.175,1);--ease-out:cubic-bezier(.23,1,.32,1);background-color:var(--hbg);color:#fff;transition:background-color .9s var(--ease-io);overflow:hidden;position:relative}
-.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:32px;align-items:center;padding:56px 0 8px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:32px;align-items:center;padding:56px 0 48px}
 .hero h1{font-size:clamp(2.7rem,5.6vw,4.9rem);font-weight:800;color:#fff;text-wrap:balance}
 .hero .hsub{font-weight:700;font-size:1.12rem;color:#fff;margin:18px 0 14px}
 .hero p{max-width:32rem;color:rgba(255,255,255,.88);font-size:1.08rem;margin:0 0 14px}
@@ -112,27 +112,14 @@ button{font-family:inherit}
 .slide.is-out{opacity:0;visibility:visible;transform:translate3d(-26%,4%,0) rotate(-11deg) scale(.86);transition:transform .95s var(--ease-io),opacity .5s ease}
 .prod{position:relative;height:var(--h);aspect-ratio:var(--ar);max-width:92%;animation:hfloat 6s ease-in-out infinite;will-change:transform}
 .prod img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 26px 30px rgba(0,0,0,.28))}
-.print{position:absolute;left:var(--x);top:var(--y);width:var(--w);aspect-ratio:412.53/66.07;transform:translate(-50%,-50%);opacity:.94;overflow:visible}
-.print.mul{mix-blend-mode:multiply;opacity:.9}
 .slide figcaption{position:absolute;right:0;bottom:4px;font-weight:600;font-size:.95rem;color:rgba(255,255,255,.9);opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .5s var(--ease-out)}
 .slide.is-on figcaption{opacity:1;transform:none;transition-delay:.45s}
 @keyframes hfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-/* Miniaturas */
-.hnav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:6px 0 40px}
-.hthumbs{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:4px}
-.hthumbs::-webkit-scrollbar{display:none}
-.hthumbs button{position:relative;flex:none;width:62px;height:62px;border-radius:16px;border:0;padding:8px;background:rgba(255,255,255,.12);cursor:pointer;overflow:hidden;transition:background-color .25s ease,transform .16s var(--ease-out)}
-.hthumbs button:hover{background:rgba(255,255,255,.2)}
-.hthumbs button:active{transform:scale(.95)}
-.hthumbs button[aria-pressed="true"]{background:rgba(255,255,255,.26);box-shadow:inset 0 0 0 2px rgba(255,255,255,.9)}
-.hthumbs img{width:100%;height:100%;object-fit:contain;display:block}
-.hthumbs button::after{content:"";position:absolute;left:8px;right:8px;bottom:5px;height:3px;border-radius:2px;background:#fff;transform:scaleX(0);transform-origin:left}
-.herob.playing .hthumbs button[aria-pressed="true"]::after{animation:hprog var(--dur,4.2s) linear forwards}
-.herob.paused .hthumbs button[aria-pressed="true"]::after{animation-play-state:paused}
-@keyframes hprog{to{transform:scaleX(1)}}
-.hplay{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;display:grid;place-items:center;cursor:pointer}
+.hplay{position:absolute;right:24px;bottom:22px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center;cursor:pointer;opacity:.7;transition:opacity .2s ease}
+.hplay:hover{opacity:1}
+.herob .wrap{position:relative}
 .hplay:hover{background:rgba(255,255,255,.24)}
-.hplay svg{width:18px;height:18px}
+.hplay svg{width:14px;height:14px}
 .herob :focus-visible{outline-color:#fff}
 @media (prefers-reduced-motion: reduce){
   .herob,.btn.wht{transition:none}
@@ -416,9 +403,8 @@ img.pack{object-fit:contain!important;padding:6%}
   .htext>p:not(.hsub){display:none}
   .hero .ctas{margin-top:18px}
   .slide figcaption{right:auto;left:0;bottom:0;font-size:.9rem}
-  .hnav{padding:4px 0 28px;gap:10px}
-  .hthumbs{gap:8px;margin-left:-4px}
-  .hthumbs button{width:52px;height:52px;border-radius:14px;padding:7px}
+  .hero{padding-bottom:36px}
+  .hplay{right:16px;bottom:14px}
   .hero p{font-size:1rem}
   .hero .hsub{font-size:1rem;margin:14px 0}
   .topbar .tloc{display:none}
@@ -523,7 +509,6 @@ img.pack{object-fit:contain!important;padding:6%}
 <!-- =============== INICIO =============== -->
 <div id="view-home">
   <div class="herob" id="inicio" style="--hbg:#982626">
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="rlogo" viewBox="88.75 599.47 412.53 66.07"><path style="fill:var(--lr)" d="M 105.484375 628.738281 L 117.542969 628.738281 C 119.867188 628.738281 122.035156 628.175781 124.042969 627.042969 C 127.5625 625.035156 129.320312 622.175781 129.320312 618.46875 C 129.320312 616.335938 128.628906 614.355469 127.246094 612.535156 C 124.921875 609.519531 121.65625 608.011719 117.449219 608.011719 L 97.285156 608.011719 L 97.285156 628.832031 L 105.578125 628.832031 Z M 136.671875 659.738281 L 138.179688 664.542969 L 130.261719 664.542969 L 129.507812 661.8125 C 127.4375 654.964844 125.550781 649.71875 123.855469 646.078125 C 121.84375 641.867188 119.300781 638.601562 116.222656 636.277344 L 97.285156 636.277344 L 97.285156 664.542969 L 89.746094 664.542969 L 89.746094 632.507812 L 89.84375 604.335938 L 89.84375 600.566406 L 93.609375 600.566406 L 117.449219 600.472656 C 122.347656 600.472656 126.617188 601.980469 130.261719 604.996094 C 134.660156 608.578125 136.859375 613.066406 136.859375 618.46875 C 136.859375 620.480469 136.480469 622.460938 135.726562 624.40625 C 133.96875 629.117188 130.605469 632.542969 125.644531 634.675781 C 129.289062 638.949219 132.964844 647.300781 136.671875 659.738281 "/><path style="fill:var(--lr)" d="M 150.613281 664.542969 L 142.417969 664.542969 L 144.679688 659.269531 L 169.175781 602.734375 L 170.210938 600.472656 L 175.113281 600.472656 L 176.148438 602.734375 L 200.644531 659.269531 L 202.90625 664.542969 L 194.710938 664.542969 L 193.671875 662.28125 L 172.660156 613.757812 L 151.652344 662.28125 Z M 150.613281 664.542969 "/><path style="fill:var(--lr)" d="M 219.773438 664.542969 L 212.234375 664.542969 L 212.234375 600.472656 L 218.453125 600.472656 L 219.394531 602.734375 L 241.445312 651.542969 L 263.398438 602.734375 L 264.339844 600.472656 L 270.558594 600.472656 L 270.558594 604.242188 L 270.652344 660.773438 L 270.652344 664.542969 L 263.113281 664.542969 L 263.113281 660.773438 L 263.019531 621.765625 L 244.835938 662.28125 L 243.894531 664.542969 L 238.996094 664.542969 L 238.050781 662.28125 L 219.773438 621.765625 Z M 219.773438 664.542969 "/><path style="fill:var(--lr)" d="M 319.835938 618.375 C 319.835938 616.179688 319.050781 614.199219 317.480469 612.441406 C 314.78125 609.488281 311.105469 608.011719 306.457031 608.011719 C 303.753906 608.011719 301.210938 608.640625 298.824219 609.894531 C 294.992188 611.90625 293.078125 614.734375 293.078125 618.375 C 293.078125 619.003906 293.234375 619.664062 293.546875 620.355469 C 294.617188 622.425781 298.164062 624.625 304.195312 626.949219 C 311.667969 629.902344 316.160156 631.722656 317.667969 632.414062 C 325.269531 636.246094 329.070312 640.988281 329.070312 646.640625 C 329.007812 650.664062 327.308594 654.367188 323.984375 657.761719 C 319.394531 662.28125 313.554688 664.542969 306.457031 664.542969 C 300.300781 664.542969 294.992188 662.816406 290.535156 659.363281 C 286.074219 655.78125 283.84375 651.542969 283.84375 646.640625 L 291.382812 646.640625 C 291.441406 648.84375 292.386719 650.851562 294.207031 652.671875 C 297.285156 655.5625 301.367188 657.007812 306.457031 657.007812 C 309.660156 657.007812 312.644531 656.316406 315.40625 654.933594 C 319.488281 652.863281 321.53125 650.097656 321.53125 646.640625 C 321.53125 645.953125 321.34375 645.261719 320.96875 644.570312 C 319.898438 642.433594 316.316406 640.171875 310.226562 637.785156 C 302.8125 634.898438 298.382812 633.105469 296.941406 632.414062 C 289.339844 628.644531 285.539062 623.96875 285.539062 618.375 C 285.539062 614.292969 287.046875 610.585938 290.0625 607.257812 C 294.207031 602.734375 299.671875 600.472656 306.457031 600.472656 C 311.859375 600.472656 316.570312 602.042969 320.589844 605.183594 C 325.113281 608.765625 327.375 613.164062 327.375 618.375 Z M 319.835938 618.375 "/><path style="fill:var(--lt)" d="M 379.949219 600.472656 L 383.71875 600.472656 L 383.71875 608.011719 L 363.085938 608.011719 L 363.085938 664.542969 L 355.546875 664.542969 L 355.546875 608.011719 L 334.722656 608.011719 L 334.722656 600.472656 Z M 379.949219 600.472656 "/><path style="fill:var(--lt)" d="M 440.25 600.472656 L 440.25 608.011719 L 402.5625 608.011719 L 402.5625 628.738281 L 430.074219 628.738281 L 430.074219 636.277344 L 402.5625 636.277344 L 402.5625 657.007812 L 440.25 657.007812 L 440.25 664.542969 L 395.023438 664.542969 L 395.023438 600.472656 Z M 440.25 600.472656 "/><path style="fill:var(--lt)" d="M 488.210938 602.074219 L 489.339844 600.472656 L 498.574219 600.472656 L 494.429688 606.410156 L 476.90625 631.285156 L 496.125 658.609375 L 500.273438 664.542969 L 491.039062 664.542969 L 489.90625 662.941406 L 472.289062 637.878906 L 454.667969 662.941406 L 453.535156 664.542969 L 444.304688 664.542969 L 448.449219 658.609375 L 467.671875 631.285156 L 450.144531 606.410156 L 446 600.472656 L 455.234375 600.472656 L 456.363281 602.074219 L 472.289062 624.6875 Z M 488.210938 602.074219 "/></symbol></svg>
   <div class="wrap">
     <div class="hero">
       <div class="htext">
@@ -537,46 +522,36 @@ img.pack{object-fit:contain!important;padding:6%}
       </div>
       <div class="stage" id="stage" role="region" aria-roledescription="carrusel" aria-label="Productos que personalizamos">
         <div class="words" aria-hidden="true">
-          <span class="is-on" style="--n:8">SUDADERA</span><span style="--n:8">CAMISETA</span><span style="--n:5">GORRA</span><span style="--n:5">BIDÓN</span><span style="--n:9">BOLÍGRAFO</span><span style="--n:7">LANYARD</span>
+          <span class="is-on" style="--n:8">CAMISETA</span><span style="--n:8">SUDADERA</span><span style="--n:5">GORRA</span><span style="--n:5">TERMO</span><span style="--n:9">BOLÍGRAFO</span><span style="--n:7">LANYARD</span>
         </div>
         <div class="floor" aria-hidden="true"></div>
-        <figure class="slide is-on" data-bg="#982626" style="--h:92%;--ar:755/1100">
-          <div class="prod"><img src="/portada/sudadera.webp" width="755" height="1100" alt="Sudadera con capucha oversize granate con el logo de Ramstex" fetchpriority="high"><svg class="print" style="--x:50%;--y:37%;--w:30%;--lr:#fff;--lt:#fff" aria-hidden="true"><use href="#rlogo"/></svg></div>
-          <figcaption>Sudadera con capucha oversize</figcaption>
-        </figure>
-        <figure class="slide" data-bg="#4F6559" style="--h:86%;--ar:903/1100">
-          <div class="prod"><img src="/portada/camiseta.webp" width="903" height="1100" alt="Camiseta oversize verde salvia con el logo de Ramstex" loading="lazy"><svg class="print mul" style="--x:50%;--y:30%;--w:28%;--lr:#982626;--lt:#1d1d1d" aria-hidden="true"><use href="#rlogo"/></svg></div>
+        <figure class="slide is-on" data-bg="#982626" style="--h:86%;--ar:895/1100">
+          <div class="prod"><img src="/portada/camiseta.webp" width="895" height="1100" alt="Camiseta oversize granate de algodón grueso" fetchpriority="high"></div>
           <figcaption>Camiseta oversize</figcaption>
         </figure>
-        <figure class="slide" data-bg="#2F5D78" style="--h:70%;--ar:842/900">
-          <div class="prod"><img src="/portada/gorra.webp" width="842" height="900" alt="Gorra azul con el logo de Ramstex bordado" loading="lazy"><svg class="print" style="--x:50%;--y:42%;--w:30%;--lr:#fff;--lt:#fff" aria-hidden="true"><use href="#rlogo"/></svg></div>
-          <figcaption>Gorra de algodón</figcaption>
+        <figure class="slide" data-bg="#2B4257" style="--h:90%;--ar:763/1100">
+          <div class="prod"><img src="/portada/sudadera.webp" width="763" height="1100" alt="Sudadera con capucha oversize beige con efecto lavado" loading="lazy"></div>
+          <figcaption>Sudadera con capucha oversize</figcaption>
         </figure>
-        <figure class="slide" data-bg="#6B5D0F" style="--h:90%;--ar:345/1100">
-          <div class="prod"><img src="/portada/bidon.webp" width="345" height="1100" alt="Bidón deportivo amarillo con el logo de Ramstex" loading="lazy"><svg class="print mul" style="--x:50%;--y:60%;--w:62%;--lr:#982626;--lt:#1d1d1d" aria-hidden="true"><use href="#rlogo"/></svg></div>
-          <figcaption>Bidón deportivo</figcaption>
+        <figure class="slide" data-bg="#5C3D27" style="--h:52%;--ar:846/551">
+          <div class="prod"><img src="/portada/gorra.webp" width="846" height="551" alt="Gorra de pana color camel" loading="lazy"></div>
+          <figcaption>Gorra de pana</figcaption>
+        </figure>
+        <figure class="slide" data-bg="#2E6A68" style="--h:80%;--ar:141/508">
+          <div class="prod"><img src="/portada/termo.webp" width="141" height="508" alt="Termo de acero inoxidable" loading="lazy"></div>
+          <figcaption>Termo de acero</figcaption>
         </figure>
         <figure class="slide" data-bg="#9C4419" style="--h:74%;--ar:187/490">
-          <div class="prod"><img src="/portada/boli.webp" width="187" height="490" alt="Bolígrafo naranja personalizable" loading="lazy"></div>
+          <div class="prod"><img src="/portada/boli.webp" width="187" height="490" alt="Bolígrafo naranja" loading="lazy"></div>
           <figcaption>Bolígrafos</figcaption>
         </figure>
         <figure class="slide" data-bg="#9E1450" style="--h:76%;--ar:355/474">
-          <div class="prod"><img src="/portada/lanyard.webp" width="355" height="474" alt="Lanyard rosa personalizable para eventos" loading="lazy"></div>
+          <div class="prod"><img src="/portada/lanyard.webp" width="355" height="474" alt="Lanyard rosa para eventos" loading="lazy"></div>
           <figcaption>Lanyards para eventos</figcaption>
         </figure>
       </div>
     </div>
-    <div class="hnav">
-      <div class="hthumbs" id="hthumbs" role="group" aria-label="Elegir producto">
-        <button type="button" aria-pressed="true" aria-label="Sudadera"><img src="/portada/sudadera.webp" alt=""></button>
-        <button type="button" aria-pressed="false" aria-label="Camiseta"><img src="/portada/camiseta.webp" alt="" loading="lazy"></button>
-        <button type="button" aria-pressed="false" aria-label="Gorra"><img src="/portada/gorra.webp" alt="" loading="lazy"></button>
-        <button type="button" aria-pressed="false" aria-label="Bidón"><img src="/portada/bidon.webp" alt="" loading="lazy"></button>
-        <button type="button" aria-pressed="false" aria-label="Bolígrafo"><img src="/portada/boli.webp" alt="" loading="lazy"></button>
-        <button type="button" aria-pressed="false" aria-label="Lanyard"><img src="/portada/lanyard.webp" alt="" loading="lazy"></button>
-      </div>
-      <button type="button" class="hplay" id="hplay" aria-label="Pausar la animación"><svg viewBox="0 0 24 24" aria-hidden="true"><path id="hplayi" d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/></svg></button>
-    </div>
+    <button type="button" class="hplay" id="hplay" aria-label="Pausar la animación"><svg viewBox="0 0 24 24" aria-hidden="true"><path id="hplayi" d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/></svg></button>
   </div>
   </div>
 
@@ -789,9 +764,9 @@ menu.addEventListener("click",function(e){if(e.target.closest("a"))setMenu(false
 (function(){
   var hb=document.getElementById("inicio"); if(!hb||!document.getElementById("stage")) return;
   var slides=[].slice.call(hb.querySelectorAll(".slide")), words=[].slice.call(hb.querySelectorAll(".words span"));
-  var thumbs=[].slice.call(hb.querySelectorAll("#hthumbs button")), play=document.getElementById("hplay"), icon=document.getElementById("hplayi");
+  var play=document.getElementById("hplay"), icon=document.getElementById("hplayi");
   var meta=document.querySelector('meta[name="theme-color"]');
-  var DUR=4200, cur=0, timer=null, hover=false, user=true;
+  var DUR=2800, cur=0, timer=null, hover=false, user=true;
   var rm=window.matchMedia("(prefers-reduced-motion: reduce)");
   hb.style.setProperty("--dur",DUR+"ms");
   slides.forEach(function(s){var i=new Image();i.src=s.querySelector("img").src;}); /* precarga */
@@ -801,7 +776,6 @@ menu.addEventListener("click",function(e){if(e.target.closest("a"))setMenu(false
     words.forEach(function(w,i){w.classList.toggle("is-on",i===cur);w.classList.toggle("is-off",i===prev);});
     slides[prev].style.translate="";slides[prev].querySelector(".prod").style.rotate="";
     setTimeout(function(){slides[prev].classList.remove("is-out");words[prev].classList.remove("is-off");},1000);
-    thumbs.forEach(function(t,i){t.setAttribute("aria-pressed",i===cur?"true":"false");});
     var c=slides[cur].getAttribute("data-bg"); hb.style.setProperty("--hbg",c); if(meta) meta.setAttribute("content",c);
     restart();
   }
@@ -813,15 +787,12 @@ menu.addEventListener("click",function(e){if(e.target.closest("a"))setMenu(false
     else hb.classList.add("paused");
   }
   function setUser(on){user=on;play.setAttribute("aria-label",on?"Pausar la animación":"Reproducir la animación");icon.setAttribute("d",on?"M8 5h3v14H8zM13 5h3v14h-3z":"M8 5v14l11-7z");restart();}
-  thumbs.forEach(function(t,i){t.addEventListener("click",function(){go(i);});});
   play.addEventListener("click",function(){setUser(!user);});
   var stage=document.getElementById("stage");
-  [stage,document.getElementById("hthumbs")].forEach(function(el){
+  [stage].forEach(function(el){
     el.addEventListener("mouseenter",function(){hover=true;clearTimeout(timer);hb.classList.add("paused");});
     el.addEventListener("mouseleave",function(){hover=false;restart();});
   });
-  hb.addEventListener("focusin",function(e){if(e.target.closest("#hthumbs")){hover=true;clearTimeout(timer);hb.classList.add("paused");}});
-  hb.addEventListener("focusout",function(e){if(e.target.closest("#hthumbs")){hover=false;restart();}});
   document.addEventListener("visibilitychange",restart);
   if(rm.addEventListener) rm.addEventListener("change",restart);
   /* Swipe en el móvil */
