@@ -103,7 +103,7 @@ button{font-family:inherit}
 /* Escenario del producto */
 .stage{position:relative;height:clamp(420px,62vh,600px);container-type:inline-size;margin-bottom:-104px}
 .words{position:absolute;left:0;right:0;top:0;height:32%;display:grid;place-items:start center;pointer-events:none;overflow:hidden;padding-top:2px}
-.words span{grid-area:1/1;font:800 min(8rem,calc(128cqw / var(--n)))/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.04em;color:rgba(255,255,255,.14);white-space:nowrap;opacity:0;transform:translateY(40px);transition:opacity .3s ease,transform .5s var(--ease-io)}
+.words span{grid-area:1/1;font:800 min(5.6rem,14cqw)/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.04em;color:rgba(255,255,255,.14);white-space:nowrap;opacity:0;transform:translateY(40px);transition:opacity .3s ease,transform .5s var(--ease-io)}
 .words span.is-on{opacity:1;transform:none}
 .words span.is-off{opacity:0;transform:translateY(-40px)}
 .floor{position:absolute;left:28%;right:28%;bottom:0;height:6%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.32),transparent);filter:blur(6px)}
@@ -121,7 +121,7 @@ button{font-family:inherit}
 .slide[data-pos="2"]{--tx:var(--x2);--ts:var(--s2);z-index:3}
 .slide[data-pos="3"]{--tx:var(--x3);--ts:var(--s3);--to:.9;z-index:2}
 .slide[data-pos="4"]{--tx:var(--x4);--ts:.12;--to:0;z-index:1}
-.slide[data-pos="out"]{--tx:calc(var(--x0) - 70cqw);--ts:.85;--tr:-6deg;--to:0;z-index:6;transition:transform .6s cubic-bezier(.4,0,.6,1),opacity .2s ease .38s}
+.slide[data-pos="out"]{--tx:calc(var(--x0) - 105cqw);--ts:1.15;--to:0;z-index:6;transition:transform .55s var(--ease-io),opacity .12s linear .43s}
 .slide[data-pos="1"] .prod img,.slide[data-pos="2"] .prod img,.slide[data-pos="3"] .prod img{filter:drop-shadow(0 14px 16px rgba(0,0,0,.25))}
 .prod{position:relative;width:100%;height:100%;animation:hfloat 6s ease-in-out infinite}
 .prod img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 26px 30px rgba(0,0,0,.28))}
@@ -540,8 +540,8 @@ img.pack{object-fit:contain!important;padding:6%}
         <p class="hsub">Ropa y merchandising personalizados para empresas, eventos y marcas</p>
         <p>Llevamos tu marca a camisetas, sudaderas, polos y todo tipo de merchandising. Nos encargamos de <b>todo el proceso</b>, del diseño a la entrega.</p>
         <div class="ctas">
-          <a class="btn wht" href="/#contacto">Pide presupuesto</a>
-          <a class="btn owht" href="/catalogo/">Ver catálogo</a>
+          <a class="btn wht" href="/catalogo/">Catálogo de ropa</a>
+          <a class="btn owht" href="/merchandising/">Merchandising</a>
         </div>
       </div>
       <div class="stage" id="stage" role="region" aria-roledescription="carrusel" aria-label="Productos que personalizamos">
