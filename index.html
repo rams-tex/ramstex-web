@@ -129,6 +129,11 @@ button{font-family:inherit}
 .slide figcaption{display:none}
 .hcap{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0;font-weight:600;font-size:.95rem;color:rgba(255,255,255,.9);transition:opacity .3s ease}
 .hcap.fade{opacity:0}
+@media (min-width:901px){
+  /* En ordenador el producto que sale se desvanece antes de llegar al texto y nunca lo pisa */
+  .stage{clip-path:inset(-40% -40% -40% 0);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14%);mask-image:linear-gradient(90deg,transparent 0,#000 14%);-webkit-mask-size:100% 300%;mask-size:100% 300%;-webkit-mask-position:0 50%;mask-position:0 50%}
+  .slide[data-pos="out"]{transition:transform .55s var(--ease-io),opacity .3s ease}
+}
 @keyframes hfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .hplay{position:absolute;right:24px;bottom:22px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(0,0,0,.06);color:var(--muted);display:grid;place-items:center;cursor:pointer;opacity:.7;transition:opacity .2s ease}
 .hplay:hover{opacity:1}
