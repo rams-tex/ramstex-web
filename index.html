@@ -106,7 +106,6 @@ button{font-family:inherit}
 .words span{grid-area:1/1;font:800 min(5.6rem,14cqw)/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.04em;color:rgba(255,255,255,.14);white-space:nowrap;opacity:0;transform:translateY(40px);transition:opacity .3s ease,transform .5s var(--ease-io)}
 .words span.is-on{opacity:1;transform:none}
 .words span.is-off{opacity:0;transform:translateY(-40px)}
-.floor{position:absolute;left:28%;right:28%;bottom:0;height:6%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.32),transparent);filter:blur(6px)}
 .tear{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:150px;z-index:1;pointer-events:none;filter:drop-shadow(0 -3px 6px rgba(0,0,0,.22)) drop-shadow(0 -10px 22px rgba(0,0,0,.10))}
 .tear .tp{fill:var(--bg)}.tear .tf{fill:#fff}
 .herob>.wrap{position:relative;z-index:2}
@@ -123,6 +122,9 @@ button{font-family:inherit}
 .slide[data-pos="4"]{--tx:var(--x4);--ts:.12;--to:0;z-index:1}
 .slide[data-pos="out"]{--tx:calc(var(--x0) - 105cqw);--ts:1.15;--to:0;z-index:6;transition:transform .55s var(--ease-io),opacity .12s linear .43s}
 .slide[data-pos="1"] .prod img,.slide[data-pos="2"] .prod img,.slide[data-pos="3"] .prod img{filter:drop-shadow(0 14px 16px rgba(0,0,0,.25))}
+/* Sombra propia de cada producto: se va con él y llega con el nuevo */
+.slide::after{content:"";position:absolute;left:8%;right:8%;bottom:-4%;height:9%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.34),rgba(0,0,0,0));filter:blur(5px);z-index:-1;pointer-events:none}
+.slide[data-pos="3"]::after,.slide[data-pos="4"]::after{opacity:.6}
 .prod{position:relative;width:100%;height:100%;animation:hfloat 6s ease-in-out infinite}
 .prod img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 26px 30px rgba(0,0,0,.28))}
 .slide[data-pos="1"] .prod{animation-delay:-2s}.slide[data-pos="2"] .prod{animation-delay:-4s}
@@ -130,9 +132,8 @@ button{font-family:inherit}
 .hcap{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0;font-weight:600;font-size:.95rem;color:rgba(255,255,255,.9);transition:opacity .3s ease}
 .hcap.fade{opacity:0}
 @media (min-width:901px){
-  /* En ordenador el producto que sale se desvanece antes de llegar al texto y nunca lo pisa */
-  .stage{clip-path:inset(-40% -40% -40% 0);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14%);mask-image:linear-gradient(90deg,transparent 0,#000 14%);-webkit-mask-size:100% 300%;mask-size:100% 300%;-webkit-mask-position:0 50%;mask-position:0 50%}
-  .slide[data-pos="out"]{transition:transform .55s var(--ease-io),opacity .3s ease}
+  /* En ordenador el producto que sale gira un poco y se va por detrás del texto */
+  .slide[data-pos="out"]{--tx:calc(var(--x0) - 70cqw);--ts:.85;--tr:-6deg;transition:transform .6s cubic-bezier(.4,0,.6,1),opacity .2s ease .38s}
 }
 @keyframes hfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .hplay{position:absolute;right:24px;bottom:22px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(0,0,0,.06);color:var(--muted);display:grid;place-items:center;cursor:pointer;opacity:.7;transition:opacity .2s ease}
@@ -424,8 +425,7 @@ img.pack{object-fit:contain!important;padding:6%}
   .htext>p:not(.hsub){display:none}
   .hero .ctas{margin-top:18px}
   .stage{--x0:-13cqw;--x1:27cqw;--x2:46cqw;--x3:60cqw;--x4:74cqw;--s1:.46;--s2:.3;--s3:.2}
-  .floor{left:12%;right:48%}
-  .hero{padding-bottom:36px}
+    .hero{padding-bottom:36px}
   .stage{margin-bottom:0}
   .tear{height:clamp(80px,24vw,120px)}
   .hplay{right:16px;bottom:14px}
@@ -553,7 +553,6 @@ img.pack{object-fit:contain!important;padding:6%}
         <div class="words" aria-hidden="true">
           <span class="is-on" style="--n:8">SUDADERA</span><span style="--n:8">CAMISETA</span><span style="--n:5">BIDÓN</span><span style="--n:7">LANYARD</span><span style="--n:5">GORRA</span><span style="--n:9">BOLÍGRAFO</span>
         </div>
-        <div class="floor" aria-hidden="true"></div>
         <p class="hcap" id="hcap" aria-live="off"></p>
         <figure class="slide" data-bg="#982626" style="--h:94%;--ar:1000/1200">
           <div class="prod"><img src="/portada/sudadera.webp" width="1000" height="1200" alt="Sudadera con capucha Cruiser 2.0 roja" fetchpriority="high"></div>
