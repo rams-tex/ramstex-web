@@ -13,17 +13,17 @@ jobs:
       - uses: actions/checkout@v4
       - name: Descargar fotos de producto
         run: |
-          mkdir -p rams23-sp
+          mkdir -p rams23-cr
           while read -r n u; do
             [ -z "$n" ] && continue
             ext=jpg; case "$u" in *.png|*png-alpha) ext=png;; esac
-            curl -sfL --max-time 60 -A "Mozilla/5.0" -o "rams23-sp/$n.$ext" "$u" || echo "FALLO $n"
+            curl -sfL --max-time 60 -A "Mozilla/5.0" -o "rams23-cr/$n.$ext" "$u" || echo "FALLO $n"
           done < portada-lista.txt
-          find rams23-sp -size 0 -delete; ls -la rams23-sp
+          find rams23-cr -size 0 -delete; ls -la rams23-cr
       - name: Guardar en la rama
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add rams23-sp
+          git add rams23-cr
           git diff --cached --quiet || git commit -m "Fotos para la prueba de portada [skip netlify]"
           git push
