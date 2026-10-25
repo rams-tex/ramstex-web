@@ -128,10 +128,12 @@ h2{font-size:clamp(2rem,4.4vw,3.2rem);font-weight:700;max-width:18ch}
 .aboutimg img{width:100%;height:100%;object-fit:cover;object-position:62% center;display:block}
 .about .big{font-size:1.35rem;line-height:1.45;font-weight:500;margin:0 0 18px}
 .about p{color:var(--muted);margin:0 0 14px}
-.services{display:grid;grid-template-columns:repeat(2,1fr);column-gap:64px}
-.svc{padding:26px 0 30px;border-top:1px solid var(--line)}
-.svc p{max-width:32rem}
-.svc h3{font-size:1.4rem;margin-bottom:10px}
+.hacemos{display:grid;grid-template-columns:5fr 7fr;gap:64px;align-items:start}
+.hhead{position:sticky;top:100px}
+.services{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--line)}
+.svc{display:grid;grid-template-columns:minmax(0,15rem) 1fr;gap:8px 32px;padding:26px 0;border-top:1px solid var(--line)}
+.svc h3{margin:0!important}
+.svc h3{font-size:1.3rem;line-height:1.15}
 .svc p{margin:0;color:var(--muted)}
 .svclink{display:inline-block;margin-top:14px;font-weight:600;color:var(--red-text);text-decoration:none}
 .svclink::after{content:" →"}
@@ -391,7 +393,9 @@ img.pack{object-fit:contain!important;padding:6%}
   .aboutimg{border-radius:16px;aspect-ratio:16/10}
   .about h2{margin-bottom:14px}
   .about .big{font-size:1.15rem}
-  .services{grid-template-columns:1fr}
+  .hacemos{grid-template-columns:1fr;gap:24px}
+  .hhead{position:static}
+  .svc{grid-template-columns:1fr}
   .svc{padding:18px 0 20px}
   .svc h3{font-size:1.2rem}
   .catband{padding:52px 0}
@@ -501,23 +505,6 @@ img.pack{object-fit:contain!important;padding:6%}
     </div>
   </section>
 
-  <section id="hacemos" style="padding-top:0">
-    <div class="wrap">
-      <div class="shead">
-        <div>
-          <h2>Qué hacemos</h2>
-          <p class="lead">Un único proveedor para vestir y equipar a tu empresa, tu evento o tu grupo.</p>
-        </div>
-      </div>
-      <div class="services">
-        <div class="svc"><h3>Ropa para empresas y equipos</h3><p>Uniformes, polos, sudaderas y camisetas con tu logo bordado o estampado, con tallas y colores a elegir.</p></div>
-        <div class="svc"><h3>Eventos y celebraciones</h3><p>Camisetas para ferias, fiestas, torneos, despedidas de soltero y cualquier grupo que quiera ir a juego.</p></div>
-        <div class="svc"><h3>Merchandising</h3><p>Tazas, botellas, bolígrafos, libretas, tecnología y todo lo que se te ocurra para regalar a clientes o vender en tu marca.</p><a class="svclink" href="/merchandising/">Ver merchandising</a></div>
-        <div class="svc"><h3>Marcas y proyectos propios</h3><p>Producimos tu colección o tu primera tirada. Te ayudamos a pasar de la idea a la prenda terminada.</p></div>
-      </div>
-    </div>
-  </section>
-
   <div class="catband">
     <div class="wrap">
       <div class="shead">
@@ -547,7 +534,21 @@ img.pack{object-fit:contain!important;padding:6%}
     </div>
   </div>
 
-  <section id="proceso">
+  <section id="hacemos">
+    <div class="wrap hacemos">
+      <div class="hhead">
+        <h2>Qué hacemos</h2>
+        <p class="lead">Un único proveedor para vestir y equipar a tu empresa, tu evento o tu grupo.</p>
+      </div>
+      <ul class="services">
+        <li class="svc"><h3>Ropa para empresas y equipos</h3><p>Uniformes, polos, sudaderas y camisetas con tu logo bordado o estampado, en las tallas y colores que necesites.</p></li>
+        <li class="svc"><h3>Eventos y celebraciones</h3><p>Camisetas para ferias, fiestas, torneos, despedidas de soltero y cualquier grupo que quiera ir a juego.</p></li>
+        <li class="svc"><h3>Merchandising y regalos de empresa</h3><p>Tazas, botellas, bolígrafos, libretas, tecnología y todo lo que se te ocurra para regalar a clientes o vender con tu marca.</p></li>
+        <li class="svc"><h3>Marcas y proyectos propios</h3><p>Producimos tu colección o tu primera tirada y te ayudamos a pasar de la idea a la prenda terminada.</p></li>
+      </ul>
+    </div>
+  </section>
+  <section id="proceso" style="padding-top:0">
     <div class="wrap">
       <div class="shead"><h2>Cómo trabajamos</h2></div>
       <ol class="steps">
