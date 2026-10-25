@@ -119,6 +119,7 @@ function neckOf(p, cat) {
 }
 function fitOf(p) {
   const f = nrm(p.fit), t = nrm(p.name + " " + p.style);
+  if (/^(gorr|visera|sombrero|braga)/.test(nrm(p.name))) return ""; // el corte no aplica a gorras
   if (/oversize|amplio|loose|holgad|relaxed|relajad|boxy/.test(f + " " + t)) return "Oversize / amplio";
   // Hombros caídos (drop shoulder): se cuentan como oversize, aunque solo lo diga la descripción
   if (/hombros? caid|hombros? descolgad|drop(ped)?[ -]?shoulder|epaules? tombante/.test(f + " " + t + " " + nrm(p.desc + " " + (p.args || []).join(" ")))) return "Oversize / amplio";
