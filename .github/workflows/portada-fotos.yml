@@ -1,0 +1,35 @@
+name: Fotos portada (prueba)
+on:
+  push:
+    branches: [prueba-portada]
+    paths: [".github/workflows/portada-fotos.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  bajar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Descargar fotos de producto
+        run: |
+          mkdir -p portada-src
+          E=https://cdn.europeancatalog.com/packshots
+          T=https://cdn.toptex.com/packshots
+          G=https://static.gorfactory.es/images/models
+          get(){ curl -sfL --max-time 60 -o "portada-src/$1" "$2" || echo "FALLO $1 $2"; }
+          for c in WINE CLAY BLACK; do get "sudadera-$c.png" "$E/PS_K4018_$c.png" || true; [ -s portada-src/sudadera-$c.png ] || get "sudadera-$c.png" "$T/PS_K4018_$c.png"; done
+          for c in SAGE COCONUTMILK CAMEL WHITE; do get "camiseta-$c.png" "$E/PS_K3008_$c.png"; [ -s portada-src/camiseta-$c.png ] || get "camiseta-$c.png" "$T/PS_K3008_$c.png"; done
+          for p in KP357_CADETBLUE KP352_CLASSICRED KP351_BLAZINGYELLOW KP356_INKBLUE KP357_ECRU; do get "gorra-$p.png" "$E/PS_$p.png"; [ -s portada-src/gorra-$p.png ] || get "gorra-$p.png" "$T/PS_$p.png"; done
+          for c in FUCHSIA BURNTLIME RED; do get "bidon-KI3120-$c.png" "$E/PS_KI3120_$c.png"; done
+          for v in 4125/views/large/p_4125_03_1_1 4125/views/large/p_4125_05_1_1 4125/views/large/p_4125_226_1_1 4122/views/large/p_4122_05_1_1 4122/model/large/4122_281_1_1; do get "bidon-$(basename $v).jpg" "$G/$v.jpg"; done
+          for v in 8090/views/large/p_8090_05_7_1 8090/model/large/8090_60_1_1 1916/model/large/1916_03_2_2 1916/model/large/1916_60_1_1 1063/model/large/1063_31_2_1 2010/model/large/2010_31_1_1; do get "boli-$(basename $v).jpg" "$G/$v.jpg"; done
+          for v in 7053/model/large/7053_48_1_1 7053/views/large/p_7053_03_1_1 7053/views/large/p_7053_05_1_1 7053/views/large/p_7053_226_1_1 7047/model/large/7047_60_1_1; do get "lanyard-$(basename $v).jpg" "$G/$v.jpg"; done
+          find portada-src -size 0 -delete; ls -la portada-src
+      - name: Guardar en la rama
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add portada-src
+          git diff --cached --quiet || git commit -m "Fotos para la prueba de portada [skip netlify]"
+          git push
