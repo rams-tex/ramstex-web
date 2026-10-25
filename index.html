@@ -89,31 +89,31 @@ button{font-family:inherit}
 .topbar a{text-decoration:none;color:inherit}
 .topbar a:hover{color:var(--text)}
 .tlinks{display:flex;gap:20px;align-items:center}
-.herob{--ease-io:cubic-bezier(.77,0,.175,1);--ease-out:cubic-bezier(.23,1,.32,1);background-color:var(--hbg);color:#fff;transition:background-color .9s var(--ease-io);overflow:hidden;position:relative}
+.herob{--ease-io:cubic-bezier(.77,0,.175,1);--ease-out:cubic-bezier(.23,1,.32,1);background-color:var(--hbg);color:#fff;transition:background-color .75s var(--ease-io);overflow:hidden;position:relative}
 .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:32px;align-items:center;padding:56px 0 48px}
 .hero h1{font-size:clamp(2.7rem,5.6vw,4.9rem);font-weight:800;color:#fff;text-wrap:balance}
 .hero .hsub{font-weight:700;font-size:1.12rem;color:#fff;margin:18px 0 14px}
 .hero p{max-width:32rem;color:rgba(255,255,255,.88);font-size:1.08rem;margin:0 0 14px}
 .hero p b{color:#fff;font-weight:700}
 .hero .ctas{margin-top:26px}
-.btn.wht{background:#fff;color:var(--hbg);transition:color .9s var(--ease-io),transform .16s var(--ease-out)}
+.btn.wht{background:#fff;color:var(--hbg);transition:color .75s var(--ease-io),transform .16s var(--ease-out)}
 .btn.owht{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.8)}
 .btn.owht:hover{filter:none;background:rgba(255,255,255,.1)}
 .herob .btn:active{transform:scale(.97)}
 /* Escenario del producto */
 .stage{position:relative;height:clamp(420px,62vh,600px);container-type:inline-size}
 .words{position:absolute;left:0;right:0;top:0;height:32%;display:grid;place-items:start center;pointer-events:none;overflow:hidden;padding-top:2px}
-.words span{grid-area:1/1;font:800 min(8rem,calc(128cqw / var(--n)))/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.04em;color:rgba(255,255,255,.14);white-space:nowrap;opacity:0;transform:translateY(40px);transition:opacity .6s ease,transform .9s var(--ease-io)}
+.words span{grid-area:1/1;font:800 min(8rem,calc(128cqw / var(--n)))/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.04em;color:rgba(255,255,255,.14);white-space:nowrap;opacity:0;transform:translateY(40px);transition:opacity .45s ease,transform .75s var(--ease-io)}
 .words span.is-on{opacity:1;transform:none}
 .words span.is-off{opacity:0;transform:translateY(-40px)}
 .floor{position:absolute;left:24%;right:24%;bottom:3%;height:6%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.32),transparent);filter:blur(6px)}
-.slide{position:absolute;left:0;right:0;top:19%;bottom:3%;margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translate3d(24%,2%,0) rotate(9deg) scale(.9);transition:transform .95s var(--ease-io),opacity .55s ease,visibility 0s .95s}
-.slide.is-on{opacity:1;visibility:visible;transform:none;transition:transform .95s var(--ease-io),opacity .7s ease .1s,visibility 0s}
-.slide.is-out{opacity:0;visibility:visible;transform:translate3d(-26%,4%,0) rotate(-11deg) scale(.86);transition:transform .95s var(--ease-io),opacity .5s ease}
+.slide{position:absolute;left:0;right:0;top:19%;bottom:3%;margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translate3d(24%,2%,0) rotate(9deg) scale(.9);transition:transform .75s var(--ease-io),opacity .45s ease,visibility 0s .75s}
+.slide.is-on{opacity:1;visibility:visible;transform:none;transition:transform .75s var(--ease-io),opacity .55s ease .08s,visibility 0s}
+.slide.is-out{opacity:0;visibility:visible;transform:translate3d(-26%,4%,0) rotate(-11deg) scale(.86);transition:transform .75s var(--ease-io),opacity .4s ease}
 .prod{position:relative;height:var(--h);aspect-ratio:var(--ar);max-width:92%;animation:hfloat 6s ease-in-out infinite;will-change:transform}
 .prod img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 26px 30px rgba(0,0,0,.28))}
 .slide figcaption{position:absolute;right:0;bottom:-2px;font-weight:600;font-size:.95rem;color:rgba(255,255,255,.9);opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .5s var(--ease-out)}
-.slide.is-on figcaption{opacity:1;transform:none;transition-delay:.45s}
+.slide.is-on figcaption{opacity:1;transform:none;transition-delay:.35s}
 @keyframes hfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .hplay{position:absolute;right:24px;bottom:22px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center;cursor:pointer;opacity:.7;transition:opacity .2s ease}
 .hplay:hover{opacity:1}
@@ -508,7 +508,7 @@ img.pack{object-fit:contain!important;padding:6%}
 
 <!-- =============== INICIO =============== -->
 <div id="view-home">
-  <div class="herob" id="inicio" style="--hbg:#26325D">
+  <div class="herob" id="inicio" style="--hbg:#982626">
   <div class="wrap">
     <div class="hero">
       <div class="htext">
@@ -522,16 +522,16 @@ img.pack{object-fit:contain!important;padding:6%}
       </div>
       <div class="stage" id="stage" role="region" aria-roledescription="carrusel" aria-label="Productos que personalizamos">
         <div class="words" aria-hidden="true">
-          <span class="is-on" style="--n:8">CAMISETA</span><span style="--n:8">SUDADERA</span><span style="--n:5">BIDÓN</span><span style="--n:7">LANYARD</span><span style="--n:5">GORRA</span><span style="--n:9">BOLÍGRAFO</span>
+          <span class="is-on" style="--n:8">SUDADERA</span><span style="--n:8">CAMISETA</span><span style="--n:5">BIDÓN</span><span style="--n:7">LANYARD</span><span style="--n:5">GORRA</span><span style="--n:9">BOLÍGRAFO</span>
         </div>
         <div class="floor" aria-hidden="true"></div>
-        <figure class="slide is-on" data-bg="#26325D" style="--h:92%;--ar:1200/1175">
-          <div class="prod"><img src="/portada/camiseta.webp" width="1200" height="1200" alt="Camiseta oversize Blaster 2.0 azul" fetchpriority="high"></div>
-          <figcaption>Camiseta oversize</figcaption>
+        <figure class="slide is-on" data-bg="#982626" style="--h:94%;--ar:1000/1200">
+          <div class="prod"><img src="/portada/sudadera.webp" width="1000" height="1200" alt="Sudadera con capucha Cruiser 2.0 roja" fetchpriority="high"></div>
+          <figcaption>Sudadera con capucha</figcaption>
         </figure>
-        <figure class="slide" data-bg="#39744F" style="--h:94%;--ar:1051/1200">
-          <div class="prod"><img src="/portada/sudadera.webp" width="1002" height="1200" alt="Sudadera con capucha oversize Slammer 2.0 verde jade" loading="lazy"></div>
-          <figcaption>Sudadera con capucha oversize</figcaption>
+        <figure class="slide" data-bg="#3A3B3F" style="--h:90%;--ar:1200/1200">
+          <div class="prod"><img src="/portada/camiseta.webp" width="1200" height="1200" alt="Camiseta oversize Blaster 2.0 negra" loading="lazy"></div>
+          <figcaption>Camiseta oversize</figcaption>
         </figure>
         <figure class="slide" data-bg="#7A6A12" style="--h:80%;--ar:149/541">
           <div class="prod"><img src="/portada/bidon.webp" width="149" height="541" alt="Bidón de acero Tarek amarillo" loading="lazy"></div>
@@ -766,7 +766,7 @@ menu.addEventListener("click",function(e){if(e.target.closest("a"))setMenu(false
   var slides=[].slice.call(hb.querySelectorAll(".slide")), words=[].slice.call(hb.querySelectorAll(".words span"));
   var play=document.getElementById("hplay"), icon=document.getElementById("hplayi");
   var meta=document.querySelector('meta[name="theme-color"]');
-  var DUR=2800, cur=0, timer=null, hover=false, user=true;
+  var DUR=2200, cur=0, timer=null, hover=false, user=true;
   var rm=window.matchMedia("(prefers-reduced-motion: reduce)");
   hb.style.setProperty("--dur",DUR+"ms");
   slides.forEach(function(s){var i=new Image();i.src=s.querySelector("img").src;}); /* precarga */
@@ -775,7 +775,7 @@ menu.addEventListener("click",function(e){if(e.target.closest("a"))setMenu(false
     slides.forEach(function(s,i){s.classList.toggle("is-on",i===cur);s.classList.toggle("is-out",i===prev);s.setAttribute("aria-hidden",i===cur?"false":"true");});
     words.forEach(function(w,i){w.classList.toggle("is-on",i===cur);w.classList.toggle("is-off",i===prev);});
     slides[prev].style.translate="";slides[prev].querySelector(".prod").style.rotate="";
-    setTimeout(function(){slides[prev].classList.remove("is-out");words[prev].classList.remove("is-off");},1000);
+    setTimeout(function(){slides[prev].classList.remove("is-out");words[prev].classList.remove("is-off");},800);
     var c=slides[cur].getAttribute("data-bg"); hb.style.setProperty("--hbg",c); if(meta) meta.setAttribute("content",c);
     restart();
   }
