@@ -2500,11 +2500,11 @@ var DZ_TPL={
   peto:{n:"peto",bw:40,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[25,30],t:.2},e:{v:"b",cm:[25,30],t:.2}}},
   body:{n:"body",bw:20,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[14,16],t:.2},e:{v:"b",cm:[14,16],t:.18}}},
   pantalon:{n:"prenda",bw:40,aprox:1,sinMangas:1,z:{pi:{v:"f",cm:DZ_PEQ,t:.3,dx:.24,c:1,zoom:1},pd:{v:"f",cm:DZ_PEQ,t:.3,dx:-.24,c:1,zoom:1}}},
-  bolsa:{n:"bolsa",bw:38,sinMangas:1,z:{d:{v:"f",cm:[30,32],t:.2,rec:DZ_ANCHO_BOLSA},e:{v:"b",cm:[30,32],t:.2,rec:DZ_ANCHO_BOLSA}}},
-  gymsac:{n:"bolsa",bw:34,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[25,28],t:.3,rec:DZ_ANCHO_BOLSA},e:{v:"b",cm:[25,28],t:.3,rec:DZ_ANCHO_BOLSA}}},
+  bolsa:{n:"bolsa",bw:38,sinMangas:1,cuerpo:1,z:{d:{v:"f",cm:[30,32],t:.1,rec:DZ_ANCHO_BOLSA},e:{v:"b",cm:[30,32],t:.1,rec:DZ_ANCHO_BOLSA}}},
+  gymsac:{n:"bolsa",bw:34,aprox:1,sinMangas:1,cuerpo:1,z:{d:{v:"f",cm:[25,28],t:.3,rec:DZ_ANCHO_BOLSA},e:{v:"b",cm:[25,28],t:.3,rec:DZ_ANCHO_BOLSA}}},
   mochila:{n:"mochila",bw:30,aprox:1,sinMangas:1,z:{d:{v:"f",cm:DZ_PEQ,t:.55,c:1,zoom:1}}},
-  bolsadep:{n:"bolsa",bw:50,aprox:1,sinMangas:1,z:{l:{v:"f",cm:[25,12],t:.55,c:1}}},
-  maletin:{n:"bolsa",bw:38,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[20,15],t:.55,c:1}}},
+  bolsadep:{n:"bolsa",bw:50,aprox:1,sinMangas:1,cuerpo:1,z:{l:{v:"f",cm:[25,12],t:.55,c:1}}},
+  maletin:{n:"bolsa",bw:38,aprox:1,sinMangas:1,cuerpo:1,z:{d:{v:"f",cm:[20,15],t:.55,c:1}}},
   pequena:{n:"bolsa",bw:24,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[10,6],t:.5,c:1,zoom:1}}},
   gorra:{n:"gorra",bw:20,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[10,6],t:.42,c:1,zoom:1}}},
   toalla:{n:"toalla",bw:50,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[35,25],t:.5,c:1}}},
@@ -2574,7 +2574,7 @@ function dzTpl(it){
     if(p==="n"&&/capucha|hood/.test(norm(it.n+" "+(it.st||"")))) return; /* con capucha, la nuca queda tapada */
     var o=Object.assign({},b.z[p]); o.cm=[Math.min(o.cm[0],DZ_MAX[0]),Math.min(o.cm[1],DZ_MAX[1])]; o.dx=o.dx||0; z[p]=o;
   });
-  return {key:key,n:b.n,bw:b.bw,aprox:!!b.aprox,z:z,pos:DZ_ORD.filter(function(p){return z[p];})};
+  return {key:key,n:b.n,bw:b.bw,aprox:!!b.aprox,cuerpo:!!b.cuerpo,z:z,pos:DZ_ORD.filter(function(p){return z[p];})};
 }
 /* Qué muestra cada foto del proveedor: f delante, b espalda, s lateral, sl/sr lateral izquierda/derecha, m con modelo */
 function dzKind(st){
@@ -2638,7 +2638,10 @@ function dzMeasure(im){
     for(var f=.6;f<=.861;f+=.02){var r=Math.round(y0+f*(y1-y0)), L=cx, R=cx; if(!on[r*w+cx]) continue; while(L>0&&on[r*w+L-1])L--; while(R<w-1&&on[r*w+R+1])R++; ws.push(R-L+1);}
     ws.sort(function(a,b){return a-b;});
     var bw=ws.length?ws[ws.length>>1]:(x1-x0+1);
-    return {x0:x0/w,y0:y0/h,x1:(x1+1)/w,y1:(y1+1)/h,bw:bw/w,lum:n?lum/n:255,ok:1};
+    /* comienzo del cuerpo: primera fila con al menos el 60 % del ancho del cuerpo (en bolsas, deja fuera las asas) */
+    var by0=y0;
+    for(var ry=y0;ry<=y1;ry++){var cnt=0; for(var rx=x0;rx<=x1;rx++) cnt+=on[ry*w+rx]; if(cnt>=bw*.6){by0=ry;break;}}
+    return {x0:x0/w,y0:y0/h,x1:(x1+1)/w,y1:(y1+1)/h,by0:by0/h,bw:bw/w,lum:n?lum/n:255,ok:1};
   }catch(e){return null;}
 }
 /* ¿Prenda oscura? (para que la línea de la zona se vea) */
@@ -2675,6 +2678,9 @@ function dzView(it,f,ci,pos,tplKey){
 function dzGeom(v,tpl,pos,SW,SH,mode){
   var im=v.im, W=im.naturalWidth||im.width||1000, H=im.naturalHeight||im.height||1000, fr=v.fr, zn=tpl.z[pos], cm=zn.cm, z, ox, oy, a, s, cx, cy, aw, ah;
   var gx0=fr.x0*W, gy0=fr.y0*H, gw=(fr.x1-fr.x0)*W, gh=(fr.y1-fr.y0)*H;
+  /* bolsas: la zona se coloca en el cuerpo, sin contar las asas (si la foto no se puede medir, las asas son ~1/3 de la altura) */
+  var by=gy0, bh=gh;
+  if(tpl.cuerpo){var b0=fr.by0!=null&&fr.ok?fr.by0:fr.y0+(fr.y1-fr.y0)*.4; by=b0*H; bh=(fr.y1-b0)*H;}
   if(zn.v==="s"){
     if(v.kind==="side"){
       s=gh*.46/tpl.bw; var sl=DZ_SUP[v.sup]?DZ_SUP[v.sup].sl:DZ_DEF.sl;
@@ -2683,10 +2689,10 @@ function dzGeom(v,tpl,pos,SW,SH,mode){
     aw=cm[0]*s; ah=cm[1]*s; a={x:cx-aw/2,y:cy-ah/2,w:aw,h:ah};
   } else {
     s=fr.bw*W/tpl.bw;
-    var k=Math.min(1,gw*.92/(cm[0]*s),gh*.92/(cm[1]*s)); s*=k; /* la zona nunca es más grande que el producto en la foto */
+    var k=Math.min(1,gw*.92/(cm[0]*s),bh*.92/(cm[1]*s)); s*=k; /* la zona nunca es más grande que el producto en la foto */
     aw=cm[0]*s; ah=cm[1]*s; cx=gx0+gw/2+zn.dx*fr.bw*W;
-    var ay=zn.c?gy0+zn.t*gh-ah/2:gy0+zn.t*gh;
-    a={x:Math.max(gx0,Math.min(gx0+gw-aw,cx-aw/2)),y:Math.max(gy0,Math.min(gy0+gh-ah,ay)),w:aw,h:ah}; /* siempre sobre el producto */
+    var ay=zn.c?by+zn.t*bh-ah/2:by+zn.t*bh;
+    a={x:Math.max(gx0,Math.min(gx0+gw-aw,cx-aw/2)),y:Math.max(by,Math.min(by+bh-ah,ay)),w:aw,h:ah}; /* siempre sobre el producto */
   }
   var fit=Math.min(SW*.88/gw,SH*.9/gh);
   if(mode==="zone"){ /* zona grande en el lienzo (70–80 %), con algo de prenda alrededor */
