@@ -1,9 +1,9 @@
-2026-10-25T13:30:57.291Z
-TopTex: 74189 referencias
+2026-10-26T06:29:09.091Z
+TopTex: error Failed to parse URL from undefined
 roly: 18051 referencias
 stamina: 5216 referencias
 JHK: 11939 referencias (229 modelos desde el área de clientes, 1 desde la API)
 Sol's: 16279 referencias
 Stanley/Stella: 10657 referencias
 Falk&Ross: error credenciales rechazadas (401)
-productos con stock: 5635
+productos con stock: 2874
