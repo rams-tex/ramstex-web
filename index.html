@@ -1903,7 +1903,25 @@ function pdfQuote(JS,imgs){
   var AB="ABCDEFGHJKLMNPQRSTUVWXYZ23456789", rnd=""; for(var r=0;r<4;r++) rnd+=AB.charAt(Math.floor(Math.random()*AB.length));
   var ref="RX-"+String(now.getFullYear()).slice(2)+p2(now.getMonth()+1)+p2(now.getDate())+"-"+rnd;
   var col=function(c){doc.setTextColor(c[0],c[1],c[2]);}, fill=function(c){doc.setFillColor(c[0],c[1],c[2]);}, draw=function(c){doc.setDrawColor(c[0],c[1],c[2]);};
-  function wordmark(x,y,size){doc.setFont("helvetica","bold"); doc.setFontSize(size); col(RED); doc.text("RAMS",x,y); var w=doc.getTextWidth("RAMS"); col(INK); doc.text("TEX",x+w,y);}
+  /* Logo real de Ramstex: los mismos trazados del SVG de la cabecera, dibujados como vectores */
+  function wordmark(x,y,size){
+    var W=size*1.95, k=W/412.53, H=66.07*k, ox=x, oy=y-H*0.86;
+    var ps=document.querySelectorAll("header .logo svg path");
+    if(!ps.length||!doc.path){doc.setFont("helvetica","bold"); doc.setFontSize(size); col(RED); doc.text("RAMS",x,y); var tw=doc.getTextWidth("RAMS"); col(INK); doc.text("TEX",x+tw,y); return;}
+    [].forEach.call(ps,function(p){
+      var d=p.getAttribute("d"), t=d.match(/[MLCZ]|-?\d*\.?\d+(?:e-?\d+)?/gi), ops=[], i=0, cmd;
+      while(i<t.length){
+        if(/^[MLCZ]$/i.test(t[i])){cmd=t[i].toUpperCase(); i++; if(cmd==="Z"){ops.push({op:"h",c:[]});continue;}}
+        var n=cmd==="C"?6:2, c=[];
+        for(var j=0;j<n;j++) c.push(+t[i+j]); i+=n;
+        for(var j=0;j<n;j+=2){c[j]=ox+(c[j]-88.75)*k; c[j+1]=oy+(c[j+1]-599.47)*k;}
+        ops.push({op:cmd==="M"?"m":cmd==="L"?"l":"c",c:c});
+        if(cmd==="M") cmd="L";
+      }
+      fill(p.classList.contains("r")?RED:INK);
+      doc.path(ops); doc.fill();
+    });
+  }
   function header(first){
     if(first){
       wordmark(M,M+9,24);
