@@ -104,13 +104,26 @@ a:not([class]):focus-visible{border-radius:4px}
 .menubtn{display:none}
 .menubtn svg{width:18px;height:18px}
 @media (max-width:1180px){.dnav{display:none}.menubtn{display:inline-flex}}
-.menu{position:fixed;left:0;right:0;top:calc(68px + env(safe-area-inset-top,0px));bottom:0;background:var(--bg);z-index:19;overflow:auto;padding:12px 24px 40px;transition:opacity 180ms ease,transform 220ms var(--ease-ui)}
-@starting-style{.menu{opacity:0;transform:translateY(-8px)}}
-@media (prefers-reduced-motion: reduce){.menu{transition:none}}
-.menu a.mi{display:flex;justify-content:space-between;align-items:center;text-decoration:none;font:700 var(--fs-xl) "Bricolage Grotesque",sans-serif;padding:16px 0;border-bottom:1px solid var(--line);letter-spacing:-0.01em}
-.menu a.mi::after{content:"";width:10px;height:10px;border-right:2.5px solid var(--red-text);border-top:2.5px solid var(--red-text);transform:rotate(45deg)}
-.menu .mcta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
-.menu .mcta .btn{padding:0 10px}
+.menu{position:fixed;top:calc(76px + env(safe-area-inset-top,0px));right:16px;left:auto;bottom:auto;width:min(320px,calc(100vw - 32px));max-height:calc(100dvh - 92px);overflow:auto;overscroll-behavior:contain;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:8px;box-shadow:0 12px 32px rgba(17,17,17,.14),0 2px 6px rgba(17,17,17,.06);z-index:30;transform-origin:top right;transition:opacity 180ms var(--ease-ui),transform 180ms var(--ease-ui)}
+@starting-style{.menu{opacity:0;transform:translateY(-4px) scale(.96)}}
+.menu.pre{opacity:0;transform:translateY(-4px) scale(.96);transition:none} /* respaldo para navegadores sin @starting-style */
+.menu.closing{opacity:0;pointer-events:none;transition:opacity 120ms ease-out}
+@media (prefers-reduced-motion: reduce){
+  .menu{transition:opacity 120ms ease-out}
+  @starting-style{.menu{transform:none}}
+  .menu.pre{transform:none}
+}
+.mcatch{position:fixed;inset:0;z-index:29} /* capa invisible: tocar fuera cierra el menú */
+.menu-open header.top{z-index:31} /* la cabecera queda por encima de la capa: "Cerrar" y el presupuesto siguen respondiendo */
+.menu a.mi{display:flex;align-items:center;justify-content:space-between;min-height:48px;padding:0 14px;border:0;border-radius:10px;text-decoration:none;color:var(--text);font:600 var(--fs-m) Figtree,sans-serif;transition:background-color 120ms ease,color 120ms ease}
+.menu a.mi:hover,.menu a.mi:focus-visible{background:var(--tint)}
+.menu a.mi:focus-visible{outline-offset:-3px}
+.menu a.mi[aria-current="page"]{color:var(--red-text)}
+.menu a.mi::after{content:"";width:7px;height:7px;margin-right:3px;border-right:2px solid var(--line-strong);border-top:2px solid var(--line-strong);transform:rotate(45deg)}
+.menu a.mi[aria-current="page"]::after{border-color:var(--red-text)}
+.menu .mdiv{border-top:1px solid var(--line);margin:8px 6px}
+.menu .mcta{margin:8px 6px 6px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.menu .mcta .btn{height:44px;padding:0 10px;font-size:.95rem}
 .btn.light{background:var(--on-ink);color:#111}
 
 /* ---------- Portada ---------- */
@@ -237,11 +250,12 @@ h2{font-size:var(--fs-2xl);font-weight:700;max-width:18ch}
 .duotxt .btn{margin-top:6px}
 @media (hover:hover) and (pointer:fine){
   .duocard:hover{transform:translateY(-2px);border-color:var(--line-strong)}
-  .duocard:hover .duoimg img,.strip a:hover img,.tile:hover img{transform:scale(1.03)}
-  .tile:hover{border-color:var(--line-strong)}
+  .duocard:hover .duoimg img,.strip a:hover img{transform:scale(1.03)}
+  .tile:hover img{transform:scale(1.04)}
+  .tile:hover b{color:var(--red-text)}
   .duocard:hover .btn{background:var(--red-hover)}
 }
-@media (prefers-reduced-motion: reduce){.duocard,.duoimg img,.strip img,.tile,.tile img{transition:none}.duocard:hover{transform:none!important}}
+@media (prefers-reduced-motion: reduce){.duocard,.duoimg img,.strip img,.tile,.tile img{transition:none}.duocard:hover{transform:none!important}.tile:active{transform:none}}
 
 /* ---------- Pasos ---------- */
 .steps{list-style:none;counter-reset:s;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
@@ -476,15 +490,49 @@ img.pack{object-fit:contain!important;padding:6%}
 .close:hover{color:var(--text)}
 
 /* ---------- Portadillas de categoría ---------- */
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px}
-.tile{display:block;text-decoration:none;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:var(--r-m);overflow:hidden;transition:border-color 200ms ease}
-.tile .ph{aspect-ratio:4/5;background:#fff;overflow:hidden}
-.tile img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform 300ms var(--ease-ui)}
-.tile.m .ph{background:#fff}
-.tile.m img{object-fit:contain;object-position:center;padding:10%}
-.tile b{display:block;font:700 var(--fs-l) "Bricolage Grotesque",sans-serif;padding:14px 16px 2px}
-.tile span{display:block;color:var(--muted);font-size:var(--fs-s);padding:0 16px 16px}
-@media (max-width:1100px){.tiles{grid-template-columns:repeat(3,1fr)}}
+/* Dos grupos ("Lo más pedido" y "Más categorías"), cada uno su propia rejilla. Las destacadas (.f) ocupan 2×2;
+   en 3 columnas .w3 (2 de ancho) y .b3 (toda la fila) cierran las filas para que no queden huecos */
+.tiles,.tgrp{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 16px;grid-auto-flow:dense;grid-auto-rows:1fr}
+.tiles{margin-top:22px}
+.tiles.grp{display:block}
+h2.tilesh{font-size:var(--fs-l);margin:0 0 14px}
+.tgrp+h2.tilesh{margin-top:56px}
+.tile{display:flex;flex-direction:column;min-width:0;text-decoration:none;color:var(--text);background:none;border:0;border-radius:0;overflow:visible;transition:transform 160ms var(--ease-ui);-webkit-tap-highlight-color:transparent}
+.tile:active{transform:scale(.98)}
+.tile .ph{position:relative;aspect-ratio:4/5;border-radius:12px;overflow:hidden;background:var(--tint)}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 18%;display:block;transition:transform 250ms var(--ease-ui)}
+.tile.m img{object-fit:contain;object-position:center;padding:14%;mix-blend-mode:multiply}
+.tile b{display:block;min-width:0;font:700 var(--fs-l)/1.15 "Bricolage Grotesque",sans-serif;letter-spacing:-0.01em;transition:color 150ms ease}
+.tile:focus-visible{outline:none}
+.tile:focus-visible .ph{outline:3px solid var(--red-text);outline-offset:3px}
+.tn{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding-top:12px}
+.tc{font:600 var(--fs-s) Figtree,sans-serif;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tile>b{padding-top:12px} /* páginas ya escritas (sin .tn) hasta que se repinta */
+.tile>span:not(.tn){display:block;color:var(--muted);font-size:var(--fs-s)}
+.tile.f{grid-column:span 2;grid-row:span 2}
+.tile.f .ph{flex:1;aspect-ratio:auto;min-height:0}
+.tile.f b{font-size:var(--fs-xl)}
+.vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+@media (min-width:601px) and (max-width:1100px){
+  .tiles,.tgrp{grid-template-columns:repeat(3,1fr)}
+  .tile.w3{grid-column:span 2}
+  .tile.b3{grid-column:1/-1;grid-row:auto}
+  .tile.b3 .ph,.tile.w3 .ph{flex:1;aspect-ratio:auto;min-height:0}
+  .tile.b3 b{font-size:var(--fs-l)}
+}
+@media (max-width:600px){
+  .tiles,.tgrp{grid-template-columns:1fr 1fr;gap:22px 12px;grid-auto-rows:auto}
+  .tiles{margin-top:14px}
+  .tile.f{grid-row:auto}
+  .tile.f .ph{flex:none;aspect-ratio:16/10}
+  .tile b,.tile.f b{font-size:1rem}
+  .tile.f b{font-size:var(--fs-l)}
+  .tn{padding-top:8px}
+  .tc{font-size:var(--fs-xs)}
+  .tgrp+h2.tilesh{margin-top:44px}
+  h2.tilesh{margin-bottom:12px}
+}
+.cat.land #catsub{margin:10px 0 18px}
 
 /* ---------- Ficha de producto ---------- */
 .back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--muted);font-weight:500;margin-bottom:20px}
@@ -627,9 +675,6 @@ img.pack{object-fit:contain!important;padding:6%}
   .sheetfoot{display:block;position:fixed;left:0;right:0;bottom:0;padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line)}
   .sheetfoot .btn{width:100%}
   .fbtn{display:inline-flex}
-  .tiles{grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-  .tile b{font-size:1rem;padding:10px 12px 0}
-  .tile span{padding:0 12px 12px;font-size:var(--fs-xs)}
   .grid,.related .grid{grid-template-columns:1fr 1fr;gap:10px}
   .info{padding:10px 10px 12px;gap:5px}
   .info h3{font-size:var(--fs-s)}
@@ -706,15 +751,17 @@ img.pack{object-fit:contain!important;padding:6%}
   </div>
 </header>
 
+<div class="mcatch" id="mcatch" hidden></div>
 <div class="menu" id="menu" hidden>
-  <a class="mi" href="/">Inicio</a>
-  <a class="mi" href="/catalogo/">Catálogo</a>
-  <a class="mi" href="/merchandising/">Merchandising</a>
+  <a class="mi" href="/" data-view="home">Inicio</a>
+  <a class="mi" href="/catalogo/" data-view="cat">Catálogo</a>
+  <a class="mi" href="/merchandising/" data-view="merch">Merchandising</a>
   <a class="mi" href="/#quienes">Quiénes somos</a>
   <a class="mi" href="/#hacemos">Qué hacemos</a>
   <a class="mi" href="/#proceso">Cómo trabajamos</a>
   <a class="mi" href="/#casos" hidden>Casos de éxito</a>
   <a class="mi" href="/#contacto">Contacto</a>
+  <div class="mdiv" aria-hidden="true"></div>
   <div class="mcta">
     <a class="btn" href="https://wa.me/34682368645" target="_blank" rel="noopener">WhatsApp</a>
     <a class="btn ghost" href="mailto:info@ramstex.com">Correo</a>
@@ -989,23 +1036,60 @@ var FORM=document.getElementById("f"); if(FORM) FORM.addEventListener("submit", 
 });
 
 /* ---------- Menú desplegable ---------- */
-var menu=document.getElementById("menu"),mbtn=document.getElementById("menubtn");
+var menu=document.getElementById("menu"),mbtn=document.getElementById("menubtn"),mcatch=document.getElementById("mcatch"),mTimer=0,mRaf=0;
+/* desplegable anclado bajo el botón: no es modal (la página sigue viva y se puede desplazar) */
+function menuOpen(){return mbtn.getAttribute("aria-expanded")==="true";}
+function menuPos(){
+  var t=Math.max(0,Math.round(document.querySelector("header.top").getBoundingClientRect().bottom))+8;
+  menu.style.top=t+"px";
+  menu.style.right=Math.max(8,Math.round(document.documentElement.clientWidth-mbtn.getBoundingClientRect().right))+"px";
+  menu.style.maxHeight="calc(100dvh - "+(t+16)+"px)";
+}
+function menuReflow(){ /* la franja superior se va al desplazar y la cabecera sube: se recoloca (una vez por fotograma) */
+  if(mRaf) return;
+  mRaf=requestAnimationFrame(function(){mRaf=0; if(!menuOpen()) return; if(mbtn.offsetParent===null){setMenu(false);return;} menuPos();});
+}
+function menuItems(){return [].filter.call(menu.querySelectorAll("a"),function(a){return !a.hidden;});}
 function setMenu(open){
-  if(open){var hb=document.querySelector("header.top").getBoundingClientRect().bottom; menu.style.top=Math.max(0,Math.round(hb))+"px";} /* el menú empieza justo debajo de la cabecera (con o sin la franja superior visible) */
-  var was=!menu.hidden;
-  menu.hidden=!open; mbtn.setAttribute("aria-expanded",open);
+  if(open===menuOpen()) return;
+  clearTimeout(mTimer);
+  mbtn.setAttribute("aria-expanded",open);
+  document.documentElement.classList.toggle("menu-open",open);
   document.getElementById("menulabel").textContent=open?"Cerrar":"Menú";
   document.getElementById("mi1").setAttribute("d",open?"M6 6l12 12M18 6L6 18":"M4 7h16M4 12h16M4 17h16");
-  document.body.style.overflow=open?"hidden":"";
-  /* el resto de la página no se puede tocar mientras el menú está abierto */
-  ["view-home","view-cat","view-prod"].forEach(function(id){var el=document.getElementById(id);if(el)el.inert=open;});
-  document.querySelectorAll("footer,.topbar,.wa").forEach(function(el){el.inert=open;});
-  if(open){var f=menu.querySelector("a.mi:not([hidden])");if(f)f.focus();}
-  else if(was&&refocus!==false) mbtn.focus();
+  if(open){
+    menu.classList.remove("closing"); menuPos();
+    if(menu.hidden){menu.classList.add("pre"); menu.hidden=false; void menu.offsetWidth; menu.classList.remove("pre");}
+    mcatch.hidden=false;
+    window.addEventListener("scroll",menuReflow,{passive:true}); window.addEventListener("resize",menuReflow);
+    var f=menuItems()[0]; if(f) f.focus({preventScroll:true});
+  } else {
+    mcatch.hidden=true;
+    window.removeEventListener("scroll",menuReflow); window.removeEventListener("resize",menuReflow);
+    var done=function(){if(menuOpen()) return; menu.hidden=true; menu.classList.remove("closing");};
+    if(menu.hidden) return;
+    menu.classList.add("closing");
+    var te=function(e){if(e.target===menu&&e.propertyName==="opacity"){menu.removeEventListener("transitionend",te);done();}};
+    menu.addEventListener("transitionend",te);
+    mTimer=setTimeout(function(){menu.removeEventListener("transitionend",te);done();},220);
+    if(refocus!==false&&menu.contains(document.activeElement)) mbtn.focus();
+  }
 }
 var refocus=true;
-mbtn.onclick=function(){setMenu(menu.hidden);};
+mbtn.onclick=function(){setMenu(!menuOpen());};
+mcatch.addEventListener("click",function(){refocus=false;setMenu(false);refocus=true;});
 menu.addEventListener("click",function(e){if(e.target.closest("a")){refocus=false;setMenu(false);refocus=true;}});
+menu.addEventListener("keydown",function(e){
+  var it=menuItems(), i=it.indexOf(document.activeElement), n=it.length, k=e.key;
+  if(!n) return;
+  if(k==="ArrowDown"||k==="ArrowUp"||k==="Home"||k==="End"){
+    e.preventDefault();
+    var j=k==="Home"?0:k==="End"?n-1:k==="ArrowDown"?(i+1)%n:(i<=0?n-1:i-1);
+    it[j].focus();
+  } else if(k==="Tab"&&((!e.shiftKey&&i===n-1)||(e.shiftKey&&i===0))){
+    refocus=false; setMenu(false); refocus=true; /* sin atrapar el foco: el tabulador sigue su camino y el menú se cierra */
+  }
+});
 
 
 /* ---------- Portada animada ---------- */
@@ -1352,27 +1436,45 @@ var LIST=[];
 var TILEPIC={camisetas:"NS315",polos:"K241",sudaderas:"NS401",chaquetas:"K422",camisas:"K551",pantalones:"K7021",trabajo:"K8000",gorras:"NS040",bolsas:"NS133",calzado:"K840",interior:"K815",hogar:"K140",complementos:"KP878",otros:"NS5028","m-tec":"BS1061","m-esc":"NB8073","m-taz":"BI4122","m-bol":"BO7124","m-eve":"LY7053","m-ver":"FB2150","m-inv":"UM5607","m-dep":"TW7057","m-hog":"FT1853","m-out":"LN1773","m-nav":"XM1300"};
 var TILEKW={camisetas:"camiseta",polos:"polo",sudaderas:"sudadera",chaquetas:"chaqueta",camisas:"camisa ",pantalones:"pantal",trabajo:"delantal",gorras:"gorra",bolsas:"bolsa",calzado:"zapat",interior:"calcet",hogar:"toalla"};
 function isLanding(){return !S.c&&!QT.length&&!KEYS.some(function(k){return S[k].length;});}
+/* Portadilla: "Lo más pedido" (destacadas grandes) y "Más categorías". El orden importa: con él, la rejilla queda
+   en zigzag y sin huecos a 4, 3 y 2 columnas */
+var LANDG={cat:[["camisetas","f"],["polos"],["gorras"],["sudaderas","f"],["chaquetas"],["bolsas"]],
+  merch:[["m-taz","f"],["m-esc"],["m-hog"],["m-tec","f"],["m-bol","f b3"],["m-out"],["m-eve"]]};
+function tilePick(c){
+  var kw=TILEKW[c[0]], pick=null;
+  if(TILEPIC[c[0]]) pick=ITEMS.filter(function(x){return x.r===TILEPIC[c[0]];})[0]||null;
+  for(var i=0;i<ITEMS.length&&!pick;i++){var it=ITEMS[i];if(it.c!==c[0]||(!isM(it.c)&&it.i.indexOf("pictures/")!==0&&!isJ(it.i)&&!isS(it.i)&&!isT(it.i)))continue;if(!pick)pick=it;if(!kw||norm(it.n).indexOf(kw)===0){pick=it;break;}}
+  return pick;
+}
+function tileHTML(c,cls){
+  var pick=tilePick(c);
+  return '<a class="tile'+(isM(c[0])?" m":"")+(cls?" "+cls:"")+'" href="'+cURL(c[0])+'" data-c="'+c[0]+'"><div class="ph"><img alt="" loading="lazy" decoding="async" data-st="'+(pick?pick.i:"")+'"></div><span class="tn"><b>'+esc(c[1])+'</b><span class="tc">'+fmt(c[2])+'<span class="vh"> productos</span></span></span></a>';
+}
 function renderLanding(){
-  var h="";
-  D.cats.forEach(function(c){
-    if(isM(c[0])!==(SEC==="merch")) return;
-    var kw=TILEKW[c[0]], pick=null;
-    if(TILEPIC[c[0]]) pick=ITEMS.filter(function(x){return x.r===TILEPIC[c[0]];})[0]||null;
-    for(var i=0;i<ITEMS.length&&!pick;i++){var it=ITEMS[i];if(it.c!==c[0]||(!isM(it.c)&&it.i.indexOf("pictures/")!==0&&!isJ(it.i)&&!isS(it.i)&&!isT(it.i)))continue;if(!pick)pick=it;if(!kw||norm(it.n).indexOf(kw)===0){pick=it;break;}}
-    h+='<a class="tile'+(isM(c[0])?" m":"")+'" href="'+cURL(c[0])+'" data-c="'+c[0]+'"><div class="ph"><img alt="" loading="lazy" decoding="async" data-st="'+(pick?pick.i:"")+'"></div><b>'+esc(c[1])+'</b><span>'+fmt(c[2])+' productos</span></a>';
-  });
-  $("landing").innerHTML=h; $("landing").dataset.sec=SEC;
-  [].forEach.call($("landing").querySelectorAll("img"),function(img){if(img.dataset.st)setSrc(img,img.dataset.st,600);});
+  var mine=D.cats.filter(function(c){return isM(c[0])===(SEC==="merch");});
+  var by={}; mine.forEach(function(c){by[c[0]]=c;});
+  var top=(LANDG[SEC]||[]).filter(function(g){return by[g[0]];});
+  var inTop={}; top.forEach(function(g){inTop[g[0]]=1;});
+  var rest=mine.filter(function(c){return !inTop[c[0]];});
+  /* a 3 columnas, la primera del segundo grupo se ensancha lo justo para cerrar la última fila */
+  var r3=rest.length%3, firstCls=r3===2?"w3":r3===1?"b3":"";
+  var h='<h2 class="tilesh">Lo más pedido</h2><div class="tgrp">'+top.map(function(g){return tileHTML(by[g[0]],g[1]);}).join("")+'</div>';
+  if(rest.length) h+='<h2 class="tilesh">Más categorías</h2><div class="tgrp">'+rest.map(function(c,i){return tileHTML(c,i?"":firstCls);}).join("")+'</div>';
+  var L=$("landing"); L.classList.add("grp"); L.innerHTML=h; L.dataset.sec=SEC;
+  [].forEach.call(L.querySelectorAll("img"),function(img){if(img.dataset.st)setSrc(img,img.dataset.st,img.closest(".f,.b3")?900:600);});
 }
 function secTexts(){
   var n=ITEMS.filter(function(it){return isM(it.c)===(SEC==="merch");}).length, r=fmt(Math.floor(n/100)*100);
   var cs=S.c&&CS[S.c];
-  $("cattitle").textContent=cs&&cs[6]?cs[6]:(SEC==="merch"?"Merchandising":"Elige tu prenda");
+  var land=isLanding(); document.querySelector("#view-cat .cat").classList.toggle("land",land);
+  $("cattitle").textContent=cs&&cs[6]?cs[6]:(SEC==="merch"?"Merchandising":land?"Catálogo de ropa":"Elige tu prenda");
   var sub=$("catsub"); if(!sub.querySelector(".cl")) sub.innerHTML='<span class="cl"></span><span class="cs">Elige, filtra y añade a tu presupuesto.</span>'; /* páginas ya escritas: texto sin las dos versiones */
-  var tx=cs&&cs[7]?cs[7]:SEC==="merch"
+  var tx=cs&&cs[7]?cs[7]:land?(SEC==="merch"?"Más de "+r+" productos de merchandising listos para tu logo. Elige una categoría o busca por referencia.":"Más de "+r+" prendas listas para tu logo. Elige una categoría o busca por referencia.")
+    :SEC==="merch"
     ?"Más de "+r+" artículos promocionales para personalizar con tu logo: tazas, botellas, bolígrafos, libretas, tecnología, bolsas y mucho más. Añade lo que te interese a tu presupuesto y te respondemos con el diseño y el precio."
     :"Más de "+r+" prendas y productos listos para personalizar con tu logo. Filtra por tipo, color, gramaje o uso, añade lo que te interese a tu presupuesto y te respondemos con el diseño y el precio.";
-  var cl=sub.querySelector(".cl");
+  var cl=sub.querySelector(".cl"), cs2=sub.querySelector(".cs");
+  if(cs2){var stx=land?tx:"Elige, filtra y añade a tu presupuesto."; if(cs2.textContent!==stx) cs2.textContent=stx;} /* en la portadilla, la frase corta sirve igual en el móvil */
   if(cl.textContent!==tx){cl.textContent=tx; sub.classList.remove("open"); $("catmore").setAttribute("aria-expanded","false"); $("catmore").textContent="Leer más";}
   var long=tx.length>220; sub.classList.toggle("long",long); $("catmore").hidden=!long;
   $("q").placeholder=window.innerWidth<600?(SEC==="merch"?"Buscar taza, bolígrafo…":"Buscar sudadera, gorra…"):(SEC==="merch"?"Busca por nombre o referencia: taza, bolígrafo, power bank…":"Busca por nombre o referencia: sudadera, gorra, K330…");
@@ -2034,6 +2136,7 @@ function fillLines(){
 var PANEL=$("panel"), SCRIM=$("scrim"), panelFrom=null, panelInert=[];
 function openPanel(from){
   var was=PANEL.classList.contains("open");
+  if(menuOpen()){refocus=false;setMenu(false);refocus=true;}
   if(!was) panelFrom=from||document.activeElement;
   PANEL.classList.add("open"); SCRIM.classList.add("on"); document.body.style.overflow="hidden";
   /* lo de detrás no se puede tocar ni leer mientras el panel está abierto */
@@ -2067,7 +2170,7 @@ SCRIM.onclick=closePanel;
 document.addEventListener("keydown",function(e){
   if(e.key==="Escape"){
     if(PANEL.classList.contains("open")){closePanel();e.preventDefault();}
-    else if(!menu.hidden){setMenu(false);e.preventDefault();}
+    else if(menuOpen()){setMenu(false);e.preventDefault();}
     else if($("side").classList.contains("open")){side(false);e.preventDefault();}
     return;
   }
@@ -2098,17 +2201,20 @@ function findProd(sl){
   ITEMS.forEach(function(x){if(it&&best>999)return; if(prodSlug(x.r,x.n)===sl){it=x;best=1000;return;} var r=slug(x.r); if(r.length>best&&(sl===r||sl.indexOf(r+"-")===0)){it=x;best=r.length;}});
   return it;
 }
+/* marca la sección actual en la navegación de escritorio y en el menú */
+function navCur(v){document.querySelectorAll('.dnav a[data-view="'+v+'"],.menu a[data-view="'+v+'"]').forEach(function(a){a.setAttribute("aria-current","page");});}
 function route(){
+  if(menuOpen()){refocus=false;setMenu(false);refocus=true;} /* p. ej. el logo de la cabecera con el menú abierto */
   var path=location.pathname, h=location.hash||"", full=path+location.search;
   lastRouted=location.href;
-  document.querySelectorAll(".dnav a[data-view]").forEach(function(a){a.removeAttribute("aria-current");});
+  document.querySelectorAll(".dnav a[data-view],.menu a[data-view]").forEach(function(a){a.removeAttribute("aria-current");});
   if(inCat) catScroll=window.scrollY;
   if(/^\/(catalogo|merchandising)\//.test(path)){
     var back=(full===lastCat&&D);
     var nsec=path.indexOf("/merchandising/")===0?"merch":"cat";
     if(nsec!==SEC){SEC=nsec;back=false;}
     VH.hidden=true;VP.hidden=true;VC.hidden=false;inCat=true;
-    var nav=document.querySelector('.dnav a[data-view="'+SEC+'"]'); if(nav) nav.setAttribute("aria-current","page");
+    navCur(SEC);
     ensureData(function(){fromHash(); renderCat(back); window.scrollTo(0,back?catScroll:0);});
     if(!back) window.scrollTo(0,0);
   } else if(path.indexOf("/producto/")===0){
@@ -2119,13 +2225,13 @@ function route(){
       if(it){
         if(pURL(it)!==path) history.replaceState(null,"",pURL(it)); /* dirección antigua o con otro nombre */
         SEC=isM(it.c)?"merch":"cat"; renderProduct(it);
-        var nv=document.querySelector('.dnav a[data-view="'+SEC+'"]'); if(nv) nv.setAttribute("aria-current","page");
+        navCur(SEC);
       } else $("prod").innerHTML='<a class="back" href="/catalogo/">Volver al catálogo</a><p>Este producto ya no está disponible.</p>';
     });
   } else {
     inCat=false;
     if(!VH.children.length){location.reload();return;} /* página sin el contenido de inicio: se carga entera */
-    var wasOther=VH.hidden; VC.hidden=true;VP.hidden=true;VH.hidden=false;
+    var wasOther=VH.hidden; VC.hidden=true;VP.hidden=true;VH.hidden=false; navCur("home");
     setMeta(HOMETITLE,"/");
     if(h==="#inicio"||!h){window.scrollTo(0,0);}
     else if(wasOther||first){var t=document.querySelector(h); if(t) t.scrollIntoView();}
