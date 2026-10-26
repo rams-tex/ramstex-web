@@ -780,7 +780,8 @@ img.pack{object-fit:contain!important;padding:6%}
 .dzsize b{font:700 var(--fs-xl)/1.1 "Bricolage Grotesque",Figtree,sans-serif;letter-spacing:-0.02em;font-variant-numeric:tabular-nums}
 .dzchip{flex:none;display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;background:color-mix(in srgb,var(--red) 9%,transparent);color:var(--red-text);font:700 var(--fs-xs)/1 Figtree,sans-serif}
 .dzmax{margin:0 0 14px;color:var(--muted);font-size:var(--fs-xs)}
-.dzopt{display:inline-flex;align-items:center;height:32px;margin:-4px 0 14px;padding:0 12px;border:1.5px solid var(--line-strong);border-radius:999px;background:var(--surface);color:var(--text);font:600 var(--fs-xs)/1 Figtree,sans-serif;font-variant-numeric:tabular-nums;cursor:pointer;transition:border-color 150ms ease,background-color 150ms ease,color 150ms ease}
+.dzopts{display:flex;flex-wrap:wrap;gap:8px;margin:-4px 0 14px}
+.dzopt{display:inline-flex;align-items:center;height:32px;margin:0;padding:0 12px;border:1.5px solid var(--line-strong);border-radius:999px;background:var(--surface);color:var(--text);font:600 var(--fs-xs)/1 Figtree,sans-serif;font-variant-numeric:tabular-nums;cursor:pointer;transition:border-color 150ms ease,background-color 150ms ease,color 150ms ease}
 .dzopt[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:var(--on-red)}
 @media (hover:hover) and (pointer:fine){.dzopt:not([aria-pressed="true"]):hover{border-color:var(--text)}}
 .dzrange{display:flex;align-items:center;gap:12px}
@@ -819,8 +820,9 @@ img.pack{object-fit:contain!important;padding:6%}
   .dzhead{height:56px;padding:0 16px}
   .dzmain{display:flex;flex-direction:column}
   .dzleft{flex:none;height:clamp(290px,50svh,520px);padding:12px 16px 0;gap:10px}
-  .dzseg{width:100%;gap:2px;padding:3px}
-  .dzseg button{flex:1 1 auto;padding:0 5px;font-size:var(--fs-xs);height:36px}
+  .dzseg{width:100%;gap:2px;padding:3px;overflow-x:auto;scrollbar-width:none;justify-content:flex-start}
+  .dzseg::-webkit-scrollbar{display:none}
+  .dzseg button{flex:1 0 auto;padding:0 7px;font-size:var(--fs-xs);height:36px}
   .dzseg button.has::after{top:5px;right:3px;width:6px;height:6px}
   .dzright{flex:1;min-height:0;border-left:0;background:var(--bg)}
   .dzpad{padding:16px;gap:18px}
@@ -2352,21 +2354,41 @@ document.addEventListener("keydown",function(e){
 /* Dirección de la app de Google Apps Script que guarda los diseños en Google Drive (ver scripts/apps-script-disenos.gs).
    Mientras esté vacía no se sube nada: el mensaje de WhatsApp lleva solo los detalles del diseño. */
 var DISENO_URL="";
-var DZ_LBL={d:"Delante",e:"Detrás",n:"Nuca",mi:"Manga izq.",md:"Manga der."}, DZ_ORD=["d","e","n","mi","md"];
-/* Medidas máximas de impresión en cm (ancho × alto): delante y detrás hasta 35×55; mangas y nuca hasta 10×10.
-   DZ_ANCHO: ancho recomendado para la espalda (se propone al colocar un diseño detrás) */
-var DZ_MAX=[35,55], DZ_MANGA=[10,10], DZ_NUCA=[10,10], DZ_ANCHO=28.4;
-/* Plantillas por tipo de prenda.
-   cm: zona máxima [ancho, alto] · t: dónde empieza la zona, en proporción al alto de la prenda en la foto (0 = arriba)
-   dx: desplazamiento hacia el pecho izquierdo de quien la lleva (proporción del ancho del cuerpo)
-   bw: ancho real aproximado del cuerpo de la prenda en cm (sirve para pasar de cm a la foto)
-   nt: dónde va la nuca (centro de la zona, en proporción al alto de la prenda en la foto de espalda) */
+var DZ_LBL={d:"Delante",di:"Delante izq.",dd:"Delante der.",p:"Pecho",l:"Lateral",e:"Detrás",n:"Nuca",mi:"Manga izq.",md:"Manga der.",pi:"Pierna izq.",pd:"Pierna der."};
+var DZ_ORD=["d","di","dd","p","l","e","n","mi","md","pi","pd"];
+/* Medidas máximas de impresión en cm (ancho × alto): plancha grande hasta 35×55; plancha pequeña (mangas, nuca, pecho, piernas, gorras…) hasta 10×10.
+   Anchos recomendados: 28,4 cm en espaldas; 18,7 cm en bolsas (se proponen al colocar el diseño y con un botón) */
+var DZ_MAX=[35,55], DZ_PEQ=[10,10], DZ_ANCHO=28.4, DZ_ANCHO_BOLSA=18.7, DZ_PECHO=9.5;
+/* Plantillas por tipo de prenda. Cada zona:
+   v: foto que se usa (f delante, b espalda, s manga: foto lateral o, si no hay, la de delante ampliada)
+   cm: medida máxima [ancho, alto] · t: dónde empieza la zona en proporción al alto de la prenda en la foto (con c:1, dónde va su centro)
+   dx: desplazamiento horizontal en proporción al ancho del cuerpo (+ hacia la derecha de la foto = lado izquierdo de quien la lleva)
+   zoom: la foto se amplía sobre la zona (zonas pequeñas) · rec: ancho recomendado · pecho: botón «Logo en el pecho» (9,5 cm, pecho izquierdo)
+   bw: ancho del cuerpo en cm tal como se ve en la foto (en las fotos con maniquí se ve menos que la prenda plana) para pasar de cm a la foto · aprox: colocación orientativa, revisar con fotos reales
+   sinMangas: la plantilla no lleva mangas */
+var ZS={v:"s",cm:DZ_PEQ}, ZE=function(t,cm){return {v:"b",cm:cm||[35,45],t:t,rec:DZ_ANCHO};}, ZN=function(t){return {v:"b",cm:DZ_PEQ,t:t,c:1,zoom:1};};
 var DZ_TPL={
-  camiseta:{n:"camiseta",bw:52,mangas:1,nt:.12,d:{cm:[30,40],t:.17},e:{cm:[35,45],t:.13}},
-  polo:{n:"polo",bw:52,mangas:1,nt:.13,d:{cm:[26,30],t:.27},e:{cm:[35,45],t:.13}},
-  sudadera:{n:"sudadera",bw:58,mangas:1,nt:.2,d:{cm:[30,22],t:.31},e:{cm:[35,45],t:.22}},
-  cremallera:{n:"sudadera",bw:58,mangas:1,nt:.2,d:{cm:[10,10],t:.31,dx:.24},e:{cm:[35,45],t:.22}},
-  bolsa:{n:"bolsa",bw:38,mangas:0,d:{cm:[30,32],t:.2},e:{cm:[30,32],t:.2}}
+  camiseta:{n:"camiseta",bw:42,z:{d:{v:"f",cm:[30,40],t:.17,pecho:1},e:ZE(.13),n:ZN(.12),mi:ZS,md:ZS}},
+  polo:{n:"polo",bw:42,z:{d:{v:"f",cm:[26,30],t:.27,pecho:1},e:ZE(.13),n:ZN(.13),mi:ZS,md:ZS}},
+  sudadera:{n:"sudadera",bw:46,z:{d:{v:"f",cm:[30,22],t:.31,pecho:1},e:ZE(.22),n:ZN(.2),mi:ZS,md:ZS}},
+  cremallera:{n:"sudadera",bw:46,z:{di:{v:"f",cm:[12,35],t:.36,dx:.25,pecho:1},dd:{v:"f",cm:[12,35],t:.36,dx:-.25,pecho:1},e:ZE(.22),n:ZN(.2),mi:ZS,md:ZS}},
+  chaqueta:{n:"chaqueta",bw:48,aprox:1,z:{di:{v:"f",cm:[12,32],t:.27,dx:.25,pecho:1},dd:{v:"f",cm:[12,32],t:.27,dx:-.25,pecho:1},e:ZE(.2,[35,40]),n:ZN(.1),mi:ZS,md:ZS}},
+  chaleco:{n:"chaleco",bw:46,aprox:1,sinMangas:1,z:{di:{v:"f",cm:[12,32],t:.22,dx:.25,pecho:1},dd:{v:"f",cm:[12,32],t:.22,dx:-.25,pecho:1},e:ZE(.15,[35,40]),n:ZN(.1)}},
+  camisa:{n:"camisa",bw:42,aprox:1,z:{p:{v:"f",cm:DZ_PEQ,t:.25,dx:.22,c:1,zoom:1,pecho:1},e:ZE(.16,[35,40]),mi:ZS,md:ZS}},
+  delantal:{n:"delantal",bw:50,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[30,30],t:.4}}},
+  bata:{n:"prenda",bw:46,aprox:1,z:{p:{v:"f",cm:DZ_PEQ,t:.22,dx:.22,c:1,zoom:1,pecho:1},e:ZE(.15,[35,40])}},
+  peto:{n:"peto",bw:40,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[25,30],t:.2},e:{v:"b",cm:[25,30],t:.2}}},
+  body:{n:"body",bw:20,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[14,16],t:.2},e:{v:"b",cm:[14,16],t:.18}}},
+  pantalon:{n:"prenda",bw:40,aprox:1,sinMangas:1,z:{pi:{v:"f",cm:DZ_PEQ,t:.3,dx:.24,c:1,zoom:1},pd:{v:"f",cm:DZ_PEQ,t:.3,dx:-.24,c:1,zoom:1}}},
+  bolsa:{n:"bolsa",bw:38,sinMangas:1,z:{d:{v:"f",cm:[30,32],t:.2,rec:DZ_ANCHO_BOLSA},e:{v:"b",cm:[30,32],t:.2,rec:DZ_ANCHO_BOLSA}}},
+  gymsac:{n:"bolsa",bw:34,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[25,28],t:.3,rec:DZ_ANCHO_BOLSA},e:{v:"b",cm:[25,28],t:.3,rec:DZ_ANCHO_BOLSA}}},
+  mochila:{n:"mochila",bw:30,aprox:1,sinMangas:1,z:{d:{v:"f",cm:DZ_PEQ,t:.55,c:1,zoom:1}}},
+  bolsadep:{n:"bolsa",bw:50,aprox:1,sinMangas:1,z:{l:{v:"f",cm:[25,12],t:.55,c:1}}},
+  maletin:{n:"bolsa",bw:38,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[20,15],t:.55,c:1}}},
+  pequena:{n:"bolsa",bw:24,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[10,6],t:.5,c:1,zoom:1}}},
+  gorra:{n:"gorra",bw:20,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[10,6],t:.42,c:1,zoom:1}}},
+  toalla:{n:"toalla",bw:50,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[35,25],t:.5,c:1}}},
+  bandana:{n:"pañuelo",bw:50,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[25,25],t:.5,c:1}}}
 };
 /* Fotos de cada proveedor: si se pueden leer (CORS), dónde está la manga en la foto lateral (proporción del contorno de la prenda),
    qué manga se ve en esa foto (i/d) y el encuadre habitual si la foto no se puede analizar */
@@ -2391,19 +2413,45 @@ var DZ_ICON={
   resize:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M11 7h6v6"/></svg>'
 };
 
-/* ¿Se puede diseñar esta prenda? Devuelve la plantilla con sus zonas, o null */
+/* ¿Se puede diseñar este producto? Devuelve la plantilla con sus zonas, o null.
+   Fuera: calzado, ropa interior y calcetines, paraguas, punto (jerséis, cárdigans, bufandas), maletas y merchandising */
+function dzKey(it){
+  var nm=norm(it.n+" "+(it.st||"")), sub=D.subs[it.s]||"", c=it.c;
+  var zip=/cremallera|full ?zip/.test(nm)&&!/1\/4|cuarto|media cremallera|half/.test(nm);
+  if((c==="sudaderas"||c==="chaquetas")&&/jersey|cardigan|de punto|punto fino|blazer|traje/.test(nm)) return ""; /* punto y americanas: no se estampan */
+  if(c==="camisetas") return sub==="Chaquetas"?"chaqueta":sub==="Blusas"?"camisa":"camiseta";
+  if(c==="polos") return sub==="Chaquetas"?"chaqueta":sub==="Polos"?"polo":"camiseta";
+  if(c==="sudaderas"){if(sub==="Jerseys y cárdigans") return ""; if(sub==="Chaquetas"||/chaqueta|cortaviento|polar|chandal/.test(nm)) return /chaleco/.test(nm)?"chaleco":"chaqueta"; return zip?"cremallera":"sudadera";}
+  if(c==="chaquetas"){if(/poncho/.test(nm)||sub==="Ponchos"||sub==="Accesorios"||sub==="Accesorios deportivos") return ""; if(sub==="Camisas y sobrecamisas") return "camisa"; if(/chaleco/.test(nm)||/^Chalecos/.test(sub)) return "chaleco"; if(/sudadera/.test(nm)) return zip?"cremallera":"sudadera"; return "chaqueta";}
+  if(c==="camisas") return "camisa";
+  if(c==="trabajo"){if(/tirantes/.test(nm)) return ""; if(sub==="Delantales"||/delantal/.test(nm)) return "delantal"; if(sub==="Petos"&&/peto/.test(nm)) return "peto"; if(/chaleco/.test(nm)) return "chaleco"; return "bata";}
+  if(c==="pantalones"){if(sub==="Faldas"||/falda/.test(nm)) return ""; if(sub==="Chaquetas") return "chaqueta"; if(sub==="Camisetas deportivas") return "camiseta"; return "pantalon";}
+  if(c==="bolsas"){
+    if(/maleta|trolley|nevera|termic|lunch|botella|zapato|herramienta|llavero|almacenamiento|cesta|red |balon|alimentos|proteccion|drysack|impermeable|funda|set de viaje/.test(nm)) return "";
+    if(/cordon|cordones|cuerda|gymsac|gym bag|saco/.test(nm)) return "gymsac";
+    if(/mochila|backpack/.test(nm)) return "mochila";
+    if(/rinonera|hip bag|neceser|estuche|cartera|monedero|bum bag/.test(nm)) return "pequena";
+    if(/deport|viaje|duffel|duffle|weekend|week-end|sport/.test(nm)) return "bolsadep";
+    if(/bandolera|mensajero|portatil|ordenador|documentos|tablet|maletin|laptop/.test(nm)) return "maletin";
+    if(/tote|cabas|compra|lona|algodon|yute|shopper|shopping|bolsa|playa/.test(nm)) return "bolsa";
+    return "";
+  }
+  if(c==="gorras"){if(/bandana/.test(nm)&&!/cinta/.test(nm)) return "bandana"; if(sub==="Gorras"||sub==="Gorros bob"||/\bbob\b|gorra|visera|trucker|snapback/.test(nm)&&!/gorro de|pompon|borde vuelto/.test(nm)) return "gorra"; return "";}
+  if(c==="hogar"){if(/albornoz/.test(nm)) return "bata"; if(/toalla|pareo|manta|pano/.test(nm)) return "toalla"; return "";}
+  if(c==="complementos"){if(/bufanda|fular/.test(nm)) return ""; if(/panuelo|bandana/.test(nm)) return "bandana"; if(/toalla/.test(nm)) return "toalla"; return "";}
+  if(c==="otros"){if(sub==="Bodys"||/\bbody\b/.test(nm)) return "body"; return "";}
+  return "";
+}
 function dzTpl(it){
   if(!it||!D) return null;
-  var nm=norm(it.n+" "+(it.st||"")), sub=D.subs[it.s]||"", key="";
-  if(it.c==="camisetas"){if(/^Camisetas/.test(sub)) key="camiseta";}
-  else if(it.c==="polos"){if(sub==="Polos") key="polo";}
-  else if(it.c==="sudaderas"){if(sub==="Sudaderas"&&!/chaqueta|cortaviento|polar|chandal/.test(nm)) key=/cremallera|full ?zip/.test(nm)&&!/1\/4|cuarto|media cremallera|half/.test(nm)?"cremallera":"sudadera";}
-  else if(it.c==="bolsas"){if(sub==="Bolsas"&&/tote|cabas|compra|cordon|lona|algodon|yute|shopper|shopping|gymsac|saco|bolsa de tela/.test(nm)&&!/mochila|rinonera|nevera|termic|neceser|portatil|ordenador|maleta|viaje|deport|bandolera|mensajero|lunch|botella|zapato|herramienta|drysack|impermeable/.test(nm)) key="bolsa";}
-  if(!key) return null;
-  var b=DZ_TPL[key], cap=function(cm){return [Math.min(cm[0],DZ_MAX[0]),Math.min(cm[1],DZ_MAX[1])];};
-  var t={key:key,n:b.n,bw:b.bw,nt:b.nt||.07,d:{cm:cap(b.d.cm),t:b.d.t,dx:b.d.dx||0},e:{cm:cap(b.e.cm),t:b.e.t,dx:0}};
-  t.pos=b.mangas?(it.m!=="Sin mangas"?DZ_ORD.slice():["d","e","n"]):["d","e"];
-  return t;
+  var key=dzKey(it); if(!key) return null;
+  var b=DZ_TPL[key], z={}, mangas=!b.sinMangas&&it.m!=="Sin mangas";
+  Object.keys(b.z).forEach(function(p){
+    if(b.z[p].v==="s"&&!mangas) return;
+    if(p==="n"&&/capucha|hood/.test(norm(it.n+" "+(it.st||"")))) return; /* con capucha, la nuca queda tapada */
+    var o=Object.assign({},b.z[p]); o.cm=[Math.min(o.cm[0],DZ_MAX[0]),Math.min(o.cm[1],DZ_MAX[1])]; o.dx=o.dx||0; z[p]=o;
+  });
+  return {key:key,n:b.n,bw:b.bw,aprox:!!b.aprox,z:z,pos:DZ_ORD.filter(function(p){return z[p];})};
 }
 /* Qué muestra cada foto del proveedor: f delante, b espalda, s lateral, sl/sr lateral izquierda/derecha, m con modelo */
 function dzKind(st){
@@ -2419,12 +2467,13 @@ function dzKind(st){
 }
 function dzSup(f){return DZ_SUP[f&&f.src]||DZ_DEF;}
 /* Foto para una zona: {st, kind:"front"|"side", flip} */
-function dzPick(it,f,ci,pos){
+function dzPick(it,f,ci,pos,tplKey){
   var list=[it.k[ci][3]].concat((f.cv&&f.cv[ci])||[]), by={};
   list.forEach(function(st){var k=dzKind(st); if(k&&!by[k]) by[k]=st;});
   var front=by.f||it.k[ci][3]||it.i;
-  if(pos==="d") return {st:front,kind:"front"};
-  if(pos==="e"||pos==="n") return by.b?{st:by.b,kind:"front"}:{st:front,kind:"front",noback:1};
+  var zv=(DZ_TPL[tplKey]&&DZ_TPL[tplKey].z[pos]||{v:"f"}).v;
+  if(zv==="f") return {st:front,kind:"front"};
+  if(zv==="b") return by.b?{st:by.b,kind:"front"}:{st:front,kind:"front",noback:1};
   var mine=pos==="mi"?"sl":"sr";
   if(by[mine]) return {st:by[mine],kind:"side",flip:false};
   if(by.s) return {st:by.s,kind:"side",flip:dzSup(f).side!==(pos==="mi"?"i":"d")};
@@ -2484,12 +2533,15 @@ function dzDark(k,fr){
 }
 /* Vista de una zona: foto cargada + encuadre de la prenda */
 var DZ_VIEW={};
-function dzView(it,f,ci,pos){
-  var p=dzPick(it,f,ci,pos), sup=dzSup(f), key=p.st+"|"+p.kind+"|"+(p.flip?1:0);
+function dzView(it,f,ci,pos,tplKey){
+  var p=dzPick(it,f,ci,pos,tplKey), sup=dzSup(f), key=p.st+"|"+p.kind+"|"+(p.flip?1:0);
   if(DZ_VIEW[key]) return DZ_VIEW[key];
   var cors=!!sup.cors||isT(p.st);
   return DZ_VIEW[key]=dzLoad(p.st,cors).then(function(r){
-    if(!r) return null;
+    if(!r){ /* sin foto: fondo neutro del color de la prenda, para poder colocar el diseño igualmente */
+      var c=document.createElement("canvas"); c.width=c.height=1000; var x=c.getContext("2d"); x.fillStyle=dzHex(it.k[ci])||"#E4E4E1"; x.fillRect(80,80,840,840); x.strokeStyle="rgba(17,17,17,.18)"; x.lineWidth=4; x.strokeRect(82,82,836,836);
+      return new Promise(function(res){var im=new Image(); im.onload=function(){res({im:im,cors:true,fr:{x0:.08,y0:.08,x1:.92,y1:.92,bw:.84,lum:dzDark(it.k[ci])?40:230,ok:1},kind:"front",flip:false,nophoto:1,st:p.st});}; im.src=c.toDataURL("image/png");});
+    }
     var fr=r.cors?dzMeasure(r.im):null;
     if(!fr) fr=Object.assign({},(p.kind==="side"&&sup.sfr)||(p.kind==="side"?{x0:.3,y0:sup.fr.y0,x1:.7,y1:sup.fr.y1,bw:.4}:sup.fr));
     if(p.flip){var a=1-fr.x1; fr.x1=1-fr.x0; fr.x0=a;}
@@ -2498,33 +2550,28 @@ function dzView(it,f,ci,pos){
 }
 /* Geometría: dónde va la foto y la zona de impresión dentro de un recuadro SW×SH */
 function dzGeom(v,tpl,pos,SW,SH){
-  var im=v.im, W=im.naturalWidth||1000, H=im.naturalHeight||1000, fr=v.fr, z, ox, oy, a, s, cx, cy, aw, ah, cm;
-  if(pos==="d"||pos==="e"){
-    var zp=tpl[pos]; cm=zp.cm; s=fr.bw*W/tpl.bw; aw=cm[0]*s; ah=cm[1]*s;
-    cx=(fr.x0+fr.x1)/2*W+(pos==="d"?zp.dx*fr.bw*W:0); var ay=(fr.y0+zp.t*(fr.y1-fr.y0))*H;
-    a={x:cx-aw/2,y:ay,w:aw,h:ah};
-    var gw=(fr.x1-fr.x0)*W, gh=(fr.y1-fr.y0)*H;
-    z=Math.min(SW*.88/gw,SH*.9/gh); ox=SW/2-(fr.x0+fr.x1)/2*W*z; oy=SH/2-(fr.y0+fr.y1)/2*H*z;
-  } else if(pos==="n"){
-    cm=DZ_NUCA; s=fr.bw*W/tpl.bw; aw=cm[0]*s; ah=cm[1]*s;
-    cx=(fr.x0+fr.x1)/2*W; cy=(fr.y0+tpl.nt*(fr.y1-fr.y0))*H;
-    a={x:cx-aw/2,y:cy-ah/2,w:aw,h:ah};
-    z=Math.min(Math.min(SW,SH)*.38/aw,2.2); ox=SW/2-cx*z; oy=SH/2-cy*z;
-  } else {
-    cm=DZ_MANGA;
+  var im=v.im, W=im.naturalWidth||im.width||1000, H=im.naturalHeight||im.height||1000, fr=v.fr, zn=tpl.z[pos], cm=zn.cm, z, ox, oy, a, s, cx, cy, aw, ah;
+  var gx0=fr.x0*W, gy0=fr.y0*H, gw=(fr.x1-fr.x0)*W, gh=(fr.y1-fr.y0)*H;
+  if(zn.v==="s"){
     if(v.kind==="side"){
-      s=(fr.y1-fr.y0)*H*.46/tpl.bw; var sl=DZ_SUP[v.sup]?DZ_SUP[v.sup].sl:DZ_DEF.sl;
-      var sx=v.flip?1-sl[0]:sl[0]; cx=(fr.x0+sx*(fr.x1-fr.x0))*W; cy=(fr.y0+sl[1]*(fr.y1-fr.y0))*H;
-    } else {
-      s=fr.bw*W/tpl.bw; var gx=fr.x1-fr.x0;
-      cx=(pos==="mi"?fr.x1-.1*gx:fr.x0+.1*gx)*W; cy=(fr.y0+.2*(fr.y1-fr.y0))*H;
-    }
+      s=gh*.46/tpl.bw; var sl=DZ_SUP[v.sup]?DZ_SUP[v.sup].sl:DZ_DEF.sl;
+      var sx=v.flip?1-sl[0]:sl[0]; cx=gx0+sx*gw; cy=gy0+sl[1]*gh;
+    } else {s=fr.bw*W/tpl.bw; cx=pos==="mi"?gx0+.9*gw:gx0+.1*gw; cy=gy0+.2*gh;}
     aw=cm[0]*s; ah=cm[1]*s; a={x:cx-aw/2,y:cy-ah/2,w:aw,h:ah};
-    z=Math.min(Math.min(SW,SH)*.38/aw,2.2); ox=SW/2-cx*z; oy=SH/2-cy*z;
+  } else {
+    s=fr.bw*W/tpl.bw;
+    var k=Math.min(1,gw*.92/(cm[0]*s),gh*.92/(cm[1]*s)); s*=k; /* la zona nunca es más grande que el producto en la foto */
+    aw=cm[0]*s; ah=cm[1]*s; cx=gx0+gw/2+zn.dx*fr.bw*W;
+    var ay=zn.c?gy0+zn.t*gh-ah/2:gy0+zn.t*gh;
+    a={x:Math.max(gx0,Math.min(gx0+gw-aw,cx-aw/2)),y:Math.max(gy0,Math.min(gy0+gh-ah,ay)),w:aw,h:ah}; /* siempre sobre el producto */
   }
+  if(zn.v==="s"||zn.zoom){
+    var zx=a.x+aw/2, zy=a.y+ah/2;
+    z=Math.min(Math.min(SW,SH)*(zn.v==="s"?.38:.3)/Math.max(aw,ah),2.2); z=Math.max(z,Math.min(SW*.88/gw,SH*.9/gh)); ox=SW/2-zx*z; oy=SH/2-zy*z;
+  } else {z=Math.min(SW*.88/gw,SH*.9/gh); ox=SW/2-(gx0+gw/2)*z; oy=SH/2-(gy0+gh/2)*z;}
   return {z:z,ox:ox,oy:oy,W:W,H:H,cm:cm,ax:ox+a.x*z,ay:oy+a.y*z,aw:a.w*z,ah:a.h*z,sc:s*z};
 }
-function dzCm(pos){return pos==="d"||pos==="e"?DZ.tpl[pos].cm:pos==="n"?DZ_NUCA:DZ_MANGA;}
+function dzCm(pos){return DZ.tpl.z[pos].cm;}
 function dzNum(v){var r=Math.round(v*10)/10; return (r%1?r.toFixed(1).replace(".",","):String(r));}
 function dzSizeTxt(w,h){return dzNum(w)+" × "+dzNum(h)+" cm";}
 function dzLabel(w,h){
@@ -2588,8 +2635,8 @@ function dzOpen(push,from){
   if(it.cur<0){var w=-1; it.k.forEach(function(k,i){if(w<0&&/^(white|blanco)\b/i.test(k[0])) w=i;}); it.cur=w<0?0:w; DZP.upd();}
   var sameProd=DZ.it===it;
   DZ.it=it; DZ.f=f; DZ.tpl=tpl; DZ.path=pURL(it); DZ.from=from||document.activeElement; DZ.open=true;
-  if(!sameProd){DZ.items={}; DZ.pos="d"; DZ.restored=null;}
-  if(tpl.pos.indexOf(DZ.pos)<0) DZ.pos="d";
+  if(!sameProd){DZ.items={}; DZ.pos=tpl.pos[0]; DZ.restored=null;}
+  if(tpl.pos.indexOf(DZ.pos)<0) DZ.pos=tpl.pos[0];
   if(push){history.pushState({dz:1},"",DZ.path+"?disenar="+encodeURIComponent(it.k[it.cur][0])); DZ.pushed=true;} else DZ.pushed=!!(history.state&&history.state.dz);
   lastRouted=location.href;
   $("dztitle").textContent="Diseña tu "+tpl.n;
@@ -2598,7 +2645,7 @@ function dzOpen(push,from){
   dzInert=[]; document.querySelectorAll("#view-home,#view-cat,#view-prod,header.top,.topbar,footer,.wa,#menu").forEach(function(x){dzInert.push([x,x.inert]); x.inert=true;});
   dzSeg(); dzDots(); dzShow();
   dzRestore();
-  requestAnimationFrame(function(){$("dzclose").focus();});
+  requestAnimationFrame(function(){try{$("dzclose").focus({preventScroll:true,focusVisible:false});}catch(e){$("dzclose").focus();}});
 }
 function dzRequestClose(){
   if(!DZ.open) return;
@@ -2656,6 +2703,7 @@ function dzSeg(){
     s.appendChild(b);
   });
   $("dzstage").setAttribute("aria-labelledby","dzt-"+DZ.pos);
+  var cur=$("dzt-"+DZ.pos); if(s.scrollWidth>s.clientWidth&&cur) s.scrollLeft=Math.max(0,cur.offsetLeft-(s.clientWidth-cur.offsetWidth)/2); /* muchas zonas en el móvil: la elegida, a la vista */
 }
 document.addEventListener("keydown",function(e){
   if(!DZ.open||!e.target.closest||!e.target.closest("#dzseg")) return;
@@ -2692,11 +2740,11 @@ var dzSeq=0;
 function dzShow(){
   var my=++dzSeq, it=DZ.it, stage=$("dzstage"), old=stage.querySelector(".dzph");
   if(old) old.classList.add("loading");
-  dzTools();
-  dzView(it,DZ.f,it.cur,DZ.pos).then(function(v){
+  DZ.view=null; dzTools();
+  dzView(it,DZ.f,it.cur,DZ.pos,DZ.tpl.key).then(function(v){
     if(my!==dzSeq||!DZ.open) return;
     if(!v){DZ.view=null; if(old) old.remove(); dzRender(); return;}
-    v.sup=DZ.f.src; DZ.view=v;
+    v.sup=DZ.f.src; DZ.view=v; if(v.nophoto||v.noback) dzTools();
     var ph=v.im.cloneNode(false); ph.className="dzph"+(v.flip?" flip":""); ph.alt=it.n+" ("+colES(it.k[it.cur][0])+"), "+DZ_LBL[DZ.pos].toLowerCase();
     if(old) old.replaceWith(ph); else stage.insertBefore(ph,stage.firstChild);
     $("dzarea").classList.toggle("lt",dzDark(it.k[it.cur],v.fr));
@@ -2726,7 +2774,8 @@ function dzTools(){
     var other=DZ_ORD.filter(function(q){return q!==p&&DZ.items[q];})[0];
     if(other) h+='<button type="button" class="btn ghost dzreuse" id="dzreuse">Usar la misma imagen que en «'+DZ_LBL[other]+'»</button>';
     h+='<p class="dzpdf">¿Tu logo está en PDF o AI? De momento no se puede ver aquí: mándanoslo por <a href="https://wa.me/34682368645?text='+encodeURIComponent("Hola, os envío mi logo para el presupuesto.")+'" target="_blank" rel="noopener">WhatsApp</a> y lo preparamos.</p>';
-    if(DZ.view&&DZ.view.noback&&p==="e") h+='<p class="dznote dzinfo">'+DZ_ICON.info+'<span>No tenemos foto de la espalda de este color: te mostramos la de delante como referencia.</span></p>';
+    h+=dzViewNote();
+    if(DZ.view&&DZ.view.noback&&DZ.tpl.z[p].v==="b") h+='<p class="dznote dzinfo">'+DZ_ICON.info+'<span>No tenemos foto de la espalda de este color: te mostramos la de delante como referencia.</span></p>';
     box.innerHTML=h;
     $("dzpick").onclick=function(){$("dzfile").click();};
     if(other) $("dzreuse").onclick=function(){var s=DZ.items[other]; dzSetFile(p,s.file);};
@@ -2735,19 +2784,24 @@ function dzTools(){
     h+='<p class="dzfile"><span>'+esc(d.name)+'</span><i>'+(d.vec?"Vectorial":fmt(d.nat[0])+" × "+fmt(d.nat[1])+" px")+'</i></p>'+
       '<div class="dzsize"><b id="dzsz">'+dzSizeTxt(d.w,hh)+'</b><span class="dzchip" id="dzlb">'+dzLabel(d.w,hh)+'</span></div>'+
       '<div id="dznotes"></div>'+
-      '<p class="dzmax">Máximo en esta zona: '+dzSizeTxt(cm[0],cm[1])+'</p>'+
-      (p==="e"&&DZ.tpl.key!=="bolsa"&&maxW>=DZ_ANCHO-.01?'<button type="button" class="dzopt" id="dzopt" aria-pressed="false">Ancho recomendado: '+dzNum(DZ_ANCHO)+' cm</button>':'')+
+      '<p class="dzmax">Máximo en esta zona: '+dzSizeTxt(cm[0],cm[1])+'</p>'+dzViewNote()+
+      dzChips(p,maxW)+
       '<div class="dzrange"><label for="dzr">Tamaño</label><input type="range" id="dzr" min="2" max="'+maxW.toFixed(2)+'" step="0.1" value="'+d.w.toFixed(2)+'" aria-valuetext="'+dzSizeTxt(d.w,hh)+'"></div>'+
       '<div class="dztools"><button type="button" class="btn ghost" id="dzctr">'+DZ_ICON.center+'Centrar</button><button type="button" class="btn ghost" id="dzchg">'+DZ_ICON.swap+'Cambiar imagen</button><button type="button" class="btn ghost rm" id="dzrm">'+DZ_ICON.trash+'Quitar</button></div>';
     box.innerHTML=h;
     $("dzr").oninput=function(){dzResize(p,+this.value);};
-    if($("dzopt")) $("dzopt").onclick=function(){dzResize(p,DZ_ANCHO);};
-    $("dzctr").onclick=function(){var c=dzCm(p); d.x=(c[0]-d.w)/2; if(p!=="d"&&p!=="e") d.y=(c[1]-d.w*d.ar)/2; dzRender();};
+    [].forEach.call(box.querySelectorAll(".dzopt"),function(b){b.onclick=function(){if(b.dataset.chest) dzChest(p); else dzResize(p,+b.dataset.w); dzLive();};});
+    $("dzctr").onclick=function(){var c=dzCm(p), zn=DZ.tpl.z[p]; d.x=(c[0]-d.w)/2; if(zn.c||zn.zoom||zn.v==="s") d.y=(c[1]-d.w*d.ar)/2; dzRender();};
     $("dzchg").onclick=function(){$("dzfile").click();};
     $("dzrm").onclick=function(){dzRemove(p);};
     dzNotes();
   }
   dzSum();
+}
+/* Producto con colocación orientativa o sin foto de esta vista */
+function dzViewNote(){
+  if(DZ.view&&DZ.view.nophoto) return '<p class="dznote dzinfo">'+DZ_ICON.info+'<span>No tenemos foto de esta vista: te mostramos la zona de impresión sobre un fondo del color de la prenda.</span></p>';
+  return DZ.tpl.aprox?'<p class="dzmax">La vista es orientativa: te confirmamos la posición exacta antes de imprimir.</p>':"";
 }
 /* Avisos de calidad: resolución y fondo */
 function dzDpi(d){return d.vec?9999:d.nat[0]/(d.w/2.54);}
@@ -2762,7 +2816,7 @@ function dzLive(){
   var d=DZ.items[DZ.pos]; if(!d) return; var hh=d.w*d.ar;
   var sz=$("dzsz"); if(sz){sz.textContent=dzSizeTxt(d.w,hh); $("dzlb").textContent=dzLabel(d.w,hh);}
   var r=$("dzr"); if(r&&document.activeElement!==r){r.value=d.w.toFixed(2);} if(r) r.setAttribute("aria-valuetext",dzSizeTxt(d.w,hh));
-  var o=$("dzopt"); if(o) o.setAttribute("aria-pressed",Math.abs(d.w-DZ_ANCHO)<.05?"true":"false");
+  [].forEach.call(document.querySelectorAll(".dzopt"),function(o){o.setAttribute("aria-pressed",Math.abs(d.w-(o.dataset.chest?DZ_PECHO:+o.dataset.w))<.05?"true":"false");});
   dzNotes(); dzSum();
 }
 function dzSum(){
@@ -2772,6 +2826,20 @@ function dzSum(){
   var b=$("dzadd"); b.disabled=!used.length;
   b.textContent=cart[cKey(DZ.it)]&&cart[cKey(DZ.it)].dz?"Actualizar en el presupuesto":"Añadir al presupuesto";
   [].forEach.call($("dzseg").children,function(x,i){var p=DZ.tpl.pos[i]; x.classList.toggle("has",!!DZ.items[p]);});
+}
+/* Botones de ancho: recomendado (espalda 28,4 / bolsas 18,7) y logo en el pecho (9,5) */
+function dzChips(p,maxW){
+  var zn=DZ.tpl.z[p], h="", d=DZ.items[p], on=function(w){return d&&Math.abs(d.w-w)<.05?"true":"false";};
+  if(zn.rec&&maxW>=zn.rec-.01) h+='<button type="button" class="dzopt" data-w="'+zn.rec+'" aria-pressed="'+on(zn.rec)+'">Ancho recomendado: '+dzNum(zn.rec)+' cm</button>';
+  if(zn.pecho&&dzCm(p)[0]>=DZ_PECHO-.01) h+='<button type="button" class="dzopt" data-chest="1" aria-pressed="'+on(DZ_PECHO)+'">Logo en el pecho: '+dzNum(DZ_PECHO)+' cm</button>';
+  return h?'<div class="dzopts">'+h+'</div>':"";
+}
+/* Logo en el pecho: 9,5 cm de ancho, arriba en el pecho izquierdo de quien la lleva (a la derecha en la foto) */
+function dzChest(p){
+  var d=DZ.items[p]; if(!d) return; var cm=dzCm(p);
+  d.w=Math.max(Math.min(2,cm[0]),Math.min(DZ_PECHO,cm[0],cm[1]/d.ar));
+  if(cm[0]>=20){d.x=cm[0]/2+7-d.w/2; d.y=3;} else {d.x=(cm[0]-d.w)/2; d.y=DZ.tpl.z[p].c?(cm[1]-d.w*d.ar)/2:2;}
+  dzClamp(d,cm); dzRender();
 }
 function dzResize(p,w){
   var d=DZ.items[p]; if(!d) return; var cm=dzCm(p), maxW=Math.min(cm[0],cm[1]/d.ar);
@@ -2796,10 +2864,14 @@ function dzSetFile(p,file,g){
     var d={file:file,url:url,name:file.name||"imagen",type:type,vec:vec,nat:[nw,nh],ar:nh/nw,im:im,bg:!vec&&!dzAlpha(im,type)};
     var cm=dzCm(p), maxW=Math.min(cm[0],cm[1]/d.ar);
     if(g&&g.w){d.w=Math.min(maxW,g.w); d.x=g.x; d.y=g.y;}
-    else if(p==="e"&&DZ.tpl.key!=="bolsa"){d.w=Math.max(Math.min(2,maxW),Math.min(maxW,DZ_ANCHO)); d.x=(cm[0]-d.w)/2; d.y=Math.min(2,cm[1]-d.w*d.ar);}
-    else if(p==="n"){d.w=maxW; d.x=(cm[0]-d.w)/2; d.y=0;}
-    else if(p==="mi"||p==="md"){d.w=maxW; d.x=(cm[0]-d.w)/2; d.y=(cm[1]-d.w*d.ar)/2;}
-    else {d.w=Math.min(maxW,cm[0]*.8,25); if(d.w*d.ar>cm[1]*.75) d.w=Math.min(d.w,cm[1]*.75/d.ar); d.w=Math.max(Math.min(2,maxW),d.w); d.x=(cm[0]-d.w)/2; d.y=DZ.tpl.key==="bolsa"?(cm[1]-d.w*d.ar)/2:Math.min(2,cm[1]-d.w*d.ar);}
+    else {
+      var zn=DZ.tpl.z[p], mid=zn.c||zn.v==="s";
+      if(zn.rec) d.w=Math.min(maxW,zn.rec);
+      else if(zn.zoom||zn.v==="s"||cm[0]<=12) d.w=maxW;
+      else {d.w=Math.min(maxW,cm[0]*.8,25); if(d.w*d.ar>cm[1]*.75) d.w=Math.min(d.w,cm[1]*.75/d.ar);}
+      d.w=Math.max(Math.min(2,maxW),d.w); d.x=(cm[0]-d.w)/2;
+      d.y=mid||DZ.tpl.key==="bolsa"?(cm[1]-d.w*d.ar)/2:(p==="n"?0:Math.min(2,cm[1]-d.w*d.ar));
+    }
     dzClamp(d,cm);
     DZ.items[p]=d;
     if(p!==DZ.pos){dzSeg(); dzSum(); return;}
@@ -2855,7 +2927,7 @@ function dzDrag(){
 /* ---------- Vista previa para el presupuesto: foto + diseño de cada zona usada, en una sola imagen JPEG ---------- */
 function dzMockup(it,f,ci,items,tpl){
   var used=DZ_ORD.filter(function(p){return items[p];}), TW=300, TH=400;
-  return Promise.all(used.map(function(p){return dzView(it,f,ci,p);})).then(function(vs){
+  return Promise.all(used.map(function(p){return dzView(it,f,ci,p,tpl.key);})).then(function(vs){
     var n=used.length, k=Math.min(1,600/(TW*n)), c=document.createElement("canvas");
     c.width=Math.round(TW*n*k); c.height=Math.round(TH*k);
     var x=c.getContext("2d"); x.fillStyle="#fff"; x.fillRect(0,0,c.width,c.height);
