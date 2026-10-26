@@ -1,0 +1,25 @@
+name: Colores reales (prueba)
+on:
+  push:
+    branches: [prueba-portada]
+    paths: [".github/workflows/colores-hex.yml", "colores-lista.txt", "scripts/colores-hex.mjs"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  medir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save sharp@0.33
+      - run: node scripts/colores-hex.mjs colores-lista.txt colores-hex.json
+      - name: Guardar en la rama
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add colores-hex.json
+          git diff --cached --quiet || git commit -m "Colores reales medidos [skip netlify]"
+          git push
