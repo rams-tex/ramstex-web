@@ -392,11 +392,21 @@ img.pack{object-fit:contain!important;padding:6%}
 .qmeta{color:var(--muted);font-size:var(--fs-xs);margin:2px 0 0;line-height:1.35}
 .qrm{background:none;border:0;color:var(--red-text);font:600 var(--fs-xs) Figtree,sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:2px;padding:6px 0;margin-top:2px}
 .qrm:hover{color:var(--red-hover)}
-.qsz{display:flex;flex-wrap:wrap;gap:8px 6px;margin:12px 0 0;padding:0;border:0;min-width:0}
+.qsz{display:block;margin:12px 0 0;padding:0;border:0;min-width:0}
+.qchips{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.qhint{width:100%;font:600 var(--fs-xs)/1.3 Figtree,sans-serif;color:var(--muted);margin-bottom:2px}
+.qchip{min-width:40px;height:32px;padding:0 10px;border-radius:999px;border:1.5px solid var(--line-strong);background:var(--surface);color:var(--text);font:600 var(--fs-xs)/1 Figtree,sans-serif;cursor:pointer;transition:transform 160ms cubic-bezier(.23,1,.32,1),background-color 150ms ease,border-color 150ms ease,color 150ms ease}
+.qchip[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:var(--on-red)}
+.qchip:active{transform:scale(.95)}
+@media (hover:hover) and (pointer:fine){.qchip:hover{border-color:var(--text)}}
+@media (pointer:coarse){.qchip{height:36px;min-width:44px}}
+@media (prefers-reduced-motion: reduce){.qchip:active{transform:none}}
+.qinputs{display:flex;flex-wrap:wrap;gap:8px 6px;margin-top:10px}
+.qinputs:empty{display:none}
 .qsz legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.qsz label{display:grid;gap:3px;justify-items:center;font:600 var(--fs-xs)/1.2 Figtree,sans-serif;color:var(--muted);min-width:56px}
-.qsz label.wide{justify-items:start}
-.qsz label span{white-space:nowrap}
+.qinputs label{display:grid;gap:3px;justify-items:center;font:600 var(--fs-xs)/1.2 Figtree,sans-serif;color:var(--muted);min-width:56px}
+.qinputs label.wide{justify-items:start}
+.qinputs label span{white-space:nowrap}
 #panel .qsz input{width:56px;height:40px;padding:0 4px;font:500 16px/1 Figtree,sans-serif;text-align:center;font-variant-numeric:tabular-nums;border-radius:8px;background:var(--surface);-moz-appearance:textfield;appearance:textfield}
 #panel .qsz label.wide input{width:96px}
 .qsz input::-webkit-outer-spin-button,.qsz input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
@@ -1449,7 +1459,7 @@ function removeFromCart(it){if(it.cur<0)refKeys(it).forEach(function(k){delete c
 /* Cada línea guarda también la foto, las tallas (de la ficha) y las unidades por talla: {n,c,r,i,cat,zs,zf,q} */
 function addToCart(it,f){
   var c=it.cur<0?"color por decidir":it.k[it.cur][0], id=it.r+"|"+c, old=cart[id]||{};
-  cart[id]={n:it.n,c:c,r:it.r,i:photo(it),cat:it.c,zs:f?sizesOf(it,f):(old.zs||sizesOf(it,null)),zf:f?1:(old.zf||0),q:old.q||{}}; /* si ya estaba, se conservan las unidades */
+  cart[id]={n:it.n,c:c,r:it.r,i:photo(it),cat:it.c,zs:f?sizesOf(it,f):(old.zs||sizesOf(it,null)),zf:f?1:(old.zf||0),q:old.q||{},on:old.on||[]}; /* si ya estaba, se conservan las unidades */
   cartUI();
   if(!cart[id].zf) fichaOf(it,function(f2){var l=cart[id]; if(!l||l.zf) return; var z=sizesOf(it,f2), ch=z.join()!==(l.zs||[]).join(); l.zs=z; l.zf=1; if(ch) cartUI(); else saveCart();});
 }
@@ -1469,6 +1479,7 @@ function lineTotal(l){var q=l.q||{};return lineKeys(l).reduce(function(a,z){retu
 function uds(n){return fmt(n)+(n===1?" ud.":" uds.");}
 function saveCart(){try{localStorage.setItem("ramstex-presupuesto",JSON.stringify(cart));}catch(e){}}
 function bump(){["qbtn","cartbtn"].forEach(function(id){var b=$(id);if(!b)return;b.classList.add("bump");setTimeout(function(){b.classList.remove("bump");},160);});}
+var FOCUSZ=null;
 function cartUI(){
   saveCart();
   var ids=Object.keys(cart), n=ids.length, lbl="Mi presupuesto ("+n+")";
@@ -1495,19 +1506,47 @@ function cartUI(){
     if(!l.zs){fs.innerHTML='<legend>Unidades</legend><p class="qmeta">Cargando tallas…</p>';}
     else {
       fs.innerHTML='<legend>Unidades por talla de '+esc(l.n)+'</legend>';
-      lineKeys(l).forEach(function(z){
-        var lab=document.createElement("label"); if(z==="_") lab.className="wide";
-        var v=(l.q||{})[z];
-        lab.innerHTML='<span>'+esc(z==="_"?"Unidades":zLabel(z))+'</span><input type="number" min="0" step="1" inputmode="numeric" pattern="[0-9]*" placeholder="0" autocomplete="off">';
-        var inp=lab.querySelector("input"); inp.dataset.id=id; inp.dataset.z=z; if(v) {inp.value=v;inp.classList.add("has");}
-        if(z!=="_") inp.setAttribute("aria-label","Talla "+zLabel(z)+", unidades");
-        fs.appendChild(lab);
-      });
+      var keys=lineKeys(l), q=l.q||{};
+      if(keys[0]!=="_"){
+        /* Solo se muestran las tallas que el cliente elige; el resto quedan como botones pequeños */
+        var on=(l.on||[]).filter(function(z){return keys.indexOf(z)>=0;});
+        keys.forEach(function(z){if(+q[z]>0&&on.indexOf(z)<0)on.push(z);});
+        on.sort(function(a,b){return keys.indexOf(a)-keys.indexOf(b);}); l.on=on;
+        var chips=document.createElement("div"); chips.className="qchips"; chips.setAttribute("role","group"); chips.setAttribute("aria-label","Elige tallas");
+        chips.innerHTML='<span class="qhint">'+(on.length?"Tallas:":"Elige las tallas que necesitas:")+'</span>';
+        keys.forEach(function(z){
+          var b=document.createElement("button"); b.type="button"; b.className="qchip"; b.textContent=zLabel(z);
+          b.setAttribute("aria-pressed",on.indexOf(z)>=0?"true":"false"); b.setAttribute("aria-label","Talla "+zLabel(z));
+          b.onclick=function(){
+            var i=l.on.indexOf(z);
+            if(i<0){l.on.push(z); FOCUSZ=[id,z];}
+            else {l.on.splice(i,1); if(l.q) delete l.q[z]; FOCUSZ=[id,"chip:"+z];}
+            cartUI();
+          };
+          chips.appendChild(b);
+        });
+        fs.appendChild(chips);
+        var box=document.createElement("div"); box.className="qinputs";
+        on.forEach(function(z){
+          var lab=document.createElement("label"); var v=q[z];
+          lab.innerHTML='<span>'+esc(zLabel(z))+'</span><input type="number" min="0" step="1" inputmode="numeric" pattern="[0-9]*" placeholder="0" autocomplete="off">';
+          var inp=lab.querySelector("input"); inp.dataset.id=id; inp.dataset.z=z; if(v){inp.value=v;inp.classList.add("has");}
+          inp.setAttribute("aria-label","Talla "+zLabel(z)+", unidades");
+          box.appendChild(lab);
+        });
+        fs.appendChild(box);
+      } else {
+        var lab=document.createElement("label"); lab.className="wide"; var v=q["_"];
+        lab.innerHTML='<span>Unidades</span><input type="number" min="0" step="1" inputmode="numeric" pattern="[0-9]*" placeholder="0" autocomplete="off">';
+        var inp=lab.querySelector("input"); inp.dataset.id=id; inp.dataset.z="_"; if(v){inp.value=v;inp.classList.add("has");}
+        var box=document.createElement("div"); box.className="qinputs"; box.appendChild(lab); fs.appendChild(box);
+      }
     }
     li.appendChild(fs);
     var tot=document.createElement("p"); tot.className="qtot"; tot.setAttribute("aria-live","polite"); li.appendChild(tot);
     ul.appendChild(li);
-    if(keep&&keep[0]===id){var k=fs.querySelector('input[data-z="'+(window.CSS&&CSS.escape?CSS.escape(keep[1]):keep[1])+'"]'); if(k) k.focus();}
+    if(FOCUSZ&&FOCUSZ[0]===id){var fz=FOCUSZ[1], el=fz.indexOf('chip:')===0?[].filter.call(fs.querySelectorAll('.qchip'),function(b){return b.textContent===zLabel(fz.slice(5));})[0]:fs.querySelector('input[data-z="'+(window.CSS&&CSS.escape?CSS.escape(fz):fz)+'"]'); FOCUSZ=null; if(el) el.focus();}
+    else if(keep&&keep[0]===id){var k=fs.querySelector('input[data-z="'+(window.CSS&&CSS.escape?CSS.escape(keep[1]):keep[1])+'"]'); if(k) k.focus();}
   });
   $("none").style.display=n?"none":"block";
   $("pfoot").hidden=!n;
