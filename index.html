@@ -197,15 +197,10 @@ a:not([class]):focus-visible{border-radius:4px}
   .slide[data-pos="out"]{--tx:calc(var(--x0) - 70cqw);--ts:.85;--tr:-6deg;transition:transform .6s cubic-bezier(.4,0,.6,1),opacity .2s ease .38s}
 }
 @keyframes hfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.hplay{position:absolute;right:24px;bottom:8px;width:40px;height:40px;border-radius:50%;border:0;background:var(--surface);color:var(--text);box-shadow:inset 0 0 0 1.5px var(--line-strong);display:grid;place-items:center;cursor:pointer;opacity:1;transition:box-shadow 150ms ease}
 .herob .wrap{position:relative}
-@media (hover:hover) and (pointer:fine){.hplay:hover{box-shadow:inset 0 0 0 1.5px var(--text)}}
-.hplay svg{width:14px;height:14px}
 .herob :focus-visible{outline-color:#fff}
-.hplay:focus-visible{outline-color:var(--red-text)}
 @media (prefers-reduced-motion: reduce){
   .herob,.btn.wht{transition:none}
-  .slide,.words span{transition:opacity .3s ease}
   .prod{animation:none}
 }
 .ctas{display:flex;flex-wrap:wrap;gap:10px}
@@ -631,7 +626,6 @@ img.pack{object-fit:contain!important;padding:6%}
   .hero .ctas{margin-top:18px}
   .stage{--x0:-13cqw;--x1:27cqw;--x2:46cqw;--x3:60cqw;--x4:74cqw;--s1:.46;--s2:.3;--s3:.2}
   .tear{height:clamp(80px,24vw,120px)}
-  .hplay{right:16px;bottom:8px}
   .hero p{font-size:1rem}
   .hero .hsub{font-size:1rem;margin:14px 0}
   .ctas{display:grid;grid-template-columns:1fr 1fr}
@@ -832,7 +826,6 @@ img.pack{object-fit:contain!important;padding:6%}
         </figure>
       </div>
     </div>
-    <button type="button" class="hplay" id="hplay" aria-label="Pausar la animación"><svg viewBox="0 0 24 24" aria-hidden="true"><path id="hplayi" d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/></svg></button>
   </div>
   </div>
 
@@ -1123,7 +1116,6 @@ menu.addEventListener("keydown",function(e){
 (function(){
   var hb=document.getElementById("inicio"); if(!hb||!document.getElementById("stage")) return;
   var slides=[].slice.call(hb.querySelectorAll(".slide")), words=[].slice.call(hb.querySelectorAll(".words span"));
-  var play=document.getElementById("hplay"), icon=document.getElementById("hplayi");
   var meta=document.querySelector('meta[name="theme-color"]');
   var DUR=1400, cur=0, timer=null, hover=false, user=true;
   var rm=window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -1152,7 +1144,7 @@ menu.addEventListener("keydown",function(e){
   /* solo se mueve en el inicio y con la portada a la vista (al cambiar de página o bajar, se para) */
   var vhome=document.getElementById("view-home"), inView=true;
   function homeOn(){return !!vhome&&!vhome.hidden;}
-  function running(){return user&&!hover&&!rm.matches&&!document.hidden&&homeOn()&&inView;}
+  function running(){return !hover&&!document.hidden&&homeOn()&&inView;} /* siempre en bucle automático */
   if("IntersectionObserver" in window) new IntersectionObserver(function(en){var v=en[en.length-1].isIntersecting;if(v!==inView){inView=v;restart();}}).observe(hb);
   function restart(){
     if(meta) meta.setAttribute("content",homeOn()?slides[cur].getAttribute("data-bg"):"#982626");
@@ -1161,13 +1153,12 @@ menu.addEventListener("keydown",function(e){
     if(running()){hb.classList.add("playing");hb.classList.remove("paused");timer=setTimeout(function(){go(cur+1);},DUR);}
     else hb.classList.add("paused");
   }
-  function setUser(on){user=on;play.setAttribute("aria-label",on?"Pausar la animación":"Reproducir la animación");icon.setAttribute("d",on?"M8 5h3v14H8zM13 5h3v14h-3z":"M8 5v14l11-7z");restart();}
-  play.addEventListener("click",function(){setUser(!user);});
   var stage=document.getElementById("stage");
-  [stage].forEach(function(el){
-    el.addEventListener("mouseenter",function(){hover=true;clearTimeout(timer);hb.classList.add("paused");});
-    el.addEventListener("mouseleave",function(){hover=false;restart();});
-  });
+  /* pausa al pasar el ratón solo en ordenador: en el móvil un toque simula "mouseenter" sin "mouseleave" y la dejaba parada */
+  if(window.matchMedia("(hover:hover) and (pointer:fine)").matches){
+    stage.addEventListener("mouseenter",function(){hover=true;clearTimeout(timer);hb.classList.add("paused");});
+    stage.addEventListener("mouseleave",function(){hover=false;restart();});
+  }
   document.addEventListener("visibilitychange",restart);
   if(rm.addEventListener) rm.addEventListener("change",restart);
   /* Swipe en el móvil */
