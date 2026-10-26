@@ -119,8 +119,22 @@ a:not([class]):focus-visible{border-radius:4px}
 .menu a.mi:hover,.menu a.mi:focus-visible{background:var(--tint)}
 .menu a.mi:focus-visible{outline-offset:-3px}
 .menu a.mi[aria-current="page"]{color:var(--red-text)}
-.menu a.mi::after{content:"";width:7px;height:7px;margin-right:3px;border-right:2px solid var(--line-strong);border-top:2px solid var(--line-strong);transform:rotate(45deg)}
-.menu a.mi[aria-current="page"]::after{border-color:var(--red-text)}
+/* Catálogo y Merchandising: la flecha despliega sus categorías principales; el resto de opciones van sin flecha */
+.menu .mrow{display:flex;align-items:center;gap:4px}
+.menu .mrow a.mi{flex:1;min-width:0}
+.menu .mexp{flex:none;width:48px;height:48px;display:grid;place-items:center;border:0;border-radius:10px;background:none;cursor:pointer;color:var(--muted);transition:background-color 120ms ease}
+@media (hover:hover){.menu .mexp:hover{background:var(--tint)}}
+.menu .mexp:focus-visible{background:var(--tint)}
+.menu .mexp:focus-visible{outline-offset:-3px}
+.menu .mexp::before{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-top:2px solid currentColor;transform:translateX(-2px) rotate(45deg);transition:transform 200ms var(--ease-ui)}
+.menu .mexp[aria-expanded="true"]{color:var(--red-text)}
+.menu .mexp[aria-expanded="true"]::before{transform:translateY(-2px) rotate(135deg)}
+.menu .msub{display:flex;flex-direction:column;margin:0 0 6px 14px;padding-left:10px;border-left:2px solid var(--line)}
+.menu a.ms{display:flex;align-items:center;min-height:42px;padding:0 12px;border-radius:10px;text-decoration:none;color:var(--text);font:500 .97rem Figtree,sans-serif;transition:background-color 120ms ease,color 120ms ease}
+.menu a.ms:hover,.menu a.ms:focus-visible{background:var(--tint)}
+.menu a.ms:focus-visible{outline-offset:-3px}
+.menu a.ms.all{color:var(--red-text);font-weight:600}
+@media (prefers-reduced-motion: reduce){.menu .mexp::before{transition:none}}
 .menu .mdiv{border-top:1px solid var(--line);margin:8px 6px}
 .menu .mcta{margin:8px 6px 6px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .menu .mcta .btn{height:44px;padding:0 10px;font-size:.95rem}
@@ -752,8 +766,10 @@ img.pack{object-fit:contain!important;padding:6%}
 <div class="mcatch" id="mcatch" hidden></div>
 <div class="menu" id="menu" hidden>
   <a class="mi" href="/" data-view="home">Inicio</a>
-  <a class="mi" href="/catalogo/" data-view="cat">Catálogo</a>
-  <a class="mi" href="/merchandising/" data-view="merch">Merchandising</a>
+  <div class="mrow"><a class="mi" href="/catalogo/" data-view="cat">Catálogo de ropa</a><button class="mexp" type="button" aria-expanded="false" aria-controls="msub-cat" aria-label="Ver categorías de ropa"></button></div>
+  <div class="msub" id="msub-cat" hidden><a class="ms" href="/catalogo/camisetas/">Camisetas</a><a class="ms" href="/catalogo/sudaderas/">Sudaderas y jerseys</a><a class="ms" href="/catalogo/polos/">Polos</a><a class="ms" href="/catalogo/gorras/">Gorras y gorros</a><a class="ms" href="/catalogo/chaquetas/">Chaquetas y chalecos</a><a class="ms" href="/catalogo/bolsas/">Bolsas y mochilas</a><a class="ms all" href="/catalogo/">Ver todo el catálogo</a></div>
+  <div class="mrow"><a class="mi" href="/merchandising/" data-view="merch">Merchandising</a><button class="mexp" type="button" aria-expanded="false" aria-controls="msub-merch" aria-label="Ver categorías de merchandising"></button></div>
+  <div class="msub" id="msub-merch" hidden><a class="ms" href="/merchandising/tazas-y-botellas/">Tazas, botellas y menaje</a><a class="ms" href="/merchandising/tecnologia/">Tecnología</a><a class="ms" href="/merchandising/bolsas-y-mochilas/">Bolsas, mochilas y viaje</a><a class="ms" href="/merchandising/escritura-y-oficina/">Escritura y oficina</a><a class="ms" href="/merchandising/hogar-y-regalos/">Hogar y regalos</a><a class="ms all" href="/merchandising/">Ver todo el merchandising</a></div>
   <a class="mi" href="/#quienes">Quiénes somos</a>
   <a class="mi" href="/#hacemos">Qué hacemos</a>
   <a class="mi" href="/#proceso">Cómo trabajamos</a>
@@ -1052,7 +1068,15 @@ function menuReflow(){ /* la franja superior se va al desplazar y la cabecera su
   if(mRaf) return;
   mRaf=requestAnimationFrame(function(){mRaf=0; if(!menuOpen()) return; if(mbtn.offsetParent===null){setMenu(false);return;} menuPos();});
 }
-function menuItems(){return [].filter.call(menu.querySelectorAll("a"),function(a){return !a.hidden;});}
+function menuItems(){return [].filter.call(menu.querySelectorAll("a,button.mexp"),function(a){return !a.hidden&&!a.closest("[hidden]");});}
+[].forEach.call(menu.querySelectorAll(".mexp"),function(b){
+  b.addEventListener("click",function(e){
+    e.stopPropagation();
+    var open=b.getAttribute("aria-expanded")!=="true";
+    [].forEach.call(menu.querySelectorAll(".mexp"),function(o){o.setAttribute("aria-expanded","false");document.getElementById(o.getAttribute("aria-controls")).hidden=true;}); /* una abierta a la vez */
+    b.setAttribute("aria-expanded",open); document.getElementById(b.getAttribute("aria-controls")).hidden=!open;
+  });
+});
 function setMenu(open){
   if(open===menuOpen()) return;
   clearTimeout(mTimer);
@@ -1069,7 +1093,7 @@ function setMenu(open){
   } else {
     mcatch.hidden=true;
     window.removeEventListener("scroll",menuReflow); window.removeEventListener("resize",menuReflow);
-    var done=function(){if(menuOpen()) return; menu.hidden=true; menu.classList.remove("closing");};
+    var done=function(){if(menuOpen()) return; menu.hidden=true; menu.classList.remove("closing"); [].forEach.call(menu.querySelectorAll(".mexp"),function(b){b.setAttribute("aria-expanded","false");document.getElementById(b.getAttribute("aria-controls")).hidden=true;});};
     if(menu.hidden) return;
     menu.classList.add("closing");
     var te=function(e){if(e.target===menu&&e.propertyName==="opacity"){menu.removeEventListener("transitionend",te);done();}};
