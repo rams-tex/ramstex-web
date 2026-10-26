@@ -1,0 +1,23 @@
+== https://cdn.europeancatalog.com/packshots/PS_K356_WHITE.png?w=700
+HTTP/2 200 
+content-type: image/png
+== https://cdn.toptex.com/packshots/PS_K356_WHITE.png
+HTTP/2 200 
+content-type: image/png
+== https://s7g3.scene7.com/is/image/soloinvest/n11380102A?wid=700
+HTTP/2 200 
+access-control-allow-origin: *
+content-type: image/jpeg
+== https://static.gorfactory.es/images/models/6502/views/large/p_6502_01_1_1.jpg
+HTTP/2 200 
+content-type: image/jpeg
+access-control-expose-headers: x-ms-request-id,Server,x-ms-version,Content-Type,ETag,Last-Modified,Content-MD5,x-ms-lease-status,x-ms-blob-type,Content-Length,Date,Transfer-Encoding
+access-control-allow-origin: *
+== https://s3-eu-west-1.amazonaws.com/resources.jhktshirt.com/pictures/sku/jhktshirt_tsra150_wh.jpg
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, PUT, POST, DELETE, HEAD
+Content-Type: image/jpeg
+== https://download.falk-ross.eu/ws/picture/100_54_000_f-2022_01.jpg
+HTTP/1.1 200 OK
+Content-Type: image/jpeg
