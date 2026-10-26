@@ -719,6 +719,118 @@ img.pack{object-fit:contain!important;padding:6%}
   .cartbtn .qn{position:absolute;top:-6px;right:-6px;background:var(--surface);color:var(--red-text);box-shadow:inset 0 0 0 1.5px var(--red)}
   .pbtns .btn{font-size:.95rem}
 }
+/* ---------- Diseñador (prueba tu logo sobre la prenda) ---------- */
+:root{--warn-bg:#FFF4D6;--warn-line:#E3B341;--warn-text:#5C4200}
+.pgal .big{position:relative}
+.pdzov{display:none}
+.dzbtn svg,.pdzov svg{width:18px;height:18px;flex:none;margin-right:8px}
+.dz{position:fixed;inset:0;z-index:45;background:var(--bg);display:flex;flex-direction:column;overflow:hidden;padding-top:env(safe-area-inset-top,0px)}
+.dz[hidden]{display:none}
+.dz ::selection{background:color-mix(in srgb,var(--red) 22%,transparent)}
+.dzhead{flex:none;display:flex;align-items:center;gap:14px;height:60px;padding:0 24px;border-bottom:1px solid var(--line);background:var(--surface)}
+.dzback{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px 0 8px;margin-left:-8px;border:0;border-radius:999px;background:none;color:var(--text);font:600 var(--fs-s) Figtree,sans-serif;cursor:pointer;transition:background-color 150ms ease}
+.dzback svg{width:20px;height:20px}
+@media (hover:hover) and (pointer:fine){.dzback:hover{background:var(--tint)}}
+.dzhd{min-width:0}
+.dzhd h2{font-size:var(--fs-m);font-weight:700;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dzhd p{margin:1px 0 0;font-size:var(--fs-xs);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dzmain{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 400px}
+.dzleft{min-width:0;min-height:0;display:flex;flex-direction:column;padding:20px 24px 24px;gap:14px}
+.dzseg{flex:none;display:flex;gap:4px;padding:4px;border-radius:999px;background:var(--tint);width:fit-content;max-width:100%;margin:0 auto}
+.dzseg button{position:relative;flex:1 1 0;min-width:0;height:38px;padding:0 16px;border:0;border-radius:999px;background:transparent;color:var(--muted);font:600 var(--fs-s)/1 Figtree,sans-serif;cursor:pointer;white-space:nowrap;transition:background-color 150ms ease,color 150ms ease,box-shadow 150ms ease}
+.dzseg button[aria-selected="true"]{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(17,17,17,.12),0 1px 1px rgba(17,17,17,.06)}
+.dzseg button.has::after{content:"";position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--red)}
+@media (hover:hover) and (pointer:fine){.dzseg button:not([aria-selected="true"]):hover{color:var(--text)}}
+.dzstage{position:relative;flex:1;min-height:0;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line);overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+.dzph{position:absolute;left:0;top:0;max-width:none;transform-origin:50% 50%;pointer-events:none;-webkit-user-drag:none;opacity:1;transition:opacity 200ms ease}
+.dzph.loading{opacity:.35}
+.dzph.flip{transform:scaleX(-1)}
+.dzarea{position:absolute;border:1.5px dashed rgba(17,17,17,.42);border-radius:4px;pointer-events:none}
+.dzarea.lt{border-color:rgba(255,255,255,.75)}
+.dzarea span{position:absolute;left:0;bottom:100%;margin-bottom:5px;padding:2px 7px;border-radius:999px;background:rgba(255,255,255,.92);color:#3A3A3A;font:600 11px/1.3 Figtree,sans-serif;white-space:nowrap;font-variant-numeric:tabular-nums;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.dzarea.low span{bottom:auto;top:100%;margin:5px 0 0}
+.dzitem{position:absolute;left:0;top:0;cursor:grab;touch-action:none;outline:0}
+.dzitem img{display:block;width:100%;height:100%;pointer-events:none;-webkit-user-drag:none}
+.dzitem::before{content:"";position:absolute;inset:-1px;border:1.5px solid var(--red);border-radius:2px;opacity:0;transition:opacity 150ms ease;pointer-events:none}
+.dzitem.sel::before,.dzitem:focus-visible::before{opacity:1}
+.dzitem:focus-visible{box-shadow:0 0 0 4px color-mix(in srgb,var(--red) 30%,transparent)}
+.dzitem.drag{cursor:grabbing}
+.dzhandle{position:absolute;right:-13px;bottom:-13px;width:26px;height:26px;border-radius:50%;background:var(--red);border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.28);cursor:nwse-resize;touch-action:none;display:grid;place-items:center;opacity:0;transition:opacity 150ms ease}
+.dzhandle svg{width:12px;height:12px;color:#fff}
+.dzhandle::after{content:"";position:absolute;inset:-10px;border-radius:50%}
+.dzitem.sel .dzhandle{opacity:1}
+.dzempty{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);margin:0;padding:8px 14px;border-radius:999px;background:rgba(20,20,20,.78);color:#fff;font:500 var(--fs-xs)/1.3 Figtree,sans-serif;white-space:nowrap;pointer-events:none}
+.dzmeasure{position:absolute;left:50%;top:12px;transform:translateX(-50%);padding:5px 12px;border-radius:999px;background:var(--ink);color:var(--on-ink);font:600 var(--fs-xs)/1.2 Figtree,sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 150ms ease}
+.dzmeasure.on{opacity:1}
+.dzright{min-height:0;overflow-y:auto;overscroll-behavior:contain;overflow-anchor:none;border-left:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column}
+.dzpad{padding:22px 24px;display:flex;flex-direction:column;gap:24px}
+.dz section{padding:0;margin:0}
+.dzsec h3{font:700 var(--fs-s)/1.2 Figtree,sans-serif;letter-spacing:0;margin:0 0 10px;color:var(--text)}
+.dzsec h3 span{font-weight:500;color:var(--muted)}
+.dzdots{display:flex;flex-wrap:wrap;gap:8px}
+.dzdots .dot{width:30px;height:30px}
+.dzup{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:100%;min-height:132px;padding:18px;border:1.5px dashed var(--line-strong);border-radius:var(--r-m);background:var(--bg);color:var(--text);font:inherit;cursor:pointer;text-align:center;transition:border-color 150ms ease,background-color 150ms ease}
+.dzup b{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 20px;border-radius:999px;background:var(--red);color:var(--on-red);font:600 1rem/1 Figtree,sans-serif}
+.dzup b svg{width:18px;height:18px}
+.dzup small{display:block;color:var(--muted);font-size:var(--fs-xs);line-height:1.45;max-width:34ch}
+.dzup.over{border-color:var(--red-text);background:color-mix(in srgb,var(--red) 5%,var(--bg))}
+@media (hover:hover) and (pointer:fine){.dzup:hover{border-color:var(--text)}.dzup:hover b{background:var(--red-hover)}}
+.dzreuse{margin-top:10px;width:100%}
+.dzsize{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 4px}
+.dzsize b{font:700 var(--fs-xl)/1.1 "Bricolage Grotesque",Figtree,sans-serif;letter-spacing:-0.02em;font-variant-numeric:tabular-nums}
+.dzchip{flex:none;display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;background:color-mix(in srgb,var(--red) 9%,transparent);color:var(--red-text);font:700 var(--fs-xs)/1 Figtree,sans-serif}
+.dzmax{margin:0 0 14px;color:var(--muted);font-size:var(--fs-xs)}
+.dzopt{display:inline-flex;align-items:center;height:32px;margin:-4px 0 14px;padding:0 12px;border:1.5px solid var(--line-strong);border-radius:999px;background:var(--surface);color:var(--text);font:600 var(--fs-xs)/1 Figtree,sans-serif;font-variant-numeric:tabular-nums;cursor:pointer;transition:border-color 150ms ease,background-color 150ms ease,color 150ms ease}
+.dzopt[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:var(--on-red)}
+@media (hover:hover) and (pointer:fine){.dzopt:not([aria-pressed="true"]):hover{border-color:var(--text)}}
+.dzrange{display:flex;align-items:center;gap:12px}
+.dzrange label{font-size:var(--fs-xs);font-weight:600;color:var(--muted);flex:none}
+.dzrange input{flex:1;min-width:0;accent-color:var(--red);height:32px;margin:0;padding:0;border:0;background:none}
+.dztools{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.dztools .btn{height:var(--h-sm);padding:0 14px;font-size:var(--fs-s)}
+.dztools .btn svg{width:16px;height:16px}
+.dztools .rm{color:var(--red-text)}
+.dznote{margin:6px 0 12px;padding:12px 14px;border-radius:var(--r-s);font-size:var(--fs-xs);line-height:1.45;display:flex;gap:10px;align-items:flex-start}
+.dznote svg{flex:none;width:18px;height:18px;margin-top:-1px}
+.dznote.warn{background:var(--warn-bg);color:var(--warn-text);box-shadow:inset 0 0 0 1px var(--warn-line)}
+.dznote.dzinfo{background:var(--tint);color:#3D3D3D}
+.dzfile{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-size:var(--fs-xs);color:var(--muted);min-width:0}
+.dzfile span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.dzfile i{font-style:normal;flex:none;font-variant-numeric:tabular-nums}
+.dzfoot{margin-top:auto;position:sticky;bottom:0;padding:14px 24px calc(14px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line)}
+.dzsum{margin:0 0 10px;font-size:var(--fs-xs);color:var(--muted);line-height:1.4}
+.dzsum b{color:var(--text);font-weight:600}
+.dzfoot .btn{width:100%}
+.dzerr{margin:8px 0 0;color:var(--red-text);font-size:var(--fs-xs);font-weight:600}
+.dzpdf{margin:12px 0 0;font-size:var(--fs-xs);color:var(--muted);line-height:1.45}
+.dzpdf a{color:var(--red-text);font-weight:600}
+/* presupuesto: diseño de la línea */
+.qdz{display:flex;flex-direction:column;gap:10px;margin:12px 0 0;padding:10px;border-radius:var(--r-s);background:var(--bg);border:1px solid var(--line)}
+.qdz img{display:block;width:100%;height:auto;max-height:180px;object-fit:contain;object-position:left center;border-radius:6px}
+.qdz p{margin:0;font-size:var(--fs-xs);line-height:1.45}
+.qdz p b{display:block;font-weight:700;margin-bottom:2px}
+.qdz .qrm{margin-top:4px}
+@media (prefers-reduced-motion: reduce){.dzph,.dzitem::before,.dzhandle,.dzmeasure{transition:none}}
+@media (max-width:900px){
+  .pdzov{display:inline-flex;position:absolute;left:50%;bottom:12px;transform:translateX(-50%);height:40px;padding:0 16px;border:0;border-radius:999px;background:rgba(255,255,255,.96);color:var(--text);font:600 var(--fs-s)/1 Figtree,sans-serif;align-items:center;cursor:pointer;white-space:nowrap;box-shadow:0 2px 10px rgba(17,17,17,.16),0 0 0 1px rgba(17,17,17,.08);-webkit-tap-highlight-color:transparent;transition:transform 160ms var(--ease-ui)}
+  .pdzov:active{transform:translateX(-50%) scale(.97)}
+  .pdzov svg{color:var(--red-text)}
+  .pbtns .dzbtn{display:none}
+  .dzhead{height:56px;padding:0 16px}
+  .dzmain{display:flex;flex-direction:column}
+  .dzleft{flex:none;height:clamp(290px,50svh,520px);padding:12px 16px 0;gap:10px}
+  .dzseg{width:100%;gap:2px;padding:3px}
+  .dzseg button{flex:1 1 auto;padding:0 5px;font-size:var(--fs-xs);height:36px}
+  .dzseg button.has::after{top:5px;right:3px;width:6px;height:6px}
+  .dzright{flex:1;min-height:0;border-left:0;background:var(--bg)}
+  .dzpad{padding:16px;gap:18px}
+  .dzdots{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:4px 16px}
+  .dzdots::-webkit-scrollbar{display:none}
+  .dzdots .dot{flex:none;width:32px;height:32px}
+  .dzup{min-height:116px}
+  .dzfoot{padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--bg)}
+}
+@media (pointer:coarse){.dzhandle{width:30px;height:30px;right:-15px;bottom:-15px}.dzrange input{height:40px}}
 </style>
 </head>
 <body>
@@ -1715,14 +1827,14 @@ function renderProduct(it){
     (f.cert||[]).forEach(function(c){badges.push(c);});
     if(it.f.indexOf("x")>=0)badges.push("Tallas grandes");
     var specs=[["Referencia",it.r+((it.v||[]).length?" (también "+it.v.join(", ")+")":"")],["Composición",f.comp],["Gramaje",f.peso],["Corte",f.fit],[f.src==="sols"?"Tejido":"Acabado",f.fin],["Cuello",f.neck],["Bolsillos",f.pk],["Impermeable",f.wp],["Colores",it.k.length+" disponibles"],["Personalización",isM(it.c)?"Impresión o grabado con tu logo (según el artículo)":"Estampado, bordado, serigrafía o DTF"]].filter(function(s){return s[1];});
-    var wa="https://wa.me/34682368645?text="+encodeURIComponent("Hola, me interesa este producto del catálogo: "+it.n+" (ref. "+it.r+")");
+    var wa="https://wa.me/34682368645?text="+encodeURIComponent("Hola, me interesa este producto del catálogo: "+it.n+" (ref. "+it.r+")"), dzt=dzTpl(it);
     box.innerHTML=backA+
-     '<div class="pd"><div class="pgal"><div class="big"><img alt="'+esc(it.n)+'"></div><div class="thumbs"></div></div>'+
+     '<div class="pd"><div class="pgal"><div class="big"><img alt="'+esc(it.n)+'">'+(dzt?'<button type="button" class="pdzov">'+DZ_ICON.shirt+'Diseñar con tu logo</button>':'')+'</div><div class="thumbs"></div></div>'+
      '<div class="pinfo"><h1>'+esc(it.n)+'</h1><div class="meta">'+esc(D.subs[it.s])+(gen?" · "+esc(gen):"")+' · Ref. '+esc(it.r)+'</div>'+
      '<h2 class="pcol"></h2><div class="dh"></div>'+
      (badges.length?'<div class="badges">'+badges.map(function(b){return "<span>"+esc(b)+"</span>";}).join("")+'</div>':"")+
      '<h2 class="pqh">Unidades por talla</h2><div class="pq" id="pq"></div>'+
-     '<div class="pbtns"><button class="btn" type="button" id="padd">Añadir<span class="lg">&nbsp;a mi presupuesto</span></button><a class="btn ghost" href="'+wa+'" target="_blank" rel="noopener"><span class="lg">Preguntar por&nbsp;</span>WhatsApp</a></div>'+
+     '<div class="pbtns"><button class="btn" type="button" id="padd">Añadir<span class="lg">&nbsp;a mi presupuesto</span></button>'+(dzt?'<button class="btn ghost dzbtn" type="button" id="pdz">'+DZ_ICON.shirt+'Diseñar con tu logo</button>':'')+'<a class="btn ghost" href="'+wa+'" target="_blank" rel="noopener"><span class="lg">Preguntar por&nbsp;</span>WhatsApp</a></div>'+
      '<div class="pother" id="pother" hidden></div>'+
      (f.d?'<p class="desc">'+esc(f.d)+'</p>':"")+
      ((f.a||[]).length?'<ul class="args">'+f.a.map(function(a){return "<li>"+esc(a)+"</li>";}).join("")+'</ul>':"")+
@@ -1797,6 +1909,9 @@ function renderProduct(it){
     };
     var _upd=upd; upd=function(){_upd(); pqDraw(); otherDraw();};
     upd();
+    /* Diseñador: botones de la ficha y apertura directa con ?disenar */
+    [].forEach.call(box.querySelectorAll(".pdzov,#pdz"),function(b){b.onclick=function(){dzOpen(true,b);};});
+    if(dzt) dzReady(it,f,upd); else DZP=null;
     var rel=ITEMS.filter(function(x){return x.s===it.s&&x!==it;}).slice(0,4);
     if(rel.length){var r=$("related");r.innerHTML='<h2>También te puede interesar</h2><div class="grid"></div>';rel.forEach(function(x){x.cur=-1;r.querySelector(".grid").appendChild(card(x));});}
   });
@@ -1850,7 +1965,7 @@ function showUndo(msg,undo){
 /* Cada línea guarda también la foto, las tallas (de la ficha) y las unidades por talla: {n,c,r,i,cat,zs,zf,q} */
 function addToCart(it,f){
   var c=it.cur<0?"color por decidir":it.k[it.cur][0], id=it.r+"|"+c, old=cart[id]||{};
-  cart[id]={n:it.n,c:c,r:it.r,i:photo(it),cat:it.c,zs:f?sizesOf(it,f):(old.zs||sizesOf(it,null)),zf:f?1:(old.zf||0),q:old.q||{},on:old.on||[]}; /* si ya estaba, se conservan las unidades */
+  cart[id]={n:it.n,c:c,r:it.r,i:photo(it),cat:it.c,zs:f?sizesOf(it,f):(old.zs||sizesOf(it,null)),zf:f?1:(old.zf||0),q:old.q||{},on:old.on||[]}; if(old.dz) cart[id].dz=old.dz; /* si ya estaba, se conservan las unidades */
   cartUI();
   if(!cart[id].zf) fichaOf(it,function(f2){var l=cart[id]; if(!l||l.zf) return; var z=sizesOf(it,f2), ch=z.join()!==(l.zs||[]).join(); l.zs=z; l.zf=1; if(ch) cartUI(); else saveCart();});
 }
@@ -1894,6 +2009,13 @@ function cartUI(){
       var t=nid&&byId(nid);
       ((t&&t.querySelector(".qrm"))||$("close")).focus(); /* el foco no se pierde al quitar */
     };
+    if(l.dz&&l.dz.p){ /* diseño hecho en la web: vista previa y medidas */
+      var dzb=document.createElement("div"); dzb.className="qdz";
+      dzb.innerHTML=(l.dz.img?'<img alt="Vista previa del diseño" src="'+l.dz.img+'">':'')+'<div><p><b>Tu diseño</b>'+esc(dzText(l))+'</p><button type="button" class="qrm">Editar diseño</button></div>';
+      dzb.querySelector(".qrm").setAttribute("aria-label","Editar el diseño de "+l.n+" ("+col+")");
+      dzb.querySelector(".qrm").onclick=function(){dzEdit(id);};
+      li.appendChild(dzb);
+    }
     var fs=document.createElement("fieldset"); fs.className="qsz";
     if(!l.zs){fs.innerHTML='<legend>Unidades</legend><p class="qmeta">Cargando tallas…</p>';}
     else {
@@ -1963,11 +2085,15 @@ function cartTotals(){
     if(!t) out+="\n  Cantidades por definir";
     else if(l.zs&&l.zs.length) out+="\n  Tallas: "+l.zs.filter(function(z){return +q[z]>0;}).map(function(z){return zLabel(z)+": "+q[z];}).join(", ")+"\n  Total: "+uds(t);
     else out+="\n  Unidades: "+fmt(t);
+    if(l.dz&&l.dz.p) out+="\n  Diseño: "+dzText(l);
     return out;
   }).join("\n\n");
   var sum="Total: "+uds(g)+(g&&und?" (más "+und+(und===1?" producto":" productos")+" con cantidades por definir)":"");
   /* con un solo producto, el total general repetiría el de la línea */
-  var txt="Hola, os escribo desde la web de Ramstex. Quería pedir presupuesto de:\n\n"+lines+"\n\n"+(ids.length>1?sum+"\n\n":"")+"Logo/diseño: ";
+  /* con diseños hechos en la web: enlace a los archivos si ya se han subido; si no, se mandan por el chat */
+  var dzIds=ids.filter(function(id){return cart[id].dz&&cart[id].dz.p;}), dzUp=dzIds.map(function(id){return cart[id].dz.up;}).filter(Boolean);
+  var tail=!dzIds.length?"Logo/diseño: ":dzUp.length===dzIds.length?"He preparado el diseño en la web. Archivos y vista previa: "+uniqA(dzUp).join(" "):"He preparado el diseño en la web (detalles arriba). Os envío el logo por aquí.";
+  var txt="Hola, os escribo desde la web de Ramstex. Quería pedir presupuesto de:\n\n"+lines+"\n\n"+(ids.length>1?sum+"\n\n":"")+tail;
   $("send").href="https://wa.me/34682368645?text="+encodeURIComponent(txt);
   $("sendmail").href="mailto:info@ramstex.com?subject="+encodeURIComponent("Presupuesto desde el catálogo")+"&body="+encodeURIComponent(txt);
 }
@@ -2077,7 +2203,13 @@ function pdfQuote(JS,imgs){
     var name=doc.splitTextToSize(l.n||"",TW), nh=name.length*5;
     var sz=keys[0]==="_"?[]:keys.filter(function(z){return +q[z]>0;});
     var CWD=17, per=Math.max(1,Math.floor((CW-IW-7)/CWD)), rows=Math.ceil(sz.length/per);
-    var bodyH=nh+6+(t?(sz.length?rows*13+2:7):7), h=Math.max(IH,bodyH)+10;
+    var bodyH=nh+6+(t?(sz.length?rows*13+2:7):7);
+    /* diseño hecho en la web: medidas y vista previa */
+    doc.setFont("helvetica","normal"); doc.setFontSize(9.5);
+    var dzL=l.dz&&l.dz.p?doc.splitTextToSize("Diseño: "+dzText(l),CW-IW-7):[], dzM=null;
+    if(dzL.length&&l.dz.img){try{var ip=doc.getImageProperties(l.dz.img), MH=38, MW=Math.min(CW-IW-7,MH*ip.width/ip.height); dzM={w:MW,h:MW*ip.height/ip.width};}catch(e){dzM=null;}}
+    if(dzL.length) bodyH+=4+dzL.length*4.3+(dzM?dzM.h+3:0);
+    var h=Math.max(IH,bodyH)+10;
     if(y+h>BOT){doc.addPage(); y=header(false);}
     var y0=y+2;
     /* foto */
@@ -2106,6 +2238,11 @@ function pdfQuote(JS,imgs){
       doc.setFont("helvetica","bold"); doc.setFontSize(8); col(INK); doc.text(zLabel(z),cx+(CWD-1.5)/2,cy+3.9,{align:"center",maxWidth:CWD-2.5});
       doc.setFont("helvetica","normal"); doc.setFontSize(9.5); doc.text(fmt(+q[z]),cx+(CWD-1.5)/2,cy+9.4,{align:"center"});
     });
+    if(dzL.length){
+      var yD=yy+(t&&sz.length?rows*13+1:6);
+      doc.setFont("helvetica","normal"); doc.setFontSize(9.5); col(INK); doc.text(dzL,TX,yD+3.5);
+      if(dzM){var yI=yD+3.5+dzL.length*4.3-1.5; try{doc.addImage(l.dz.img,"JPEG",TX,yI,dzM.w,dzM.h); draw(LINE); doc.setLineWidth(0.3); doc.roundedRect(TX,yI,dzM.w,dzM.h,1.5,1.5,"S");}catch(e){}}
+    }
     y+=h;
     draw(LINE); doc.setLineWidth(0.3); doc.line(M,y-3,PW-M,y-3);
   });
@@ -2121,7 +2258,7 @@ function pdfQuote(JS,imgs){
   doc.setFont("helvetica","normal"); doc.setFontSize(9.5); col(MUT); doc.text(note,M+6,ny+8);
   y+=sh+10;
   doc.setFont("helvetica","bold"); doc.setFontSize(10); col(RED); doc.text("info@ramstex.com · 682 368 645 · ramstex.com",M,y);
-  doc.setFont("helvetica","normal"); doc.setFontSize(9); col(MUT); doc.text("Escríbenos por WhatsApp o correo con tu logo o diseño y lo preparamos.",M,y+5);
+  doc.setFont("helvetica","normal"); doc.setFontSize(9); col(MUT); doc.text(ids.some(function(id){return cart[id].dz&&cart[id].dz.p;})?"La vista previa del diseño es orientativa: revisamos cada diseño antes de imprimir.":"Escríbenos por WhatsApp o correo con tu logo o diseño y lo preparamos.",M,y+5);
   /* pie con número de página en todas */
   var N=doc.getNumberOfPages();
   for(var pgi=1;pgi<=N;pgi++){
@@ -2167,7 +2304,7 @@ function openPanel(from){
   if(!was) panelFrom=from||document.activeElement;
   PANEL.classList.add("open"); SCRIM.classList.add("on"); document.body.style.overflow="hidden";
   /* lo de detrás no se puede tocar ni leer mientras el panel está abierto */
-  if(!was){panelInert=[]; document.querySelectorAll("#view-home,#view-cat,#view-prod,header.top,.topbar,footer,.wa,#menu").forEach(function(el){panelInert.push([el,el.inert]); el.inert=true;});}
+  if(!was){panelInert=[]; document.querySelectorAll("#view-home,#view-cat,#view-prod,header.top,.topbar,footer,.wa,#menu,#dz").forEach(function(el){panelInert.push([el,el.inert]); el.inert=true;});}
   fillLines(); placeToast();
   requestAnimationFrame(function(){$("close").focus();});
 }
@@ -2197,6 +2334,7 @@ SCRIM.onclick=closePanel;
 document.addEventListener("keydown",function(e){
   if(e.key==="Escape"){
     if(PANEL.classList.contains("open")){closePanel();e.preventDefault();}
+    else if(DZ.open){dzRequestClose();e.preventDefault();}
     else if(menuOpen()){setMenu(false);e.preventDefault();}
     else if($("side").classList.contains("open")){side(false);e.preventDefault();}
     return;
@@ -2209,6 +2347,621 @@ document.addEventListener("keydown",function(e){
     else if(!PANEL.contains(document.activeElement)){a.focus();e.preventDefault();}
   }
 });
+
+/* ---------- Diseñador: el cliente prueba su logo sobre la prenda (fase 1) ---------- */
+/* Dirección de la app de Google Apps Script que guarda los diseños en Google Drive (ver scripts/apps-script-disenos.gs).
+   Mientras esté vacía no se sube nada: el mensaje de WhatsApp lleva solo los detalles del diseño. */
+var DISENO_URL="";
+var DZ_LBL={d:"Delante",e:"Detrás",n:"Nuca",mi:"Manga izq.",md:"Manga der."}, DZ_ORD=["d","e","n","mi","md"];
+/* Medidas máximas de impresión en cm (ancho × alto): delante y detrás hasta 35×55; mangas y nuca hasta 10×10.
+   DZ_ANCHO: ancho recomendado para la espalda (se propone al colocar un diseño detrás) */
+var DZ_MAX=[35,55], DZ_MANGA=[10,10], DZ_NUCA=[10,10], DZ_ANCHO=28.4;
+/* Plantillas por tipo de prenda.
+   cm: zona máxima [ancho, alto] · t: dónde empieza la zona, en proporción al alto de la prenda en la foto (0 = arriba)
+   dx: desplazamiento hacia el pecho izquierdo de quien la lleva (proporción del ancho del cuerpo)
+   bw: ancho real aproximado del cuerpo de la prenda en cm (sirve para pasar de cm a la foto)
+   nt: dónde va la nuca (centro de la zona, en proporción al alto de la prenda en la foto de espalda) */
+var DZ_TPL={
+  camiseta:{n:"camiseta",bw:52,mangas:1,nt:.12,d:{cm:[30,40],t:.17},e:{cm:[35,45],t:.13}},
+  polo:{n:"polo",bw:52,mangas:1,nt:.13,d:{cm:[26,30],t:.27},e:{cm:[35,45],t:.13}},
+  sudadera:{n:"sudadera",bw:58,mangas:1,nt:.2,d:{cm:[30,22],t:.31},e:{cm:[35,45],t:.22}},
+  cremallera:{n:"sudadera",bw:58,mangas:1,nt:.2,d:{cm:[10,10],t:.31,dx:.24},e:{cm:[35,45],t:.22}},
+  bolsa:{n:"bolsa",bw:38,mangas:0,d:{cm:[30,32],t:.2},e:{cm:[30,32],t:.2}}
+};
+/* Fotos de cada proveedor: si se pueden leer (CORS), dónde está la manga en la foto lateral (proporción del contorno de la prenda),
+   qué manga se ve en esa foto (i/d) y el encuadre habitual si la foto no se puede analizar */
+var DZ_SUP={
+  sols:{cors:1,side:"i",sl:[.53,.19],fr:{x0:.1,y0:.06,x1:.9,y1:.91,bw:.385}},
+  toptex:{cors:0,side:"d",sl:[.6,.21],fr:{x0:.146,y0:.187,x1:.854,y1:.813,bw:.44},sfr:{x0:.315,y0:.187,x1:.685,y1:.813,bw:.37}},
+  roly:{cors:1,side:"i",sl:[.55,.22],fr:{x0:.07,y0:.01,x1:.93,y1:.99,bw:.5}},
+  jhk:{cors:1,side:"i",sl:[.66,.21],fr:{x0:.15,y0:.1,x1:.85,y1:.9,bw:.42}},
+  stanley:{cors:1,side:"i",sl:[.55,.2],fr:{x0:.15,y0:.1,x1:.85,y1:.9,bw:.42}},
+  falkross:{cors:0,side:"i",sl:[.62,.16],fr:{x0:.09,y0:.086,x1:.91,y1:.915,bw:.5},sfr:{x0:.089,y0:.086,x1:.916,y1:.915,bw:.45}}
+};
+var DZ_DEF={cors:0,side:"i",sl:[.55,.2],fr:{x0:.1,y0:.08,x1:.9,y1:.92,bw:.45}};
+var DZ_ICON={
+  shirt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 3.5 16 2a4 4 0 0 1-8 0L3.6 3.5a2 2 0 0 0-1.3 2.2l.6 3.5a1 1 0 0 0 1 .8H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.1a1 1 0 0 0 1-.8l.6-3.5a2 2 0 0 0-1.3-2.2z"/></svg>',
+  up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>',
+  center:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="3"/></svg>',
+  swap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
+  warn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>',
+  info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>',
+  resize:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M11 7h6v6"/></svg>'
+};
+
+/* ¿Se puede diseñar esta prenda? Devuelve la plantilla con sus zonas, o null */
+function dzTpl(it){
+  if(!it||!D) return null;
+  var nm=norm(it.n+" "+(it.st||"")), sub=D.subs[it.s]||"", key="";
+  if(it.c==="camisetas"){if(/^Camisetas/.test(sub)) key="camiseta";}
+  else if(it.c==="polos"){if(sub==="Polos") key="polo";}
+  else if(it.c==="sudaderas"){if(sub==="Sudaderas"&&!/chaqueta|cortaviento|polar|chandal/.test(nm)) key=/cremallera|full ?zip/.test(nm)&&!/1\/4|cuarto|media cremallera|half/.test(nm)?"cremallera":"sudadera";}
+  else if(it.c==="bolsas"){if(sub==="Bolsas"&&/tote|cabas|compra|cordon|lona|algodon|yute|shopper|shopping|gymsac|saco|bolsa de tela/.test(nm)&&!/mochila|rinonera|nevera|termic|neceser|portatil|ordenador|maleta|viaje|deport|bandolera|mensajero|lunch|botella|zapato|herramienta|drysack|impermeable/.test(nm)) key="bolsa";}
+  if(!key) return null;
+  var b=DZ_TPL[key], cap=function(cm){return [Math.min(cm[0],DZ_MAX[0]),Math.min(cm[1],DZ_MAX[1])];};
+  var t={key:key,n:b.n,bw:b.bw,nt:b.nt||.07,d:{cm:cap(b.d.cm),t:b.d.t,dx:b.d.dx||0},e:{cm:cap(b.e.cm),t:b.e.t,dx:0}};
+  t.pos=b.mangas?(it.m!=="Sin mangas"?DZ_ORD.slice():["d","e","n"]):["d","e"];
+  return t;
+}
+/* Qué muestra cada foto del proveedor: f delante, b espalda, s lateral, sl/sr lateral izquierda/derecha, m con modelo */
+function dzKind(st){
+  if(!st) return "";
+  var m;
+  if(isS(st)){if(st.charAt(2)!=="n") return "m"; var L=st.slice(-1); return L==="A"?"f":L==="B"?"b":L==="C"?"s":"m";}
+  if(isR(st)){m=st.match(/\/views\/[^\/]+\/p_[^_]+_[^_]+_(\d+)_\d+$/); if(!m) return "m"; return m[1]==="1"?"f":m[1]==="2"?"b":m[1]==="7"?"s":"o";}
+  if(isJ(st)){if(st.indexOf("J:sku/")!==0) return "m"; return /_back$/.test(st)?"b":/_side$/.test(st)?"s":"f";}
+  if(isT(st)) return /^T:PFM0_/.test(st)?"f":/^T:PBM0_/.test(st)?"b":"m";
+  if(isF(st)){m=st.match(/_(f|b|sl|sr)-\d/); return m?m[1]:"m";}
+  if(st.indexOf("packshots/")===0) return /^packshots\/PS_[^_]*-B(-\d+)?_/.test(st)?"b":/^packshots\/PS_[^_]*-S(-\d+)?_/.test(st)?"s":"f";
+  return "m";
+}
+function dzSup(f){return DZ_SUP[f&&f.src]||DZ_DEF;}
+/* Foto para una zona: {st, kind:"front"|"side", flip} */
+function dzPick(it,f,ci,pos){
+  var list=[it.k[ci][3]].concat((f.cv&&f.cv[ci])||[]), by={};
+  list.forEach(function(st){var k=dzKind(st); if(k&&!by[k]) by[k]=st;});
+  var front=by.f||it.k[ci][3]||it.i;
+  if(pos==="d") return {st:front,kind:"front"};
+  if(pos==="e"||pos==="n") return by.b?{st:by.b,kind:"front"}:{st:front,kind:"front",noback:1};
+  var mine=pos==="mi"?"sl":"sr";
+  if(by[mine]) return {st:by[mine],kind:"side",flip:false};
+  if(by.s) return {st:by.s,kind:"side",flip:dzSup(f).side!==(pos==="mi"?"i":"d")};
+  return {st:front,kind:"sleeve"};
+}
+function dzUrls(st,w){
+  if(isS(st)) return [IMGS+st.slice(2)+"?wid="+w+"&fmt=png-alpha",IMGS+st.slice(2)+"?wid="+w];
+  return srcList(st,w);
+}
+/* Carga la foto; si el proveedor lo permite, con permiso para leerla (para medir la prenda y hacer la vista previa) */
+var DZ_IMG={};
+function dzLoad(st,cors){
+  var key=st+"|"+(cors?1:0); if(DZ_IMG[key]) return DZ_IMG[key];
+  var urls=dzUrls(st,1200);
+  return DZ_IMG[key]=new Promise(function(res){
+    var i=0;
+    (function next(useC){
+      if(i>=urls.length) return res(null);
+      var im=new Image(); im.decoding="async"; if(useC) im.crossOrigin="anonymous";
+      im.onload=function(){res({im:im,cors:!!useC});};
+      im.onerror=function(){if(useC) next(false); else {i++; next(cors);}};
+      im.src=urls[i];
+    })(cors);
+  });
+}
+/* Mide la prenda en la foto: contorno, ancho del cuerpo y si es clara u oscura */
+function dzMeasure(im){
+  try{
+    var W=im.naturalWidth,H=im.naturalHeight,k=Math.min(1,240/Math.max(W,H)),w=Math.max(1,Math.round(W*k)),h=Math.max(1,Math.round(H*k));
+    var c=document.createElement("canvas"); c.width=w; c.height=h; var x=c.getContext("2d",{willReadFrequently:true}); x.drawImage(im,0,0,w,h);
+    var d=x.getImageData(0,0,w,h).data, tr=d[3]<128||d[(w-1)*4+3]<128||d[(w*h-1)*4+3]<128;
+    var on=new Uint8Array(w*h), x0=w, y0=h, x1=-1, y1=-1, lum=0, n=0;
+    for(var yy=0;yy<h;yy++) for(var xx=0;xx<w;xx++){
+      var i=(yy*w+xx)*4, o=tr?d[i+3]>60:(d[i]<249||d[i+1]<249||d[i+2]<249);
+      if(o){on[yy*w+xx]=1; if(xx<x0)x0=xx; if(xx>x1)x1=xx; if(yy<y0)y0=yy; if(yy>y1)y1=yy; lum+=.299*d[i]+.587*d[i+1]+.114*d[i+2]; n++;}
+    }
+    if(x1<0||(y1-y0)<h*.35) return null; /* prenda blanca sobre fondo blanco: no se distingue bien */
+    var cx=Math.round((x0+x1)/2), ws=[];
+    for(var f=.6;f<=.861;f+=.02){var r=Math.round(y0+f*(y1-y0)), L=cx, R=cx; if(!on[r*w+cx]) continue; while(L>0&&on[r*w+L-1])L--; while(R<w-1&&on[r*w+R+1])R++; ws.push(R-L+1);}
+    ws.sort(function(a,b){return a-b;});
+    var bw=ws.length?ws[ws.length>>1]:(x1-x0+1);
+    return {x0:x0/w,y0:y0/h,x1:(x1+1)/w,y1:(y1+1)/h,bw:bw/w,lum:n?lum/n:255,ok:1};
+  }catch(e){return null;}
+}
+/* ¿Prenda oscura? (para que la línea de la zona se vea) */
+function dzHex(k){
+  var hx=/^#[0-9a-f]{6}$/i.test(k[1]||"")?k[1]:"";
+  if(!hx){var t=norm(k[0]); for(var j=0;j<NAMEHEX.length;j++){if(t.indexOf(NAMEHEX[j][0])>=0){hx=NAMEHEX[j][1];break;}}}
+  return hx;
+}
+function dzDark(k,fr){
+  if(fr&&fr.ok) return fr.lum<120;
+  var hx=dzHex(k);
+  if(!hx) return false;
+  var r=parseInt(hx.substr(1,2),16),g=parseInt(hx.substr(3,2),16),b=parseInt(hx.substr(5,2),16);
+  return (.299*r+.587*g+.114*b)<120;
+}
+/* Vista de una zona: foto cargada + encuadre de la prenda */
+var DZ_VIEW={};
+function dzView(it,f,ci,pos){
+  var p=dzPick(it,f,ci,pos), sup=dzSup(f), key=p.st+"|"+p.kind+"|"+(p.flip?1:0);
+  if(DZ_VIEW[key]) return DZ_VIEW[key];
+  var cors=!!sup.cors||isT(p.st);
+  return DZ_VIEW[key]=dzLoad(p.st,cors).then(function(r){
+    if(!r) return null;
+    var fr=r.cors?dzMeasure(r.im):null;
+    if(!fr) fr=Object.assign({},(p.kind==="side"&&sup.sfr)||(p.kind==="side"?{x0:.3,y0:sup.fr.y0,x1:.7,y1:sup.fr.y1,bw:.4}:sup.fr));
+    if(p.flip){var a=1-fr.x1; fr.x1=1-fr.x0; fr.x0=a;}
+    return {im:r.im,cors:r.cors,fr:fr,kind:p.kind,flip:!!p.flip,noback:!!p.noback,st:p.st};
+  });
+}
+/* Geometría: dónde va la foto y la zona de impresión dentro de un recuadro SW×SH */
+function dzGeom(v,tpl,pos,SW,SH){
+  var im=v.im, W=im.naturalWidth||1000, H=im.naturalHeight||1000, fr=v.fr, z, ox, oy, a, s, cx, cy, aw, ah, cm;
+  if(pos==="d"||pos==="e"){
+    var zp=tpl[pos]; cm=zp.cm; s=fr.bw*W/tpl.bw; aw=cm[0]*s; ah=cm[1]*s;
+    cx=(fr.x0+fr.x1)/2*W+(pos==="d"?zp.dx*fr.bw*W:0); var ay=(fr.y0+zp.t*(fr.y1-fr.y0))*H;
+    a={x:cx-aw/2,y:ay,w:aw,h:ah};
+    var gw=(fr.x1-fr.x0)*W, gh=(fr.y1-fr.y0)*H;
+    z=Math.min(SW*.88/gw,SH*.9/gh); ox=SW/2-(fr.x0+fr.x1)/2*W*z; oy=SH/2-(fr.y0+fr.y1)/2*H*z;
+  } else if(pos==="n"){
+    cm=DZ_NUCA; s=fr.bw*W/tpl.bw; aw=cm[0]*s; ah=cm[1]*s;
+    cx=(fr.x0+fr.x1)/2*W; cy=(fr.y0+tpl.nt*(fr.y1-fr.y0))*H;
+    a={x:cx-aw/2,y:cy-ah/2,w:aw,h:ah};
+    z=Math.min(Math.min(SW,SH)*.38/aw,2.2); ox=SW/2-cx*z; oy=SH/2-cy*z;
+  } else {
+    cm=DZ_MANGA;
+    if(v.kind==="side"){
+      s=(fr.y1-fr.y0)*H*.46/tpl.bw; var sl=DZ_SUP[v.sup]?DZ_SUP[v.sup].sl:DZ_DEF.sl;
+      var sx=v.flip?1-sl[0]:sl[0]; cx=(fr.x0+sx*(fr.x1-fr.x0))*W; cy=(fr.y0+sl[1]*(fr.y1-fr.y0))*H;
+    } else {
+      s=fr.bw*W/tpl.bw; var gx=fr.x1-fr.x0;
+      cx=(pos==="mi"?fr.x1-.1*gx:fr.x0+.1*gx)*W; cy=(fr.y0+.2*(fr.y1-fr.y0))*H;
+    }
+    aw=cm[0]*s; ah=cm[1]*s; a={x:cx-aw/2,y:cy-ah/2,w:aw,h:ah};
+    z=Math.min(Math.min(SW,SH)*.38/aw,2.2); ox=SW/2-cx*z; oy=SH/2-cy*z;
+  }
+  return {z:z,ox:ox,oy:oy,W:W,H:H,cm:cm,ax:ox+a.x*z,ay:oy+a.y*z,aw:a.w*z,ah:a.h*z,sc:s*z};
+}
+function dzCm(pos){return pos==="d"||pos==="e"?DZ.tpl[pos].cm:pos==="n"?DZ_NUCA:DZ_MANGA;}
+function dzNum(v){var r=Math.round(v*10)/10; return (r%1?r.toFixed(1).replace(".",","):String(r));}
+function dzSizeTxt(w,h){return dzNum(w)+" × "+dzNum(h)+" cm";}
+function dzLabel(w,h){
+  var a=Math.min(w,h)-.05, b=Math.max(w,h)-.05;
+  return a<=10&&b<=10?"Pequeño":a<=21&&b<=29.7?"Mediano":a<=29.7&&b<=42?"Grande":"Extragrande";
+}
+function dzPosTxt(pos,w,h){return DZ_LBL[pos]+": "+dzSizeTxt(w,h)+" ("+dzLabel(w,h)+")";}
+/* Texto del diseño de una línea del presupuesto: «Delante: 24 × 18 cm (Mediano) · Manga izq.: 7 × 7 cm (Pequeño)» */
+function dzText(l){
+  if(!l||!l.dz||!l.dz.p) return "";
+  return DZ_ORD.filter(function(p){return l.dz.p[p];}).map(function(p){var d=l.dz.p[p]; return dzPosTxt(p,d.w,d.h);}).join(" · ");
+}
+
+/* ---------- Archivos originales: en memoria y en IndexedDB (no en localStorage) hasta que se envían ---------- */
+var DZF={}, dzDBp=null;
+function dzDB(){
+  if(!dzDBp) dzDBp=new Promise(function(res,rej){
+    try{var r=indexedDB.open("ramstex-disenos",1); r.onupgradeneeded=function(){r.result.createObjectStore("f");}; r.onsuccess=function(){res(r.result);}; r.onerror=function(){rej(r.error);};}catch(e){rej(e);}
+  });
+  return dzDBp;
+}
+function dzStore(mode,fn){return dzDB().then(function(db){return new Promise(function(res){var t=db.transaction("f",mode), st=t.objectStore("f"), out=fn(st); t.oncomplete=function(){res(out&&out.result!==undefined?out.result:true);}; t.onerror=t.onabort=function(){res(null);};});}).catch(function(){return null;});}
+function dzPutFile(key,file){if(file) DZF[key]=file; else delete DZF[key]; return dzStore("readwrite",function(st){return file?st.put(file,key):st.delete(key);});}
+function dzGetFile(key){if(DZF[key]) return Promise.resolve(DZF[key]); return dzStore("readonly",function(st){return st.get(key);}).then(function(f){if(f) DZF[key]=f; return f||null;});}
+/* Se borran los archivos de líneas que ya no están en el presupuesto */
+function dzPrune(){
+  dzStore("readonly",function(st){return st.getAllKeys();}).then(function(keys){
+    (keys||[]).forEach(function(k){var i=k.lastIndexOf("|"), id=k.slice(0,i), p=k.slice(i+1); var l=cart[id]; if(!l||!l.dz||!l.dz.p||!l.dz.p[p]) dzPutFile(k,null);});
+  });
+}
+
+/* ---------- Estado y vista del diseñador ---------- */
+var DZ={open:false,items:{},pos:"d"}, DZP=null, dzInert=[];
+function dzBuild(){
+  if($("dz")) return;
+  var el=document.createElement("div"); el.className="dz"; el.id="dz"; el.hidden=true;
+  el.setAttribute("role","dialog"); el.setAttribute("aria-modal","true"); el.setAttribute("aria-labelledby","dztitle");
+  el.innerHTML='<div class="dzhead"><button class="dzback" id="dzclose" type="button">'+DZ_ICON.back+'Volver</button><div class="dzhd"><h2 id="dztitle"></h2><p id="dzsub"></p></div></div>'+
+    '<div class="dzmain"><div class="dzleft"><div class="dzseg" id="dzseg" role="tablist" aria-label="Zona"></div>'+
+    '<div class="dzstage" id="dzstage" role="tabpanel"><div class="dzarea" id="dzarea"><span id="dzalbl"></span></div><div class="dzitem" id="dzitem" tabindex="0" role="img" hidden><img alt=""><span class="dzhandle" id="dzhandle" aria-hidden="true">'+DZ_ICON.resize+'</span></div><p class="dzempty" id="dzempty">Sube tu logo para verlo en la prenda</p><p class="dzmeasure" id="dzmeasure" aria-hidden="true"></p></div></div>'+
+    '<div class="dzright"><div class="dzpad"><section class="dzsec"><h3>Color: <span id="dzcolname"></span></h3><div class="dzdots" id="dzdots" role="radiogroup" aria-label="Color"></div></section>'+
+    '<section class="dzsec" id="dztool" aria-live="polite"></section></div>'+
+    '<div class="dzfoot"><p class="dzsum" id="dzsum"></p><button class="btn" type="button" id="dzadd">Añadir al presupuesto</button><p class="dzerr" id="dzerr" role="status" hidden></p></div></div></div>'+
+    '<input type="file" id="dzfile" accept="image/png,image/jpeg,image/svg+xml,image/webp,.png,.jpg,.jpeg,.svg,.webp,application/pdf,.pdf" hidden>';
+  document.body.appendChild(el);
+  $("dzclose").onclick=dzRequestClose;
+  $("dzadd").onclick=dzAdd;
+  $("dzfile").onchange=function(){var f=this.files&&this.files[0]; this.value=""; if(f) dzSetFile(DZ.pos,f);};
+  var stage=$("dzstage");
+  stage.addEventListener("click",function(e){if(!DZ.items[DZ.pos]&&!e.target.closest(".dzitem")) $("dzfile").click(); else if(!e.target.closest(".dzitem")) $("dzitem").classList.remove("sel");});
+  ["dragover","dragenter"].forEach(function(t){el.addEventListener(t,function(e){if(e.dataTransfer&&[].indexOf.call(e.dataTransfer.types||[],"Files")>=0){e.preventDefault(); var u=document.querySelector(".dzup"); if(u) u.classList.add("over");}});});
+  el.addEventListener("dragleave",function(e){if(!e.relatedTarget||!el.contains(e.relatedTarget)){var u=document.querySelector(".dzup"); if(u) u.classList.remove("over");}});
+  el.addEventListener("drop",function(e){e.preventDefault(); var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0]; if(f) dzSetFile(DZ.pos,f);});
+  dzDrag();
+  window.addEventListener("resize",function(){if(DZ.open) dzRender();});
+}
+/* Abre el diseñador (from: botón que lo abre; push: añadir al historial para que «Atrás» lo cierre) */
+function dzOpen(push,from){
+  if(!DZP) return; dzBuild();
+  var it=DZP.it, f=DZP.f, tpl=dzTpl(it); if(!tpl) return;
+  if(it.cur<0){var w=-1; it.k.forEach(function(k,i){if(w<0&&/^(white|blanco)\b/i.test(k[0])) w=i;}); it.cur=w<0?0:w; DZP.upd();}
+  var sameProd=DZ.it===it;
+  DZ.it=it; DZ.f=f; DZ.tpl=tpl; DZ.path=pURL(it); DZ.from=from||document.activeElement; DZ.open=true;
+  if(!sameProd){DZ.items={}; DZ.pos="d"; DZ.restored=null;}
+  if(tpl.pos.indexOf(DZ.pos)<0) DZ.pos="d";
+  if(push){history.pushState({dz:1},"",DZ.path+"?disenar="+encodeURIComponent(it.k[it.cur][0])); DZ.pushed=true;} else DZ.pushed=!!(history.state&&history.state.dz);
+  lastRouted=location.href;
+  $("dztitle").textContent="Diseña tu "+tpl.n;
+  $("dzsub").textContent=it.n+" · Ref. "+it.r;
+  var el=$("dz"); el.hidden=false; document.body.style.overflow="hidden";
+  dzInert=[]; document.querySelectorAll("#view-home,#view-cat,#view-prod,header.top,.topbar,footer,.wa,#menu").forEach(function(x){dzInert.push([x,x.inert]); x.inert=true;});
+  dzSeg(); dzDots(); dzShow();
+  dzRestore();
+  requestAnimationFrame(function(){$("dzclose").focus();});
+}
+function dzRequestClose(){
+  if(!DZ.open) return;
+  if(DZ.pushed){history.back(); return;} /* «Atrás» del navegador: lo cierra el popstate */
+  history.replaceState(null,"",DZ.path); lastRouted=location.href; dzClose();
+}
+function dzClose(){
+  if(!DZ.open) return; DZ.open=false;
+  $("dz").hidden=true; document.body.style.overflow="";
+  dzInert.forEach(function(p){p[0].inert=p[1];}); dzInert=[];
+  var after=DZ.after; DZ.after=null;
+  if(after) after();
+  else if(DZ.from&&document.contains(DZ.from)&&DZ.from.offsetParent!==null) DZ.from.focus();
+}
+/* Atrás/adelante del navegador entre la ficha y el diseñador sin volver a pintar la ficha */
+function dzPop(){
+  var want=/[?&]disenar/.test(location.search);
+  if(DZ.open&&(!want||location.pathname!==DZ.path)){dzClose(); if(location.pathname===DZ.path){lastRouted=location.href; return true;} return false;}
+  if(!DZ.open&&want&&DZP&&!VP.hidden&&location.pathname===pURL(DZP.it)){dzFromURL(); DZ.pushed=true; lastRouted=location.href; return true;}
+  return false;
+}
+/* La ficha avisa cuando está lista: si la dirección pide el diseñador, se abre */
+function dzReady(it,f,upd){
+  DZP={it:it,f:f,upd:upd};
+  if(/[?&]disenar/.test(location.search)) dzFromURL();
+}
+function dzFromURL(){
+  var m=location.search.match(/[?&]disenar=([^&]*)/), c=m?decodeURIComponent(m[1].replace(/\+/g," ")):"", it=DZP.it;
+  if(c){for(var i=0;i<it.k.length;i++){if(it.k[i][0]===c){if(it.cur!==i){it.cur=i; DZP.upd();} break;}}}
+  if(!dzTpl(it)){history.replaceState(null,"",pURL(it)); return;}
+  dzOpen(false);
+}
+/* Si este producto y color ya tienen un diseño en el presupuesto, se recupera para seguir editándolo */
+function dzRestore(){
+  var it=DZ.it, id=cKey(it), l=cart[id];
+  if(!l||!l.dz||!l.dz.p||DZ.restored===id) return;
+  if(DZ_ORD.some(function(p){return DZ.items[p];})) return; /* ya está trabajando en uno */
+  DZ.restored=id;
+  DZ_ORD.forEach(function(p){
+    var g=l.dz.p[p]; if(!g||DZ.tpl.pos.indexOf(p)<0) return;
+    dzGetFile(id+"|"+p).then(function(file){
+      if(!file||!DZ.open||DZ.items[p]) return;
+      dzSetFile(p,file,g);
+    });
+  });
+}
+/* Pestañas de zona */
+function dzSeg(){
+  var s=$("dzseg"); s.innerHTML="";
+  DZ.tpl.pos.forEach(function(p){
+    var b=document.createElement("button"); b.type="button"; b.setAttribute("role","tab"); b.id="dzt-"+p; b.textContent=DZ_LBL[p];
+    b.setAttribute("aria-selected",p===DZ.pos?"true":"false"); b.tabIndex=p===DZ.pos?0:-1; b.classList.toggle("has",!!DZ.items[p]);
+    b.setAttribute("aria-label",DZ_LBL[p]+(DZ.items[p]?" (con diseño)":""));
+    b.onclick=function(){dzGo(p);};
+    s.appendChild(b);
+  });
+  $("dzstage").setAttribute("aria-labelledby","dzt-"+DZ.pos);
+}
+document.addEventListener("keydown",function(e){
+  if(!DZ.open||!e.target.closest||!e.target.closest("#dzseg")) return;
+  var ps=DZ.tpl.pos, i=ps.indexOf(DZ.pos), m={ArrowRight:1,ArrowLeft:-1}[e.key];
+  if(!m) return; e.preventDefault(); dzGo(ps[(i+m+ps.length)%ps.length]); $("dzt-"+DZ.pos).focus();
+});
+function dzGo(p){
+  if(p===DZ.pos) return; DZ.pos=p; dzSeg(); dzShow();
+  /* en el móvil, las opciones de la zona quedan a la vista */
+  requestAnimationFrame(function(){var r=document.querySelector(".dzright"), t=$("dztool"); if(r&&t&&r.scrollHeight>r.clientHeight){var off=t.getBoundingClientRect().top-r.getBoundingClientRect().top; if(off<0||off>r.clientHeight*.5) r.scrollTop+=off-14;}});
+}
+/* Colores */
+function dzDots(){
+  var d=$("dzdots"), it=DZ.it; d.innerHTML="";
+  it.k.forEach(function(k,i){
+    var b=document.createElement("button"); b.type="button"; b.className="dot"; b.setAttribute("role","radio"); b.style.background=k[4]; b.title=colES(k[0]); b.setAttribute("aria-label",colES(k[0]));
+    b.setAttribute("aria-checked",i===it.cur?"true":"false"); b.tabIndex=i===it.cur?0:-1;
+    b.onclick=function(){dzColor(i);};
+    d.appendChild(b);
+  });
+  d.onkeydown=function(e){var m={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[e.key]; if(!m) return; e.preventDefault(); var n=it.k.length; dzColor((it.cur+m+n)%n); d.children[it.cur].focus();};
+  $("dzcolname").textContent=colES(it.k[it.cur][0]);
+  var sel=d.children[it.cur]; if(sel&&sel.scrollIntoView) sel.scrollIntoView({block:"nearest",inline:"center"});
+}
+function dzColor(i){
+  var it=DZ.it; if(i===it.cur) return; it.cur=i; DZP.upd();
+  history.replaceState(history.state,"",DZ.path+"?disenar="+encodeURIComponent(it.k[i][0])); lastRouted=location.href;
+  [].forEach.call($("dzdots").children,function(b,j){b.setAttribute("aria-checked",j===i?"true":"false"); b.tabIndex=j===i?0:-1;});
+  $("dzcolname").textContent=colES(it.k[i][0]);
+  DZ.restored=null; dzShow(); dzRestore();
+}
+/* Pinta la foto de la zona actual (cuando carga) y el diseño encima */
+var dzSeq=0;
+function dzShow(){
+  var my=++dzSeq, it=DZ.it, stage=$("dzstage"), old=stage.querySelector(".dzph");
+  if(old) old.classList.add("loading");
+  dzTools();
+  dzView(it,DZ.f,it.cur,DZ.pos).then(function(v){
+    if(my!==dzSeq||!DZ.open) return;
+    if(!v){DZ.view=null; if(old) old.remove(); dzRender(); return;}
+    v.sup=DZ.f.src; DZ.view=v;
+    var ph=v.im.cloneNode(false); ph.className="dzph"+(v.flip?" flip":""); ph.alt=it.n+" ("+colES(it.k[it.cur][0])+"), "+DZ_LBL[DZ.pos].toLowerCase();
+    if(old) old.replaceWith(ph); else stage.insertBefore(ph,stage.firstChild);
+    $("dzarea").classList.toggle("lt",dzDark(it.k[it.cur],v.fr));
+    dzRender();
+  });
+}
+/* Coloca foto, zona e imagen según el tamaño actual del recuadro */
+function dzRender(){
+  var stage=$("dzstage"), v=DZ.view, area=$("dzarea"), item=$("dzitem"), d=DZ.items[DZ.pos], ph=stage.querySelector(".dzph");
+  $("dzempty").hidden=!!d;
+  if(!v||!ph){area.hidden=true; item.hidden=true; return;}
+  var g=dzGeom(v,DZ.tpl,DZ.pos,stage.clientWidth,stage.clientHeight); DZ.g=g;
+  ph.style.width=g.W*g.z+"px"; ph.style.height=g.H*g.z+"px"; ph.style.left=g.ox+"px"; ph.style.top=g.oy+"px";
+  area.hidden=false; area.style.left=g.ax+"px"; area.style.top=g.ay+"px"; area.style.width=g.aw+"px"; area.style.height=g.ah+"px";
+  area.classList.toggle("low",g.ay<30);
+  $("dzalbl").textContent="Zona máx. "+dzSizeTxt(g.cm[0],g.cm[1]);
+  if(!d){item.hidden=true; return;}
+  var im=item.querySelector("img"); if(im.getAttribute("src")!==d.url){im.src=d.url;}
+  item.hidden=false; item.style.left=g.ax+d.x*g.sc+"px"; item.style.top=g.ay+d.y*g.sc+"px"; item.style.width=d.w*g.sc+"px"; item.style.height=d.w*d.ar*g.sc+"px";
+  item.setAttribute("aria-label","Tu imagen "+dzSizeTxt(d.w,d.w*d.ar)+". Flechas para mover, + y − para cambiar el tamaño.");
+}
+/* Panel de herramientas de la zona actual */
+function dzTools(){
+  var box=$("dztool"), p=DZ.pos, d=DZ.items[p], h='<h3>Tu imagen <span>· '+DZ_LBL[p]+'</span></h3>';
+  if(!d){
+    h+='<button type="button" class="dzup" id="dzpick"><b>'+DZ_ICON.up+'Subir imagen</b><small>Lo ideal es un PNG sin fondo. También vale JPG o SVG.</small></button>';
+    var other=DZ_ORD.filter(function(q){return q!==p&&DZ.items[q];})[0];
+    if(other) h+='<button type="button" class="btn ghost dzreuse" id="dzreuse">Usar la misma imagen que en «'+DZ_LBL[other]+'»</button>';
+    h+='<p class="dzpdf">¿Tu logo está en PDF o AI? De momento no se puede ver aquí: mándanoslo por <a href="https://wa.me/34682368645?text='+encodeURIComponent("Hola, os envío mi logo para el presupuesto.")+'" target="_blank" rel="noopener">WhatsApp</a> y lo preparamos.</p>';
+    if(DZ.view&&DZ.view.noback&&p==="e") h+='<p class="dznote dzinfo">'+DZ_ICON.info+'<span>No tenemos foto de la espalda de este color: te mostramos la de delante como referencia.</span></p>';
+    box.innerHTML=h;
+    $("dzpick").onclick=function(){$("dzfile").click();};
+    if(other) $("dzreuse").onclick=function(){var s=DZ.items[other]; dzSetFile(p,s.file);};
+  } else {
+    var cm=dzCm(p), hh=d.w*d.ar, maxW=Math.min(cm[0],cm[1]/d.ar);
+    h+='<p class="dzfile"><span>'+esc(d.name)+'</span><i>'+(d.vec?"Vectorial":fmt(d.nat[0])+" × "+fmt(d.nat[1])+" px")+'</i></p>'+
+      '<div class="dzsize"><b id="dzsz">'+dzSizeTxt(d.w,hh)+'</b><span class="dzchip" id="dzlb">'+dzLabel(d.w,hh)+'</span></div>'+
+      '<div id="dznotes"></div>'+
+      '<p class="dzmax">Máximo en esta zona: '+dzSizeTxt(cm[0],cm[1])+'</p>'+
+      (p==="e"&&DZ.tpl.key!=="bolsa"&&maxW>=DZ_ANCHO-.01?'<button type="button" class="dzopt" id="dzopt" aria-pressed="false">Ancho recomendado: '+dzNum(DZ_ANCHO)+' cm</button>':'')+
+      '<div class="dzrange"><label for="dzr">Tamaño</label><input type="range" id="dzr" min="2" max="'+maxW.toFixed(2)+'" step="0.1" value="'+d.w.toFixed(2)+'" aria-valuetext="'+dzSizeTxt(d.w,hh)+'"></div>'+
+      '<div class="dztools"><button type="button" class="btn ghost" id="dzctr">'+DZ_ICON.center+'Centrar</button><button type="button" class="btn ghost" id="dzchg">'+DZ_ICON.swap+'Cambiar imagen</button><button type="button" class="btn ghost rm" id="dzrm">'+DZ_ICON.trash+'Quitar</button></div>';
+    box.innerHTML=h;
+    $("dzr").oninput=function(){dzResize(p,+this.value);};
+    if($("dzopt")) $("dzopt").onclick=function(){dzResize(p,DZ_ANCHO);};
+    $("dzctr").onclick=function(){var c=dzCm(p); d.x=(c[0]-d.w)/2; if(p!=="d"&&p!=="e") d.y=(c[1]-d.w*d.ar)/2; dzRender();};
+    $("dzchg").onclick=function(){$("dzfile").click();};
+    $("dzrm").onclick=function(){dzRemove(p);};
+    dzNotes();
+  }
+  dzSum();
+}
+/* Avisos de calidad: resolución y fondo */
+function dzDpi(d){return d.vec?9999:d.nat[0]/(d.w/2.54);}
+function dzNotes(){
+  var n=$("dznotes"), d=DZ.items[DZ.pos]; if(!n||!d) return;
+  var h="", dpi=dzDpi(d);
+  if(dpi<150) h+='<p class="dznote warn">'+DZ_ICON.warn+'<span>La imagen tiene poca resolución para este tamaño: se verá pixelada. Súbela más grande o reduce el tamaño.</span></p>';
+  if(d.bg) h+='<p class="dznote dzinfo">'+DZ_ICON.info+'<span>Tu imagen tiene fondo: si no lo quieres, súbela en PNG sin fondo.</span></p>';
+  if(n.innerHTML!==h) n.innerHTML=h;
+}
+function dzLive(){
+  var d=DZ.items[DZ.pos]; if(!d) return; var hh=d.w*d.ar;
+  var sz=$("dzsz"); if(sz){sz.textContent=dzSizeTxt(d.w,hh); $("dzlb").textContent=dzLabel(d.w,hh);}
+  var r=$("dzr"); if(r&&document.activeElement!==r){r.value=d.w.toFixed(2);} if(r) r.setAttribute("aria-valuetext",dzSizeTxt(d.w,hh));
+  var o=$("dzopt"); if(o) o.setAttribute("aria-pressed",Math.abs(d.w-DZ_ANCHO)<.05?"true":"false");
+  dzNotes(); dzSum();
+}
+function dzSum(){
+  var used=DZ_ORD.filter(function(p){return DZ.items[p];});
+  var one=used.length===1&&DZ.items[used[0]];
+  $("dzsum").innerHTML=!used.length?"Sube una imagen en al menos una zona para añadirla al presupuesto.":one?'<b>'+DZ_LBL[used[0]]+':</b> '+dzSizeTxt(one.w,one.w*one.ar)+' ('+dzLabel(one.w,one.w*one.ar)+')':'<b>'+used.length+' zonas con diseño:</b> '+used.map(function(p){return DZ_LBL[p];}).join(", ");
+  var b=$("dzadd"); b.disabled=!used.length;
+  b.textContent=cart[cKey(DZ.it)]&&cart[cKey(DZ.it)].dz?"Actualizar en el presupuesto":"Añadir al presupuesto";
+  [].forEach.call($("dzseg").children,function(x,i){var p=DZ.tpl.pos[i]; x.classList.toggle("has",!!DZ.items[p]);});
+}
+function dzResize(p,w){
+  var d=DZ.items[p]; if(!d) return; var cm=dzCm(p), maxW=Math.min(cm[0],cm[1]/d.ar);
+  var cx=d.x+d.w/2, cy=d.y+d.w*d.ar/2; /* crece desde el centro */
+  d.w=Math.max(Math.min(2,maxW),Math.min(maxW,w)); d.x=cx-d.w/2; d.y=cy-d.w*d.ar/2; dzClamp(d,cm); dzRender(); dzLive();
+}
+function dzClamp(d,cm){d.x=Math.max(0,Math.min(cm[0]-d.w,d.x)); d.y=Math.max(0,Math.min(cm[1]-d.w*d.ar,d.y));}
+function dzRemove(p){var d=DZ.items[p]; delete DZ.items[p]; if(d&&!DZ_ORD.some(function(q){return DZ.items[q]&&DZ.items[q].url===d.url;})) URL.revokeObjectURL(d.url); dzSeg(); dzTools(); dzRender(); var u=$("dzpick"); if(u) u.focus();}
+/* Imagen elegida: se comprueba el formato, se mide y se coloca en la zona */
+var DZ_TYPES=/^image\/(png|jpeg|svg\+xml|webp)$/;
+function dzErr(msg){var e=$("dzerr"); e.textContent=msg; e.hidden=!msg; if(msg){clearTimeout(dzErr.t); dzErr.t=setTimeout(function(){e.hidden=true;},7000);}}
+function dzSetFile(p,file,g){
+  dzErr("");
+  var type=file.type||(/\.svg$/i.test(file.name)?"image/svg+xml":/\.png$/i.test(file.name)?"image/png":/\.jpe?g$/i.test(file.name)?"image/jpeg":"");
+  if(type==="application/pdf"||/\.(pdf|ai|eps)$/i.test(file.name)) return dzErr("Los archivos PDF o AI aún no se pueden ver aquí. Expórtalo a PNG o mándanoslo por WhatsApp con el presupuesto.");
+  if(!DZ_TYPES.test(type)) return dzErr("Formato no admitido. Sube un PNG, JPG o SVG.");
+  if(file.size>25*1024*1024) return dzErr("La imagen pesa demasiado (máximo 25 MB).");
+  var reuse=DZ_ORD.map(function(q){return DZ.items[q];}).filter(function(x){return x&&x.file===file;})[0];
+  var url=reuse?reuse.url:URL.createObjectURL(file), im=new Image();
+  im.onload=function(){
+    var vec=type==="image/svg+xml", nw=im.naturalWidth||1000, nh=im.naturalHeight||1000;
+    var d={file:file,url:url,name:file.name||"imagen",type:type,vec:vec,nat:[nw,nh],ar:nh/nw,im:im,bg:!vec&&!dzAlpha(im,type)};
+    var cm=dzCm(p), maxW=Math.min(cm[0],cm[1]/d.ar);
+    if(g&&g.w){d.w=Math.min(maxW,g.w); d.x=g.x; d.y=g.y;}
+    else if(p==="e"&&DZ.tpl.key!=="bolsa"){d.w=Math.max(Math.min(2,maxW),Math.min(maxW,DZ_ANCHO)); d.x=(cm[0]-d.w)/2; d.y=Math.min(2,cm[1]-d.w*d.ar);}
+    else if(p==="n"){d.w=maxW; d.x=(cm[0]-d.w)/2; d.y=0;}
+    else if(p==="mi"||p==="md"){d.w=maxW; d.x=(cm[0]-d.w)/2; d.y=(cm[1]-d.w*d.ar)/2;}
+    else {d.w=Math.min(maxW,cm[0]*.8,25); if(d.w*d.ar>cm[1]*.75) d.w=Math.min(d.w,cm[1]*.75/d.ar); d.w=Math.max(Math.min(2,maxW),d.w); d.x=(cm[0]-d.w)/2; d.y=DZ.tpl.key==="bolsa"?(cm[1]-d.w*d.ar)/2:Math.min(2,cm[1]-d.w*d.ar);}
+    dzClamp(d,cm);
+    DZ.items[p]=d;
+    if(p!==DZ.pos){dzSeg(); dzSum(); return;}
+    dzSeg(); dzTools(); dzRender(); $("dzitem").classList.add("sel");
+  };
+  im.onerror=function(){if(!reuse) URL.revokeObjectURL(url); dzErr("No hemos podido abrir esta imagen. Prueba con otro archivo PNG o JPG.");};
+  im.src=url;
+}
+/* ¿La imagen tiene transparencia? Se miran los bordes */
+function dzAlpha(im,type){
+  if(type==="image/jpeg") return false;
+  try{
+    var W=im.naturalWidth,H=im.naturalHeight,k=Math.min(1,200/Math.max(W,H)),w=Math.max(2,Math.round(W*k)),h=Math.max(2,Math.round(H*k));
+    var c=document.createElement("canvas"); c.width=w; c.height=h; var x=c.getContext("2d",{willReadFrequently:true}); x.drawImage(im,0,0,w,h);
+    var d=x.getImageData(0,0,w,h).data, a=function(xx,yy){return d[(yy*w+xx)*4+3];};
+    for(var i=0;i<w;i++){if(a(i,0)<250||a(i,h-1)<250) return true;}
+    for(var j=0;j<h;j++){if(a(0,j)<250||a(w-1,j)<250) return true;}
+    return false;
+  }catch(e){return true;}
+}
+/* Arrastrar para mover y la esquina para cambiar el tamaño (ratón y dedo), y teclado */
+function dzDrag(){
+  var item=$("dzitem"), st=null;
+  function measure(on){var d=DZ.items[DZ.pos], m=$("dzmeasure"); if(!d) return; m.textContent=dzSizeTxt(d.w,d.w*d.ar); m.classList.toggle("on",!!on);}
+  item.addEventListener("pointerdown",function(e){
+    var d=DZ.items[DZ.pos]; if(!d||!DZ.g||(e.pointerType==="mouse"&&e.button)) return;
+    e.preventDefault(); item.classList.add("sel"); item.focus({preventScroll:true});
+    st={id:e.pointerId,x:e.clientX,y:e.clientY,dx:d.x,dy:d.y,w:d.w,rs:!!e.target.closest(".dzhandle")};
+    item.setPointerCapture(e.pointerId); item.classList.add("drag"); measure(st.rs);
+  });
+  item.addEventListener("pointermove",function(e){
+    if(!st||e.pointerId!==st.id) return; var d=DZ.items[DZ.pos]; if(!d) return;
+    var sc=DZ.g.sc, mx=(e.clientX-st.x)/sc, my=(e.clientY-st.y)/sc, cm=dzCm(DZ.pos);
+    if(st.rs){
+      var maxW=Math.min(cm[0],cm[1]/d.ar);
+      d.w=Math.max(Math.min(2,maxW),Math.min(maxW,st.w+(mx+my/d.ar)/2)); d.x=st.dx; d.y=st.dy;
+      if(d.x+d.w>cm[0]) d.x=cm[0]-d.w; if(d.y+d.w*d.ar>cm[1]) d.y=cm[1]-d.w*d.ar;
+    } else {d.x=st.dx+mx; d.y=st.dy+my;}
+    dzClamp(d,cm); dzRender(); dzLive(); measure(true);
+  });
+  var end=function(e){if(!st||e.pointerId!==st.id) return; st=null; item.classList.remove("drag"); measure(false);};
+  item.addEventListener("pointerup",end); item.addEventListener("pointercancel",end);
+  item.addEventListener("keydown",function(e){
+    var d=DZ.items[DZ.pos]; if(!d) return; var s=e.shiftKey?2:.5, cm=dzCm(DZ.pos);
+    var mv={ArrowLeft:[-s,0],ArrowRight:[s,0],ArrowUp:[0,-s],ArrowDown:[0,s]}[e.key];
+    if(mv){e.preventDefault(); d.x+=mv[0]; d.y+=mv[1]; dzClamp(d,cm); dzRender(); dzLive(); return;}
+    if(e.key==="+"||e.key==="="){e.preventDefault(); dzResize(DZ.pos,d.w+s);}
+    else if(e.key==="-"||e.key==="_"){e.preventDefault(); dzResize(DZ.pos,d.w-s);}
+    else if(e.key==="Delete"||e.key==="Backspace"){e.preventDefault(); dzRemove(DZ.pos);}
+  });
+  item.addEventListener("focus",function(){item.classList.add("sel");});
+}
+/* ---------- Vista previa para el presupuesto: foto + diseño de cada zona usada, en una sola imagen JPEG ---------- */
+function dzMockup(it,f,ci,items,tpl){
+  var used=DZ_ORD.filter(function(p){return items[p];}), TW=300, TH=400;
+  return Promise.all(used.map(function(p){return dzView(it,f,ci,p);})).then(function(vs){
+    var n=used.length, k=Math.min(1,600/(TW*n)), c=document.createElement("canvas");
+    c.width=Math.round(TW*n*k); c.height=Math.round(TH*k);
+    var x=c.getContext("2d"); x.fillStyle="#fff"; x.fillRect(0,0,c.width,c.height);
+    used.forEach(function(p,i){
+      var v=vs[i], d=items[p], ox=i*TW*k;
+      x.save(); x.beginPath(); x.rect(ox,0,TW*k,TH*k); x.clip(); x.translate(ox,0); x.scale(k,k);
+      var g=null;
+      if(v){
+        g=dzGeom(v,tpl,p,TW,TH-34);
+        if(v.cors){
+          x.save(); if(v.flip){x.translate(g.ox*2+g.W*g.z,0); x.scale(-1,1);} x.drawImage(v.im,g.ox,g.oy,g.W*g.z,g.H*g.z); x.restore();
+        } else {x.fillStyle=dzHex(it.k[ci])||"#EDEDEB"; x.fillRect(0,0,TW,TH-34);} /* foto que no se puede copiar: color de la prenda */
+        if(!v.cors){x.setLineDash([6,4]); x.strokeStyle=dzDark(it.k[ci])?"rgba(255,255,255,.7)":"rgba(17,17,17,.45)"; x.lineWidth=1.5; x.strokeRect(g.ax,g.ay,g.aw,g.ah); x.setLineDash([]);}
+        try{x.drawImage(d.im,g.ax+d.x*g.sc,g.ay+d.y*g.sc,d.w*g.sc,d.w*d.ar*g.sc);}catch(e){}
+      }
+      x.fillStyle="#fff"; x.fillRect(0,TH-34,TW,34);
+      x.fillStyle="#141414"; x.font="600 15px Figtree, system-ui, sans-serif"; x.textBaseline="alphabetic";
+      x.fillText(DZ_LBL[p]+" · "+dzSizeTxt(d.w,d.w*d.ar),12,TH-13);
+      if(i){x.fillStyle="#D6D6D2"; x.fillRect(0,0,1.5,TH);}
+      x.restore();
+    });
+    try{return c.toDataURL("image/jpeg",.8);}catch(e){return "";}
+  });
+}
+/* Guarda el presupuesto; si no cabe en el navegador, la vista previa se hace más pequeña o se quita */
+function dzSaveCart(l){
+  try{localStorage.setItem("ramstex-presupuesto",JSON.stringify(cart)); return true;}catch(e){}
+  if(l&&l.dz&&l.dz.img){
+    return new Promise(function(res){
+      var im=new Image(); im.onload=function(){var c=document.createElement("canvas"),k=300/im.width; c.width=300; c.height=Math.round(im.height*k); c.getContext("2d").drawImage(im,0,0,c.width,c.height); l.dz.img=c.toDataURL("image/jpeg",.6);
+        try{localStorage.setItem("ramstex-presupuesto",JSON.stringify(cart)); res(true);}catch(e){delete l.dz.img; res(false);}};
+      im.onerror=function(){delete l.dz.img; res(false);}; im.src=l.dz.img;
+    });
+  }
+  return false;
+}
+/* Añadir al presupuesto: la línea del producto y color con su diseño */
+var dzBusy=false;
+function dzAdd(){
+  if(dzBusy) return;
+  var it=DZ.it, f=DZ.f, items=DZ.items, used=DZ_ORD.filter(function(p){return items[p];}); if(!used.length) return;
+  dzBusy=true; var b=$("dzadd"); b.disabled=true; b.setAttribute("aria-busy","true"); b.textContent="Preparando la vista previa…";
+  var ci=it.cur, tpl=DZ.tpl;
+  dzMockup(it,f,ci,items,tpl).then(function(img){
+    var id=cKey(it); if(!cart[id]) addToCart(it,f);
+    var l=cart[id], p={};
+    used.forEach(function(q){var d=items[q]; p[q]={x:+d.x.toFixed(2),y:+d.y.toFixed(2),w:+d.w.toFixed(2),h:+(d.w*d.ar).toFixed(2),n:d.name,t:d.type,dpi:d.vec?0:Math.round(dzDpi(d))};});
+    l.dz={p:p,img:img,tp:tpl.key,at:Date.now()};
+    return Promise.all(DZ_ORD.map(function(q){return dzPutFile(id+"|"+q,items[q]?items[q].file:null);})).then(function(){return dzSaveCart(l);}).then(function(){return id;});
+  }).then(function(id){
+    dzBusy=false; b.removeAttribute("aria-busy");
+    cartUI(); bump(); syncAdds();
+    DZ.restored=id;
+    DZ.after=function(){openPanelAt(id,$("padd")||null);};
+    dzRequestClose();
+  }).catch(function(){dzBusy=false; b.removeAttribute("aria-busy"); dzSum(); dzErr("No se ha podido añadir. Inténtalo de nuevo.");});
+}
+/* Editar el diseño de una línea desde el presupuesto */
+function dzEdit(id){
+  var l=cart[id]; if(!l) return;
+  ensureData(function(){
+    var it=ITEMS.filter(function(x){return x.r===l.r;})[0]; if(!it) return;
+    closePanel();
+    var url=pURL(it)+"?disenar="+encodeURIComponent(l.c==="color por decidir"?"":l.c);
+    if(DZP&&DZP.it===it&&!VP.hidden&&location.pathname===pURL(it)){history.pushState({dz:1},"",url); dzFromURL(); DZ.pushed=true; lastRouted=location.href;}
+    else {history.pushState({dz:1},"",url); route();}
+  });
+}
+
+/* ---------- Subida de los diseños (Google Apps Script) ---------- */
+/* files: [{name, mime, file|base64}] · meta: {pedido, cliente, lineas, mockups:[{name, mime, base64}]}
+   Se envía como text/plain (sin comprobación previa CORS, que Apps Script no admite). Respuesta: {ok, folderUrl, files:[url]}.
+   Sin DISENO_URL no sube nada y resuelve {ok:false, skipped:true}. */
+function subirDiseno(files,meta){
+  if(!DISENO_URL) return Promise.resolve({ok:false,skipped:true});
+  var b64=function(x){
+    if(x.base64) return Promise.resolve(x.base64);
+    return new Promise(function(res,rej){var r=new FileReader(); r.onload=function(){res(String(r.result).split(",")[1]||"");}; r.onerror=function(){rej(r.error);}; r.readAsDataURL(x.file);});
+  };
+  return Promise.all(files.map(function(x){return b64(x).then(function(d){return {name:x.name,mime:x.mime,base64:d};});})).then(function(fs){
+    var body=JSON.stringify({pedido:meta.pedido||"",cliente:meta.cliente||"",lineas:meta.lineas||[],files:fs,mockups:meta.mockups||[]});
+    var ctl=window.AbortController?new AbortController():null, to=setTimeout(function(){if(ctl) ctl.abort();},90000);
+    return fetch(DISENO_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:body,redirect:"follow",signal:ctl?ctl.signal:undefined})
+      .then(function(r){clearTimeout(to); return r.json();})
+      .then(function(j){if(!j||!j.ok) throw new Error((j&&j.error)||"subida"); return j;});
+  });
+}
+function dzRef(){var n=new Date(), p2=function(v){return (v<10?"0":"")+v;}, AB="ABCDEFGHJKLMNPQRSTUVWXYZ23456789", r=""; for(var i=0;i<4;i++) r+=AB.charAt(Math.floor(Math.random()*AB.length)); return "RX-"+String(n.getFullYear()).slice(2)+p2(n.getMonth()+1)+p2(n.getDate())+"-"+r;}
+/* Antes de abrir WhatsApp: si hay diseños sin subir y está configurada la subida, se suben y el mensaje lleva los enlaces */
+function dzPendingIds(){return Object.keys(cart).filter(function(id){var l=cart[id]; return l.dz&&l.dz.p&&!l.dz.up;});}
+function dzSendUpload(){
+  var ids=dzPendingIds(), pedido=dzRef(), files=[], mockups=[], lineas=[];
+  return Promise.all(ids.map(function(id){
+    var l=cart[id]; lineas.push({ref:l.r,nombre:l.n,color:l.c,diseno:dzText(l)});
+    if(l.dz.img) mockups.push({name:l.r+"-"+slug(l.c)+"-vista-previa.jpg",mime:"image/jpeg",base64:l.dz.img.split(",")[1]||""});
+    return Promise.all(DZ_ORD.filter(function(p){return l.dz.p[p];}).map(function(p){
+      return dzGetFile(id+"|"+p).then(function(file){if(file) files.push({name:l.r+"-"+slug(l.c)+"-"+slug(DZ_LBL[p])+"-"+(file.name||"logo"),mime:file.type||"application/octet-stream",file:file});});
+    }));
+  })).then(function(){
+    if(!files.length&&!mockups.length) return null;
+    return subirDiseno(files,{pedido:pedido,cliente:"",lineas:lineas,mockups:mockups});
+  }).then(function(r){
+    if(r&&r.ok){ids.forEach(function(id){if(cart[id]&&cart[id].dz) cart[id].dz.up=r.folderUrl;}); saveCart(); cartTotals();}
+    return r;
+  });
+}
 
 /* ---------- Carga de datos ---------- */
 var loading=null;
@@ -2287,7 +3040,7 @@ document.addEventListener("click",function(e){
   if(u.href!==location.href) history.pushState(null,"",u.href);
   route();
 });
-window.addEventListener("popstate",function(){if(location.href!==lastRouted)route();});
+window.addEventListener("popstate",function(){if(dzPop()) return; if(location.href!==lastRouted)route();});
 window.addEventListener("hashchange",function(){oldHash();if(location.href!==lastRouted)route();});
 if("scrollRestoration" in history) history.scrollRestoration="manual";
 /* Direcciones antiguas con # (enlaces ya compartidos) */
@@ -2299,6 +3052,19 @@ function oldHash(){
 }
 oldHash();
 cartUI(); route();
+/* Envío por WhatsApp con diseños: si la subida está configurada, primero se suben los archivos y el mensaje lleva el enlace */
+$("send").addEventListener("click",function(e){
+  if(!DISENO_URL||!dzPendingIds().length) return;
+  e.preventDefault();
+  var a=this, w=window.open("","_blank"), er=$("pdferr");
+  a.setAttribute("aria-busy","true"); a.textContent="Subiendo tu diseño…"; er.hidden=true;
+  dzSendUpload().catch(function(){return null;}).then(function(r){
+    a.removeAttribute("aria-busy"); a.textContent="Enviar por WhatsApp";
+    if(!r||!r.ok){er.textContent="No se han podido subir los archivos: envíanos el logo por el chat."; er.hidden=false;}
+    if(w&&!w.closed) w.location.href=a.href; else location.href=a.href;
+  });
+});
+if(window.indexedDB) setTimeout(dzPrune,4000);
 </script>
 </body>
 </html>
