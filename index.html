@@ -741,6 +741,7 @@ img.pack{object-fit:contain!important;padding:6%}
 .dzseg button[aria-selected="true"]{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(17,17,17,.12),0 1px 1px rgba(17,17,17,.06)}
 .dzseg button.has::after{content:"";position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--red)}
 @media (hover:hover) and (pointer:fine){.dzseg button:not([aria-selected="true"]):hover{color:var(--text)}}
+@media (min-width:901px){.dzseg button{flex:0 0 auto;padding:0 18px}}
 .dzstage{position:relative;flex:1;min-height:0;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line);overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
 .dzph{position:absolute;left:0;top:0;max-width:none;transform-origin:50% 50%;pointer-events:none;-webkit-user-drag:none;opacity:1;transition:opacity 200ms ease}
 .dzph.loading{opacity:.35}
@@ -751,7 +752,7 @@ img.pack{object-fit:contain!important;padding:6%}
 .dzarea.low span{bottom:auto;top:100%;margin:5px 0 0}
 .dzitem{position:absolute;left:0;top:0;cursor:grab;touch-action:none;outline:0}
 .dzitem img{display:block;width:100%;height:100%;pointer-events:none;-webkit-user-drag:none}
-.dzitem::before{content:"";position:absolute;inset:-1px;border:1.5px solid var(--red);border-radius:2px;opacity:0;transition:opacity 150ms ease;pointer-events:none}
+.dzitem::before{content:"";position:absolute;inset:-1px;border:1px solid var(--dzline);box-shadow:0 0 0 1px var(--dzshadow);border-radius:2px;opacity:0;transition:opacity 150ms ease;pointer-events:none}
 .dzitem.sel::before,.dzitem:focus-visible::before{opacity:1}
 .dzitem:focus-visible{box-shadow:0 0 0 4px color-mix(in srgb,var(--red) 30%,transparent)}
 .dzitem.drag{cursor:grabbing}
@@ -760,6 +761,9 @@ img.pack{object-fit:contain!important;padding:6%}
 .dzempty{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);margin:0;padding:8px 14px;border-radius:999px;background:rgba(20,20,20,.78);color:#fff;font:500 var(--fs-xs)/1.3 Figtree,sans-serif;white-space:nowrap;pointer-events:none}
 .dzmeasure{position:absolute;left:50%;top:12px;transform:translateX(-50%);padding:5px 12px;border-radius:999px;background:var(--ink);color:var(--on-ink);font:600 var(--fs-xs)/1.2 Figtree,sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 150ms ease}
 .dzmeasure.on{opacity:1}
+.dzmeasure{z-index:6}
+.dzbanner{transition:opacity 150ms ease}
+.dzstage.busy .dzbanner{opacity:0;pointer-events:none}
 .dzright{min-height:0;overflow-y:auto;overscroll-behavior:contain;overflow-anchor:none;border-left:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column}
 .dzpad{padding:22px 24px;display:flex;flex-direction:column;gap:24px}
 .dz section{padding:0;margin:0}
@@ -777,11 +781,16 @@ img.pack{object-fit:contain!important;padding:6%}
 .dzrow1{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;margin:0 0 6px}
 .dzrow1 .dzchip{margin-right:auto}
 .dzrow1 b{font:700 var(--fs-xl)/1.1 "Bricolage Grotesque",Figtree,sans-serif;letter-spacing:-0.02em;font-variant-numeric:tabular-nums}
-.dzchip{flex:none;display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;background:color-mix(in srgb,var(--red) 9%,transparent);color:var(--red-text);font:700 var(--fs-xs)/1 Figtree,sans-serif}
+.dzchip{flex:none;display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;background:var(--tint);color:var(--text);font:600 var(--fs-xs)/1 Figtree,sans-serif}
 .dzmax{margin:0 0 14px;color:var(--muted);font-size:var(--fs-xs)}
 .dzopts{display:flex;flex-wrap:wrap;gap:8px;margin:-4px 0 14px}
 .dzopt{display:inline-flex;align-items:center;height:32px;margin:0;padding:0 12px;border:1.5px solid var(--line-strong);border-radius:999px;background:var(--surface);color:var(--text);font:600 var(--fs-xs)/1 Figtree,sans-serif;font-variant-numeric:tabular-nums;cursor:pointer;transition:border-color 150ms ease,background-color 150ms ease,color 150ms ease}
-.dzopt[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:var(--on-red)}
+.dzopt[aria-pressed="true"]{background:color-mix(in srgb,var(--red) 8%,var(--surface));border-color:var(--red-text);color:var(--red-text)}
+.dzopt svg{width:14px;height:14px;margin-right:4px;display:none}
+.dzopt[aria-pressed="true"] svg{display:inline-block}
+.dzopt:active,.dzseg button:active,.dzback:active{transform:scale(.97)}
+.dzopt,.dzseg button,.dzback{transition:transform 160ms var(--ease-ui),background-color 150ms ease,border-color 150ms ease,color 150ms ease,box-shadow 150ms ease}
+@media (prefers-reduced-motion: reduce){.dzopt:active,.dzseg button:active,.dzback:active{transform:none}}
 @media (hover:hover) and (pointer:fine){.dzopt:not([aria-pressed="true"]):hover{border-color:var(--text)}}
 .dzrange{display:flex;align-items:center;gap:12px}
 .dzrange label{font-size:var(--fs-xs);font-weight:600;color:var(--muted);flex:none}
@@ -801,6 +810,7 @@ img.pack{object-fit:contain!important;padding:6%}
 .dzsum{margin:0 0 10px;font-size:var(--fs-xs);color:var(--muted);line-height:1.4}
 .dzsum b{color:var(--text);font-weight:600}
 .dzfoot .btn{width:100%}
+
 .dzerr{margin:8px 0 0;color:var(--red-text);font-size:var(--fs-xs);font-weight:600}
 .dzpdf{margin:12px 0 0;font-size:var(--fs-xs);color:var(--muted);line-height:1.45}
 .dzpdf a{color:var(--red-text);font-weight:600}
@@ -814,7 +824,9 @@ img.pack{object-fit:contain!important;padding:6%}
 /* Diseñador: lienzo, guías, avisos, zoom y hoja de color (todas las pantallas) */
 .dz{bottom:auto;height:100vh;height:100dvh}
 html.dzopen body>*:not(#dz):not(script):not(.toast){display:none!important}
-.dzguide{position:absolute;z-index:2;pointer-events:none;background:var(--red);opacity:0;transition:opacity 120ms ease}
+.dzstage{--dzline:#141414;--dzshadow:rgba(255,255,255,.75)}
+.dzstage.dk{--dzline:#fff;--dzshadow:rgba(0,0,0,.45)}
+.dzguide{position:absolute;z-index:2;pointer-events:none;background:var(--dzline);box-shadow:0 0 0 1px var(--dzshadow);opacity:0;transition:opacity 120ms ease}
 .dzguide.on{opacity:.85}
 .dzgv{width:1px}.dzgh{height:1px}
 .dzbanner{position:absolute;left:10px;right:10px;top:10px;z-index:4;display:flex;align-items:flex-start;gap:8px;max-width:520px;margin:0 auto;padding:8px 12px;border:0;border-radius:12px;text-align:left;font:500 var(--fs-xs)/1.4 Figtree,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -827,6 +839,7 @@ html.dzopen body>*:not(#dz):not(script):not(.toast){display:none!important}
 .dzbanner .bt span+span{margin-top:4px}
 .dzbanner:not(.open) .bt span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dzbanner:not(.open) .bt span+span{display:none}
+@media (min-width:901px){.dzbanner{cursor:default}.dzbanner:not(.open) .bt span{white-space:normal}.dzbanner:not(.open) .bt span+span{display:block}.dzbanner i{display:none}}
 .dzbanner i{flex:none;font-style:normal;font-weight:700;font-variant-numeric:tabular-nums;opacity:.8}
 .dzzoom{position:absolute;right:10px;bottom:10px;z-index:4;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:0;border-radius:999px;background:rgba(255,255,255,.96);color:var(--text);font:600 var(--fs-xs)/1 Figtree,sans-serif;cursor:pointer;box-shadow:0 2px 8px rgba(17,17,17,.14),0 0 0 1px rgba(17,17,17,.08);-webkit-tap-highlight-color:transparent;transition:transform 160ms var(--ease-ui)}
 .dzzoom[hidden]{display:none}
@@ -834,14 +847,26 @@ html.dzopen body>*:not(#dz):not(script):not(.toast){display:none!important}
 .dzzoom::after{content:"";position:absolute;inset:-5px -2px;border-radius:999px}
 .dzzoom:active{transform:scale(.97)}
 .dzempty{bottom:58px}
-.dzstage.anim .dzph,.dzstage.anim .dzarea,.dzstage.anim .dzitem,.dzstage.anim .dzguide{transition:left 320ms var(--ease-ui),top 320ms var(--ease-ui),width 320ms var(--ease-ui),height 320ms var(--ease-ui),opacity 120ms ease}
+.dzstage.anim .dzph,.dzstage.anim .dzarea,.dzstage.anim .dzitem,.dzstage.anim .dzguide{transition:left 230ms var(--ease-ui),top 230ms var(--ease-ui),width 230ms var(--ease-ui),height 230ms var(--ease-ui),opacity 120ms ease}
 .dzcd{flex:none;display:inline-block;width:16px;height:16px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
 .dztools .dzcolbtn,.dzuprow .dzcolbtn{display:none}
 .dzuprow{display:block}
 .dzhint{display:none}
-.dzsheet{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;justify-content:flex-end;background:rgba(17,17,17,.38);animation:dzfade 200ms ease}
+.dzsheet{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;justify-content:flex-end;background:rgba(17,17,17,.16);animation:dzfade 200ms ease}
+.dzsheet.closing{animation:dzfadeout 200ms ease forwards}
+.dzsheet.closing .dzsheetin{animation:dzdown 200ms var(--ease-ui) forwards}
 .dzsheet[hidden]{display:none}
-.dzsheetin{background:var(--surface);border-radius:20px 20px 0 0;padding:8px 16px calc(18px + env(safe-area-inset-bottom,0px));max-height:78%;overflow:auto;overscroll-behavior:contain;box-shadow:0 -8px 28px rgba(0,0,0,.18);animation:dzup 260ms var(--ease-ui)}
+.dzsheetin{display:flex;flex-direction:column;background:var(--surface);border-radius:20px 20px 0 0;padding:0 16px calc(12px + env(safe-area-inset-bottom,0px));max-height:42%;box-shadow:0 -8px 28px rgba(0,0,0,.18);animation:dzup 240ms var(--ease-ui);touch-action:pan-y}
+.dzsgrip{flex:none;padding:8px 0 4px;cursor:grab;touch-action:none}
+.dzsscroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.dzinfo{padding-bottom:4px}
+.dzslist{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px;margin:0 -4px;padding:0 4px}
+.dzsrow{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 10px;border:0;border-radius:10px;background:none;color:var(--text);font:500 var(--fs-s)/1.2 Figtree,sans-serif;text-align:left;cursor:pointer;min-width:0}
+.dzsrow span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dzsrow[aria-checked="true"]{background:color-mix(in srgb,var(--red) 7%,transparent);color:var(--red-text);font-weight:600}
+.dzsrow .dzcd{width:22px;height:22px}
+.dzsrow[aria-checked="true"] .dzcd{box-shadow:inset 0 0 0 1px rgba(0,0,0,.25),0 0 0 2px var(--surface),0 0 0 3.5px var(--red-text)}
+@media (hover:hover) and (pointer:fine){.dzsrow:hover{background:var(--tint)}}
 .dzgrab{width:36px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 6px}
 .dzshead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
 .dzshead h3{font:700 var(--fs-m)/1.2 Figtree,sans-serif;letter-spacing:0;margin:0}
@@ -853,6 +878,11 @@ html.dzopen body>*:not(#dz):not(script):not(.toast){display:none!important}
 .dzinfo a{color:var(--red-text);font-weight:600}
 @keyframes dzup{from{transform:translateY(24px);opacity:.6}to{transform:none;opacity:1}}
 @keyframes dzfade{from{opacity:0}to{opacity:1}}
+@keyframes dzfadeout{to{opacity:0}}
+@keyframes dzdown{to{transform:translateY(100%)}}
+@keyframes dzpulse{0%,100%{transform:none}30%{transform:scale(1.04)}60%{transform:scale(.98)}}
+.dzup.pulse b{animation:dzpulse 420ms var(--ease-ui)}
+@media (prefers-reduced-motion: reduce){.dzsheet .dzsheetin,.dzsheet.closing .dzsheetin{animation:none}.dzup.pulse b{animation:none}}
 @media (prefers-reduced-motion: reduce){.dzstage.anim .dzph,.dzstage.anim .dzarea,.dzstage.anim .dzitem,.dzstage.anim .dzguide{transition:none}}
 @media (max-width:900px){
   .pdzov{display:inline-flex;position:absolute;left:50%;bottom:12px;transform:translateX(-50%);height:40px;padding:0 16px;border:0;border-radius:999px;background:rgba(255,255,255,.96);color:var(--text);font:600 var(--fs-s)/1 Figtree,sans-serif;align-items:center;cursor:pointer;white-space:nowrap;box-shadow:0 2px 10px rgba(17,17,17,.16),0 0 0 1px rgba(17,17,17,.08);-webkit-tap-highlight-color:transparent;transition:transform 160ms var(--ease-ui)}
@@ -868,6 +898,9 @@ html.dzopen body>*:not(#dz):not(script):not(.toast){display:none!important}
   .dzleft{flex:1;min-height:0;padding:0;gap:0}
   .dzseg{flex:none;width:auto;margin:6px 12px;gap:2px;padding:3px;overflow-x:auto;scrollbar-width:none;justify-content:flex-start}
   .dzseg::-webkit-scrollbar{display:none}
+  .dzseg.fr{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
+  .dzseg.fl{-webkit-mask-image:linear-gradient(90deg,transparent,#000 28px);mask-image:linear-gradient(90deg,transparent,#000 28px)}
+  .dzseg.fl.fr{-webkit-mask-image:linear-gradient(90deg,transparent,#000 28px,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,transparent,#000 28px,#000 calc(100% - 28px),transparent)}
   .dzseg button{flex:1 0 auto;padding:0 8px;font-size:var(--fs-xs);height:34px}
   .dzseg button.has::after{top:5px;right:3px;width:6px;height:6px}
   .dzstage{border:0;border-radius:0}
@@ -884,6 +917,7 @@ html.dzopen body>*:not(#dz):not(script):not(.toast){display:none!important}
   .dzopt{height:32px;padding:0 10px;white-space:nowrap}
   .dzopt .lg{display:none}
   .dzrow1 .dzopt .sm{display:inline}
+  .dzrow1 .dzchip .lg{display:none}
   .dztools .btn .lg{display:none}
   .dzrow1{flex-wrap:nowrap;gap:6px}
   .dzrow1 .dzsz{font-size:1.0625rem;flex:none}
@@ -897,6 +931,8 @@ html.dzopen body>*:not(#dz):not(script):not(.toast){display:none!important}
   .dztools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:2px}
   .dztools .btn{height:44px;padding:0 4px;font-size:.8125rem;gap:5px;min-width:0}
   .dztools .btn svg{width:16px;height:16px;flex:none}
+  .dztools .btn>span{white-space:normal;line-height:1.1;text-align:center}
+  .dztools .btn.long svg{display:none}
   .dztools .dzcolbtn{display:inline-flex}
   .dzuprow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
   .dzuprow .dzcolbtn{display:inline-flex;height:52px;padding:0 14px;font-size:.875rem}
@@ -906,14 +942,14 @@ html.dzopen body>*:not(#dz):not(script):not(.toast){display:none!important}
   .dzhint{display:block;margin:6px 0 0;text-align:center;font-size:var(--fs-xs);color:var(--muted)}
   .dzreuse{height:40px;margin-top:6px;font-size:var(--fs-s)}
   .dzfoot{position:static;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));border-top:0;background:var(--surface)}
-  .dzerr{position:absolute;left:12px;right:12px;bottom:calc(100% + 10px);z-index:6;margin:0;padding:10px 14px;border-radius:12px;background:var(--ink);color:var(--on-ink)}
+  .dzerr{position:absolute;left:12px;right:12px;bottom:calc(100% + 56px);z-index:6;margin:0;padding:10px 14px;border-radius:12px;background:var(--ink);color:var(--on-ink)}
 }
 @media (max-width:900px) and (max-height:700px){#dztool{min-height:114px}.dzrow1{height:30px}.dzseg{margin:4px 12px}.dzrow1{min-height:30px}.dzrange input{height:30px}.dztools .btn{height:42px}.dzfoot .btn{height:46px}}
 @media (pointer:coarse){.dzrange input{height:40px}}
 /* medida editable: se toca el número y se escribe */
-.dzsz{display:inline-flex;align-items:baseline;gap:4px;white-space:nowrap}
-.dzin{width:3.4ch;padding:0 1px;margin:0;border:0;border-bottom:1.5px dashed var(--line-strong);border-radius:0;background:none;color:inherit;font:inherit;letter-spacing:inherit;text-align:center;font-variant-numeric:tabular-nums}
-input.dzin:not([type]):not(.search){width:3.4ch;height:auto;padding:0 1px;border:0;border-bottom:1.5px dashed var(--line-strong);border-radius:0;background:none;font:inherit;line-height:1.1}
+.dzsz{display:inline-flex;align-items:baseline;gap:.3em;white-space:nowrap}
+.dzin{min-width:2ch;padding:0 1px;margin:0;border:0;border-bottom:1.5px dashed var(--line-strong);border-radius:0;background:none;color:inherit;font:inherit;letter-spacing:inherit;text-align:center;font-variant-numeric:tabular-nums}
+input.dzin:not([type]):not(.search){min-width:2ch;height:auto;padding:0 1px;border:0;border-bottom:1.5px dashed var(--line-strong);border-radius:0;background:none;font:inherit;line-height:1.1}
 input.dzin:focus-visible{outline:0;border-bottom-color:var(--red-text);background:color-mix(in srgb,var(--red) 7%,transparent)}
 .dzopt .sm{display:none}
 </style>
@@ -2441,6 +2477,7 @@ var DZ_LBL={d:"Delante",di:"Delante izq.",dd:"Delante der.",p:"Pecho",l:"Lateral
 var DZ_ORD=["d","di","dd","p","l","e","n","mi","md","pi","pd"];
 /* Medidas máximas de impresión en cm (ancho × alto): plancha grande hasta 35×55; plancha pequeña (mangas, nuca, pecho, piernas, gorras…) hasta 10×10.
    Anchos recomendados: 28,4 cm en espaldas; 18,7 cm en bolsas (se proponen al colocar el diseño y con un botón) */
+var DZ_DPI=120; /* por debajo, aviso de poca resolución */
 var DZ_MAX=[35,55], DZ_PEQ=[10,10], DZ_ANCHO=28.4, DZ_ANCHO_BOLSA=18.7, DZ_PECHO=9.5;
 /* Plantillas por tipo de prenda. Cada zona:
    v: foto que se usa (f delante, b espalda, s manga: foto lateral o, si no hay, la de delante ampliada)
@@ -2451,7 +2488,7 @@ var DZ_MAX=[35,55], DZ_PEQ=[10,10], DZ_ANCHO=28.4, DZ_ANCHO_BOLSA=18.7, DZ_PECHO
    sinMangas: la plantilla no lleva mangas */
 var ZS={v:"s",cm:DZ_PEQ}, ZE=function(t,cm){return {v:"b",cm:cm||[35,45],t:t,rec:DZ_ANCHO};}, ZN=function(t){return {v:"b",cm:DZ_PEQ,t:t,c:1,zoom:1};};
 var DZ_TPL={
-  camiseta:{n:"camiseta",bw:42,z:{d:{v:"f",cm:[30,40],t:.17,pecho:1},e:ZE(.13),n:ZN(.12),mi:ZS,md:ZS}},
+  camiseta:{n:"camiseta",bw:42,z:{d:{v:"f",cm:[30,40],t:.17,pecho:1},e:ZE(.13,[35,55]),n:ZN(.12),mi:ZS,md:ZS}},
   polo:{n:"polo",bw:42,z:{d:{v:"f",cm:[26,30],t:.27,pecho:1},e:ZE(.13),n:ZN(.13),mi:ZS,md:ZS}},
   sudadera:{n:"sudadera",bw:46,z:{d:{v:"f",cm:[30,22],t:.31,pecho:1},e:ZE(.22),n:ZN(.2),mi:ZS,md:ZS}},
   cremallera:{n:"sudadera",bw:46,z:{di:{v:"f",cm:[12,35],t:.36,dx:.25,pecho:1},dd:{v:"f",cm:[12,35],t:.36,dx:-.25,pecho:1},e:ZE(.22),n:ZN(.2),mi:ZS,md:ZS}},
@@ -2493,6 +2530,7 @@ var DZ_ICON={
   warn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>',
   info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>',
   back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
   full:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>',
   zoomin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg>',
   resize:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M11 7h6v6"/></svg>'
@@ -2705,7 +2743,7 @@ function dzBuild(){
     '<div class="dzright"><div class="dzpad"><section class="dzsec dzcolsec"><h3>Color: <span class="dzcolname"></span></h3><div class="dzdots" role="radiogroup" aria-label="Color"></div></section>'+
     '<section class="dzsec" id="dztool" aria-live="polite"></section></div>'+
     '<div class="dzfoot"><p class="dzsum" id="dzsum"></p><button class="btn" type="button" id="dzadd">Añadir al presupuesto</button><p class="dzerr" id="dzerr" role="status" hidden></p></div></div></div>'+
-    '<div class="dzsheet" id="dzsheet" hidden><div class="dzsheetin" role="dialog" aria-modal="true" aria-labelledby="dzsheett"><div class="dzgrab" aria-hidden="true"></div><div class="dzshead"><h3 id="dzsheett">Color: <span class="dzcolname"></span></h3><button type="button" class="close" id="dzsheetx">Cerrar</button></div><div class="dzdots" role="radiogroup" aria-label="Color"></div><div class="dzinfo" id="dzinfo"></div></div></div>'+
+    '<div class="dzsheet" id="dzsheet" hidden><div class="dzsheetin" id="dzsheetin" role="dialog" aria-modal="true" aria-labelledby="dzsheett"><div class="dzsgrip" id="dzsgrip"><div class="dzgrab" aria-hidden="true"></div><div class="dzshead"><h3 id="dzsheett">Color: <span class="dzcolname"></span></h3><button type="button" class="close" id="dzsheetx">Cerrar</button></div></div><div class="dzsscroll"><div class="dzslist" role="radiogroup" aria-label="Color"></div><div class="dzinfo" id="dzinfo"></div></div></div></div>'+
     '<input type="file" id="dzfile" accept="image/png,image/jpeg,image/svg+xml,image/webp,.png,.jpg,.jpeg,.svg,.webp,application/pdf,.pdf" hidden>';
   document.body.appendChild(el);
   $("dzclose").onclick=dzRequestClose;
@@ -2718,8 +2756,10 @@ function dzBuild(){
   el.addEventListener("drop",function(e){e.preventDefault(); var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0]; if(f) dzSetFile(DZ.pos,f);});
   dzDrag();
   $("dzzoom").onclick=function(){DZ.zoomed=!DZ.zoomed; dzAnim(); dzRender();};
-  $("dzbanner").onclick=function(){var o=!this.classList.contains("open"); this.classList.toggle("open",o); this.setAttribute("aria-expanded",o?"true":"false");};
-  $("dzsheetx").onclick=dzSheetClose;
+  $("dzbanner").onclick=function(){var o=!this.classList.contains("open"); DZ.bannerOpen=o; this.classList.toggle("open",o); this.setAttribute("aria-expanded",o?"true":"false"); dzRender();};
+  $("dzsheetx").onclick=dzSheetClose; dzSheetDrag();
+  $("dzseg").addEventListener("scroll",dzSegFade,{passive:true});
+  $("dzstage").addEventListener("pointerdown",function(){dzErr("");},true);
   $("dzsheet").addEventListener("click",function(e){if(e.target===this) dzSheetClose();});
   window.addEventListener("resize",function(){if(DZ.open) dzRender();});
 }
@@ -2802,6 +2842,12 @@ function dzSeg(){
   });
   $("dzstage").setAttribute("aria-labelledby","dzt-"+DZ.pos);
   var cur=$("dzt-"+DZ.pos); if(s.scrollWidth>s.clientWidth&&cur) s.scrollLeft=Math.max(0,cur.offsetLeft-(s.clientWidth-cur.offsetWidth)/2); /* muchas zonas en el móvil: la elegida, a la vista */
+  dzSegFade();
+}
+/* pestañas que no caben: se difuminan por el lado en que hay más */
+function dzSegFade(){
+  var s=$("dzseg"); if(!s) return; var more=s.scrollWidth>s.clientWidth+2;
+  s.classList.toggle("fl",more&&s.scrollLeft>2); s.classList.toggle("fr",more&&s.scrollLeft<s.scrollWidth-s.clientWidth-2);
 }
 document.addEventListener("keydown",function(e){
   if(!DZ.open||!e.target.closest||!e.target.closest("#dzseg")) return;
@@ -2809,24 +2855,51 @@ document.addEventListener("keydown",function(e){
   if(!m) return; e.preventDefault(); dzGo(ps[(i+m+ps.length)%ps.length]); $("dzt-"+DZ.pos).focus();
 });
 function dzGo(p){
-  if(p===DZ.pos) return; DZ.pos=p; DZ.bannerOpen=false; dzAnim(); dzSeg(); dzShow();
+  if(p===DZ.pos) return; DZ.pos=p; DZ.bannerOpen=false; dzErr(""); dzAnim(); dzSeg(); dzShow();
 }
 /* Zoom suave al cambiar de zona o de vista (sin animación si se pide menos movimiento) */
 function dzAnim(){var st=$("dzstage"); st.classList.add("anim"); clearTimeout(dzAnim.t); dzAnim.t=setTimeout(function(){st.classList.remove("anim");},360);}
 /* Hoja de abajo: color y detalles de la imagen */
 function dzSheet(){
   var sh=$("dzsheet"), d=DZ.items[DZ.pos], h="";
-  if(d) h+='<p><b>'+esc(d.name)+'</b> · '+(d.vec?"vectorial":fmt(d.nat[0])+" × "+fmt(d.nat[1])+" px")+(d.vec?"":" · "+Math.round(dzDpi(d))+" ppp a este tamaño")+'</p>';
+  if(d) h+='<p><b>'+esc(d.name)+'</b> · '+(d.vec?"vectorial":fmt(d.nat[0])+" × "+fmt(d.nat[1])+" px")+' · Calidad a este tamaño: <b>'+dzQual(d)+'</b></p>';
   h+='<p>Máximo en «'+DZ_LBL[DZ.pos]+'»: '+dzSizeTxt(dzCm(DZ.pos)[0],dzCm(DZ.pos)[1])+'.'+(DZ.tpl.aprox?' La vista es orientativa: te confirmamos la posición exacta antes de imprimir.':'')+'</p>';
   h+='<p>¿Tu logo está en PDF o AI? Mándanoslo por <a href="https://wa.me/34682368645?text='+encodeURIComponent("Hola, os envío mi logo para el presupuesto.")+'" target="_blank" rel="noopener">WhatsApp</a> y lo preparamos.</p>';
   $("dzinfo").innerHTML=h;
-  DZ.sheetFrom=document.activeElement; sh.hidden=false;
-  var sel=sh.querySelector('.dot[aria-checked="true"]')||sh.querySelector(".dot"); if(sel) sel.focus({preventScroll:true});
+  DZ.sheetFrom=document.activeElement; clearTimeout(dzSheetClose.t); sh.classList.remove("closing"); $("dzsheetin").style.transform=""; sh.hidden=false;
+  var sel=sh.querySelector('.dzsrow[aria-checked="true"]')||sh.querySelector(".dzsrow"); if(sel){sel.scrollIntoView({block:"center"}); sel.focus({preventScroll:true});}
 }
-function dzSheetClose(quiet){var sh=$("dzsheet"); if(!sh||sh.hidden) return; sh.hidden=true; if(quiet!==true&&DZ.sheetFrom&&document.contains(DZ.sheetFrom)) DZ.sheetFrom.focus({preventScroll:true});}
+/* se cierra deslizándose hacia abajo (o con un fundido si se pide menos movimiento) */
+function dzSheetClose(quiet){
+  var sh=$("dzsheet"); if(!sh||sh.hidden||sh.classList.contains("closing")) return;
+  if(quiet===true){sh.hidden=true; return;}
+  sh.classList.add("closing"); dzSheetClose.t=setTimeout(function(){sh.hidden=true; sh.classList.remove("closing"); $("dzsheetin").style.transform="";},200);
+  if(DZ.sheetFrom&&document.contains(DZ.sheetFrom)) DZ.sheetFrom.focus({preventScroll:true});
+}
+function dzQual(d){var q=dzDpi(d); return q>=200?"buena":q>=DZ_DPI?"justa":"baja";}
+/* arrastrar la hoja hacia abajo para cerrarla */
+function dzSheetDrag(){
+  var g=$("dzsgrip"), box=$("dzsheetin"), st=null;
+  g.addEventListener("pointerdown",function(e){if(e.target.closest("button")) return; st={y:e.clientY,t:Date.now(),id:e.pointerId}; g.setPointerCapture(e.pointerId); box.style.transition="none";});
+  g.addEventListener("pointermove",function(e){if(!st||e.pointerId!==st.id) return; var dy=Math.max(0,e.clientY-st.y); box.style.transform="translateY("+dy+"px)";});
+  var end=function(e){if(!st||e.pointerId!==st.id) return; var dy=Math.max(0,e.clientY-st.y), v=dy/Math.max(1,Date.now()-st.t); st=null; box.style.transition="transform 200ms cubic-bezier(.23,1,.32,1)";
+    if(dy>80||v>.6) dzSheetClose(); else box.style.transform="";};
+  g.addEventListener("pointerup",end); g.addEventListener("pointercancel",end);
+}
 /* Colores */
 function dzDots(){
   var it=DZ.it;
+  [].forEach.call(document.querySelectorAll("#dz .dzslist"),function(d){
+    d.innerHTML="";
+    it.k.forEach(function(k,i){
+      var b=document.createElement("button"); b.type="button"; b.className="dzsrow"; b.setAttribute("role","radio");
+      b.innerHTML='<span class="dzcd" style="background:'+k[4]+'"></span><span>'+esc(colES(k[0]))+'</span>';
+      b.setAttribute("aria-checked",i===it.cur?"true":"false"); b.tabIndex=i===it.cur?0:-1;
+      b.onclick=function(){dzColor(i);};
+      d.appendChild(b);
+    });
+    d.onkeydown=function(e){var m={ArrowRight:1,ArrowDown:2,ArrowLeft:-1,ArrowUp:-2}[e.key]; if(!m) return; e.preventDefault(); var n=it.k.length; dzColor(Math.max(0,Math.min(n-1,it.cur+m))); d.children[it.cur].focus();};
+  });
   [].forEach.call(document.querySelectorAll("#dz .dzdots"),function(d){
     d.innerHTML="";
     it.k.forEach(function(k,i){
@@ -2842,13 +2915,14 @@ function dzDots(){
 function dzColName(){
   var it=DZ.it, k=it.k[it.cur];
   [].forEach.call(document.querySelectorAll("#dz .dzcolname"),function(x){x.textContent=colES(k[0]);});
-  [].forEach.call(document.querySelectorAll("#dz .dzcd"),function(x){x.style.background=k[4];});
+  [].forEach.call(document.querySelectorAll("#dz .dzcolbtn .dzcd"),function(x){x.style.background=k[4];});
   [].forEach.call(document.querySelectorAll("#dz .dzcolbtn"),function(x){x.setAttribute("aria-label","Color: "+colES(k[0]));});
 }
 function dzColor(i){
   var it=DZ.it; if(i===it.cur) return; it.cur=i; DZP.upd();
   history.replaceState(history.state,"",DZ.path+"?disenar="+encodeURIComponent(it.k[i][0])); lastRouted=location.href;
-  [].forEach.call(document.querySelectorAll("#dz .dzdots"),function(d){[].forEach.call(d.children,function(b,j){b.setAttribute("aria-checked",j===i?"true":"false"); b.tabIndex=j===i?0:-1;});});
+  [].forEach.call(document.querySelectorAll("#dz .dzdots,#dz .dzslist"),function(d){[].forEach.call(d.children,function(b,j){b.setAttribute("aria-checked",j===i?"true":"false"); b.tabIndex=j===i?0:-1;});});
+  dzErr("");
   dzColName();
   DZ.restored=null; dzShow(); dzRestore();
 }
@@ -2873,12 +2947,14 @@ function dzRender(){
   var stage=$("dzstage"), v=DZ.view, area=$("dzarea"), item=$("dzitem"), d=DZ.items[DZ.pos], ph=stage.querySelector(".dzph");
   $("dzempty").hidden=!!d;
   if(!v||!ph){area.hidden=true; item.hidden=true; $("dzzoom").hidden=true; dzBanner(); return;}
-  var SW=stage.clientWidth, SH=stage.clientHeight, g=dzGeom(v,DZ.tpl,DZ.pos,SW,SH,DZ.zoomed?"zone":"full"); DZ.g=g;
+  dzBanner();
+  var bn=$("dzbanner"), inset=bn.hidden?0:bn.offsetHeight+16; /* el aviso de arriba no tapa la zona */
+  var SW=stage.clientWidth, SH=stage.clientHeight-inset, g=dzGeom(v,DZ.tpl,DZ.pos,SW,SH,DZ.zoomed?"zone":"full"); g.oy+=inset; g.ay+=inset; DZ.g=g;
   var other=dzGeom(v,DZ.tpl,DZ.pos,SW,SH,DZ.zoomed?"full":"zone"), zb=$("dzzoom");
+  stage.classList.toggle("dk",dzDark(DZ.it.k[DZ.it.cur],v.fr));
   zb.hidden=Math.abs(other.z-g.z)/g.z<.1; /* si las dos vistas son casi iguales, sin botón */
   zb.innerHTML=DZ.zoomed?DZ_ICON.full+"Ver prenda entera":DZ_ICON.zoomin+"Acercar";
   var gv=$("dzgv"), gh2=$("dzgh"); gv.style.left=g.ax+g.aw/2+"px"; gv.style.top=g.ay+"px"; gv.style.height=g.ah+"px"; gh2.style.top=g.ay+g.ah/2+"px"; gh2.style.left=g.ax+"px"; gh2.style.width=g.aw+"px";
-  dzBanner();
   ph.style.width=g.W*g.z+"px"; ph.style.height=g.H*g.z+"px"; ph.style.left=g.ox+"px"; ph.style.top=g.oy+"px";
   area.hidden=false; area.style.left=g.ax+"px"; area.style.top=g.ay+"px"; area.style.width=g.aw+"px"; area.style.height=g.ah+"px";
   area.classList.toggle("low",g.ay<30);
@@ -2905,11 +2981,11 @@ function dzTools(){
   } else {
     var cm=dzCm(p), hh=d.w*d.ar, maxW=Math.min(cm[0],cm[1]/d.ar);
     h+='<p class="dzfile"><span>'+esc(d.name)+'</span><i>'+(d.vec?"Vectorial":fmt(d.nat[0])+" × "+fmt(d.nat[1])+" px")+'</i></p>'+
-      '<div class="dzrow1"><b class="dzsz"><input id="dzw" class="dzin" inputmode="decimal" autocomplete="off" aria-label="Ancho en cm" value="'+dzNum(d.w)+'"> × <input id="dzh" class="dzin" inputmode="decimal" autocomplete="off" aria-label="Alto en cm" value="'+dzNum(hh)+'"> cm</b><span class="dzchip" id="dzlb">'+dzLabel(d.w,hh)+'</span>'+dzChips(p,maxW)+'</div>'+
+      '<div class="dzrow1"><b class="dzsz"><input id="dzw" class="dzin" inputmode="decimal" autocomplete="off" aria-label="Ancho en cm" value="'+dzNum(d.w)+'"> × <input id="dzh" class="dzin" inputmode="decimal" autocomplete="off" aria-label="Alto en cm" value="'+dzNum(hh)+'"> cm</b><span class="dzchip" id="dzlb" aria-label="Tamaño de impresión: '+dzLabel(d.w,hh)+'"><span><span class="lg">Tamaño: </span><span id="dzlbt">'+dzLabel(d.w,hh)+'</span></span></span>'+dzChips(p,maxW)+'</div>'+
       '<p class="dzmax">Máximo en esta zona: '+dzSizeTxt(cm[0],cm[1])+'</p>'+dzViewNote()+
       '<div class="dzrange"><label for="dzr">Tamaño</label><input type="range" id="dzr" min="2" max="'+maxW.toFixed(2)+'" step="0.1" value="'+d.w.toFixed(2)+'" aria-valuetext="'+dzSizeTxt(d.w,hh)+'"></div>'+
-      '<div class="dztools"><button type="button" class="btn ghost" id="dzctr">'+DZ_ICON.center+'Centrar</button><button type="button" class="btn ghost" id="dzchg">'+DZ_ICON.swap+'<span>Cambiar<span class="lg"> imagen</span></span></button><button type="button" class="btn ghost rm" id="dzrm">'+DZ_ICON.trash+'Quitar</button>'+dzColBtn()+'</div>';
-    box.innerHTML=h;
+      '<div class="dztools"><button type="button" class="btn ghost" id="dzctr">'+DZ_ICON.center+'<span id="dzctrl">Centrar</span></button><button type="button" class="btn ghost" id="dzchg">'+DZ_ICON.swap+'<span>Cambiar<span class="lg"> imagen</span></span></button><button type="button" class="btn ghost rm" id="dzrm">'+DZ_ICON.trash+'Quitar</button>'+dzColBtn()+'</div>';
+    box.innerHTML=h; dzFit($("dzw")); dzFit($("dzh")); dzLive();
     $("dzr").oninput=function(){dzResize(p,+this.value);};
     [].forEach.call(box.querySelectorAll(".dzopt"),function(b){b.onclick=function(){if(b.dataset.chest) dzChest(p); else dzResize(p,+b.dataset.w); dzLive();};});
     $("dzctr").onclick=function(){dzCenter(p);};
@@ -2936,9 +3012,10 @@ function dzTyped(p,isW,val){
 /* Centrar: primero en horizontal (se mantiene la altura); si ya está centrado, también en vertical */
 function dzCenter(p){
   var d=DZ.items[p]; if(!d) return; var c=dzCm(p), cx=(c[0]-d.w)/2, cy=(c[1]-d.w*d.ar)/2;
-  if(Math.abs(d.x-cx)>.05) d.x=cx; else d.y=cy;
-  dzAnim(); dzRender(); dzGuides(Math.abs(d.x-cx)<.05,Math.abs(d.y-cy)<.05); clearTimeout(dzCenter.t); dzCenter.t=setTimeout(function(){dzGuides(false,false);},700);
+  if(Math.abs(d.x-cx)>.05){d.x=cx; if(Math.abs(d.y-cy)>.05) dzErr("Centrado a lo ancho. Toca otra vez para centrar también en alto.");} else d.y=cy;
+  dzAnim(); dzRender(); dzLive(); dzGuides(Math.abs(d.x-cx)<.05,Math.abs(d.y-cy)<.05); clearTimeout(dzCenter.t); dzCenter.t=setTimeout(function(){dzGuides(false,false);},700);
 }
+function dzFit(inp){if(inp) inp.style.width=Math.max(2,inp.value.length+.4)+"ch";} /* el número cabe entero */
 function dzGuides(x,y){$("dzgv").classList.toggle("on",!!x); $("dzgh").classList.toggle("on",!!y);}
 /* Producto con colocación orientativa o sin foto de esta vista */
 function dzViewNote(){
@@ -2949,12 +3026,13 @@ function dzViewNote(){
 function dzDpi(d){return d.vec?9999:d.nat[0]/(d.w/2.54);}
 function dzBanner(){
   var b=$("dzbanner"); if(!b) return; var d=DZ.items[DZ.pos], v=DZ.view, list=[];
-  if(d&&dzDpi(d)<150) list.push(["warn","La imagen tiene poca resolución para este tamaño: se verá pixelada. Súbela más grande o reduce el tamaño."]);
+  if(d&&dzDpi(d)<DZ_DPI) list.push(["warn","La imagen tiene poca resolución para este tamaño: se verá pixelada. Súbela más grande o reduce el tamaño."]);
   if(d&&d.bg) list.push(["info","Tu imagen tiene fondo: si no lo quieres, súbela en PNG sin fondo."]);
   if(v&&v.nophoto) list.push(["info","No tenemos foto de esta vista: te mostramos la zona de impresión sobre un fondo del color de la prenda."]);
   else if(v&&v.noback&&DZ.tpl.z[DZ.pos].v==="b") list.push(["info","No tenemos foto de la espalda de este color: te mostramos la de delante como referencia."]);
   var key=list.map(function(x){return x[1];}).join("|");
-  if(b.dataset.k===key) return; b.dataset.k=key;
+  if(b.dataset.k===key) return; var had=b.dataset.k; b.dataset.k=key;
+  if(had!==undefined&&!dzBanner.busy){dzBanner.busy=1; requestAnimationFrame(function(){dzBanner.busy=0; if(DZ.open) dzRender();});}
   b.hidden=!list.length; if(!list.length) return;
   var warn=list.some(function(x){return x[0]==="warn";});
   b.className="dzbanner "+(warn?"warn":"info")+(DZ.bannerOpen?" open":"");
@@ -2967,7 +3045,9 @@ function dzLive(force){
   var iw=$("dzw"), ih=$("dzh");
   if(iw&&(force||document.activeElement!==iw)) iw.value=dzNum(d.w);
   if(ih&&(force||document.activeElement!==ih)) ih.value=dzNum(hh);
-  var lb=$("dzlb"); if(lb) lb.textContent=dzLabel(d.w,hh);
+  var lb=$("dzlb"); if(lb){$("dzlbt").textContent=dzLabel(d.w,hh); lb.setAttribute("aria-label","Tamaño de impresión: "+dzLabel(d.w,hh));}
+  dzFit(iw); dzFit(ih);
+  var cl=$("dzctrl"); if(cl){var c=dzCm(DZ.pos), hx=Math.abs(d.x-(c[0]-d.w)/2)<.05, vy=Math.abs(d.y-(c[1]-d.w*d.ar)/2)<.05; cl.textContent=hx&&!vy?"Centrar en alto":"Centrar"; cl.parentNode.classList.toggle("long",hx&&!vy);}
   var r=$("dzr"); if(r&&document.activeElement!==r){r.value=d.w.toFixed(2);} if(r) r.setAttribute("aria-valuetext",dzSizeTxt(d.w,hh));
   [].forEach.call(document.querySelectorAll(".dzopt"),function(o){o.setAttribute("aria-pressed",Math.abs(d.w-(o.dataset.chest?DZ_PECHO:+o.dataset.w))<.05?"true":"false");});
   dzBanner(); dzSum();
@@ -2976,15 +3056,15 @@ function dzSum(){
   var used=DZ_ORD.filter(function(p){return DZ.items[p];});
   var one=used.length===1&&DZ.items[used[0]];
   $("dzsum").innerHTML=!used.length?"Sube una imagen en al menos una zona para añadirla al presupuesto.":one?'<b>'+DZ_LBL[used[0]]+':</b> '+dzSizeTxt(one.w,one.w*one.ar)+' ('+dzLabel(one.w,one.w*one.ar)+')':'<b>'+used.length+' zonas con diseño:</b> '+used.map(function(p){return DZ_LBL[p];}).join(", ");
-  var b=$("dzadd"); b.disabled=!used.length;
+  var b=$("dzadd"); b.disabled=false; b.classList.toggle("soft",!used.length);
   b.textContent=cart[cKey(DZ.it)]&&cart[cKey(DZ.it)].dz?"Actualizar en el presupuesto":"Añadir al presupuesto";
   [].forEach.call($("dzseg").children,function(x,i){var p=DZ.tpl.pos[i]; x.classList.toggle("has",!!DZ.items[p]);});
 }
 /* Botones de ancho: recomendado (espalda 28,4 / bolsas 18,7) y logo en el pecho (9,5) */
 function dzChips(p,maxW){
   var zn=DZ.tpl.z[p], h="", d=DZ.items[p], on=function(w){return d&&Math.abs(d.w-w)<.05?"true":"false";};
-  if(zn.rec&&maxW>=zn.rec-.01) h+='<button type="button" class="dzopt" data-w="'+zn.rec+'" aria-pressed="'+on(zn.rec)+'"><span><span class="lg">Ancho recomendado: </span><span class="sm">Recomendado </span>'+dzNum(zn.rec)+' cm</span></button>';
-  if(zn.pecho&&dzCm(p)[0]>=DZ_PECHO-.01) h+='<button type="button" class="dzopt" data-chest="1" aria-pressed="'+on(DZ_PECHO)+'"><span>Logo<span class="lg"> en el</span> pecho<span class="lg">:</span> '+dzNum(DZ_PECHO)+' cm</span></button>';
+  if(zn.rec&&maxW>=zn.rec-.01) h+='<button type="button" class="dzopt" data-w="'+zn.rec+'" aria-pressed="'+on(zn.rec)+'" aria-label="Ancho recomendado: '+dzNum(zn.rec)+' cm">'+DZ_ICON.check+'<span><span class="lg">Ancho recomendado: </span>'+dzNum(zn.rec)+' cm</span></button>';
+  if(zn.pecho&&dzCm(p)[0]>=DZ_PECHO-.01) h+='<button type="button" class="dzopt" data-chest="1" aria-pressed="'+on(DZ_PECHO)+'" aria-label="Logo en el pecho: '+dzNum(DZ_PECHO)+' cm">'+DZ_ICON.check+'<span><span class="lg">Logo en el pecho: </span><span class="sm">Pecho </span>'+dzNum(DZ_PECHO)+' cm</span></button>';
   return h?'<div class="dzopts">'+h+'</div>':"";
 }
 /* Logo en el pecho: 9,5 cm de ancho, arriba en el pecho izquierdo de quien la lleva (a la derecha en la foto) */
@@ -3003,7 +3083,7 @@ function dzClamp(d,cm){d.x=Math.max(0,Math.min(cm[0]-d.w,d.x)); d.y=Math.max(0,M
 function dzRemove(p){var d=DZ.items[p]; delete DZ.items[p]; if(d&&!DZ_ORD.some(function(q){return DZ.items[q]&&DZ.items[q].url===d.url;})) URL.revokeObjectURL(d.url); dzSeg(); dzTools(); dzRender(); var u=$("dzpick"); if(u) u.focus();}
 /* Imagen elegida: se comprueba el formato, se mide y se coloca en la zona */
 var DZ_TYPES=/^image\/(png|jpeg|svg\+xml|webp)$/;
-function dzErr(msg){var e=$("dzerr"); e.textContent=msg; e.hidden=!msg; if(msg){clearTimeout(dzErr.t); dzErr.t=setTimeout(function(){e.hidden=true;},7000);}}
+function dzErr(msg){var e=$("dzerr"); if(!e) return; clearTimeout(dzErr.t); e.textContent=msg; e.hidden=!msg; if(msg) dzErr.t=setTimeout(function(){e.hidden=true;},3500);}
 function dzSetFile(p,file,g){
   dzErr("");
   var type=file.type||(/\.svg$/i.test(file.name)?"image/svg+xml":/\.png$/i.test(file.name)?"image/png":/\.jpe?g$/i.test(file.name)?"image/jpeg":"");
@@ -3055,7 +3135,7 @@ function dzDrag(){
     e.preventDefault(); item.classList.add("sel"); item.focus({preventScroll:true}); stage.classList.remove("anim");
     if(pinch) return;
     st={id:e.pointerId,x:e.clientX,y:e.clientY,dx:d.x,dy:d.y};
-    item.setPointerCapture(e.pointerId); item.classList.add("drag");
+    item.setPointerCapture(e.pointerId); item.classList.add("drag"); stage.classList.add("busy");
   });
   item.addEventListener("pointermove",function(e){
     if(!st||pinch||e.pointerId!==st.id) return; var d=DZ.items[DZ.pos]; if(!d) return;
@@ -3067,19 +3147,19 @@ function dzDrag(){
     snapX=sx; snapY=sy; dzGuides(sx,sy);
     dzRender(); dzLive(); measure(true);
   });
-  var end=function(e){if(!st||e.pointerId!==st.id) return; st=null; item.classList.remove("drag"); measure(false); snapX=snapY=false; dzGuides(false,false);};
+  var end=function(e){if(!st||e.pointerId!==st.id) return; st=null; item.classList.remove("drag"); stage.classList.remove("busy"); measure(false); snapX=snapY=false; dzGuides(false,false); dzLive();};
   item.addEventListener("pointerup",end); item.addEventListener("pointercancel",end);
   /* dos dedos sobre el lienzo: tamaño proporcional */
   stage.addEventListener("pointerdown",function(e){
     if(e.pointerType!=="touch") return; pts[e.pointerId]={x:e.clientX,y:e.clientY};
     var d=DZ.items[DZ.pos];
-    if(d&&Object.keys(pts).length===2){pinch={d0:dist()||1,w0:d.w}; if(st){st=null; item.classList.remove("drag");} dzGuides(false,false); measure(true);}
+    if(d&&Object.keys(pts).length===2){pinch={d0:dist()||1,w0:d.w}; if(st){st=null; item.classList.remove("drag");} stage.classList.add("busy"); dzGuides(false,false); measure(true);}
   },true);
   stage.addEventListener("pointermove",function(e){
     if(!pts[e.pointerId]) return; pts[e.pointerId]={x:e.clientX,y:e.clientY};
     if(pinch&&DZ.items[DZ.pos]){e.preventDefault(); dzResize(DZ.pos,pinch.w0*dist()/pinch.d0); measure(true);}
   },true);
-  var tend=function(e){if(!pts[e.pointerId]) return; delete pts[e.pointerId]; if(pinch&&Object.keys(pts).length<2){pinch=null; measure(false);}};
+  var tend=function(e){if(!pts[e.pointerId]) return; delete pts[e.pointerId]; if(pinch&&Object.keys(pts).length<2){pinch=null; stage.classList.remove("busy"); measure(false);}};
   stage.addEventListener("pointerup",tend,true); stage.addEventListener("pointercancel",tend,true);
   stage.addEventListener("wheel",function(e){var d=DZ.items[DZ.pos]; if(!d||!e.target.closest(".dzitem")) return; e.preventDefault(); dzResize(DZ.pos,d.w*(e.deltaY<0?1.04:1/1.04));},{passive:false});
   item.addEventListener("keydown",function(e){
@@ -3136,7 +3216,8 @@ function dzSaveCart(l){
 var dzBusy=false;
 function dzAdd(){
   if(dzBusy) return;
-  var it=DZ.it, f=DZ.f, items=DZ.items, used=DZ_ORD.filter(function(p){return items[p];}); if(!used.length) return;
+  var it=DZ.it, f=DZ.f, items=DZ.items, used=DZ_ORD.filter(function(p){return items[p];});
+  if(!used.length){var u=document.querySelector(".dzup"); if(u){u.classList.remove("pulse"); void u.offsetWidth; u.classList.add("pulse");} dzErr("Sube tu logo primero."); return;}
   dzBusy=true; var b=$("dzadd"); b.disabled=true; b.setAttribute("aria-busy","true"); b.textContent="Preparando la vista previa…";
   var ci=it.cur, tpl=DZ.tpl;
   dzMockup(it,f,ci,items,tpl).then(function(img){
@@ -3149,7 +3230,8 @@ function dzAdd(){
     dzBusy=false; b.removeAttribute("aria-busy");
     cartUI(); bump(); syncAdds();
     DZ.restored=id;
-    DZ.after=function(){openPanelAt(id,$("padd")||null);};
+    var l=cart[id]; if(l&&!lineTotal(l)&&l.zs&&l.zs.length){l.more=1; cartUI();} /* tallas desplegadas para ese producto */
+    DZ.after=function(){openPanelAt(id,$("padd")||null); setTimeout(function(){var li=[].filter.call($("list").children,function(x){return x.dataset.id===id;})[0]; var t=li&&(li.querySelector(".qchip")||li.querySelector(".qcell input")); if(t) t.focus({preventScroll:true});},120);};
     dzRequestClose();
   }).catch(function(){dzBusy=false; b.removeAttribute("aria-busy"); dzSum(); dzErr("No se ha podido añadir. Inténtalo de nuevo.");});
 }

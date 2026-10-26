@@ -6,6 +6,10 @@ import { readFileSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
 import { SEO_CATS } from "./seo-categorias.mjs";
 
 const src = JSON.parse(readFileSync("data/toptex.json", "utf8"));
+// Color real de cada código de color, medido en las fotos (scripts/colores-hex.mjs) para los proveedores que no dan el código de color
+let HEXM = {}; try { HEXM = JSON.parse(readFileSync("data/colores-hex.json", "utf8")); } catch (e) {}
+const colName = c => String(c.n || "").replace(/\s*\(x?\d+\)/gi, "").trim();
+const hexOf = (p, c) => /^#?[0-9a-f]{6}$/i.test(c.hex || "") ? "#" + c.hex.replace("#", "") : (HEXM[(p.source || "toptex") + "|" + (c.code || "") + "|" + colName(c).toLowerCase().replace(/ /g, "_")] || "");
 // Otros proveedores con el mismo formato (si existen)
 for (const f of ["data/roly.json", "data/jhk.json", "data/sols.json", "data/stanley.json", "data/falkross.json"]) { try { src.push(...JSON.parse(readFileSync(f, "utf8"))); } catch (e) {} }
 // Fuera: prendas de Fruit of the Loom que ya llevan su logo estampado (no sirven para personalizar)
@@ -185,7 +189,7 @@ for (const p of src) {
     g: [...new Set((p.gen || []).map(g => GEN[g]).filter(Boolean))].join(""),
     w: grams(p.peso), f: flags, u: usoOf(p.world).map(worldI),
     st: clean(p.style), i: stem(main),
-    k: colors.map(c => [String(c.n || "").replace(/\s*\(x?\d+\)/gi, "").trim(), /^#?[0-9a-f]{6}$/i.test(c.hex || "") ? "#" + c.hex.replace("#", "") : "", [...new Set((c.dom || []).map(d => COLFIX[d] || d))].map(domI), stem(c.img)]),
+    k: colors.map(c => [colName(c), hexOf(p, c), [...new Set((c.dom || []).map(d => COLFIX[d] || d))].map(domI), stem(c.img)]),
     o: genRank(p.gen) >= 3 ? 1 : 0, h: mix(p.ref), b: String(p.brand || p.source || ""),
     m: sleeveOf(p, cat[0]), cu: neckOf(p, cat[0]), ft: fitOf(p),
     z: (p.sizes || []).length ? [p.sizes[0], p.sizes[p.sizes.length - 1]].filter((v, i, a) => a.indexOf(v) === i).join(" a ") : "",

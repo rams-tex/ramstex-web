@@ -1,0 +1,24 @@
+name: Colores reales de las prendas
+# Mide el color de los códigos de color nuevos (Sol's, Roly, JHK, Falk&Ross) y rehace el catálogo.
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  medir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save sharp@0.33
+      - run: node scripts/colores-hex.mjs
+      - run: node scripts/catalogo-construir.mjs
+      - name: Guardar
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add data/colores-hex.json data/catalogo.json data/fichas
+          git diff --cached --quiet || git commit -m "Colores reales actualizados [skip netlify]"
+          git push
