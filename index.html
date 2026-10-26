@@ -352,7 +352,8 @@ footer p{margin:8px 0 0;font-size:var(--fs-s)}
 .opt input{width:18px;height:18px;accent-color:var(--red);margin:0;flex:none}
 .opt .n{margin-left:auto;color:var(--muted);font-size:var(--fs-xs);padding-left:8px}
 .opt .sq{width:18px;height:18px;border-radius:50%;border:1px solid var(--line);flex:none}
-.opt.off{opacity:.38}
+.opt.off{opacity:1;color:var(--muted)}
+.opt.off input{opacity:.5}
 .showall{background:none;border:0;color:var(--red-text);font:600 var(--fs-s) Figtree,sans-serif;cursor:pointer;padding:6px 0;text-align:left}
 .tools{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
 .count{color:var(--muted);margin:0;font-size:var(--fs-s)}
@@ -370,6 +371,8 @@ footer p{margin:8px 0 0;font-size:var(--fs-s)}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-m);overflow:hidden;display:flex;flex-direction:column}
 .frame{display:block;aspect-ratio:4/5;background:#fff;position:relative;overflow:hidden}
 .frame img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.frame img.noimg,.ph img.noimg,.qimg img.noimg,.thumbs img.noimg,.pgal .big img.noimg{visibility:hidden}
+.frame:has(.noimg),.ph:has(.noimg),.qimg:has(.noimg){background:var(--tint)}
 img.pack{object-fit:contain!important;padding:6%}
 .tag{position:absolute;left:10px;top:10px;background:#fff;color:#111;font:600 var(--fs-xs) Figtree,sans-serif;padding:4px 9px;border-radius:999px;border:1px solid var(--line)}
 .info{padding:14px 16px 16px;display:flex;flex-direction:column;gap:7px;flex:1}
@@ -425,6 +428,7 @@ img.pack{object-fit:contain!important;padding:6%}
 .qmeta{color:var(--muted);font-size:var(--fs-xs);margin:2px 0 0;line-height:1.35}
 .qrm{background:none;border:0;color:var(--red-text);font:600 var(--fs-xs) Figtree,sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:2px;padding:6px 0;margin-top:2px}
 .qrm:hover{color:var(--red-hover)}
+@media (pointer:coarse){.qrm{min-height:36px;padding:8px 0}}
 .qsz{display:block;margin:12px 0 0;padding:0;border:0;min-width:0}
 .qchips{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 .qhint{width:100%;font:600 var(--fs-xs)/1.3 Figtree,sans-serif;color:var(--muted);margin-bottom:2px}
@@ -434,17 +438,18 @@ img.pack{object-fit:contain!important;padding:6%}
 @media (hover:hover) and (pointer:fine){.qchip:hover{border-color:var(--text)}}
 @media (pointer:coarse){.qchip{height:36px;min-width:44px}}
 @media (prefers-reduced-motion: reduce){.qchip:active{transform:none}}
-.qinputs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.qinputs{display:grid;grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:8px;margin-top:12px}
 /* Casilla de talla (presupuesto y ficha): talla | unidades */
 .qcell{display:flex;align-items:stretch;gap:0;min-width:0;height:44px;border:1.5px solid var(--line-strong);border-radius:12px;background:var(--surface);overflow:hidden;transition:border-color 150ms ease,box-shadow 150ms ease}
 .qcell:has(input.has){border-color:var(--text)}
 .qcell:focus-within{border-color:var(--red-text);box-shadow:0 0 0 3px color-mix(in srgb,var(--red) 18%,transparent)}
-.qcell .qz{display:grid;place-items:center;min-width:40px;padding:0 10px;background:var(--tint);color:var(--text);font:700 var(--fs-xs)/1 Figtree,sans-serif;letter-spacing:.02em;border-right:1px solid var(--line);white-space:nowrap}
+.qcell .qz{display:grid;place-items:center;min-width:48px;padding:0 10px;background:var(--tint);color:var(--text);font:700 var(--fs-xs)/1 Figtree,sans-serif;letter-spacing:.02em;border-right:1px solid var(--line);white-space:nowrap}
 #panel .qcell input,#pq .qcell input{flex:1 1 52px;width:52px;min-width:0;height:100%;border:0;border-radius:0;outline:0;background:transparent;padding:0 2px;font:600 16px/1 Figtree,sans-serif;text-align:center;font-variant-numeric:tabular-nums;box-shadow:none;-moz-appearance:textfield;appearance:textfield}
 #panel .qcell input:focus-visible,#pq .qcell input:focus-visible{outline:0}
 .qcell input::-webkit-outer-spin-button,.qcell input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .qcell.wide .qz{padding:0 14px}
 #panel .qcell.wide input{width:96px}
+.qinputs .qcell.wide{grid-column:1/-1;max-width:240px}
 .qcell .qx{display:grid;place-items:center;width:30px;height:100%;border:0;border-left:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;padding:0;transition:color 150ms ease,background-color 150ms ease}
 .qcell .qx svg{width:14px;height:14px}
 @media (hover:hover) and (pointer:fine){.qcell .qx:hover{color:var(--red-text);background:color-mix(in srgb,var(--red) 8%,transparent)}}
@@ -512,6 +517,7 @@ h2.tilesh{font-size:var(--fs-l);margin:0 0 14px}
 .tile.f{grid-column:span 2;grid-row:span 2}
 .tile.f .ph{flex:1;aspect-ratio:auto;min-height:0}
 .tile.f b{font-size:var(--fs-xl)}
+.tile.m.f img,.tile.m.b3 img,.tile.m.w3 img{padding:9%}
 .vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
 @media (min-width:601px) and (max-width:1100px){
   .tiles,.tgrp{grid-template-columns:repeat(3,1fr)}
@@ -525,6 +531,7 @@ h2.tilesh{font-size:var(--fs-l);margin:0 0 14px}
   .tiles{margin-top:14px}
   .tile.f{grid-row:auto}
   .tile.f .ph{flex:none;aspect-ratio:16/10}
+  .tile.f.b3{order:1} /* a 2 columnas, la tercera destacada baja al final: grande, pareja, grande, pareja, grande */
   .tile b,.tile.f b{font-size:1rem}
   .tile.f b{font-size:var(--fs-l)}
   .tn{padding-top:8px}
@@ -553,7 +560,7 @@ h2.tilesh{font-size:var(--fs-l);margin:0 0 14px}
 .pinfo .desc{color:var(--muted);margin:18px 0 6px}
 .args{margin:10px 0 0;padding-left:20px;color:var(--muted)}
 .args li{margin:3px 0}
-.pinfo h3{font-size:var(--fs-m);margin:24px 0 10px}
+.pinfo h2{font-size:var(--fs-m);margin:24px 0 10px}
 .pinfo .dots .dot{width:30px;height:30px}
 .badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
 .badges span{background:var(--tint);border-radius:999px;padding:5px 12px;font-size:var(--fs-xs);font-weight:500}
@@ -700,6 +707,8 @@ h2.tilesh{font-size:var(--fs-l);margin:0 0 14px}
   .pbtns{position:sticky;bottom:0;margin:26px -24px 0!important;padding:12px 24px calc(12px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line);grid-template-columns:minmax(0,1fr) minmax(0,1fr);z-index:10}
   .related{margin-top:44px}
 }
+/* tableta: 3 columnas de productos (va después del bloque de móvil para ganarle) */
+@media (min-width:601px) and (max-width:900px){.grid,.related .grid{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:600px){
   #catsub{font-size:1rem;margin:8px 0 14px}
   #catsub .cl{display:none}
@@ -844,7 +853,7 @@ h2.tilesh{font-size:var(--fs-l);margin:0 0 14px}
       </div>
       <div class="duo">
         <a class="duocard" href="/catalogo/">
-          <div class="duoimg"><img src="https://images.unsplash.com/photo-1699275303942-47957eea44b1?w=1200&h=900&fit=crop&auto=format&q=80" alt="Sudaderas con capucha de colores colgadas en un perchero" loading="lazy"></div>
+          <div class="duoimg"><img src="/portada-900.webp" width="900" height="664" alt="Camiseta, sudadera con capucha y sudadera personalizadas con el logo de Ramstex" loading="lazy"></div>
           <div class="duotxt">
             <h3>Textil</h3>
             <p>Camisetas, sudaderas, polos, chaquetas, ropa de trabajo y mucho más. Miles de prendas en todos los colores y tallas.</p>
@@ -969,6 +978,7 @@ h2.tilesh{font-size:var(--fs-l);margin:0 0 14px}
           </div>
         </div>
         <div class="pills" id="pills"></div>
+        <h2 class="vh">Productos</h2>
         <div class="grid" id="grid"></div>
         <button class="btn ghost moreb" id="moreb" type="button" hidden>Ver más</button>
       </div>
@@ -1187,14 +1197,16 @@ function isT(st){return st.indexOf("T:")===0;}
 function isF(st){return st.indexOf("F:")===0;}
 function isPack(st){return st.indexOf("packshots/")===0||(isR(st)&&st.indexOf("/views/")>0)||(isJ(st)&&st.indexOf("sku/")===2)||(isS(st)&&st.charAt(2)==="n"&&st.length>10)||(isT(st)&&st.charAt(2)==="P")||(isF(st)&&/_f[-_]/.test(st));}
 function ext(st){return isR(st)?".jpg":(isPack(st)?".png":".jpg");}
+/* foto que no carga (ni la alternativa): se quita y queda el fondo neutro, sin icono de imagen rota */
+function noImg(){this.onerror=null; this.removeAttribute("src"); this.classList.add("noimg");}
 function setSrc(img,st,w){
-  img.classList.toggle("pack",isPack(st));
-  if(isR(st)){img.onerror=null;img.src=IMGR+st.slice(2)+".jpg";return;}
-  if(isJ(st)){img.onerror=null;img.src=IMGJ+st.slice(2)+".jpg";return;}
-  if(isS(st)){img.onerror=null;img.src=IMGS+st.slice(2)+"?wid="+(w||700);return;}
-  if(isF(st)){img.onerror=null;img.src="https://download.falk-ross.eu/ws/picture/"+st.slice(2)+".jpg";return;}
-  if(isT(st)){img.onerror=null;img.src="/st/"+st.slice(2).replace(/\.\w+$/,"")+".webp";return;}
-  img.onerror=function(){img.onerror=null;img.src=IMG2+st+ext(st);};
+  img.classList.toggle("pack",isPack(st)); img.classList.remove("noimg");
+  if(isR(st)){img.onerror=noImg;img.src=IMGR+st.slice(2)+".jpg";return;}
+  if(isJ(st)){img.onerror=noImg;img.src=IMGJ+st.slice(2)+".jpg";return;}
+  if(isS(st)){img.onerror=noImg;img.src=IMGS+st.slice(2)+"?wid="+(w||700);return;}
+  if(isF(st)){img.onerror=noImg;img.src="https://download.falk-ross.eu/ws/picture/"+st.slice(2)+".jpg";return;}
+  if(isT(st)){img.onerror=noImg;img.src="/st/"+st.slice(2).replace(/\.\w+$/,"")+".webp";return;}
+  img.onerror=function(){img.onerror=noImg;img.src=IMG2+st+ext(st);};
   img.src=IMG+st+ext(st)+"?w="+(w||700);
 }
 
@@ -1510,8 +1522,11 @@ function emptyState(){
   var fl=[]; if(S.c&&CATN[S.c]) fl.push(CATN[S.c]); KEYS.forEach(function(k){S[k].forEach(function(v){fl.push(labelOf(k,v));});});
   var msg=q?(hasF?"No hay resultados para «"+q+"» con estos filtros.":"«"+q+"» no está en el catálogo."):"No hay productos con estos filtros.";
   var ask="Hola, busco: "+(q?q+(fl.length?" ("+fl.join(", ")+")":""):fl.join(", "));
+  /* buscando dentro de una categoría: ¿lo hay en otras? */
+  var nAll=(q&&S.c)?ITEMS.filter(function(it){return match(it,"c");}).length:0;
   var d=document.createElement("div"); d.className="empty";
   d.innerHTML='<p class="emt"></p><p class="emh">Trabajamos con muchos proveedores: cuéntanos qué buscas y te lo buscamos.</p><div class="emb">'+
+    (nAll?'<button type="button" class="btn" data-e="c">Ver '+fmt(nAll)+(nAll===1?' resultado':' resultados')+' en todas las categorías</button>':"")+
     (q?'<button type="button" class="btn ghost" data-e="q">Borrar búsqueda</button>':"")+
     (hasF?'<button type="button" class="btn ghost" data-e="f">Borrar filtros</button>':"")+
     '<button type="button" class="btn ghost" data-e="all">Ver todas las categorías</button>'+
@@ -1521,7 +1536,7 @@ function emptyState(){
     var b=e.target.closest("[data-e]"); if(!b) return; var w=b.dataset.e;
     if(w==="q"||w==="all"){S.q="";$("q").value="";parseQ();}
     if(w==="f"||w==="all") KEYS.forEach(function(k){S[k]=[];});
-    if(w==="all") S.c="";
+    if(w==="all"||w==="c") S.c="";
     renderCat(); $("q").focus({preventScroll:true}); toResults(false);
   });
   return d;
@@ -1699,15 +1714,15 @@ function renderProduct(it){
     box.innerHTML=backA+
      '<div class="pd"><div class="pgal"><div class="big"><img alt="'+esc(it.n)+'"></div><div class="thumbs"></div></div>'+
      '<div class="pinfo"><h1>'+esc(it.n)+'</h1><div class="meta">'+esc(D.subs[it.s])+(gen?" · "+esc(gen):"")+' · Ref. '+esc(it.r)+'</div>'+
-     '<h3 class="pcol"></h3><div class="dh"></div>'+
+     '<h2 class="pcol"></h2><div class="dh"></div>'+
      (badges.length?'<div class="badges">'+badges.map(function(b){return "<span>"+esc(b)+"</span>";}).join("")+'</div>':"")+
-     '<h3 class="pqh">Unidades por talla</h3><div class="pq" id="pq"></div>'+
+     '<h2 class="pqh">Unidades por talla</h2><div class="pq" id="pq"></div>'+
      '<div class="pbtns"><button class="btn" type="button" id="padd">Añadir<span class="lg">&nbsp;a mi presupuesto</span></button><a class="btn ghost" href="'+wa+'" target="_blank" rel="noopener"><span class="lg">Preguntar por&nbsp;</span>WhatsApp</a></div>'+
      '<div class="pother" id="pother" hidden></div>'+
      (f.d?'<p class="desc">'+esc(f.d)+'</p>':"")+
      ((f.a||[]).length?'<ul class="args">'+f.a.map(function(a){return "<li>"+esc(a)+"</li>";}).join("")+'</ul>':"")+
-     '<h3>Stock disponible</h3><div class="pstock" id="pstock"><p class="meta">Cargando stock…</p></div>'+
-     '<h3>Características</h3><dl class="specs">'+specs.map(function(s){return "<dt>"+s[0]+"</dt><dd>"+esc(s[1])+"</dd>";}).join("")+'</dl></div></div>'+
+     '<h2>Stock disponible</h2><div class="pstock" id="pstock"><p class="meta">Cargando stock…</p></div>'+
+     '<h2>Características</h2><dl class="specs">'+specs.map(function(s){return "<dt>"+s[0]+"</dt><dd>"+esc(s[1])+"</dd>";}).join("")+'</dl></div></div>'+
      '<div class="related" id="related"></div>';
     var big=box.querySelector(".big img"), th=box.querySelector(".thumbs");
     var pics=(f.img&&f.img.length?f.img:[it.i]), view=pics[0];
@@ -1946,7 +1961,8 @@ function cartTotals(){
     return out;
   }).join("\n\n");
   var sum="Total: "+uds(g)+(g&&und?" (más "+und+(und===1?" producto":" productos")+" con cantidades por definir)":"");
-  var txt="Hola, os escribo desde la web de Ramstex. Me interesa presupuesto de:\n\n"+lines+"\n\n"+sum+"\n\nLogo/diseño: ";
+  /* con un solo producto, el total general repetiría el de la línea */
+  var txt="Hola, os escribo desde la web de Ramstex. Quería pedir presupuesto de:\n\n"+lines+"\n\n"+(ids.length>1?sum+"\n\n":"")+"Logo/diseño: ";
   $("send").href="https://wa.me/34682368645?text="+encodeURIComponent(txt);
   $("sendmail").href="mailto:info@ramstex.com?subject="+encodeURIComponent("Presupuesto desde el catálogo")+"&body="+encodeURIComponent(txt);
 }
@@ -2040,6 +2056,12 @@ function pdfQuote(JS,imgs){
     return M+16;
   }
   var BOT=PH-20, y=header(true);
+  /* datos del cliente: dos líneas en blanco para escribir a mano */
+  [["Nombre / empresa:",0],["Teléfono o correo:",8.5]].forEach(function(f){
+    var fy=y+f[1]; doc.setFont("helvetica","normal"); doc.setFontSize(9.5); col(MUT); doc.text(f[0],M,fy);
+    draw(LINE); doc.setLineWidth(0.3); doc.line(M+33,fy+0.8,PW-M,fy+0.8);
+  });
+  y+=18;
   var ids=Object.keys(cart), g=0, und=0;
   doc.setFont("helvetica","normal"); doc.setFontSize(10); col(MUT);
   doc.text("Productos y cantidades que nos has indicado ("+ids.length+(ids.length===1?" producto":" productos")+").",M,y); y+=8;
@@ -2056,9 +2078,9 @@ function pdfQuote(JS,imgs){
     /* foto */
     var im=imgs[ix];
     if(im){
-      var k=Math.min(IW/im.w,IH/im.h), w=im.w*k, hh=im.h*k;
-      draw(LINE); doc.setLineWidth(0.3); doc.roundedRect(M,y0,IW,IH,2,2,"S");
+      var k=Math.min((IW-3)/im.w,(IH-3)/im.h), w=im.w*k, hh=im.h*k; /* la foto, un poco hacia dentro del marco */
       try{doc.addImage(im.d,"JPEG",M+(IW-w)/2,y0+(IH-hh)/2,w,hh);}catch(e){}
+      draw(LINE); doc.setLineWidth(0.3); doc.roundedRect(M,y0,IW,IH,2,2,"S"); /* el marco después, para que la foto no lo tape */
     } else {fill(TINT); doc.roundedRect(M,y0,IW,IH,2,2,"F");}
     /* nombre, referencia y color */
     doc.setFont("helvetica","bold"); doc.setFontSize(11.5); col(INK); doc.text(name,TX,y0+4.2);
@@ -2086,9 +2108,9 @@ function pdfQuote(JS,imgs){
   var note=doc.splitTextToSize("Precios y plazos según diseño, técnica de personalización y cantidades. Te responderemos con el presupuesto detallado.",CW-12);
   var sh=23+(note.length-1)*3.9+(und?5.5:0);
   if(y+sh+14>BOT){doc.addPage(); y=header(false);}
-  y+=3; fill(TINT); doc.roundedRect(M,y,CW,sh,3,3,"F"); fill(RED); doc.rect(M,y,1.4,sh,"F");
+  y+=3; fill(TINT); doc.roundedRect(M,y,CW,sh,3,3,"F");
   doc.setFont("helvetica","bold"); doc.setFontSize(11); col(INK); doc.text("Total",M+6,y+9);
-  doc.setFontSize(16); doc.text(uds(g),PW-M-6,y+9.5,{align:"right"});
+  doc.setFontSize(16); col(RED); doc.text(uds(g),PW-M-6,y+9.5,{align:"right"});
   var ny=y+9;
   if(und){ny+=5.5; doc.setFont("helvetica","normal"); doc.setFontSize(9.5); col(MUT); doc.text("Más "+und+(und===1?" producto":" productos")+" con cantidades por definir",M+6,ny);}
   doc.setFont("helvetica","normal"); doc.setFontSize(9.5); col(MUT); doc.text(note,M+6,ny+8);
