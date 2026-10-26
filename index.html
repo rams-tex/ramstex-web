@@ -506,13 +506,8 @@ img.pack{object-fit:contain!important;padding:6%}
 .close:hover{color:var(--text)}
 
 /* ---------- Portadillas de categoría ---------- */
-/* Dos grupos ("Lo más pedido" y "Más categorías"), cada uno su propia rejilla. Las destacadas (.f) ocupan 2×2;
-   en 3 columnas .w3 (2 de ancho) y .b3 (toda la fila) cierran las filas para que no queden huecos */
-.tiles,.tgrp{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 16px;grid-auto-flow:dense;grid-auto-rows:1fr}
-.tiles{margin-top:22px}
-.tiles.grp{display:block}
-h2.tilesh{font-size:var(--fs-l);margin:0 0 14px}
-.tgrp+h2.tilesh{margin-top:56px}
+/* Una sola rejilla, todas las categorías del mismo tamaño: 4 por fila en ordenador, 3 en tablet, 2 en móvil */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 16px;margin-top:22px}
 .tile{display:flex;flex-direction:column;min-width:0;text-decoration:none;color:var(--text);background:none;border:0;border-radius:0;overflow:visible;transition:transform 160ms var(--ease-ui);-webkit-tap-highlight-color:transparent}
 .tile:active{transform:scale(.98)}
 .tile .ph{position:relative;aspect-ratio:4/5;border-radius:12px;overflow:hidden;background:var(--tint)}
@@ -525,30 +520,14 @@ h2.tilesh{font-size:var(--fs-l);margin:0 0 14px}
 .tc{font:600 var(--fs-s) Figtree,sans-serif;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 .tile>b{padding-top:12px} /* páginas ya escritas (sin .tn) hasta que se repinta */
 .tile>span:not(.tn){display:block;color:var(--muted);font-size:var(--fs-s)}
-.tile.f{grid-column:span 2;grid-row:span 2}
-.tile.f .ph{flex:1;aspect-ratio:auto;min-height:0}
-.tile.f b{font-size:var(--fs-xl)}
-.tile.m.f img,.tile.m.b3 img,.tile.m.w3 img{padding:9%}
 .vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
-@media (min-width:601px) and (max-width:1100px){
-  .tiles,.tgrp{grid-template-columns:repeat(3,1fr)}
-  .tile.w3{grid-column:span 2}
-  .tile.b3{grid-column:1/-1;grid-row:auto}
-  .tile.b3 .ph,.tile.w3 .ph{flex:1;aspect-ratio:auto;min-height:0}
-  .tile.b3 b{font-size:var(--fs-l)}
-}
+@media (min-width:601px) and (max-width:1100px){.tiles{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:600px){
-  .tiles,.tgrp{grid-template-columns:1fr 1fr;gap:22px 12px;grid-auto-rows:auto}
-  .tiles{margin-top:14px}
-  .tile.f{grid-row:auto}
-  .tile.f .ph{flex:none;aspect-ratio:16/10}
-  .tile.f.b3{order:1} /* a 2 columnas, la tercera destacada baja al final: grande, pareja, grande, pareja, grande */
-  .tile b,.tile.f b{font-size:1rem}
-  .tile.f b{font-size:var(--fs-l)}
-  .tn{padding-top:8px}
+  .tiles{grid-template-columns:1fr 1fr;gap:22px 12px;margin-top:14px}
+  .tile b{font-size:1rem}
+  .tn{flex-direction:column;align-items:flex-start;gap:2px;padding-top:8px}
   .tc{font-size:var(--fs-xs)}
-  .tgrp+h2.tilesh{margin-top:44px}
-  h2.tilesh{margin-bottom:12px}
+  .tc .vh{position:static!important;width:auto;height:auto;margin:0;overflow:visible;clip:auto;clip-path:none} /* en móvil se lee «735 productos» */
 }
 .cat.land #catsub{margin:10px 0 18px}
 
@@ -1464,8 +1443,8 @@ var TILEKW={camisetas:"camiseta",polos:"polo",sudaderas:"sudadera",chaquetas:"ch
 function isLanding(){return !S.c&&!QT.length&&!KEYS.some(function(k){return S[k].length;});}
 /* Portadilla: "Lo más pedido" (destacadas grandes) y "Más categorías". El orden importa: con él, la rejilla queda
    en zigzag y sin huecos a 4, 3 y 2 columnas */
-var LANDG={cat:[["camisetas","f"],["polos"],["gorras"],["sudaderas","f"],["chaquetas"],["bolsas"]],
-  merch:[["m-taz","f"],["m-esc"],["m-hog"],["m-tec","f"],["m-bol","f b3"],["m-out"],["m-eve"]]};
+var LANDG={cat:[["camisetas"],["sudaderas"],["polos"],["gorras"],["chaquetas"],["bolsas"]],
+  merch:[["m-taz"],["m-tec"],["m-bol"],["m-esc"],["m-hog"],["m-out"],["m-eve"]]};
 function tilePick(c){
   var kw=TILEKW[c[0]], pick=null;
   if(TILEPIC[c[0]]) pick=ITEMS.filter(function(x){return x.r===TILEPIC[c[0]];})[0]||null;
@@ -1479,15 +1458,12 @@ function tileHTML(c,cls){
 function renderLanding(){
   var mine=D.cats.filter(function(c){return isM(c[0])===(SEC==="merch");});
   var by={}; mine.forEach(function(c){by[c[0]]=c;});
-  var top=(LANDG[SEC]||[]).filter(function(g){return by[g[0]];});
-  var inTop={}; top.forEach(function(g){inTop[g[0]]=1;});
-  var rest=mine.filter(function(c){return !inTop[c[0]];});
-  /* a 3 columnas, la primera del segundo grupo se ensancha lo justo para cerrar la última fila */
-  var r3=rest.length%3, firstCls=r3===2?"w3":r3===1?"b3":"";
-  var h='<h2 class="tilesh">Lo más pedido</h2><div class="tgrp">'+top.map(function(g){return tileHTML(by[g[0]],g[1]);}).join("")+'</div>';
-  if(rest.length) h+='<h2 class="tilesh">Más categorías</h2><div class="tgrp">'+rest.map(function(c,i){return tileHTML(c,i?"":firstCls);}).join("")+'</div>';
-  var L=$("landing"); L.classList.add("grp"); L.innerHTML=h; L.dataset.sec=SEC;
-  [].forEach.call(L.querySelectorAll("img"),function(img){if(img.dataset.st)setSrc(img,img.dataset.st,img.closest(".f,.b3")?900:600);});
+  /* una sola rejilla, todas del mismo tamaño; primero las más pedidas */
+  var top=(LANDG[SEC]||[]).filter(function(g){return by[g[0]];}).map(function(g){return by[g[0]];});
+  var inTop={}; top.forEach(function(c){inTop[c[0]]=1;});
+  var all=top.concat(mine.filter(function(c){return !inTop[c[0]];}));
+  var L=$("landing"); L.classList.remove("grp"); L.innerHTML=all.map(function(c){return tileHTML(c,"");}).join(""); L.dataset.sec=SEC;
+  [].forEach.call(L.querySelectorAll("img"),function(img){if(img.dataset.st)setSrc(img,img.dataset.st,600);});
 }
 function secTexts(){
   var n=ITEMS.filter(function(it){return isM(it.c)===(SEC==="merch");}).length, r=fmt(Math.floor(n/100)*100);
