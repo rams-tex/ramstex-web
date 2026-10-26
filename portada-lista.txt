@@ -27,3 +27,4 @@ dz-roly-6502-7 https://static.gorfactory.es/images/models/6502/views/large/p_650
 dz-jhk-side https://s3-eu-west-1.amazonaws.com/resources.jhktshirt.com/pictures/sku/jhktshirt_tsra150_wh_side.jpg
 dz-fr-sl https://download.falk-ross.eu/ws/picture/100_54_000_sl-2022_01.jpg
 dz-fr-f https://download.falk-ross.eu/ws/picture/100_54_000_f-2022_01.jpg
+dz-x https://cdn.europeancatalog.com/packshots/PS_K356-S_RED.png?w=600

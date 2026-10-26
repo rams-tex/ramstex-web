@@ -24,6 +24,8 @@ jobs:
         run: |
           for u in "https://cdn.europeancatalog.com/packshots/PS_K356_WHITE.png?w=700" "https://cdn.toptex.com/packshots/PS_K356_WHITE.png" "https://s7g3.scene7.com/is/image/soloinvest/n11380102A?wid=700" "https://static.gorfactory.es/images/models/6502/views/large/p_6502_01_1_1.jpg" "https://s3-eu-west-1.amazonaws.com/resources.jhktshirt.com/pictures/sku/jhktshirt_tsra150_wh.jpg" "https://download.falk-ross.eu/ws/picture/100_54_000_f-2022_01.jpg"; do
             echo "== $u"; curl -s -o /dev/null -D - --max-time 30 -A "Mozilla/5.0" -H "Origin: https://ramstex.com" "$u" | grep -i -E "^(HTTP|access-control|content-type)" || true
+          done > rams23-jk/dz-cors.txt 2>&1
+          for u in x; do :
           done
       - name: Guardar en la rama
         run: |
