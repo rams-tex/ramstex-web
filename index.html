@@ -402,6 +402,10 @@ img.pack{object-fit:contain!important;padding:6%}
 @media (pointer:coarse){.qchip{height:36px;min-width:44px}}
 @media (prefers-reduced-motion: reduce){.qchip:active{transform:none}}
 .qinputs{display:flex;flex-wrap:wrap;gap:8px 6px;margin-top:10px}
+.qinputs label span{display:inline-flex;align-items:center;gap:2px}
+.qx{border:0;background:none;color:var(--muted);font:600 14px/1 Figtree,sans-serif;width:22px;height:22px;padding:0;cursor:pointer;border-radius:50%}
+.qx:hover{color:var(--red-text)}
+.qmore{margin-top:10px;border:0;background:none;padding:6px 0;min-height:36px;color:var(--red-text);font:600 var(--fs-s)/1 Figtree,sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 .qinputs:empty{display:none}
 .qsz legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .qinputs label{display:grid;gap:3px;justify-items:center;font:600 var(--fs-xs)/1.2 Figtree,sans-serif;color:var(--muted);min-width:56px}
@@ -456,6 +460,14 @@ img.pack{object-fit:contain!important;padding:6%}
 .badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
 .badges span{background:var(--tint);border-radius:999px;padding:5px 12px;font-size:var(--fs-xs);font-weight:500}
 .sizes{display:flex;flex-wrap:wrap;gap:6px}
+#pq{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 6px;margin:0 0 4px}
+#pq label{display:grid;width:auto;gap:3px;justify-items:center;font:600 var(--fs-xs)/1.2 Figtree,sans-serif;color:var(--muted);min-width:56px}
+.pq label.wide{justify-items:start}
+#pq input{width:56px;height:44px;padding:0 4px;font:500 16px/1 Figtree,sans-serif;text-align:center;font-variant-numeric:tabular-nums;border-radius:8px;background:var(--surface);-moz-appearance:textfield;appearance:textfield}
+#pq label.wide input{width:110px}
+.pq input::-webkit-outer-spin-button,.pq input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.pq input.has{border-color:var(--text);font-weight:700}
+.pqt{width:100%;margin:6px 0 0;font-size:var(--fs-s)}
 .sizes span{border:0;background:var(--tint);border-radius:6px;padding:4px 8px;font-size:var(--fs-s);font-variant-numeric:tabular-nums;min-width:40px;text-align:center}
 .stk{display:flex;flex-wrap:wrap;gap:6px}
 .stkc{border:1px solid var(--line);border-radius:var(--r-s);padding:6px 10px;min-width:64px;text-align:center;background:var(--surface)}
@@ -1409,10 +1421,10 @@ function renderProduct(it){
      '<div class="pinfo"><h1>'+esc(it.n)+'</h1><div class="meta">'+esc(D.subs[it.s])+(gen?" · "+esc(gen):"")+' · Ref. '+esc(it.r)+'</div>'+
      '<h3 class="pcol"></h3><div class="dh"></div>'+
      (badges.length?'<div class="badges">'+badges.map(function(b){return "<span>"+esc(b)+"</span>";}).join("")+'</div>':"")+
+     '<h3 class="pqh">Unidades por talla</h3><div class="pq" id="pq"></div>'+
      '<div class="pbtns"><button class="btn" type="button" id="padd" aria-pressed="false">Añadir<span class="lg">&nbsp;a mi presupuesto</span></button><a class="btn ghost" href="'+wa+'" target="_blank" rel="noopener"><span class="lg">Preguntar por&nbsp;</span>WhatsApp</a></div>'+
      (f.d?'<p class="desc">'+esc(f.d)+'</p>':"")+
      ((f.a||[]).length?'<ul class="args">'+f.a.map(function(a){return "<li>"+esc(a)+"</li>";}).join("")+'</ul>':"")+
-     ((f.sizes||[]).length?'<h3>Tallas</h3><div class="sizes">'+f.sizes.map(function(s){return "<span>"+esc(s)+"</span>";}).join("")+'</div>':"")+
      '<h3>Stock disponible</h3><div class="pstock" id="pstock"><p class="meta">Cargando stock…</p></div>'+
      '<h3>Características</h3><dl class="specs">'+specs.map(function(s){return "<dt>"+s[0]+"</dt><dd>"+esc(s[1])+"</dd>";}).join("")+'</dl></div></div>'+
      '<div class="related" id="related"></div>';
@@ -1436,12 +1448,36 @@ function renderProduct(it){
       view=it.cur>=0&&it.k[it.cur][3]?it.k[it.cur][3]:pics[0]; setSrc(big,view,1000);
       box.querySelector(".pcol").textContent=it.cur<0?"Colores ("+it.k.length+")":"Color: "+it.k[it.cur][0]; thumbs(); stockUI(it,f); paddState();
     }
-    box.querySelector(".dh").replaceWith(dotsFor(it,999,upd));
+    box.querySelector(".dh").replaceWith(dotsFor(it,999,function(){upd();}));
     $("padd")._it=it;
+    /* Unidades por talla en la ficha: el cliente indica aquí lo que quiere y eso es lo que llega al presupuesto */
+    var PQ={}, ZS=sizesOf(it,f), ZK=ZS.length?ZS:["_"];
+    function pqLine(){return it.cur>=0||refKeys(it).length===0?cart[cKey(it)]:cart[refKeys(it)[0]];}
+    function pqDraw(){
+      var l=pqLine(); if(l) PQ=Object.assign({},l.q||{});
+      var b=$("pq"); b.innerHTML="";
+      ZK.forEach(function(z){
+        var lab=document.createElement("label"); if(z==="_") lab.className="wide";
+        lab.innerHTML='<span>'+esc(z==="_"?"Unidades":zLabel(z))+'</span><input type="number" min="0" step="1" inputmode="numeric" pattern="[0-9]*" placeholder="0" autocomplete="off">';
+        var inp=lab.querySelector("input"); inp.dataset.z=z; if(PQ[z]){inp.value=PQ[z];inp.classList.add("has");}
+        if(z!=="_") inp.setAttribute("aria-label","Talla "+zLabel(z)+", unidades");
+        b.appendChild(lab);
+      });
+      var t=document.createElement("p"); t.className="pqt"; t.id="pqt"; t.setAttribute("aria-live","polite"); b.appendChild(t); pqTot();
+    }
+    function pqTot(){var n=ZK.reduce(function(a,z){return a+(+PQ[z]||0);},0); $("pqt").innerHTML=n?'Total: <b>'+uds(n)+'</b>':'<span class="meta">Indica las unidades que necesitas de cada talla (puedes dejarlo en blanco y decidirlo después).</span>';}
+    $("pq").addEventListener("input",function(e){
+      var i=e.target; if(!i.dataset||!i.dataset.z) return; var v=parseInt(i.value,10);
+      if(isNaN(v)||v<=0) delete PQ[i.dataset.z]; else PQ[i.dataset.z]=Math.min(v,999999);
+      i.classList.toggle("has",v>0); pqTot();
+      var l=pqLine(); if(l){l.q=Object.assign({},PQ); l.on=Object.keys(PQ); saveCart(); cartUI();} /* si ya está en el presupuesto, se actualiza al momento */
+    });
+    $("pq").addEventListener("keydown",function(e){if(e.target.type==="number"&&/^[eE+\-.,]$/.test(e.key))e.preventDefault();});
     $("padd").onclick=function(){
-      if(inCart(it)){removeFromCart(it);syncAdds();}
-      else {addToCart(it,f);bump();syncAdds();openPanel(this);}
+      if(inCart(it)){removeFromCart(it);PQ={};pqDraw();syncAdds();}
+      else {addToCart(it,f); var l=cart[cKey(it)]; if(l){l.q=Object.assign({},PQ); l.on=Object.keys(PQ); l.more=0; cartUI();} bump();syncAdds();openPanel(this);}
     };
+    var _upd=upd; upd=function(){_upd(); pqDraw();};
     upd();
     var rel=ITEMS.filter(function(x){return x.s===it.s&&x!==it;}).slice(0,4);
     if(rel.length){var r=$("related");r.innerHTML='<h2>También te puede interesar</h2><div class="grid"></div>';rel.forEach(function(x){x.cur=-1;r.querySelector(".grid").appendChild(card(x));});}
@@ -1513,28 +1549,33 @@ function cartUI(){
         keys.forEach(function(z){if(+q[z]>0&&on.indexOf(z)<0)on.push(z);});
         on.sort(function(a,b){return keys.indexOf(a)-keys.indexOf(b);}); l.on=on;
         var chips=document.createElement("div"); chips.className="qchips"; chips.setAttribute("role","group"); chips.setAttribute("aria-label","Elige tallas");
-        chips.innerHTML='<span class="qhint">'+(on.length?"Tallas:":"Elige las tallas que necesitas:")+'</span>';
-        keys.forEach(function(z){
+        chips.innerHTML='<span class="qhint">'+(on.length?"Añade otra talla:":"Elige las tallas que necesitas:")+'</span>';
+        keys.filter(function(z){return !on.length||on.indexOf(z)<0;}).forEach(function(z){
           var b=document.createElement("button"); b.type="button"; b.className="qchip"; b.textContent=zLabel(z);
           b.setAttribute("aria-pressed",on.indexOf(z)>=0?"true":"false"); b.setAttribute("aria-label","Talla "+zLabel(z));
           b.onclick=function(){
             var i=l.on.indexOf(z);
-            if(i<0){l.on.push(z); FOCUSZ=[id,z];}
+            if(i<0){l.on.push(z); l.more=0; FOCUSZ=[id,z];}
             else {l.on.splice(i,1); if(l.q) delete l.q[z]; FOCUSZ=[id,"chip:"+z];}
             cartUI();
           };
           chips.appendChild(b);
         });
-        fs.appendChild(chips);
+        var showChips=!on.length||l.more;
+        if(showChips) fs.appendChild(chips);
+        var more=null;
+        if(!showChips){more=document.createElement("button"); more.type="button"; more.className="qmore"; more.textContent="+ Añadir otra talla"; more.onclick=function(){l.more=1; FOCUSZ=[id,"chip:"+zLabel(keys.filter(function(z){return on.indexOf(z)<0;})[0]||keys[0])]; cartUI();};}
         var box=document.createElement("div"); box.className="qinputs";
         on.forEach(function(z){
           var lab=document.createElement("label"); var v=q[z];
-          lab.innerHTML='<span>'+esc(zLabel(z))+'</span><input type="number" min="0" step="1" inputmode="numeric" pattern="[0-9]*" placeholder="0" autocomplete="off">';
+          lab.innerHTML='<span>'+esc(zLabel(z))+'<button type="button" class="qx" aria-label="Quitar talla '+esc(zLabel(z))+'">×</button></span><input type="number" min="0" step="1" inputmode="numeric" pattern="[0-9]*" placeholder="0" autocomplete="off">';
           var inp=lab.querySelector("input"); inp.dataset.id=id; inp.dataset.z=z; if(v){inp.value=v;inp.classList.add("has");}
           inp.setAttribute("aria-label","Talla "+zLabel(z)+", unidades");
+          lab.querySelector(".qx").onclick=function(e){e.preventDefault(); var i=l.on.indexOf(z); if(i>=0)l.on.splice(i,1); if(l.q) delete l.q[z]; cartUI();};
           box.appendChild(lab);
         });
-        fs.appendChild(box);
+        if(showChips&&on.length){fs.insertBefore(box,chips);} else fs.appendChild(box);
+        if(more) fs.appendChild(more);
       } else {
         var lab=document.createElement("label"); lab.className="wide"; var v=q["_"];
         lab.innerHTML='<span>Unidades</span><input type="number" min="0" step="1" inputmode="numeric" pattern="[0-9]*" placeholder="0" autocomplete="off">';
