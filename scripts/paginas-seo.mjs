@@ -115,7 +115,7 @@ function chips(sec, cur) {
 
 const urls = ["/"];
 const SECS = {
-  cat: { path: "/catalogo/", name: "Catálogo", title: "Catálogo de ropa personalizada para empresas | Ramstex", h1: "Elige tu prenda",
+  cat: { path: "/catalogo/", name: "Catálogo", title: "Catálogo de ropa personalizada para empresas | Ramstex", h1: "Catálogo de ropa",
     desc: "Catálogo de camisetas, sudaderas, polos, chaquetas, ropa de trabajo, gorras y bolsas para personalizar con tu logo. Filtra por color, gramaje o uso y pide presupuesto." },
   merch: { path: "/merchandising/", name: "Merchandising", title: "Merchandising personalizado para empresas | Ramstex", h1: "Merchandising",
     desc: "Merchandising y regalos de empresa personalizados con tu logo: tazas, botellas, bolígrafos, libretas, tecnología, bolsas y mucho más. Pide presupuesto sin compromiso." },
