@@ -148,10 +148,50 @@ const pl = listIn(pr);
 log(`\n== PRECIOS: ${pl.length} filas. Claves de la raíz: ${pr && !Array.isArray(pr) ? Object.keys(pr).join(", ") : "(lista)"}`);
 if (pl.length) log("Forma (valores ocultos): " + JSON.stringify(shape(pl[0])) + " · claves de una fila: " + Object.keys(pl[0]).join(", ") + (Array.isArray(pl[0].scales) && pl[0].scales[0] ? " · claves de scales[]: " + Object.keys(pl[0].scales[0]).join(", ") : "") + " · ej. material: " + pl[0].material);
 
-// ---------- Configuración de marcaje (técnicas por producto) ----------
+// ---------- Configuración de marcaje (técnicas, posiciones y áreas por producto) ----------
 const pc = await getFile("/print-config/files?format=JSON&lang=es");
-const pcl = listIn(pc);
+const pcl = listIn(pc?.products || pc);
 log(`\n== MARCAJE: ${pcl.length} productos. Claves de la raíz: ${pc && !Array.isArray(pc) ? Object.keys(pc).join(", ") : "(lista)"}`);
-if (pcl.length) { writeFileSync("tmp-makito/marcaje.json", JSON.stringify(pc)); log("Forma:\n" + JSON.stringify(shape(pcl[0]), null, 1).slice(0, 5000)); writeFileSync(DIR + "/marcaje-muestra.json", JSON.stringify(hide(pcl.slice(0, 2)), null, 1).slice(0, 60000)); }
+if (pcl.length) {
+  writeFileSync("tmp-makito/marcaje.json", JSON.stringify(pc));
+  log("Forma de un producto:\n" + JSON.stringify(shape(pcl[0]), null, 1).slice(0, 3000));
+  const akeys = {}; for (const p of pcl) for (const a of p.areas || []) for (const k of Object.keys(a)) akeys[k] = (akeys[k] || 0) + 1;
+  log("Claves de las áreas (nº): " + JSON.stringify(akeys));
+  const na = pcl.map(p => (p.areas || []).length); log("Áreas por producto: máx " + Math.max(...na) + ", media " + (na.reduce((a, b) => a + b, 0) / na.length).toFixed(1) + ", sin áreas " + na.filter(x => !x).length);
+  log("Ejemplos del campo techniques de las áreas: " + [...new Set(pcl.flatMap(p => (p.areas || []).map(a => a.techniques)))].slice(0, 30).join(" | "));
+  for (const k of ["positions", "techniques"]) {
+    const L = pc[k];
+    if (!Array.isArray(L)) { log(`${k}: ${JSON.stringify(shape(L)).slice(0, 1500)}`); continue; }
+    log(`\n-- ${k}: ${L.length} elementos. Forma: ${JSON.stringify(shape(L[0]))}`);
+    log(JSON.stringify(hide(L.slice(0, k === "techniques" ? 400 : 60))).slice(0, 30000));
+  }
+  // Ejemplos: taza, bolígrafo, bolsa (tote) y camiseta
+  const byRef = Object.fromEntries(pcl.map(p => [String(p.id), p]));
+  const ex = [];
+  for (const re of [/^Taza$/i, /^Bolígrafo$/i, /^Bolsa$/i, /^Camiseta Adulto$/i]) {
+    const p = prods.find(x => re.test(x.type || "") && byRef[String(x.ref)]);
+    if (p) { ex.push({ ref: p.ref, name: p.name, type: p.type, printcode: p.printcode, length: p.length, height: p.height, width: p.width, diameter: p.diameter, image: p.image, config: byRef[String(p.ref)] }); }
+  }
+  writeFileSync(DIR + "/marcaje-ejemplos.json", JSON.stringify(hide(ex), null, 1));
+  log("\nEjemplos de marcaje guardados (taza, bolígrafo, bolsa, camiseta): " + ex.map(e => e.ref + " " + e.type + " " + e.name).join(" | "));
+  // Fotos de área de 2 ejemplos (para ver si dibujan la zona sobre el producto)
+  let n = 0;
+  for (const e of ex.slice(0, 3)) for (const a of (e.config.areas || []).slice(0, 1)) {
+    if (!a.image || n >= 3) continue;
+    const r = await get(a.image, { raw: true });
+    log(`Foto del área ${e.ref} ${a.id}: HTTP ${r.status} ${r.ct} ${r.bytes} bytes`);
+    if (r.status === 200 && r.bytes < 600000) { writeFileSync(`${DIR}/area-${e.ref}-${a.id}.jpg`, r.buf); n++; }
+  }
+}
+// Tarifas de marcaje: SOLO la forma (valores ocultos)
+const pp = await getFile("/print-price-list/files?format=JSON");
+const ppl = listIn(pp?.printPriceList || pp);
+log(`\n== TARIFA DE MARCAJE: ${ppl.length} filas. Claves de la raíz: ${pp && !Array.isArray(pp) ? Object.keys(pp).join(", ") : "(lista)"}`);
+if (ppl.length) {
+  const keys = new Set(), pk = new Set(), ik = new Set();
+  for (const x of ppl) { Object.keys(x).forEach(k => keys.add(k)); if (x.prices && typeof x.prices === "object") { Object.keys(x.prices).forEach(k => pk.add(k)); for (const it of x.prices.items || []) Object.keys(it).forEach(k => ik.add(k)); } }
+  log("Claves de una fila: " + [...keys].join(", ") + " · prices: " + [...pk].join(", ") + " · prices.items[]: " + [...ik].join(", "));
+  log("Ejemplos (sin importes): " + JSON.stringify(ppl.slice(0, 15).map(x => ({ id: x.id, category: x.category, code: x.code, name: x.name, tramos: (x.prices?.items || []).length, tipos: [...new Set((x.prices?.items || []).map(i => i.type))] }))));
+}
 
 log("\nFin. Peticiones de solo lectura; no se ha llamado a /orders.");
