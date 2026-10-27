@@ -7,7 +7,7 @@
 // - limpiar(): borra la zona verde (relleno desde los bordes) para usar la previsualización como vista
 import sharp from "sharp";
 
-export const VERSION = 3; // sube si cambia la detección (se recalcula todo desde la caché, sin API)
+export const VERSION = 4; // sube si cambia la detección (se recalcula todo desde la caché, sin API)
 export const MAXPX = 600;
 
 // Imagen -> {d: RGB crudo, w, h} reducida a 600 px como mucho, sin transparencia
@@ -34,7 +34,7 @@ function componentes(m, w, h) {
   const lab = new Int32Array(w * h).fill(-1), out = [], st = new Int32Array(w * h);
   for (let s = 0; s < m.length; s++) {
     if (!m[s] || lab[s] >= 0) continue;
-    const c = { id: out.length, n: 0, fill: 0, x0: w, y0: h, x1: -1, y1: -1 };
+    const c = { id: out.length, ids: [out.length], n: 0, fill: 0, x0: w, y0: h, x1: -1, y1: -1 };
     let sp = 0; st[sp++] = s; lab[s] = c.id;
     while (sp) {
       const i = st[--sp], x = i % w, y = (i / w) | 0;
@@ -47,6 +47,7 @@ function componentes(m, w, h) {
     }
     out.push(c);
   }
+  out.lab = lab;
   return out;
 }
 
@@ -55,7 +56,8 @@ function componentes(m, w, h) {
 export function detectar(img) {
   const { w, h } = img, m = mascaraVerde(img);
   const minN = Math.max(10, Math.round(w * h * 0.00004));
-  let cs = componentes(m, w, h).filter(c => c.n >= minN);
+  const todas = componentes(m, w, h), lab = todas.lab;
+  let cs = todas.filter(c => c.n >= minN);
   if (!cs.length) return { box: null, motivo: "sin-verde" };
   // Unir trozos cercanos (bordes discontinuos, zona partida por un reflejo)
   let merged = true;
@@ -64,7 +66,7 @@ export function detectar(img) {
     for (let i = 0; i < cs.length && !merged; i++) for (let j = i + 1; j < cs.length && !merged; j++) {
       const a = cs[i], b = cs[j], g = 4;
       if (a.x0 - g <= b.x1 && b.x0 - g <= a.x1 && a.y0 - g <= b.y1 && b.y0 - g <= a.y1) {
-        a.n += b.n; a.fill += b.fill; a.x0 = Math.min(a.x0, b.x0); a.y0 = Math.min(a.y0, b.y0); a.x1 = Math.max(a.x1, b.x1); a.y1 = Math.max(a.y1, b.y1);
+        a.ids.push(...b.ids); a.n += b.n; a.fill += b.fill; a.x0 = Math.min(a.x0, b.x0); a.y0 = Math.min(a.y0, b.y0); a.x1 = Math.max(a.x1, b.x1); a.y1 = Math.max(a.y1, b.y1);
         cs.splice(j, 1); merged = true;
       }
     }
@@ -82,7 +84,8 @@ export function detectar(img) {
     return { ...c, bw, bh, dens: c.n / (bw * bh), lados };
   });
   // Descarta manchas verdes que no parecen zonas: casi sin relleno ni contorno completo
-  const zonas = cs.filter(c => (c.fill >= c.n * 0.3 && c.dens >= 0.35) || c.lados === 4);
+  // (las zonas en diagonal, p. ej. cintas de lanyard, tienen poca densidad en su caja pero mucho relleno)
+  const zonas = cs.filter(c => (c.fill >= c.n * 0.3 && (c.dens >= 0.35 || c.fill >= minN * 4)) || c.lados === 4);
   if (!zonas.length) return { box: null, motivo: "verde-sin-forma", n: cs.length };
   zonas.sort((a, b) => b.bw * b.bh - a.bw * a.bh);
   const z = zonas[0];
@@ -91,6 +94,17 @@ export function detectar(img) {
   const r4 = v => Math.round(v * 10000) / 10000;
   const box = [r4(z.x0 / w), r4(z.y0 / h), r4((z.x1 + 1) / w), r4((z.y1 + 1) / h)];
   const out = { box, n, forma, dens: Math.round(z.dens * 100) / 100, px: [z.bw, z.bh] };
+  if (forma !== "r") {
+    // zona inclinada o deformada: 4 esquinas (los puntos extremos en las diagonales) para dibujarla como polígono
+    const ids = new Set(z.ids), e = { tl: [1e9], br: [-1e9], tr: [-1e9], bl: [1e9] };
+    for (let y = z.y0; y <= z.y1; y++) for (let x = z.x0; x <= z.x1; x++) {
+      const i = y * w + x; if (!m[i] || !ids.has(lab[i])) continue;
+      const s1 = x + y, s2 = x - y;
+      if (s1 < e.tl[0]) e.tl = [s1, x, y]; if (s1 > e.br[0]) e.br = [s1, x + 1, y + 1];
+      if (s2 > e.tr[0]) e.tr = [s2, x + 1, y]; if (s2 < e.bl[0]) e.bl = [s2, x, y + 1];
+    }
+    out.quad = [e.tl, e.tr, e.br, e.bl].flatMap(([, x, y]) => [r4(x / w), r4(y / h)]);
+  }
   if (n > 1) out.otras = zonas.slice(1, 4).map(c => [r4(c.x0 / w), r4(c.y0 / h), r4((c.x1 + 1) / w), r4((c.y1 + 1) / h)]);
   return out;
 }
@@ -113,48 +127,60 @@ export function silueta(img, verde) {
     if (df > 14) { s[i] = 1; cols[i % w]++; rows[(i / w) | 0]++; }
   }
   // Caja del producto: filas/columnas con algo de producto (ignora motas sueltas)
-  for (let x = 0; x < w; x++) if (cols[x] >= 2) { if (x < x0) x0 = x; x1 = x; }
-  for (let y = 0; y < h; y++) if (rows[y] >= 2) { if (y < y0) y0 = y; y1 = y; }
+  const mc = Math.max(2, h * 0.004), mr = Math.max(2, w * 0.004);
+  for (let x = 0; x < w; x++) if (cols[x] >= mc) { if (x < x0) x0 = x; x1 = x; }
+  for (let y = 0; y < h; y++) if (rows[y] >= mr) { if (y < y0) y0 = y; y1 = y; }
   return { s, w, h, bb: x1 < 0 ? null : [x0, y0, x1 + 1, y1 + 1], bg };
 }
 
-// Rejilla G×G de la silueta dentro de su caja: fracción de producto por celda (-1 = celda tapada por la zona verde)
-function rejilla(sil, G = 48) {
-  const [x0, y0, x1, y1] = sil.bb, bw = x1 - x0, bh = y1 - y0, out = new Float32Array(G * G);
+// Rejilla binaria G×G de una región [x0,y0,x1,y1] (en px): 1 = hay producto, 0 = fondo, -1 = tapada por la zona verde.
+// Binaria y gruesa a propósito: tolera productos finos (bolígrafos) y pequeños desplazamientos.
+function rejillaBin(sil, [x0, y0, x1, y1], G) {
+  const bw = x1 - x0, bh = y1 - y0, out = new Int8Array(G * G);
   for (let gy = 0; gy < G; gy++) for (let gx = 0; gx < G; gx++) {
     const ax = x0 + Math.floor(gx * bw / G), bx = Math.max(ax + 1, x0 + Math.floor((gx + 1) * bw / G));
     const ay = y0 + Math.floor(gy * bh / G), by = Math.max(ay + 1, y0 + Math.floor((gy + 1) * bh / G));
     let p = 0, v = 0, t = 0;
     for (let y = ay; y < by; y++) for (let x = ax; x < bx; x++) { const k = sil.s[y * sil.w + x]; t++; if (k === 1) p++; else if (k === 2) v++; }
-    out[gy * G + gx] = v > t * 0.25 ? -1 : p / Math.max(1, t - v);
+    out[gy * G + gx] = v > t * 0.2 ? -1 : p >= Math.max(1, (t - v) * 0.12) ? 1 : 0;
   }
   return out;
 }
+function iouBin(a, b) {
+  let i = 0, u = 0;
+  for (let k = 0; k < a.length; k++) { if (a[k] < 0 || b[k] < 0) continue; if (a[k] && b[k]) i++; if (a[k] || b[k]) u++; }
+  return u ? i / u : 0;
+}
 
-// ¿Mismo encuadre? Compara la silueta de la previsualización con la de la foto (normalizadas a su caja).
-// Devuelve {iou, asp, ok, box (caja en coordenadas de la foto), escala}
-export function comparar(prev, verdePrev, foto, boxPrev) {
+// ¿Mismo encuadre? Compara la silueta de la previsualización (sin la zona verde) con la de la foto:
+//  - "lienzo": las dos imágenes enteras (misma proporción) -> la caja vale tal cual
+//  - "producto": normalizadas a la caja del producto (otro margen/tamaño de lienzo) -> la caja se traslada
+// Devuelve {ok, iou, iouL, iouP, asp, modo, map(x,y)->[x,y] en fracciones de la foto}
+export function comparar(prev, verdePrev, foto) {
   const sp = silueta(prev, verdePrev), sf = silueta(foto, null);
   if (!sp.bb || !sf.bb) return { ok: false, iou: 0, motivo: "sin-silueta" };
+  const r3 = v => Math.round(v * 1000) / 1000;
+  const canvasAsp = Math.abs(Math.log((prev.w / prev.h) / (foto.w / foto.h)));
+  const iouL = canvasAsp < 0.03 ? iouBin(rejillaBin(sp, [0, 0, sp.w, sp.h], 64), rejillaBin(sf, [0, 0, sf.w, sf.h], 64)) : 0;
   const ap = (sp.bb[2] - sp.bb[0]) / (sp.bb[3] - sp.bb[1]), af = (sf.bb[2] - sf.bb[0]) / (sf.bb[3] - sf.bb[1]);
   const asp = Math.abs(Math.log(ap / af));
-  const gp = rejilla(sp), gf = rejilla(sf);
-  let mn = 0, mx = 0;
-  for (let i = 0; i < gp.length; i++) { if (gp[i] < 0) continue; mn += Math.min(gp[i], gf[i]); mx += Math.max(gp[i], gf[i]); }
-  const iou = mx ? mn / mx : 0;
-  // Posición/escala del producto dentro de cada imagen (para saber si es el mismo encuadre "tal cual")
-  const rel = s => [s.bb[0] / s.w, s.bb[1] / s.h, s.bb[2] / s.w, s.bb[3] / s.h];
-  const rp = rel(sp), rf = rel(sf), desp = Math.max(...rp.map((v, i) => Math.abs(v - rf[i])));
-  const ok = iou >= 0.86 && asp <= 0.06;
-  const r = { ok, iou: Math.round(iou * 1000) / 1000, asp: Math.round(asp * 1000) / 1000, desp: Math.round(desp * 1000) / 1000 };
-  if (ok && boxPrev) {
-    // caja de la zona: píxeles de la previsualización -> píxeles de la foto mediante las cajas del producto
+  const iouP = asp <= 0.08 ? iouBin(rejillaBin(sp, sp.bb, 40), rejillaBin(sf, sf.bb, 40)) : 0;
+  const r = { iou: r3(Math.max(iouL, iouP)), iouL: r3(iouL), iouP: r3(iouP), asp: r3(asp), ok: false };
+  if (iouL >= 0.84 && iouL >= iouP - 0.03) { r.ok = true; r.modo = "lienzo"; r.map = (x, y) => [x, y]; }
+  else if (iouP >= 0.84) {
+    r.ok = true; r.modo = "producto";
     const sx = (sf.bb[2] - sf.bb[0]) / (sp.bb[2] - sp.bb[0]), sy = (sf.bb[3] - sf.bb[1]) / (sp.bb[3] - sp.bb[1]);
-    const X = v => (sf.bb[0] + (v * prev.w - sp.bb[0]) * sx) / foto.w, Y = v => (sf.bb[1] + (v * prev.h - sp.bb[1]) * sy) / foto.h;
-    const c = v => Math.round(Math.min(1, Math.max(0, v)) * 10000) / 10000;
-    r.box = [c(X(boxPrev[0])), c(Y(boxPrev[1])), c(X(boxPrev[2])), c(Y(boxPrev[3]))];
+    r.map = (x, y) => [(sf.bb[0] + (x * prev.w - sp.bb[0]) * sx) / foto.w, (sf.bb[1] + (y * prev.h - sp.bb[1]) * sy) / foto.h];
   }
   return r;
+}
+// Traslada caja [x0,y0,x1,y1] y polígono [x,y,…] con la función de comparar()
+export function trasladar(map, box, quad) {
+  const c = v => Math.round(Math.min(1, Math.max(0, v)) * 10000) / 10000;
+  const out = {};
+  if (box) { const a = map(box[0], box[1]), b = map(box[2], box[3]); out.box = [c(a[0]), c(a[1]), c(b[0]), c(b[1])]; }
+  if (quad) { out.quad = []; for (let i = 0; i < quad.length; i += 2) { const p = map(quad[i], quad[i + 1]); out.quad.push(c(p[0]), c(p[1])); } }
+  return out;
 }
 
 // Borra la zona verde: hueco = máscara verde ensanchada 4 px + píxeles verdosos de alrededor (bordes suavizados del JPEG).

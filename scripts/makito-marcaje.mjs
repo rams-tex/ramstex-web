@@ -15,7 +15,7 @@ import { join } from "node:path";
 import { execSync } from "node:child_process";
 import sharp from "sharp";
 import { makitoGet } from "./makito-api.mjs";
-import { VERSION, cargar, detectar, mascaraVerde, comparar, limpiar, aSharp, nombreTecnica, etiquetaPosicion } from "./makito-marcaje-lib.mjs";
+import { VERSION, cargar, detectar, mascaraVerde, comparar, trasladar, limpiar, aSharp, nombreTecnica, etiquetaPosicion } from "./makito-marcaje-lib.mjs";
 
 const CACHE = process.argv[2] || "mkm", FULL = process.argv[3] || "data/makito.json";
 const BUDGET = (+process.argv[4] || 300) * 60000, OFFLINE = process.argv.includes("--sin-api");
@@ -120,9 +120,9 @@ async function analizar(p, a) {
     if (!f) continue;
     const ph = await foto(f, p);
     if (!ph) { if (!tiempo() && !existsSync(cacheP(f))) return false; continue; }
-    const c = comparar(img, verde, ph, det.box);
-    r[cv ? "cmpCol" : "cmpMain"] = { f, iou: c.iou, asp: c.asp, desp: c.desp };
-    if (c.ok) { r.img = f; r.cv = cv; r.mbox = c.box || null; break; }
+    const c = comparar(img, verde, ph);
+    r[cv ? "cmpCol" : "cmpMain"] = { f, iou: c.iou, iouL: c.iouL, iouP: c.iouP, asp: c.asp };
+    if (c.ok) { const t = trasladar(c.map, det.box, det.quad); r.img = f; r.cv = cv; r.modo = c.modo; r.mbox = t.box || null; if (t.quad) r.mquad = t.quad; break; }
   }
   if (!r.img) {
     // Encuadre distinto a nuestras fotos: vista = previsualización limpia
@@ -131,7 +131,7 @@ async function analizar(p, a) {
       await aSharp(cl).webp({ quality: 72, effort: 5 }).toFile(cacheZ(p.mref, a.id));
       r.zkb = Math.round(statSync(cacheZ(p.mref, a.id)).size / 102.4) / 10;
     }
-    r.img = "z"; r.mbox = det.box;
+    r.img = "z"; r.mbox = det.box; if (det.quad) r.mquad = det.quad;
   }
   E.a[key] = r;
   return true;
@@ -170,6 +170,7 @@ function escribirDatos() {
           if (r.img === "z") x.img = `z/${p.mref}-${a.id}`;
           if (r.cv) x.col = 1; // la caja va sobre las fotos de color (encuadre de producto suelto), no sobre la principal
           if (r.forma && r.forma !== "r") x.forma = r.forma;
+          if (r.mquad) x.quad = r.mquad;
           if (r.n > 1) x.zonas = r.n;
           if (r.sin || (r.v && !r.box && !r.sin)) x.sinZona = r.sin || r.motivo || "sin-verde";
           return x;
@@ -267,10 +268,13 @@ async function tile(p, a, r, S = 170) {
   if (rightSrc) {
     const m = await sharp(rightSrc).metadata(), sc = Math.min(S / m.width, S / m.height), w = Math.round(m.width * sc), h = Math.round(m.height * sc);
     const ox = (S - w) / 2, oy = (S - h) / 2, b = r.mbox;
-    const svg = b ? `<svg width="${S}" height="${S}"><rect x="${ox + b[0] * w}" y="${oy + b[1] * h}" width="${Math.max(1, (b[2] - b[0]) * w)}" height="${Math.max(1, (b[3] - b[1]) * h)}" fill="rgba(255,0,0,0.12)" stroke="${r.img === "z" ? "#0050ff" : "#ff0000"}" stroke-width="2"/></svg>` : `<svg width="${S}" height="${S}"></svg>`;
+    const col = r.img === "z" ? "#0050ff" : "#ff0000", q = r.mquad;
+    const poly = q ? `<polygon points="${[0, 2, 4, 6].map(i => `${ox + q[i] * w},${oy + q[i + 1] * h}`).join(" ")}" fill="none" stroke="#ff9900" stroke-width="1.5"/>` : "";
+    const svg = b ? `<svg width="${S}" height="${S}"><rect x="${ox + b[0] * w}" y="${oy + b[1] * h}" width="${Math.max(1, (b[2] - b[0]) * w)}" height="${Math.max(1, (b[3] - b[1]) * h)}" fill="rgba(255,0,0,0.12)" stroke="${col}" stroke-width="2"/>${poly}</svg>` : `<svg width="${S}" height="${S}"></svg>`;
     right = await sharp(rightSrc).resize(S, S, { fit: "contain", background: "#fff" }).composite([{ input: Buffer.from(svg) }]).png().toBuffer();
   }
-  const cap = `${p.ref} ${a.id} ${r.sin || (!r.box ? r.motivo || "sin zona" : (r.img === "z" ? "previa" : r.cv ? "color" : "principal") + " " + (r.forma || ""))}${r.n > 1 ? " x" + r.n : ""} ${r.cmpMain ? "iou " + r.cmpMain.iou : ""}${r.cmpCol ? "/" + r.cmpCol.iou : ""}`;
+  const iouTxt = c => c ? `${c.iouL ?? ""}|${c.iouP ?? c.iou}` : "";
+  const cap = `${p.ref} ${a.id} ${r.modo ? r.modo + " " : ""}${r.sin || (!r.box ? r.motivo || "sin zona" : (r.img === "z" ? "previa" : r.cv ? "color" : "principal") + " " + (r.forma || ""))}${r.n > 1 ? " x" + r.n : ""} ${r.cmpMain ? "iou " + iouTxt(r.cmpMain) : ""}${r.cmpCol ? " c " + iouTxt(r.cmpCol) : ""}`;
   const W = 2 * S + 6, H = S + 30;
   const capSvg = `<svg width="${W}" height="30"><text x="3" y="12" font-family="DejaVu Sans, sans-serif" font-size="11" fill="#000">${esc(cap)}</text><text x="3" y="26" font-family="DejaVu Sans, sans-serif" font-size="10" fill="#555">${esc((POS[String(a.position)] || "").slice(0, 48) + " · " + a.width + "×" + a.height + " mm")}</text></svg>`;
   const comp = [{ input: Buffer.from(capSvg), left: 0, top: S }];
@@ -287,6 +291,20 @@ async function hoja(nombre, items, cols = 4) {
   const comp = tiles.map((b, i) => b && { input: b, left: (i % cols) * (W + G), top: Math.floor(i / cols) * (H + G) }).filter(Boolean);
   await sharp({ create: { width: cols * (W + G), height: rows * (H + G), channels: 3, background: "#e8e8e8" } }).composite(comp).jpeg({ quality: 62, mozjpeg: true }).toFile(join(DIAG, nombre + ".jpg"));
 }
+// Para revisar el encuadre: previsualización | foto principal | foto de color (las que NO se han podido emparejar)
+async function hojaComparacion(nombre, items) {
+  items = items.slice(0, 36);
+  if (!items.length) return;
+  const S = 150, W = 3 * S + 8, H = S + 18, G = 8, cols = 3, rows = Math.ceil(items.length / cols), comp = [];
+  for (let k = 0; k < items.length; k++) {
+    const [p, a, r] = items[k], ox = (k % cols) * (W + G), oy = Math.floor(k / cols) * (H + G);
+    const srcs = [cacheV(p.mref, a.id), r.cmpMain && cacheP(r.cmpMain.f), r.cmpCol && cacheP(r.cmpCol.f)];
+    for (let j = 0; j < 3; j++) if (srcs[j] && existsSync(srcs[j])) comp.push({ input: await sharp(srcs[j]).resize(S, S, { fit: "contain", background: "#fff" }).png().toBuffer(), left: ox + j * (S + 4), top: oy });
+    const cap = `${p.ref} ${a.id} principal ${r.cmpMain ? r.cmpMain.iouL + "|" + r.cmpMain.iouP : "-"} color ${r.cmpCol ? r.cmpCol.iouL + "|" + r.cmpCol.iouP : "-"}`;
+    comp.push({ input: Buffer.from(`<svg width="${W}" height="18"><text x="2" y="13" font-family="DejaVu Sans, sans-serif" font-size="11">${esc(cap)}</text></svg>`), left: ox, top: oy + S });
+  }
+  await sharp({ create: { width: cols * (W + G), height: rows * (H + G), channels: 3, background: "#e8e8e8" } }).composite(comp).jpeg({ quality: 62, mozjpeg: true }).toFile(join(DIAG, nombre + ".jpg"));
+}
 async function hojas() {
   const all = [];
   for (const c of cats) for (const p of byCat[c]) (AREAS[p.mref] || []).forEach((a, i) => { const r = E.a[`${p.mref}|${a.id}`]; if (r) all.push([p, a, r, i]); });
@@ -294,6 +312,7 @@ async function hojas() {
   for (const c of cats) await hoja(`hoja-${c}`, all.filter(x => x[0].merch === c && x[3] === 0 && visto(x)));
   for (const c of ["m-taz", "m-esc", "m-bol"]) await hoja(`hoja-${c}-otras-areas`, all.filter(x => x[0].merch === c && x[3] > 0 && visto(x)));
   await hoja("hoja-fallos", all.filter(x => visto(x) && (!x[2].box || x[2].forma === "x" || x[2].forma === "l" || x[2].n > 1)));
+  await hojaComparacion("hoja-encuadre-no-emparejado", all.filter(x => visto(x) && x[2].img === "z" && x[2].box));
   await hoja("hoja-previsualizacion-limpia", all.filter(x => visto(x) && x[2].img === "z" && x[2].box));
 }
 

@@ -1,1 +1,1 @@
-minutos=25
+minutos=30
