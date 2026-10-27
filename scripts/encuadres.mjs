@@ -16,7 +16,10 @@ const OUT = "data/encuadres.json";
 const MUESTRAS = process.env.MUESTRAS || "", LIMITE = +process.env.LIMITE || 0, DIAG = process.env.DIAG || "";
 let { fotos, prods } = fotosDisenador();
 console.log("Productos con diseñador y fotos sin CORS:", prods, "· fotos:", fotos.length);
-if (LIMITE) { fotos = fotos.map(x => [Math.random(), x]).sort((a, b) => a[0] - b[0]).slice(0, LIMITE).map(x => x[1]); }
+if (LIMITE) { /* muestra al azar: LIMITE fotos laterales y un tercio de delante/espalda */
+  const az = a => a.map(x => [Math.random(), x]).sort((p, q) => p[0] - q[0]).map(x => x[1]);
+  fotos = [...az(fotos.filter(x => /^s/.test(x.k))).slice(0, LIMITE), ...az(fotos.filter(x => !/^s/.test(x.k))).slice(0, LIMITE / 3 | 0)];
+}
 if (MUESTRAS) mkdirSync(MUESTRAS, { recursive: true });
 
 async function bajar(urls) {
@@ -42,9 +45,9 @@ async function una(x) {
     const img = sharp(buf).ensureAlpha().resize(500, 500, { fit: "inside", withoutEnlargement: true });
     const { data, info } = await img.raw().toBuffer({ resolveWithObject: true });
     const m = mideFoto(data, info.width, info.height, x.k);
-    if (MUESTRAS) {
+    if (MUESTRAS && /^s/.test(x.k)) {
       const nom = x.st.replace(/[^\w-]+/g, "_");
-      await sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } }).flatten({ background: "#ffffff" }).resize(320, 320, { fit: "inside" }).png().toFile(`${MUESTRAS}/${x.sup}-${x.k}-${nom}.png`);
+      await sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } }).flatten({ background: "#ffffff" }).jpeg({ quality: 88 }).toFile(`${MUESTRAS}/${x.sup}-${x.k}-${nom}.jpg`);
     }
     if (!m) { sinMedida++; return; }
     med[x.st] = m; ok++;
@@ -66,5 +69,6 @@ for (const [g, sts] of Object.entries(grupos)) {
   out.p[g] = m;
   for (const s of sts) { const v = med[s]; if (v.length !== L || v.some((y, j) => Math.abs(y - m[j]) > .02)) out.s[s] = v.map(r3); }
 }
+if (MUESTRAS) writeFileSync(MUESTRAS + "/medidas.json", JSON.stringify(Object.fromEntries(fotos.filter(x => med[x.st]).map(x => [x.st, [x.sup, x.k, x.ref, x.tpl, ...med[x.st]]]))));
 if (!LIMITE) { writeFileSync(OUT, JSON.stringify(out)); console.log("Guardado", OUT, "· productos/vista:", Object.keys(out.p).length, "· fotos aparte:", Object.keys(out.s).length, "·", JSON.stringify(out).length, "bytes"); }
 if (DIAG) { const { diagnostico } = await import("./encuadres-diag.mjs"); await diagnostico(DIAG, fotos, med, bajar); }

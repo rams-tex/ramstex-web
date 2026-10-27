@@ -31,22 +31,14 @@ jobs:
           MUESTRA: ${{ inputs.muestras || contains(github.event.head_commit.message, '[muestras]') }}
         run: |
           if [ "$MUESTRA" = "true" ]; then
-            MUESTRAS=muestras LIMITE=600 DIAG=diagnostico node scripts/encuadres.mjs
+            mkdir -p diagnostico && MUESTRAS=diagnostico/muestras LIMITE=240 DIAG=diagnostico node scripts/encuadres.mjs 2>&1 | tee diagnostico/registro.txt
           else
-            DIAG=diagnostico node scripts/encuadres.mjs
+            mkdir -p diagnostico && rm -rf diagnostico/muestras && DIAG=diagnostico node scripts/encuadres.mjs 2>&1 | tee diagnostico/registro.txt
           fi
-      - uses: actions/upload-artifact@v4
-        with:
-          name: encuadres-revision
-          path: |
-            muestras
-            diagnostico
-          if-no-files-found: ignore
       - name: Guardar
-        if: ${{ !(inputs.muestras || contains(github.event.head_commit.message, '[muestras]')) }}
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add data/encuadres.json diagnostico
+          git add -A diagnostico; [ -f data/encuadres.json ] && git add data/encuadres.json
           git diff --cached --quiet || git commit -m "Encuadre de fotos del diseñador actualizado [skip netlify]"
           git pull --rebase && git push
