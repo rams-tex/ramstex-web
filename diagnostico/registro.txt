@@ -34,11 +34,11 @@ Productos con diseñador: 4686 · fotos: 34949
 33000 / 34949
 34000 / 34949
 Medidas: 34844 · sin foto: 50 · sin medida (p. ej. blanco sobre blanco): 55
-  camisetas · productos/vista: 1853 · fotos aparte: 932 · 154077 bytes
-  polos · productos/vista: 878 · fotos aparte: 388 · 70695 bytes
-  sudaderas · productos/vista: 1247 · fotos aparte: 667 · 107128 bytes
-  chaquetas · productos/vista: 1792 · fotos aparte: 665 · 129428 bytes
-  camisas · productos/vista: 675 · fotos aparte: 205 · 47996 bytes
+  camisetas · productos/vista: 1853 · fotos aparte: 1263 · 183325 bytes
+  polos · productos/vista: 878 · fotos aparte: 468 · 79001 bytes
+  sudaderas · productos/vista: 1247 · fotos aparte: 744 · 119743 bytes
+  chaquetas · productos/vista: 1792 · fotos aparte: 752 · 145703 bytes
+  camisas · productos/vista: 675 · fotos aparte: 218 · 51000 bytes
   pantalones · productos/vista: 521 · fotos aparte: 202 · 36689 bytes
   trabajo · productos/vista: 266 · fotos aparte: 173 · 22855 bytes
   gorras · productos/vista: 490 · fotos aparte: 805 · 74879 bytes
@@ -46,7 +46,7 @@ Medidas: 34844 · sin foto: 50 · sin medida (p. ej. blanco sobre blanco): 55
   hogar · productos/vista: 85 · fotos aparte: 31 · 5858 bytes
   complementos · productos/vista: 13 · fotos aparte: 23 · 1800 bytes
   otros · productos/vista: 38 · fotos aparte: 34 · 4020 bytes
-Guardado data/encuadres · 729963 bytes
-Hoja laterales-1 39 fotos
+Guardado data/encuadres · 799411 bytes
+Hoja laterales-1 40 fotos
 Hoja laterales-2 39 fotos
 Hoja delante-espalda 24 fotos
