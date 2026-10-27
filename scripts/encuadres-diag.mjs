@@ -51,3 +51,4 @@ export async function diagnostico(dir, fotos, med, bajar) {
     console.log("Hoja", nom, tiles.length, "fotos");
   }
 }
+

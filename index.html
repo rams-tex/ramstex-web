@@ -2659,19 +2659,34 @@ function dzDark(k,fr){
 }
 /* Vista de una zona: foto cargada + encuadre de la prenda */
 var DZ_VIEW={};
+/* Encuadre medido de antemano (scripts/encuadres.mjs) para las fotos que el navegador no puede analizar:
+   data/encuadres.json → s: por foto, p: por producto y vista ("REF|f"); [x0,y0,x1,y1,bw,by0(,sx,sy: centro de la manga en la foto lateral)] */
+var DZ_ENC=null;
+function dzEncLoad(){
+  return DZ_ENC||(DZ_ENC=fetch("/data/encuadres.json?v="+BUILD).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}).then(function(d){return d||{p:{},s:{}};}));
+}
+function dzEnc(E,it,st){
+  var a=E&&((E.s&&E.s[st])||(E.p&&E.p[it.r+"|"+dzKind(st)]));
+  if(!a||a.length<6) return null;
+  var fr={x0:a[0],y0:a[1],x1:a[2],y1:a[3],bw:a[4],by0:a[5],enc:1};
+  if(a.length>=8){fr.sx=a[6]; fr.sy=a[7];}
+  return fr;
+}
 function dzView(it,f,ci,pos,tplKey){
   var p=dzPick(it,f,ci,pos,tplKey), sup=dzSup(f), key=p.st+"|"+p.kind+"|"+(p.flip?1:0);
   if(DZ_VIEW[key]) return DZ_VIEW[key];
   var cors=!!sup.cors||isT(p.st);
-  return DZ_VIEW[key]=dzLoad(p.st,cors).then(function(r){
+  return DZ_VIEW[key]=Promise.all([dzLoad(p.st,cors),cors?null:dzEncLoad()]).then(function(rr){
+    var r=rr[0];
     if(!r){ /* sin foto: fondo neutro del color de la prenda, para poder colocar el diseño igualmente */
       var c=document.createElement("canvas"); c.width=c.height=1000; var x=c.getContext("2d"); x.fillStyle=dzHex(it.k[ci])||"#E4E4E1"; x.fillRect(80,80,840,840); x.strokeStyle="rgba(17,17,17,.18)"; x.lineWidth=4; x.strokeRect(82,82,836,836);
       return new Promise(function(res){var im=new Image(); im.onload=function(){res({im:im,cors:true,fr:{x0:.08,y0:.08,x1:.92,y1:.92,bw:.84,lum:dzDark(it.k[ci])?40:230,ok:1},kind:"front",flip:false,nophoto:1,st:p.st});}; im.src=c.toDataURL("image/png");});
     }
     var fr=r.cors?dzMeasure(r.im):null;
+    if(!fr) fr=dzEnc(rr[1],it,p.st);
     if(!fr) fr=Object.assign({},(p.kind==="side"&&sup.sfr)||(p.kind==="side"?{x0:.3,y0:sup.fr.y0,x1:.7,y1:sup.fr.y1,bw:.4}:sup.fr));
     if(p.flip){var a=1-fr.x1; fr.x1=1-fr.x0; fr.x0=a;}
-    return {im:r.im,cors:r.cors,fr:fr,kind:p.kind,flip:!!p.flip,noback:!!p.noback,st:p.st};
+    return {im:r.im,cors:r.cors,fr:fr,kind:p.kind,flip:!!p.flip,noback:!!p.noback,st:p.st,sup:f&&f.src};
   });
 }
 /* Geometría: dónde va la foto y la zona de impresión dentro de un recuadro SW×SH */
@@ -2680,10 +2695,10 @@ function dzGeom(v,tpl,pos,SW,SH,mode){
   var gx0=fr.x0*W, gy0=fr.y0*H, gw=(fr.x1-fr.x0)*W, gh=(fr.y1-fr.y0)*H;
   /* bolsas: la zona se coloca en el cuerpo, sin contar las asas (si la foto no se puede medir, las asas son ~1/3 de la altura) */
   var by=gy0, bh=gh;
-  if(tpl.cuerpo){var b0=fr.by0!=null&&fr.ok?fr.by0:fr.y0+(fr.y1-fr.y0)*.4; by=b0*H; bh=(fr.y1-b0)*H;}
+  if(tpl.cuerpo){var b0=fr.by0!=null&&(fr.ok||fr.enc)?fr.by0:fr.y0+(fr.y1-fr.y0)*.4; by=b0*H; bh=(fr.y1-b0)*H;}
   if(zn.v==="s"){
     if(v.kind==="side"){
-      s=gh*.46/tpl.bw; var sl=DZ_SUP[v.sup]?DZ_SUP[v.sup].sl:DZ_DEF.sl;
+      s=gh*.46/tpl.bw; var sl=fr.sx!=null?[fr.sx,fr.sy]:DZ_SUP[v.sup]?DZ_SUP[v.sup].sl:DZ_DEF.sl; /* manga medida en la foto, o la habitual del proveedor */
       var sx=v.flip?1-sl[0]:sl[0]; cx=gx0+sx*gw; cy=gy0+sl[1]*gh;
     } else {s=fr.bw*W/tpl.bw; cx=pos==="mi"?gx0+.9*gw:gx0+.1*gw; cy=gy0+.2*gh;}
     aw=cm[0]*s; ah=cm[1]*s; a={x:cx-aw/2,y:cy-ah/2,w:aw,h:ah};
