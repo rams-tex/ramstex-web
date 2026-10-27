@@ -285,11 +285,33 @@ h2{font-size:var(--fs-2xl);font-weight:700;max-width:18ch}
 .steps h3{font-size:var(--fs-l);margin:0 0 6px}
 .steps p{margin:0;color:var(--muted);font-size:1rem}
 
-/* ---------- Casos de éxito ---------- */
-.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.shot{aspect-ratio:1/1;background:var(--tint);border:2px dashed var(--line);border-radius:var(--r-m);display:flex;flex-direction:column;justify-content:flex-end;padding:16px}
-.shot b{font:700 var(--fs-m) "Bricolage Grotesque",sans-serif}
-.shot span{color:var(--muted);font-size:var(--fs-s)}
+/* ---------- Casos de éxito (fotos reales de clientes; datos en CASOS) ---------- */
+.cases{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.case{display:flex;flex-direction:column;gap:0;padding:0;border:0;background:none;text-align:left;color:var(--text);cursor:pointer;font:inherit;-webkit-tap-highlight-color:transparent;transition:transform 160ms var(--ease-ui)}
+.case:active{transform:scale(.98)}
+.case .cph{position:relative;aspect-ratio:4/5;border-radius:var(--r-m);overflow:hidden;background:var(--tint)}
+.case img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 300ms var(--ease-ui)}
+@media (hover:hover) and (pointer:fine){.case:hover img{transform:scale(1.04)}.case:hover .cn{color:var(--red-text)}}
+.case .cnum{position:absolute;right:10px;bottom:10px;padding:4px 10px;border-radius:999px;background:rgba(17,17,17,.62);color:#fff;font:600 var(--fs-xs)/1.4 Figtree,sans-serif;backdrop-filter:blur(4px)}
+.case .cn{display:block;margin-top:12px;font:700 var(--fs-l)/1.15 "Bricolage Grotesque",sans-serif;letter-spacing:-.01em;transition:color 150ms ease}
+.case .ct{display:block;margin-top:4px;color:var(--muted);font-size:var(--fs-s);line-height:1.45}
+.case:focus-visible{outline:none}.case:focus-visible .cph{outline:3px solid var(--red-text);outline-offset:3px}
+@media (max-width:900px){.cases{grid-template-columns:1fr 1fr;gap:22px 12px}.case .cn{font-size:1.05rem}}
+.lb{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:rgba(12,12,12,.94);color:#fff;overscroll-behavior:contain}
+.lb[open]{display:flex;flex-direction:column;animation:lbin 200ms var(--ease-ui)}
+@keyframes lbin{from{opacity:0}}
+.lb::backdrop{background:transparent}
+.lbtop{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top,0px))}
+.lbtop b{font:700 var(--fs-m) "Bricolage Grotesque",sans-serif}.lbtop span{color:rgba(255,255,255,.7);font-size:var(--fs-s);margin-left:8px;font-variant-numeric:tabular-nums}
+.lbx,.lbnav{border:0;background:rgba(255,255,255,.12);color:#fff;border-radius:999px;cursor:pointer;display:grid;place-items:center;-webkit-tap-highlight-color:transparent}
+.lbx{width:44px;height:44px}.lbx svg,.lbnav svg{width:20px;height:20px}
+.lbstage{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:0 12px 16px;touch-action:pan-y}
+.lbstage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;user-select:none;-webkit-user-drag:none}
+.lbnav{position:absolute;top:50%;width:48px;height:48px;transform:translateY(-50%)}.lbnav.p{left:16px}.lbnav.n{right:16px}
+@media (hover:hover){.lbx:hover,.lbnav:hover{background:rgba(255,255,255,.22)}}
+.lbcap{padding:0 16px calc(16px + env(safe-area-inset-bottom,0px));text-align:center;color:rgba(255,255,255,.78);font-size:var(--fs-s)}
+@media (max-width:600px){.lbnav{display:none}}
+@media (prefers-reduced-motion: reduce){.case,.case img{transition:none}.lb[open]{animation:none}}
 
 /* ---------- Contacto ---------- */
 .redband{background:var(--red);padding:calc(var(--eh) + 48px) 0;margin-top:16px;position:relative;overflow-x:clip}
@@ -619,7 +641,7 @@ img.pack{object-fit:contain!important;padding:6%}
   .qbtn .qn{position:absolute;top:-6px;right:-6px;background:var(--surface);color:var(--red-text);box-shadow:inset 0 0 0 1.5px var(--red)}
   .menubtn{padding:0 14px}
   .wa{display:grid}
-  #view-prod:not([hidden])~.wa,#view-cat:not([hidden])~.wa{display:none}
+  #view-prod:not([hidden])~.wa,#view-cat:not([hidden])~.wa,#view-nav:not([hidden])~.wa{display:none}
   .hero{grid-template-columns:1fr;gap:20px;padding:36px 0 36px}
   .stage{height:min(330px,84vw);margin-bottom:0}
   .htext>p:not(.hsub){display:none}
@@ -952,9 +974,83 @@ html.dzopen body>*:not(#dz):not(script):not(.toast){display:none!important}
 input.dzin:not([type]):not(.search){min-width:2ch;height:auto;padding:0 1px;border:0;border-bottom:1.5px dashed var(--line-strong);border-radius:0;background:none;font:inherit;line-height:1.1}
 input.dzin:focus-visible{outline:0;border-bottom-color:var(--red-text);background:color-mix(in srgb,var(--red) 7%,transparent)}
 .dzopt .sm{display:none}
+
+/* ---------- Aviso de campaña (Navidad) ---------- */
+.xbar{background:var(--red);color:var(--on-red);font-size:var(--fs-s);font-weight:500}
+.xbar .wrap{display:flex;align-items:center;justify-content:center;gap:8px;min-height:40px;position:relative;padding-right:56px;padding-left:56px}
+.xbar a{display:inline-flex;align-items:center;gap:8px;color:inherit;text-decoration:underline;text-decoration-color:rgba(255,255,255,.5);text-underline-offset:3px;padding:8px 0;line-height:1.35;text-align:center}
+.xbar a:hover{text-decoration-color:#fff}
+.xbar a svg{width:16px;height:16px;flex:none}
+.xbar :focus-visible{outline-color:#fff;outline-offset:2px}
+.xclose{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:40px;height:40px;display:grid;place-items:center;border:0;border-radius:50%;background:transparent;color:inherit;cursor:pointer;transition:background-color 150ms ease}
+.xclose svg{width:16px;height:16px}
+@media (hover:hover){.xclose:hover{background:rgba(255,255,255,.14)}}
+@media (max-width:600px){
+  .xbar{font-size:var(--fs-xs)}
+  .xbar .wrap{justify-content:flex-start;padding-left:16px;padding-right:52px}
+  .xbar a{text-align:left}
+  .xbar a svg{display:none}
+  .xclose{right:4px;width:44px;height:44px}
+}
+
+/* ---------- Compromisos (bajo la portada) ---------- */
+.prom{list-style:none;margin:0 auto;padding-top:40px;padding-bottom:0;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.45fr) minmax(0,1fr) minmax(0,.95fr)}
+.prom li{display:flex;align-items:center;gap:14px;padding:4px 22px;border-left:1px solid var(--line);font-weight:600;font-size:var(--fs-m);line-height:1.3}
+.prom li:first-child{border-left:0;padding-left:0}
+.prom svg{flex:none;width:30px;height:30px;color:var(--red-text)}
+.prom+section{padding-top:80px}
+@media (max-width:900px){
+  .prom{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 16px;padding-top:28px}
+  .prom li{flex-direction:column;align-items:flex-start;gap:8px;padding:0;border:0;font-size:var(--fs-s)}
+  .prom svg{width:26px;height:26px}
+  .prom+section{padding-top:52px}
+}
+
+/* ---------- Ficha: diseño por nuestra cuenta, plazos y preguntas ---------- */
+.pself{display:flex;align-items:flex-start;gap:12px;margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r-s);background:var(--surface);color:var(--text);text-decoration:none;font-size:var(--fs-s);line-height:1.45;transition:border-color 150ms ease}
+.pself svg{flex:none;width:20px;height:20px;margin-top:1px;color:var(--red-text)}
+.pself b{display:block;font-weight:700}
+.pself span span{color:var(--muted)}
+.pself u{display:inline-block;margin-top:4px;color:var(--red-text);font-weight:600;text-underline-offset:3px}
+@media (hover:hover) and (pointer:fine){.pself:hover{border-color:var(--red-text)}}
+.pfacts{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:4px 16px;font-size:var(--fs-xs);color:var(--muted);line-height:1.5}
+.pfacts li{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.pfacts li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--red-text);flex:none}
+.pfaq{border-top:1px solid var(--line)}
+.pfaq details{border-bottom:1px solid var(--line)}
+.pfaq summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:48px;padding:10px 0;cursor:pointer;font-weight:600;list-style:none}
+.pfaq summary::-webkit-details-marker{display:none}
+.pfaq summary::after{content:"";flex:none;width:8px;height:8px;margin-right:6px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform 200ms var(--ease-ui)}
+.pfaq details[open] summary::after{transform:translateY(2px) rotate(-135deg)}
+.pfaq summary:focus-visible{outline-offset:2px;border-radius:4px}
+.pfaq p{margin:0 0 16px;color:var(--muted);font-size:var(--fs-s);max-width:60ch}
+@media (prefers-reduced-motion: reduce){.pfaq summary::after{transition:none}}
+
+/* ---------- Navidad ---------- */
+.navd .sub{margin-bottom:32px}
+.grid.navgrid{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:1100px){.grid.navgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){.grid.navgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.navcta{margin-top:56px;padding:32px 36px;border:1px solid var(--line);border-radius:var(--r-l);background:var(--surface);display:flex;align-items:center;justify-content:space-between;gap:20px 32px;flex-wrap:wrap}
+.navcta p{margin:0;font:700 var(--fs-l)/1.3 "Bricolage Grotesque",Figtree,sans-serif;letter-spacing:-.01em;max-width:34ch;text-wrap:balance}
+@media (max-width:600px){.navcta{padding:24px 20px;margin-top:40px}.navcta .btn{width:100%}}
+
+/* ---------- Pie en columnas ---------- */
+footer .wrap.fgrid{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));gap:32px 24px}
+.fcol h2{font:700 var(--fs-s)/1.3 Figtree,sans-serif;letter-spacing:0;color:var(--text);margin:0 0 12px;max-width:none}
+.fcol ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:var(--fs-s)}
+.fcol a{color:var(--muted);text-decoration:none;display:inline-block;padding:2px 0}
+.fcol a[href^="https://wa.me"]{white-space:nowrap}
+.fcol a:hover{color:var(--text);text-decoration:underline;text-underline-offset:3px}
+@media (max-width:900px){footer .wrap.fgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.fbrand{grid-column:1/-1}}
 </style>
 </head>
 <body>
+
+<div class="xbar" id="xbar" hidden><div class="wrap">
+  <a href="/navidad/">Regalos de empresa para Navidad: pídelos antes del 1 de diciembre<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  <button class="xclose" id="xclose" type="button" aria-label="Cerrar el aviso de Navidad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</div></div>
 
 <div class="topbar"><div class="wrap">
   <span class="tloc">Ropa y merchandising personalizados</span>
@@ -971,6 +1067,7 @@ input.dzin:focus-visible{outline:0;border-bottom-color:var(--red-text);backgroun
     <nav class="dnav" aria-label="Principal">
       <a href="/catalogo/" data-view="cat">Catálogo</a>
       <a href="/merchandising/" data-view="merch">Merchandising</a>
+      <a class="xnav" href="/navidad/" data-view="nav" hidden>Navidad</a>
       <a href="/#quienes">Quiénes somos</a>
       <a href="/#hacemos">Qué hacemos</a>
       <a href="/#proceso">Cómo trabajamos</a>
@@ -997,10 +1094,11 @@ input.dzin:focus-visible{outline:0;border-bottom-color:var(--red-text);backgroun
   <div class="msub" id="msub-cat" hidden><a class="ms" href="/catalogo/camisetas/">Camisetas</a><a class="ms" href="/catalogo/sudaderas/">Sudaderas y jerseys</a><a class="ms" href="/catalogo/polos/">Polos</a><a class="ms" href="/catalogo/gorras/">Gorras y gorros</a><a class="ms" href="/catalogo/chaquetas/">Chaquetas y chalecos</a><a class="ms" href="/catalogo/bolsas/">Bolsas y mochilas</a><a class="ms all" href="/catalogo/">Ver todo el catálogo</a></div>
   <div class="mrow"><a class="mi" href="/merchandising/" data-view="merch">Merchandising</a><button class="mexp" type="button" aria-expanded="false" aria-controls="msub-merch" aria-label="Ver categorías de merchandising"></button></div>
   <div class="msub" id="msub-merch" hidden><a class="ms" href="/merchandising/tazas-y-botellas/">Tazas, botellas y menaje</a><a class="ms" href="/merchandising/tecnologia/">Tecnología</a><a class="ms" href="/merchandising/bolsas-y-mochilas/">Bolsas, mochilas y viaje</a><a class="ms" href="/merchandising/escritura-y-oficina/">Escritura y oficina</a><a class="ms" href="/merchandising/hogar-y-regalos/">Hogar y regalos</a><a class="ms all" href="/merchandising/">Ver todo el merchandising</a></div>
+  <a class="mi xnav" href="/navidad/" data-view="nav" hidden>Navidad</a>
   <a class="mi" href="/#quienes">Quiénes somos</a>
   <a class="mi" href="/#hacemos">Qué hacemos</a>
   <a class="mi" href="/#proceso">Cómo trabajamos</a>
-  <a class="mi" href="/#casos" hidden>Casos de éxito</a>
+  <a class="mi" href="/#casos">Casos de éxito</a>
   <a class="mi" href="/#contacto">Contacto</a>
   <div class="mdiv" aria-hidden="true"></div>
   <div class="mcta">
@@ -1008,6 +1106,22 @@ input.dzin:focus-visible{outline:0;border-bottom-color:var(--red-text);backgroun
     <a class="btn ghost" href="mailto:info@ramstex.com">Correo</a>
   </div>
 </div>
+
+<script>
+/* Campaña de Navidad: aviso arriba y enlace «Navidad» en el menú hasta esta fecha (incluida). Para quitarla antes, pon una fecha pasada. */
+var NAVIDAD_HASTA="2026-12-20";
+(function(){
+  var on=Date.now()<new Date(NAVIDAD_HASTA+"T23:59:59").getTime(), bar=document.getElementById("xbar"), off=false;
+  document.querySelectorAll(".xnav").forEach(function(a){a.hidden=!on;});
+  try{off=localStorage.getItem("ramstex-aviso-navidad")==="cerrado";}catch(e){}
+  if(on&&!off) bar.hidden=false;
+  document.getElementById("xclose").addEventListener("click",function(){
+    bar.hidden=true;
+    try{localStorage.setItem("ramstex-aviso-navidad","cerrado");}catch(e){}
+    var l=document.querySelector("header.top .logo"); if(l) l.focus();
+  });
+})();
+</script>
 
 <!-- =============== INICIO =============== -->
 <div id="view-home">
@@ -1061,6 +1175,13 @@ input.dzin:focus-visible{outline:0;border-bottom-color:var(--red-text);backgroun
     </div>
   </div>
   </div>
+
+  <ul class="wrap prom" aria-label="Nuestros compromisos">
+    <li><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="11.5"/><path d="M16 9.5V16l4.5 3"/></svg><span>Presupuesto en 24 h</span></li>
+    <li><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 5.5h12l6 6V26.5H7z"/><path d="M19 5.5v6h6"/><path d="M11.5 21.5l2-.5 6.5-6.5-1.5-1.5-6.5 6.5z"/></svg><span>Diseño gratis: te lo enseñamos antes de producir</span></li>
+    <li><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5.5" y="7.5" width="21" height="19" rx="2.5"/><path d="M5.5 13h21M11 4.5v5M21 4.5v5"/><path d="M11 18.5h2M15 18.5h2M19 18.5h2M11 22h2M15 22h2"/></svg><span>Producción en 7-10 días</span></li>
+    <li><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 4.5l10.5 5.25L16 15 5.5 9.75z"/><path d="M5.5 15.5L16 20.75l10.5-5.25"/><path d="M5.5 21.25L16 26.5l10.5-5.25"/></svg><span>Desde 10 unidades</span></li>
+  </ul>
 
   <section id="quienes">
     <div class="wrap about">
@@ -1131,25 +1252,23 @@ input.dzin:focus-visible{outline:0;border-bottom-color:var(--red-text);backgroun
     </div>
   </section>
 
-  <!-- Casos de éxito: oculto hasta tener las fotos reales. Para mostrarlo, quitar "hidden" aquí y en los dos enlaces del menú. -->
-  <section id="casos" style="padding-top:0" hidden>
+  <!-- Casos de éxito: fotos reales de clientes (carpeta CONTENIDO RAMSTEX del Drive). Se pintan desde CASOS (script al final). -->
+  <section id="casos">
     <div class="wrap">
       <div class="shead">
         <div>
           <h2>Casos de éxito</h2>
-          <p class="lead">Proyectos que hemos hecho realidad para empresas, eventos y marcas.</p>
+          <p class="lead">Algunos proyectos que hemos hecho para marcas, equipos y eventos.</p>
         </div>
       </div>
-      <div class="gallery">
-        <div class="shot"><b>Camisetas para un evento</b><span>Foto del trabajo</span></div>
-        <div class="shot"><b>Sudaderas de empresa</b><span>Foto del trabajo</span></div>
-        <div class="shot"><b>Merchandising de marca</b><span>Foto del trabajo</span></div>
-        <div class="shot"><b>Despedida de soltero</b><span>Foto del trabajo</span></div>
-        <div class="shot"><b>Equipo deportivo</b><span>Foto del trabajo</span></div>
-        <div class="shot"><b>Colección propia</b><span>Foto del trabajo</span></div>
-      </div>
+      <div class="cases" id="cases"></div>
     </div>
   </section>
+  <dialog class="lb" id="lb" aria-label="Fotos del proyecto">
+    <div class="lbtop"><div><b id="lbn"></b><span id="lbc"></span></div><button class="lbx" type="button" id="lbx" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="lbstage" id="lbs"><img id="lbi" alt=""><button class="lbnav p" type="button" id="lbp" aria-label="Foto anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button class="lbnav n" type="button" id="lbnx" aria-label="Foto siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
+    <p class="lbcap" id="lbt"></p>
+  </dialog>
 
   <section id="contacto" class="redband">
     <svg class="edge t" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="tf" filter="url(#fibras)" d="M-4,120 L-4.0,33.4 L-1.1,32.6 L0.9,31.5 L4.0,30.3 L7.6,30.6 L10.9,28.2 L12.4,27.1 L14.5,27.1 L17.8,26.3 L20.7,25.8 L22.0,25.5 L23.9,24.8 L25.2,25.0 L28.7,22.8 L31.4,21.0 L33.5,20.7 L36.9,20.9 L40.3,19.7 L43.3,20.0 L45.9,21.2 L48.7,20.3 L51.7,20.1 L53.5,20.5 L54.9,20.3 L57.6,18.9 L60.4,18.9 L63.3,19.0 L64.6,20.7 L66.1,19.7 L68.6,19.3 L71.2,19.5 L73.9,19.9 L75.9,19.9 L78.8,20.2 L81.4,21.8 L82.7,21.2 L85.4,20.9 L88.5,21.2 L90.5,21.4 L94.1,21.8 L97.4,22.7 L100.9,23.7 L103.0,24.0 L106.5,22.8 L109.9,23.5 L111.6,25.1 L113.6,23.6 L115.6,23.7 L117.0,24.1 L119.3,23.6 L122.4,24.0 L126.1,25.1 L129.4,26.5 L132.8,26.3 L134.2,26.1 L137.0,27.5 L139.9,27.6 L141.4,28.0 L142.8,26.8 L144.2,27.4 L147.7,27.5 L149.2,28.2 L151.0,28.6 L153.9,28.4 L155.6,27.5 L157.7,26.0 L161.2,26.2 L162.8,26.1 L164.3,27.5 L166.5,25.9 L169.6,25.3 L172.4,26.2 L173.9,26.3 L177.5,25.5 L179.4,26.2 L180.8,27.2 L184.0,28.2 L187.3,28.5 L189.7,28.8 L192.6,29.1 L194.2,29.3 L196.6,28.9 L198.3,30.0 L201.0,30.5 L202.9,30.9 L204.6,30.1 L206.2,31.0 L209.6,32.0 L212.7,31.5 L215.3,31.1 L217.8,31.1 L219.7,33.0 L222.4,33.0 L224.8,33.2 L228.0,34.0 L231.4,35.4 L234.2,36.8 L236.9,36.4 L240.1,37.9 L242.0,38.6 L245.6,40.4 L248.2,41.4 L249.7,41.9 L252.0,43.2 L254.2,42.7 L257.5,43.0 L259.3,43.4 L262.9,45.1 L264.5,44.3 L267.0,45.0 L268.9,45.5 L272.3,47.5 L275.6,48.7 L277.0,48.3 L280.3,47.9 L282.8,49.2 L284.7,49.0 L287.6,49.9 L289.2,51.0 L290.7,50.0 L292.8,49.4 L295.2,49.6 L298.2,50.8 L301.4,52.0 L303.3,52.6 L306.5,53.7 L308.8,54.9 L311.0,56.1 L313.9,54.7 L317.4,55.5 L320.0,56.0 L323.4,55.9 L326.5,55.7 L328.1,55.7 L329.4,55.6 L331.1,55.5 L334.6,54.4 L337.3,53.7 L340.9,53.5 L342.6,54.0 L345.1,54.0 L347.4,52.9 L349.0,53.2 L350.6,52.8 L353.3,53.8 L355.0,53.5 L356.5,52.7 L360.2,53.6 L361.6,55.2 L363.7,55.6 L366.9,55.0 L368.9,54.5 L371.7,56.3 L373.3,56.5 L376.0,56.8 L377.5,57.0 L379.0,57.2 L380.9,57.5 L384.0,57.5 L386.0,58.0 L388.4,58.1 L392.1,58.2 L394.3,59.3 L396.6,58.9 L398.9,58.0 L400.6,59.3 L403.0,59.5 L405.4,58.8 L407.0,57.5 L409.7,57.2 L412.7,57.0 L415.8,58.7 L418.0,59.3 L419.7,59.8 L421.7,59.8 L425.0,61.2 L427.3,61.9 L429.9,61.6 L431.4,60.2 L433.1,59.9 L435.1,58.9 L437.1,58.4 L440.2,59.2 L443.4,59.2 L444.8,60.1 L448.0,58.6 L449.9,58.2 L451.7,59.6 L454.5,59.4 L456.4,58.8 L459.0,59.2 L461.1,58.6 L463.2,58.2 L465.3,56.9 L467.9,57.7 L471.5,58.3 L473.7,58.0 L475.3,56.9 L477.1,56.9 L479.0,55.8 L480.6,56.0 L483.4,55.2 L486.2,55.1 L489.8,53.3 L493.1,52.9 L496.1,51.2 L499.8,50.0 L501.3,49.8 L503.4,50.1 L506.2,50.6 L509.6,50.4 L511.8,50.1 L514.3,49.8 L517.0,49.5 L519.1,49.2 L521.4,49.1 L525.0,48.9 L527.1,48.1 L530.8,48.8 L534.1,48.8 L536.7,48.9 L539.2,47.5 L541.8,49.1 L544.0,49.3 L545.6,49.4 L547.8,49.6 L550.4,49.9 L552.4,49.6 L555.6,50.0 L558.4,50.9 L560.0,50.6 L563.4,51.5 L566.7,52.0 L569.7,51.0 L571.3,52.1 L574.3,51.9 L576.7,53.3 L580.1,52.9 L583.8,54.1 L586.0,54.3 L587.7,54.3 L589.5,53.7 L592.3,54.8 L594.6,55.0 L596.1,55.1 L599.8,54.0 L601.6,53.8 L603.5,55.0 L606.1,53.4 L608.2,53.1 L611.0,52.1 L614.1,51.7 L616.8,51.3 L620.4,49.7 L623.4,50.5 L627.0,48.6 L628.8,47.9 L632.2,48.1 L634.7,48.3 L637.2,49.1 L639.6,48.5 L641.4,48.9 L642.9,48.6 L644.5,48.4 L647.3,49.1 L650.0,49.4 L651.7,48.8 L653.1,48.7 L655.2,48.5 L656.6,49.9 L660.0,48.5 L663.3,48.4 L666.3,48.3 L669.9,46.8 L673.2,47.5 L676.2,48.5 L679.8,46.8 L681.7,47.4 L684.4,47.7 L687.0,48.5 L688.6,47.6 L690.5,47.6 L693.1,47.6 L695.3,48.1 L696.8,47.3 L700.5,48.4 L702.3,48.3 L704.3,48.4 L707.6,49.8 L709.0,50.4 L712.6,50.7 L714.6,49.9 L716.7,51.6 L718.8,51.1 L721.0,52.4 L722.4,51.0 L725.3,49.9 L727.2,50.0 L729.6,49.7 L732.5,49.5 L735.2,51.0 L738.3,52.7 L739.9,52.5 L742.7,52.3 L744.8,51.2 L746.9,52.8 L749.2,51.6 L751.3,50.1 L754.5,49.6 L757.2,51.1 L759.7,52.4 L762.2,51.3 L764.5,49.8 L767.3,49.3 L769.9,49.1 L772.0,50.0 L774.8,50.2 L776.8,49.3 L779.2,47.9 L782.4,47.3 L784.0,47.0 L786.1,46.6 L789.4,46.3 L792.1,46.9 L794.2,45.6 L797.2,45.0 L799.6,43.4 L802.8,43.1 L804.8,43.7 L806.9,42.2 L810.0,40.5 L811.6,40.1 L814.1,39.4 L817.4,39.7 L820.8,38.3 L823.2,36.9 L824.9,36.5 L827.0,36.0 L829.5,35.7 L832.9,34.6 L836.4,33.8 L838.9,33.4 L842.2,32.7 L844.4,32.4 L847.8,33.1 L849.5,33.4 L851.2,34.6 L853.9,33.1 L855.7,33.9 L858.5,34.1 L860.2,35.3 L863.8,36.1 L867.4,34.9 L869.6,35.7 L873.0,36.2 L876.7,35.0 L878.9,35.6 L882.2,36.5 L885.6,36.0 L889.1,36.6 L892.6,36.6 L894.2,36.6 L895.6,36.6 L898.2,36.7 L901.2,36.7 L902.6,36.7 L906.1,36.4 L907.8,36.6 L910.3,36.5 L913.9,36.4 L916.4,35.0 L919.5,35.2 L923.2,35.6 L925.5,35.5 L929.1,35.0 L931.6,33.7 L933.5,32.4 L935.5,33.5 L938.2,31.7 L939.9,31.7 L943.4,32.3 L946.7,31.9 L948.5,31.5 L951.8,30.0 L953.4,30.0 L955.2,28.9 L956.9,27.6 L959.7,27.9 L963.1,25.6 L966.6,24.2 L968.1,23.0 L970.5,22.8 L972.3,21.6 L974.8,22.2 L978.1,20.1 L981.5,19.0 L984.8,18.0 L986.5,18.9 L988.9,19.8 L991.3,19.8 L994.1,19.2 L996.2,19.9 L999.0,19.1 L1000.5,18.3 L1002.1,18.3 L1004.9,17.6 L1006.6,18.6 L1009.5,19.1 L1012.3,17.8 L1014.3,19.0 L1016.5,18.0 L1018.4,18.2 L1021.3,18.7 L1023.2,18.2 L1024.8,19.1 L1027.1,20.5 L1030.5,22.4 L1033.4,22.5 L1035.8,23.7 L1037.8,24.0 L1040.2,24.0 L1042.8,24.7 L1046.5,26.7 L1048.3,28.3 L1050.0,27.7 L1051.9,28.7 L1055.3,29.5 L1058.4,32.1 L1061.1,34.3 L1063.7,35.1 L1065.2,34.5 L1067.1,36.1 L1070.0,36.9 L1072.9,37.7 L1075.5,37.7 L1077.0,37.1 L1079.7,39.3 L1082.6,38.7 L1086.0,39.4 L1087.5,41.2 L1089.8,41.7 L1091.5,41.6 L1094.9,42.6 L1098.0,43.1 L1101.5,43.6 L1103.0,42.2 L1105.3,41.7 L1107.8,42.3 L1109.6,43.3 L1112.5,42.0 L1115.5,41.9 L1118.5,43.0 L1121.4,42.4 L1123.8,41.2 L1127.5,41.5 L1131.0,40.9 L1133.0,40.3 L1136.2,39.9 L1139.3,40.1 L1142.9,41.6 L1145.2,42.6 L1147.5,41.6 L1150.4,41.7 L1152.8,42.4 L1155.7,42.5 L1157.6,43.7 L1159.0,45.2 L1161.1,46.2 L1164.5,45.7 L1166.0,44.6 L1168.5,44.7 L1172.1,45.6 L1175.2,47.2 L1176.8,48.9 L1180.5,50.9 L1183.2,51.9 L1186.2,52.4 L1189.1,54.2 L1190.5,55.1 L1192.4,54.5 L1196.1,55.5 L1197.9,56.4 L1200.6,57.7 L1202.1,57.7 L1205.7,58.1 L1208.6,60.2 L1210.6,60.0 L1213.0,62.1 L1215.4,62.8 L1218.0,62.4 L1220.3,62.2 L1223.7,64.2 L1225.7,63.2 L1227.2,64.5 L1230.1,65.8 L1232.8,65.9 L1234.5,65.0 L1237.4,65.0 L1240.2,64.1 L1242.8,64.9 L1244.9,65.5 L1246.9,65.4 L1249.6,67.2 L1251.8,67.5 L1254.3,68.6 L1256.1,68.5 L1258.2,67.5 L1261.4,68.4 L1264.4,68.6 L1266.8,69.1 L1269.9,68.1 L1273.1,69.2 L1275.1,68.5 L1277.3,67.5 L1280.1,68.3 L1282.2,67.9 L1283.6,67.7 L1286.8,66.2 L1288.2,65.7 L1289.9,66.3 L1291.9,66.2 L1295.5,64.6 L1298.7,62.7 L1302.2,63.4 L1303.8,63.8 L1306.4,62.8 L1308.4,62.9 L1310.6,61.8 L1313.3,62.0 L1315.6,61.6 L1318.9,60.4 L1321.1,59.0 L1324.6,59.9 L1326.0,60.0 L1327.4,58.5 L1329.1,56.9 L1332.7,55.6 L1334.7,55.7 L1336.1,54.1 L1338.1,53.6 L1341.6,53.2 L1343.1,53.2 L1345.8,52.8 L1349.0,53.3 L1352.3,54.7 L1354.0,56.1 L1357.0,56.7 L1359.8,55.6 L1361.6,54.6 L1362.9,54.8 L1364.4,53.5 L1367.4,54.7 L1370.8,54.4 L1372.4,55.1 L1373.9,54.4 L1376.8,53.0 L1378.1,52.3 L1379.9,52.4 L1381.9,52.4 L1385.6,52.5 L1389.2,52.5 L1391.5,52.9 L1392.9,54.3 L1396.0,55.2 L1398.5,54.1 L1401.2,52.5 L1403.5,53.9 L1405.3,52.2 L1408.2,52.3 L1409.9,53.5 L1413.5,51.8 L1416.4,50.6 L1419.5,50.1 L1421.5,51.2 L1424.8,51.3 L1427.2,49.6 L1429.9,48.1 L1432.4,47.6 L1433.9,47.2 L1435.4,46.9 L1436.8,46.5 L1438.4,46.1 L1439.8,47.3 L1441.5,45.9 L1444.0,45.2 L1444,120 Z"/><path class="tp" d="M-4,120 L-4.0,41.0 L0.9,37.6 L4.0,37.4 L8.5,36.8 L14.8,32.9 L19.8,31.4 L24.8,30.1 L28.3,29.3 L35.3,28.1 L41.0,27.3 L44.9,27.0 L47.6,27.2 L53.0,26.6 L59.3,26.6 L65.5,26.8 L72.5,27.7 L75.8,27.6 L80.8,28.1 L84.4,30.1 L87.3,30.9 L90.2,30.7 L95.4,31.3 L101.1,30.7 L105.8,32.9 L111.9,35.0 L117.5,36.1 L121.3,36.7 L124.6,37.3 L129.4,37.9 L135.1,37.8 L142.0,37.4 L146.7,35.1 L149.2,34.8 L153.9,35.6 L157.1,35.7 L163.3,33.7 L167.8,34.4 L170.7,35.8 L175.3,33.8 L179.1,32.3 L181.8,32.9 L187.3,33.1 L191.5,32.2 L195.6,34.7 L200.6,34.7 L204.9,35.6 L210.6,37.6 L217.0,41.1 L223.1,43.2 L228.7,43.8 L234.7,44.5 L240.0,45.0 L245.5,46.1 L249.1,48.3 L255.9,51.6 L258.7,52.2 L264.7,55.2 L269.1,56.1 L273.1,58.2 L278.1,58.7 L284.7,60.3 L290.1,59.3 L293.7,57.6 L297.5,57.5 L302.5,58.1 L307.1,57.6 L311.8,57.9 L315.7,57.5 L319.5,58.6 L324.7,57.3 L328.3,56.9 L334.4,56.7 L337.5,58.3 L343.2,59.0 L347.5,57.2 L352.9,57.3 L359.8,56.7 L366.6,58.5 L372.1,59.8 L378.8,60.9 L384.5,60.3 L389.3,60.0 L395.4,61.0 L398.6,63.0 L404.8,65.9 L409.5,64.4 L412.6,65.7 L418.4,67.1 L421.4,67.7 L428.4,68.9 L435.2,67.2 L440.1,67.4 L445.0,66.6 L451.2,66.1 L455.1,66.3 L458.1,65.2 L463.8,62.1 L470.3,60.4 L472.9,60.5 L477.3,59.5 L480.1,59.5 L486.3,56.7 L489.9,57.5 L496.6,57.2 L503.2,55.8 L507.7,53.9 L511.8,51.4 L515.4,50.9 L519.3,52.2 L522.8,50.4 L527.3,51.6 L533.0,52.2 L536.8,53.4 L542.6,55.1 L548.8,55.1 L552.1,56.3 L555.7,55.8 L558.9,55.7 L565.1,54.8 L568.8,53.7 L571.5,54.0 L575.1,55.4 L579.0,55.5 L581.8,56.1 L584.8,58.3 L590.7,58.6 L596.3,60.8 L599.5,60.5 L603.5,62.4 L610.1,62.5 L614.6,63.2 L618.3,60.9 L625.3,61.4 L628.8,59.9 L633.6,58.5 L637.6,58.7 L641.6,56.6 L645.8,57.1 L649.5,55.7 L653.4,55.8 L657.4,53.5 L662.2,51.9 L666.6,52.4 L670.1,50.1 L676.5,49.7 L682.8,51.6 L687.4,51.2 L693.2,52.3 L697.9,50.7 L702.1,53.2 L706.2,52.2 L709.9,54.7 L715.6,56.8 L721.6,59.6 L724.7,60.2 L729.8,58.9 L732.9,60.8 L739.0,62.4 L743.2,61.2 L749.0,61.2 L753.1,59.2 L758.1,58.7 L761.8,59.4 L767.6,59.4 L774.5,59.2 L779.1,60.2 L785.1,57.8 L787.7,56.9 L791.6,56.1 L796.5,53.9 L800.1,53.6 L806.6,52.1 L811.9,50.0 L815.2,49.1 L822.1,45.7 L828.5,43.4 L834.5,41.9 L840.4,41.0 L844.0,40.1 L847.0,40.8 L849.9,39.6 L853.0,40.5 L858.4,41.4 L862.5,39.3 L868.2,37.9 L874.7,39.8 L878.2,40.9 L881.4,42.3 L888.4,41.7 L891.9,42.1 L895.0,42.0 L899.5,42.4 L906.4,41.1 L913.3,39.3 L919.2,38.5 L923.8,37.0 L929.7,36.4 L933.3,35.8 L938.8,35.2 L942.0,34.6 L945.9,33.6 L950.8,33.9 L954.6,32.2 L961.2,30.3 L967.4,29.0 L970.1,30.6 L973.2,29.5 L977.7,28.1 L983.3,26.0 L988.9,25.6 L993.9,27.1 L997.8,27.3 L1002.6,26.4 L1008.1,25.5 L1013.0,24.7 L1018.6,25.7 L1021.3,25.6 L1026.0,27.1 L1031.5,28.8 L1034.3,28.2 L1039.4,30.2 L1045.9,33.0 L1049.1,32.5 L1055.0,35.0 L1060.2,37.2 L1063.6,38.7 L1069.2,40.3 L1076.0,41.8 L1082.8,43.1 L1089.2,44.4 L1093.9,46.8 L1096.8,45.8 L1102.0,45.8 L1107.3,45.6 L1113.8,46.8 L1119.0,46.6 L1123.0,47.2 L1128.6,47.2 L1132.3,47.4 L1134.9,47.5 L1140.6,47.8 L1144.6,48.1 L1151.6,48.8 L1156.5,49.3 L1161.7,50.0 L1164.6,50.9 L1168.4,53.7 L1171.5,54.4 L1178.2,55.9 L1181.2,57.5 L1188.0,57.3 L1194.6,59.6 L1200.7,63.4 L1207.6,67.2 L1214.3,69.0 L1218.4,71.9 L1222.0,73.0 L1228.7,74.2 L1235.1,76.0 L1239.9,76.1 L1245.6,75.2 L1252.0,76.1 L1257.1,76.9 L1261.4,75.8 L1267.5,74.3 L1270.5,72.0 L1274.8,72.8 L1277.8,72.8 L1280.9,71.8 L1283.8,70.2 L1290.0,69.9 L1296.7,69.8 L1299.3,69.5 L1303.7,68.5 L1308.3,66.7 L1314.9,63.5 L1320.5,62.7 L1325.0,61.8 L1330.7,61.9 L1335.8,63.6 L1340.9,62.0 L1344.9,63.5 L1351.6,64.5 L1357.6,65.5 L1360.4,64.5 L1366.1,63.9 L1372.1,65.0 L1378.3,64.5 L1383.6,65.0 L1387.3,67.0 L1393.3,65.5 L1399.1,67.0 L1402.2,66.8 L1405.5,66.5 L1411.8,65.9 L1416.5,65.3 L1421.7,63.0 L1426.4,63.6 L1430.7,61.1 L1437.4,61.1 L1441.6,59.5 L1444.0,58.8 L1444,120 Z"/></svg>
@@ -1226,18 +1345,50 @@ input.dzin:focus-visible{outline:0;border-bottom-color:var(--red-text);backgroun
   <div class="wrap cat" id="prod"></div>
 </div>
 
+<!-- =============== NAVIDAD =============== -->
+<div id="view-nav" hidden>
+  <div class="wrap cat navd">
+    <h1>Regalos de empresa para Navidad</h1>
+    <p class="sub">Detalles con tu logo para tu equipo y tus clientes. Pídelos antes del 1 de diciembre.</p>
+    <h2 class="vh">Productos</h2>
+    <div class="grid navgrid" id="navgrid"></div>
+    <div class="navcta">
+      <p>¿Buscas otra idea? Escríbenos y te proponemos regalos para tu equipo</p>
+      <a class="btn" href="https://wa.me/34682368645?text=Hola%2C%20busco%20ideas%20de%20regalos%20de%20Navidad%20para%20mi%20equipo." target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+    </div>
+  </div>
+</div>
+
 <footer>
-  <div class="wrap">
-    <div>
+  <div class="wrap fgrid">
+    <div class="fbrand">
       <a class="logo flogo" href="/" aria-label="Ramstex, inicio"><svg xmlns="http://www.w3.org/2000/svg" viewBox="88.75 599.47 412.53 66.07" aria-hidden="true" focusable="false"><path class="r" d="M 105.484375 628.738281 L 117.542969 628.738281 C 119.867188 628.738281 122.035156 628.175781 124.042969 627.042969 C 127.5625 625.035156 129.320312 622.175781 129.320312 618.46875 C 129.320312 616.335938 128.628906 614.355469 127.246094 612.535156 C 124.921875 609.519531 121.65625 608.011719 117.449219 608.011719 L 97.285156 608.011719 L 97.285156 628.832031 L 105.578125 628.832031 Z M 136.671875 659.738281 L 138.179688 664.542969 L 130.261719 664.542969 L 129.507812 661.8125 C 127.4375 654.964844 125.550781 649.71875 123.855469 646.078125 C 121.84375 641.867188 119.300781 638.601562 116.222656 636.277344 L 97.285156 636.277344 L 97.285156 664.542969 L 89.746094 664.542969 L 89.746094 632.507812 L 89.84375 604.335938 L 89.84375 600.566406 L 93.609375 600.566406 L 117.449219 600.472656 C 122.347656 600.472656 126.617188 601.980469 130.261719 604.996094 C 134.660156 608.578125 136.859375 613.066406 136.859375 618.46875 C 136.859375 620.480469 136.480469 622.460938 135.726562 624.40625 C 133.96875 629.117188 130.605469 632.542969 125.644531 634.675781 C 129.289062 638.949219 132.964844 647.300781 136.671875 659.738281 "/><path class="r" d="M 150.613281 664.542969 L 142.417969 664.542969 L 144.679688 659.269531 L 169.175781 602.734375 L 170.210938 600.472656 L 175.113281 600.472656 L 176.148438 602.734375 L 200.644531 659.269531 L 202.90625 664.542969 L 194.710938 664.542969 L 193.671875 662.28125 L 172.660156 613.757812 L 151.652344 662.28125 Z M 150.613281 664.542969 "/><path class="r" d="M 219.773438 664.542969 L 212.234375 664.542969 L 212.234375 600.472656 L 218.453125 600.472656 L 219.394531 602.734375 L 241.445312 651.542969 L 263.398438 602.734375 L 264.339844 600.472656 L 270.558594 600.472656 L 270.558594 604.242188 L 270.652344 660.773438 L 270.652344 664.542969 L 263.113281 664.542969 L 263.113281 660.773438 L 263.019531 621.765625 L 244.835938 662.28125 L 243.894531 664.542969 L 238.996094 664.542969 L 238.050781 662.28125 L 219.773438 621.765625 Z M 219.773438 664.542969 "/><path class="r" d="M 319.835938 618.375 C 319.835938 616.179688 319.050781 614.199219 317.480469 612.441406 C 314.78125 609.488281 311.105469 608.011719 306.457031 608.011719 C 303.753906 608.011719 301.210938 608.640625 298.824219 609.894531 C 294.992188 611.90625 293.078125 614.734375 293.078125 618.375 C 293.078125 619.003906 293.234375 619.664062 293.546875 620.355469 C 294.617188 622.425781 298.164062 624.625 304.195312 626.949219 C 311.667969 629.902344 316.160156 631.722656 317.667969 632.414062 C 325.269531 636.246094 329.070312 640.988281 329.070312 646.640625 C 329.007812 650.664062 327.308594 654.367188 323.984375 657.761719 C 319.394531 662.28125 313.554688 664.542969 306.457031 664.542969 C 300.300781 664.542969 294.992188 662.816406 290.535156 659.363281 C 286.074219 655.78125 283.84375 651.542969 283.84375 646.640625 L 291.382812 646.640625 C 291.441406 648.84375 292.386719 650.851562 294.207031 652.671875 C 297.285156 655.5625 301.367188 657.007812 306.457031 657.007812 C 309.660156 657.007812 312.644531 656.316406 315.40625 654.933594 C 319.488281 652.863281 321.53125 650.097656 321.53125 646.640625 C 321.53125 645.953125 321.34375 645.261719 320.96875 644.570312 C 319.898438 642.433594 316.316406 640.171875 310.226562 637.785156 C 302.8125 634.898438 298.382812 633.105469 296.941406 632.414062 C 289.339844 628.644531 285.539062 623.96875 285.539062 618.375 C 285.539062 614.292969 287.046875 610.585938 290.0625 607.257812 C 294.207031 602.734375 299.671875 600.472656 306.457031 600.472656 C 311.859375 600.472656 316.570312 602.042969 320.589844 605.183594 C 325.113281 608.765625 327.375 613.164062 327.375 618.375 Z M 319.835938 618.375 "/><path class="t" d="M 379.949219 600.472656 L 383.71875 600.472656 L 383.71875 608.011719 L 363.085938 608.011719 L 363.085938 664.542969 L 355.546875 664.542969 L 355.546875 608.011719 L 334.722656 608.011719 L 334.722656 600.472656 Z M 379.949219 600.472656 "/><path class="t" d="M 440.25 600.472656 L 440.25 608.011719 L 402.5625 608.011719 L 402.5625 628.738281 L 430.074219 628.738281 L 430.074219 636.277344 L 402.5625 636.277344 L 402.5625 657.007812 L 440.25 657.007812 L 440.25 664.542969 L 395.023438 664.542969 L 395.023438 600.472656 Z M 440.25 600.472656 "/><path class="t" d="M 488.210938 602.074219 L 489.339844 600.472656 L 498.574219 600.472656 L 494.429688 606.410156 L 476.90625 631.285156 L 496.125 658.609375 L 500.273438 664.542969 L 491.039062 664.542969 L 489.90625 662.941406 L 472.289062 637.878906 L 454.667969 662.941406 L 453.535156 664.542969 L 444.304688 664.542969 L 448.449219 658.609375 L 467.671875 631.285156 L 450.144531 606.410156 L 446 600.472656 L 455.234375 600.472656 L 456.363281 602.074219 L 472.289062 624.6875 Z M 488.210938 602.074219 "/></svg></a>
       <p>Ropa y merchandising personalizados.</p>
     </div>
-    <div class="flinks">
-      <a href="/catalogo/">Catálogo</a>
-      <a href="/merchandising/">Merchandising</a>
-      <a href="https://wa.me/34682368645" target="_blank" rel="noopener">WhatsApp</a>
-      <a href="mailto:info@ramstex.com">info@ramstex.com</a>
-      <a class="ig" href="https://www.instagram.com/rams_tex/" target="_blank" rel="noopener">Instagram</a>
+    <nav class="fcol" aria-labelledby="fh-prod">
+      <h2 id="fh-prod">Productos</h2>
+      <ul>
+        <li><a href="/catalogo/">Catálogo de ropa</a></li>
+        <li><a href="/merchandising/">Merchandising</a></li>
+      </ul>
+    </nav>
+    <nav class="fcol" aria-labelledby="fh-ideas">
+      <h2 id="fh-ideas">Ideas para</h2>
+      <ul>
+        <li><a href="/navidad/">Regalos de Navidad</a></li>
+        <li><a href="/merchandising/ferias-y-eventos/" data-fc="m-eve">Ferias y eventos</a></li>
+        <li><a href="/catalogo/ropa-de-trabajo/" data-fc="trabajo">Ropa de trabajo</a></li>
+        <li><a href="/catalogo/polos/" data-fc="polos">Uniformes de empresa</a></li>
+        <li><a href="/merchandising/hogar-y-regalos/" data-fc="m-hog">Regalos de empresa</a></li>
+      </ul>
+    </nav>
+    <div class="fcol">
+      <h2>Contacto</h2>
+      <ul>
+        <li><a href="https://wa.me/34682368645" target="_blank" rel="noopener">WhatsApp 682 368 645</a></li>
+        <li><a href="mailto:info@ramstex.com">info@ramstex.com</a></li>
+        <li><a class="ig" href="https://www.instagram.com/rams_tex/" target="_blank" rel="noopener">Instagram</a></li>
+      </ul>
     </div>
   </div>
 </footer>
@@ -1530,6 +1681,7 @@ var KEYS=["s","g","m","cu","ft","col","w","u","f"];
 
 function prep(){
   D.cats.forEach(function(c){CATN[c[0]]=c[1];CS[c[0]]=c;});
+  document.querySelectorAll("a[data-fc]").forEach(function(a){if(CS[a.dataset.fc]) a.href=cURL(a.dataset.fc);}); /* enlaces del pie a categorías */
   ITEMS=D.items;
   ITEMS.forEach(function(it,i){
     it.ix=i; it.cur=-1;
@@ -1934,6 +2086,20 @@ function stockUI(it,f){
     box.innerHTML=h;
   });
 }
+/* Ficha: "lo hacemos nosotros" por WhatsApp (con el color elegido) y preguntas frecuentes, iguales en todas las fichas */
+var DZ_WA='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg>';
+function selfWA(it){
+  var col=it.cur>=0?" en color "+colES(it.k[it.cur][0]).toLowerCase():"";
+  return "https://wa.me/34682368645?text="+encodeURIComponent("Hola, me interesa el producto «"+it.n+"» (ref. "+it.r+")"+col+". Os envío mi logo para que me preparéis el diseño.");
+}
+var PFAQ='<h2>Preguntas frecuentes</h2><div class="pfaq">'+[
+  ["¿Qué formato de logo envío?","Mejor en PNG sin fondo o en vectorial (PDF, AI o SVG). Si solo tienes un JPG, también nos sirve: lo preparamos nosotros."],
+  ["¿Cuánto tarda?","De 7 a 10 días laborables desde que apruebas el diseño. Si tienes prisa, aceptamos pedidos urgentes con suplemento."],
+  ["¿Cuál es el pedido mínimo?","Desde 10 unidades."],
+  ["¿Puedo ver el diseño antes?","Sí. Siempre te enviamos el montaje para que lo apruebes antes de producir."],
+  ["¿Puedo pedir una muestra?","Sí, pregúntanos y te la preparamos."],
+  ["¿Cómo pido presupuesto?","Añade los productos a «Mi presupuesto» y envíalo por WhatsApp o por correo. Te respondemos en 24 horas."]
+].map(function(q){return '<details><summary>'+q[0]+'</summary><p>'+q[1]+'</p></details>';}).join("")+'</div>';
 function renderProduct(it){
   var box=$("prod"); it.cur=-1;
   var merch=isM(it.c), backH=merch?(lastCat.indexOf("/merchandising/")===0?lastCat:"/merchandising/"):(lastCat.indexOf("/catalogo/")===0?lastCat:cURL(it.c));
@@ -1957,10 +2123,12 @@ function renderProduct(it){
      '<h2 class="pqh">Unidades por talla</h2><div class="pq" id="pq"></div>'+
      '<div class="pbtns"><button class="btn" type="button" id="padd">Añadir<span class="lg">&nbsp;a mi presupuesto</span></button>'+(dzt?'<button class="btn ghost dzbtn" type="button" id="pdz">'+DZ_ICON.shirt+'Diseñar con tu logo</button>':'')+'<a class="btn ghost" href="'+wa+'" target="_blank" rel="noopener"><span class="lg">Preguntar por&nbsp;</span>WhatsApp</a></div>'+
      '<div class="pother" id="pother" hidden></div>'+
+     '<a class="pself" id="pself" href="'+selfWA(it)+'" target="_blank" rel="noopener">'+DZ_WA+'<span><b>¿Prefieres que lo hagamos nosotros?</b><span>Envíanos tu logo y te preparamos el diseño gratis.</span><br><u>Enviar mi logo por WhatsApp</u></span></a>'+
+     '<ul class="pfacts" aria-label="Plazos y condiciones"><li>Producción en 7-10 días laborables</li><li>Desde 10 unidades</li><li>Diseño gratis antes de producir</li><li>Muestra disponible</li><li>Urgencias: pregúntanos</li></ul>'+
      (f.d?'<p class="desc">'+esc(f.d)+'</p>':"")+
      ((f.a||[]).length?'<ul class="args">'+f.a.map(function(a){return "<li>"+esc(a)+"</li>";}).join("")+'</ul>':"")+
      '<h2>Stock disponible</h2><div class="pstock" id="pstock"><p class="meta">Cargando stock…</p></div>'+
-     '<h2>Características</h2><dl class="specs">'+specs.map(function(s){return "<dt>"+s[0]+"</dt><dd>"+esc(s[1])+"</dd>";}).join("")+'</dl></div></div>'+
+     '<h2>Características</h2><dl class="specs">'+specs.map(function(s){return "<dt>"+s[0]+"</dt><dd>"+esc(s[1])+"</dd>";}).join("")+'</dl>'+PFAQ+'</div></div>'+
      '<div class="related" id="related"></div>';
     var big=box.querySelector(".big img"), th=box.querySelector(".thumbs");
     var pics=(f.img&&f.img.length?f.img:[it.i]), view=pics[0];
@@ -1981,6 +2149,7 @@ function renderProduct(it){
     function upd(){
       view=it.cur>=0&&it.k[it.cur][3]?it.k[it.cur][3]:pics[0]; setSrc(big,view,1000);
       box.querySelector(".pcol").textContent=it.cur<0?"Colores ("+it.k.length+")":"Color: "+colES(it.k[it.cur][0]); thumbs(); stockUI(it,f); paddState();
+      var ps=$("pself"); if(ps) ps.href=selfWA(it);
     }
     box.querySelector(".dh").replaceWith(dotsFor(it,999,function(){upd();}));
     $("padd")._it=it;
@@ -2425,7 +2594,7 @@ function openPanel(from){
   if(!was) panelFrom=from||document.activeElement;
   PANEL.classList.add("open"); SCRIM.classList.add("on"); document.body.style.overflow="hidden";
   /* lo de detrás no se puede tocar ni leer mientras el panel está abierto */
-  if(!was){panelInert=[]; document.querySelectorAll("#view-home,#view-cat,#view-prod,header.top,.topbar,footer,.wa,#menu,#dz").forEach(function(el){panelInert.push([el,el.inert]); el.inert=true;});}
+  if(!was){panelInert=[]; document.querySelectorAll("#view-home,#view-cat,#view-prod,#view-nav,header.top,.topbar,.xbar,footer,.wa,#menu,#dz").forEach(function(el){panelInert.push([el,el.inert]); el.inert=true;});}
   fillLines(); placeToast();
   requestAnimationFrame(function(){$("close").focus();});
 }
@@ -2813,7 +2982,7 @@ function dzOpen(push,from){
   var el=$("dz"); el.hidden=false; document.body.style.overflow="hidden";
   if(!document.documentElement.classList.contains("dzopen")){DZ.scroll=window.scrollY; document.documentElement.classList.add("dzopen");} /* solo el diseñador: la página no se desplaza */
   if(DZ.zoomed===undefined) DZ.zoomed=false; /* de entrada se ve la prenda entera; «Acercar» para hacer zoom */
-  dzInert=[]; document.querySelectorAll("#view-home,#view-cat,#view-prod,header.top,.topbar,footer,.wa,#menu").forEach(function(x){dzInert.push([x,x.inert]); x.inert=true;});
+  dzInert=[]; document.querySelectorAll("#view-home,#view-cat,#view-prod,#view-nav,header.top,.topbar,.xbar,footer,.wa,#menu").forEach(function(x){dzInert.push([x,x.inert]); x.inert=true;});
   dzSeg(); dzDots(); dzShow();
   dzRestore();
   requestAnimationFrame(function(){try{$("dzclose").focus({preventScroll:true,focusVisible:false});}catch(e){$("dzclose").focus();}});
@@ -3331,7 +3500,7 @@ function ensureData(cb){
 }
 
 /* ---------- Navegación entre páginas ---------- */
-var VH=$("view-home"),VC=$("view-cat"),VP=$("view-prod"),first=true,lastCat="",catScroll=0,inCat=false;
+var VH=$("view-home"),VC=$("view-cat"),VP=$("view-prod"),VN=$("view-nav"),first=true,lastCat="",catScroll=0,inCat=false;
 function findProd(sl){
   var it=null, best=0;
   ITEMS.forEach(function(x){if(it&&best>999)return; if(prodSlug(x.r,x.n)===sl){it=x;best=1000;return;} var r=slug(x.r); if(r.length>best&&(sl===r||sl.indexOf(r+"-")===0)){it=x;best=r.length;}});
@@ -3345,7 +3514,12 @@ function route(){
   lastRouted=location.href;
   document.querySelectorAll(".dnav a[data-view],.menu a[data-view]").forEach(function(a){a.removeAttribute("aria-current");});
   if(inCat) catScroll=window.scrollY;
-  if(/^\/(catalogo|merchandising)\//.test(path)){
+  VN.hidden=true;
+  if(path==="/navidad/"||path==="/navidad"){
+    inCat=false; VH.hidden=true;VC.hidden=true;VP.hidden=true;VN.hidden=false; window.scrollTo(0,0);
+    setMeta(NAVTITLE,"/navidad/"); navCur("nav");
+    ensureData(renderNav);
+  } else if(/^\/(catalogo|merchandising)\//.test(path)){
     var back=(full===lastCat&&D);
     var nsec=path.indexOf("/merchandising/")===0?"merch":"cat";
     if(nsec!==SEC){SEC=nsec;back=false;}
@@ -3376,6 +3550,15 @@ function route(){
   first=false;
   if(window.heroRestart) window.heroRestart();
 }
+/* ---------- Navidad: selección de regalos ---------- */
+/* Referencias que salen en /navidad/, en este orden. Para cambiar la selección, edita esta lista (tiene que ir en una sola línea). */
+var NAVIDAD_REFS=["K476","TE4135","KP031","TZ1641","BK5621","BS1290","K911","HW1323","B401","PB1991","UM5606","XM1300","R146X","BI4125","BO7602","VL1528"];
+var NAVTITLE="Regalos de empresa personalizados para Navidad | Ramstex";
+function renderNav(){
+  var g=$("navgrid"), byR={}; ITEMS.forEach(function(x){if(!byR[x.r]) byR[x.r]=x;});
+  g.innerHTML="";
+  NAVIDAD_REFS.forEach(function(r){var it=byR[r]; if(it) g.appendChild(card(it));});
+}
 /* En el inicio, cuando el navegador está libre, se adelanta la descarga del catálogo */
 var prefetched=false;
 function prefetchCat(){
@@ -3389,7 +3572,7 @@ document.addEventListener("click",function(e){
   if(e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
   var a=e.target.closest("a"); if(!a||a.target||a.hasAttribute("download")||!a.href) return;
   var u=new URL(a.href,location.href); if(u.origin!==location.origin) return;
-  if(!/^\/($|catalogo\/|merchandising\/|producto\/)/.test(u.pathname)) return;
+  if(!/^\/($|catalogo\/|merchandising\/|producto\/|navidad\/)/.test(u.pathname)) return;
   if(u.pathname===location.pathname&&u.search===location.search&&u.hash) return; /* ancla en la misma página */
   if(u.pathname==="/"&&!VH.children.length) return; /* el inicio se carga entero */
   e.preventDefault();
@@ -3421,6 +3604,38 @@ $("send").addEventListener("click",function(e){
   });
 });
 if(window.indexedDB) setTimeout(dzPrune,4000);
+
+/* Casos de éxito: para añadir un cliente, sube sus fotos a /casos/<id>-N.webp (y -N-700.webp) y añade una línea aquí */
+var CASOS=[
+  {id:"ciry-garage",n:"Ciry Garage",t:"Sudaderas con capucha para su marca de cultura motor.",f:4},
+  {id:"escandalo",n:"Escándalo",t:"Sudaderas con estampado en la espalda para la comunidad de Escándalo App.",f:5},
+  {id:"ballers",n:"Ballers",t:"Camisetas de juego para el torneo de baloncesto Ballers.",f:4},
+  {id:"ragnar",n:"Ragnar",t:"Sudaderas de uniforme para todo su equipo.",f:2}
+];
+(function(){
+  var box=document.getElementById("cases"), lb=document.getElementById("lb"); if(!box||!lb) return;
+  function src(c,i,small){return "/casos/"+c.id+"-"+i+(small?"-700":"")+".webp";}
+  box.innerHTML=CASOS.map(function(c,k){
+    return '<button class="case" type="button" data-k="'+k+'"><span class="cph"><img src="'+src(c,1,1)+'" alt="'+c.n+': '+c.t+'" loading="lazy" decoding="async"><span class="cnum">'+c.f+' fotos</span></span><span class="cn">'+c.n+'</span><span class="ct">'+c.t+'</span></button>';
+  }).join("");
+  var cur=null, i=1, last=null, img=document.getElementById("lbi");
+  function show(){
+    img.src=src(cur,i); img.alt=cur.n+", foto "+i+" de "+cur.f;
+    document.getElementById("lbn").textContent=cur.n; document.getElementById("lbc").textContent=i+" / "+cur.f;
+    document.getElementById("lbt").textContent=cur.t;
+    if(i<cur.f){var pre=new Image(); pre.src=src(cur,i+1);}
+  }
+  function go(d){if(!cur) return; i=(i-1+d+cur.f)%cur.f+1; show();}
+  box.addEventListener("click",function(e){var b=e.target.closest(".case"); if(!b) return; last=b; cur=CASOS[+b.dataset.k]; i=1; show(); if(lb.showModal) lb.showModal(); else lb.setAttribute("open","");});
+  document.getElementById("lbx").onclick=function(){lb.close();};
+  document.getElementById("lbp").onclick=function(){go(-1);};
+  document.getElementById("lbnx").onclick=function(){go(1);};
+  lb.addEventListener("close",function(){if(last) last.focus();});
+  lb.addEventListener("keydown",function(e){if(e.key==="ArrowRight")go(1); else if(e.key==="ArrowLeft")go(-1);});
+  document.getElementById("lbs").addEventListener("click",function(e){if(e.target.id==="lbs") lb.close();});
+  var sx=null; img.addEventListener("touchstart",function(e){sx=e.touches[0].clientX;},{passive:true});
+  img.addEventListener("touchend",function(e){if(sx===null) return; var dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40) go(dx<0?1:-1); else go(1); sx=null;},{passive:true});
+})();
 </script>
 </body>
 </html>
