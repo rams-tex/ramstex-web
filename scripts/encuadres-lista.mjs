@@ -21,7 +21,7 @@ export function contexto(html = readFileSync("index.html", "utf8")) {
   const code = [
     linea(html, "var IMG="), linea(html, "var IMGR="), linea(html, "var IMGJ="), linea(html, "var IMGS="),
     linea(html, "var DZ_ORD="), html.slice(a, b),
-    ...["norm", "isR", "isJ", "isS", "isT", "isF", "isPack", "ext", "srcList", "dzKey", "dzTpl", "dzKind", "dzSup", "dzPick", "dzUrls", "dzEnc", "dzScale", "dzGeom"].map(n => trozo(html, n)),
+    ...["norm", "isR", "isJ", "isS", "isT", "isF", "isK", "isPack", "ext", "srcList", "dzKey", "dzTpl", "dzKind", "dzSup", "dzPick", "dzUrls", "dzEnc", "dzScale", "dzGeom"].map(n => trozo(html, n)),
   ].join("\n");
   const ctx = { D: null, console };
   vm.createContext(ctx); vm.runInContext(code, ctx);

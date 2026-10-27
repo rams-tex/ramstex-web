@@ -1770,7 +1770,9 @@ var IMGS="https://s7g3.scene7.com/is/image/soloinvest/";
 function isS(st){return st.indexOf("S:")===0;}
 function isT(st){return st.indexOf("T:")===0;}
 function isF(st){return st.indexOf("F:")===0;}
-function isPack(st){return st.indexOf("packshots/")===0||(isR(st)&&st.indexOf("/views/")>0)||(isJ(st)&&st.indexOf("sku/")===2)||(isS(st)&&st.charAt(2)==="n"&&st.length>10)||(isT(st)&&st.charAt(2)==="P")||(isF(st)&&/_f[-_]/.test(st));}
+/* Makito: sus fotos solo se bajan con token; se sirven desde ramstex.com/mk/ (scripts/makito-fotos.mjs) */
+function isK(st){return st.indexOf("K:")===0;}
+function isPack(st){return st.indexOf("packshots/")===0||(isR(st)&&st.indexOf("/views/")>0)||(isJ(st)&&st.indexOf("sku/")===2)||(isS(st)&&st.charAt(2)==="n"&&st.length>10)||(isT(st)&&st.charAt(2)==="P")||(isF(st)&&/_f[-_]/.test(st))||isK(st);}
 function ext(st){return isR(st)?".jpg":(isPack(st)?".png":".jpg");}
 /* foto que no carga (ni la alternativa): se quita y queda el fondo neutro, sin icono de imagen rota */
 function noImg(){this.onerror=null; this.removeAttribute("src"); this.classList.add("noimg");}
@@ -1781,6 +1783,7 @@ function setSrc(img,st,w){
   if(isS(st)){img.onerror=noImg;img.src=IMGS+st.slice(2)+"?wid="+(w||700);return;}
   if(isF(st)){img.onerror=noImg;img.src="https://download.falk-ross.eu/ws/picture/"+st.slice(2)+".jpg";return;}
   if(isT(st)){img.onerror=noImg;img.src="/st/"+st.slice(2).replace(/\.\w+$/,"")+".webp";return;}
+  if(isK(st)){img.onerror=noImg;img.src="/mk/"+st.slice(2)+".webp";return;}
   img.onerror=function(){img.onerror=noImg;img.src=IMG2+st+ext(st);};
   img.src=IMG+st+ext(st)+"?w="+(w||700);
 }
@@ -1793,6 +1796,7 @@ function srcList(st,w){
   if(isS(st)) return [IMGS+st.slice(2)+"?wid="+(w||700)];
   if(isF(st)) return ["https://download.falk-ross.eu/ws/picture/"+st.slice(2)+".jpg"];
   if(isT(st)) return ["/st/"+st.slice(2).replace(/\.\w+$/,"")+".webp"];
+  if(isK(st)) return ["/mk/"+st.slice(2)+".webp"];
   return [IMG+st+ext(st)+"?w="+(w||700),IMG2+st+ext(st)];
 }
 
@@ -2324,7 +2328,7 @@ function renderProduct(it){
       opts.forEach(function(st,i){
         var b=document.createElement("button");b.type="button";b.setAttribute("aria-label",it.cur>=0&&i<=cv.length&&LBL[i]?"Ver "+LBL[i].toLowerCase():"Ver foto");b.setAttribute("aria-pressed",st===view);
         b.innerHTML='<img alt="">'; var ti=b.querySelector("img"); setSrc(ti,st,200);
-        if(isJ(st)||isS(st)||isT(st)||isF(st)) ti.addEventListener("error",function(){b.remove();});
+        if(isJ(st)||isS(st)||isT(st)||isF(st)||isK(st)) ti.addEventListener("error",function(){b.remove();});
         b.onclick=function(){view=st;setSrc(big,st,1000);thumbs();};
         th.appendChild(b);
       });
@@ -2943,6 +2947,7 @@ function dzKind(st){
   if(isJ(st)){if(st.indexOf("J:sku/")!==0) return "m"; return /_back$/.test(st)?"b":/_side$/.test(st)?"s":"f";}
   if(isT(st)) return /^T:PFM0_/.test(st)?"f":/^T:PBM0_/.test(st)?"b":"m";
   if(isF(st)){m=st.match(/_(f|b|sl|sr)-\d/); return m?m[1]:"m";}
+  if(isK(st)) return /-P$/.test(st)?"f":"m";
   if(st.indexOf("packshots/")===0) return /^packshots\/PS_[^_]*-B(-\d+)?_/.test(st)?"b":/^packshots\/PS_[^_]*-S(-\d+)?_/.test(st)?"s":"f";
   return "m";
 }
@@ -3035,7 +3040,7 @@ function dzEnc(E,it,st){
 function dzView(it,f,ci,pos,tplKey){
   var p=dzPick(it,f,ci,pos,tplKey), sup=dzSup(f), key=p.st+"|"+p.kind+"|"+(p.flip?1:0);
   if(DZ_VIEW[key]) return DZ_VIEW[key];
-  var cors=!!sup.cors||isT(p.st);
+  var cors=!!sup.cors||isT(p.st)||isK(p.st);
   return DZ_VIEW[key]=Promise.all([dzLoad(p.st,cors),dzEncLoad(it.c)]).then(function(rr){
     var r=rr[0];
     if(!r){ /* sin foto: fondo neutro del color de la prenda, para poder colocar el diseño igualmente */

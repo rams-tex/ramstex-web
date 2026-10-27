@@ -32,6 +32,8 @@ jobs:
           STANLEY_PASSWORD: ${{ secrets.STANLEY_PASSWORD }}
           FALKROSS_USER: ${{ secrets.FALKROSS_USER }}
           FALKROSS_PASSWORD: ${{ secrets.FALKROSS_PASSWORD }}
+          MAKITO_CLIENT_ID: ${{ secrets.MAKITO_CLIENT_ID }}
+          MAKITO_CLIENT_SECRET: ${{ secrets.MAKITO_CLIENT_SECRET }}
       - name: Guardar stock
         run: |
           git config user.name "github-actions"

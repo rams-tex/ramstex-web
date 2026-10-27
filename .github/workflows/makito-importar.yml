@@ -1,0 +1,70 @@
+name: Importar Makito
+# Catálogo de Makito (merchandising) + fotos. Las fotos solo se pueden bajar a 25 por minuto: cada ejecución
+# descarga las que faltan durante unas horas y las guarda en la caché de GitHub (mkimg); la web solo publica
+# los productos cuya foto ya está descargada. La primera carga completa necesita 3-4 ejecuciones.
+on:
+  workflow_dispatch:
+    inputs:
+      minutos:
+        description: "Minutos máximos descargando fotos"
+        default: "300"
+  schedule:
+    - cron: "23 21 * * *"
+  push:
+    branches: [makito]
+    paths:
+      - scripts/makito-importar.mjs
+      - scripts/makito-fotos.mjs
+      - scripts/makito-api.mjs
+      - .github/workflows/makito-importar.yml
+permissions:
+  contents: write
+concurrency:
+  group: makito-importar
+jobs:
+  importar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save sharp@0.33
+      - name: Recuperar fotos ya descargadas
+        uses: actions/cache/restore@v4
+        with:
+          path: mkimg
+          key: mkimg-v1-${{ github.run_id }}
+          restore-keys: mkimg-v1-
+      - run: node scripts/makito-importar.mjs
+        env:
+          MAKITO_CLIENT_ID: ${{ secrets.MAKITO_CLIENT_ID }}
+          MAKITO_CLIENT_SECRET: ${{ secrets.MAKITO_CLIENT_SECRET }}
+      - name: Descargar fotos que falten
+        run: node scripts/makito-fotos.mjs mkimg ${{ github.event_name == 'push' && '15' || inputs.minutos || '300' }}
+        env:
+          MAKITO_CLIENT_ID: ${{ secrets.MAKITO_CLIENT_ID }}
+          MAKITO_CLIENT_SECRET: ${{ secrets.MAKITO_CLIENT_SECRET }}
+      - name: Guardar fotos para las próximas ejecuciones y la publicación
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: mkimg
+          key: mkimg-v1-${{ github.run_id }}
+        continue-on-error: true
+      - name: Construir el catálogo y guardar
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          mkdir -p /tmp/mk && cp data/makito.json data/makito-resumen.txt data/makito-fotos.txt /tmp/mk/
+          for i in 1 2 3; do
+            git fetch -q origin "$GITHUB_REF_NAME" && git reset -q --hard "origin/$GITHUB_REF_NAME"
+            cp /tmp/mk/* data/
+            node scripts/catalogo-construir.mjs
+            git add data/makito.json data/makito-resumen.txt data/makito-fotos.txt data/catalogo.json data/fichas
+            git diff --cached --quiet && break
+            git commit -q -m "Makito: catálogo actualizado [skip netlify]"
+            git push -q origin "HEAD:$GITHUB_REF_NAME" && break
+            sleep 20
+          done

@@ -1,4 +1,4 @@
-// Descarga el stock de TopTex, Roly/Stamina, JHK, Sol's, Stanley/Stella y Falk&Ross y lo guarda por categoría en data/stock/<cat>.json.
+// Descarga el stock de TopTex, Roly/Stamina, JHK, Sol's, Stanley/Stella, Falk&Ross y Makito y lo guarda por categoría en data/stock/<cat>.json.
 // La web solo lo carga al abrir una ficha, así que el catálogo no va más lento.
 // Formato: { updated, s: { ref: { z: [tallas], q: { códigoColor: [uds por talla] } } } }
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
@@ -186,6 +186,24 @@ try {
   }
   log.push(`Falk&Ross: ${n} referencias`);
 } catch (e) { log.push("Falk&Ross: error " + e.message); }
+
+// ---------- Makito (un fichero con todo el stock; solo lectura). Material = ref + color (3) + talla (3) ----------
+// Solo cuenta el stock disponible ya (las filas con availableDate son entradas futuras).
+try {
+  const { makitoGet } = await import("./makito-api.mjs");
+  const mk = JSON.parse(readFileSync("data/makito.json", "utf8"));
+  const byM = Object.fromEntries(mk.map(p => [p.mref, p]));
+  const d = await makitoGet("/stock/files?format=JSON");
+  const sum = {};
+  for (const x of d.stocks || []) if (!x.availableDate) sum[x.material] = (sum[x.material] || 0) + (+x.quantity || 0);
+  let n = 0;
+  for (const [mat, q] of Object.entries(sum)) {
+    const p = byM[mat.slice(0, -6)]; if (!p) continue;
+    const color = mat.slice(-6, -3), size = mat.slice(-3);
+    put(p.ref, color, p.merch ? "Única" : (p.sizecodes || {})[size] || size, q); n++;
+  }
+  log.push(`Makito: ${n} referencias`);
+} catch (e) { log.push("Makito: error " + e.message); }
 
 // ---------- Guardar por categoría ----------
 const ORDER = ["XXS", "XS", "S", "M", "L", "XL", "XXL", "2XL", "3XL", "XXXL", "4XL", "5XL", "6XL"];
