@@ -1,4 +1,4 @@
-// Importa el catálogo de Makito (merchandising) desde su API B2B a data/makito.json, con el formato de los demás
+// Importa el catálogo de Makito (solo merchandising, sin ropa) desde su API B2B a data/makito.json, con el formato de los demás
 // proveedores. SIN precios. Solo lectura: login + /catalog/files (+ /print-config/files para las zonas de marcaje).
 // Las fotos de Makito solo se pueden descargar con token (no se pueden enlazar): se guardan con el prefijo "K:"
 // y scripts/makito-fotos.mjs las descarga y las sirve desde ramstex.com/mk/.
@@ -49,7 +49,7 @@ function ropaOf(p, paths) {
   const t = nrm(p.type), all = paths.map(a => a.join(" > ")).join(" | ");
   const isTextil = paths.some(a => a[0] === "Textil") || /Textil para sublimación/.test(all);
   const isGorra = paths.some(a => a[0] === "Gorras y sombreros" && a[1] === "Gorras");
-  if (isGorra || (/^(gorra|visera)\b/.test(t) && !paths.length)) return ["Headwear & Accesorios", /visera/.test(t) ? "Viseras" : "Gorras"];
+  if (isGorra || /^(gorra|visera)\b/.test(t)) return ["Headwear & Accesorios", /visera/.test(t) ? "Viseras" : "Gorras"];
   if (!isTextil) return null;
   if (/^camiseta/.test(t)) return ["Ropa", /tirantes/.test(t) ? "Tirantes" : /tecnic|deport|sport/.test(nrm(p.type + " " + p.name + " " + p.description)) ? "Camisetas deportiva" : "Camisetas"];
   if (/^polo/.test(t)) return ["Ropa", "Polos"];
@@ -150,9 +150,14 @@ for (const p of prods) {
   const vars = (p.variants || []).filter(v => v.variant_reference);
   if (!vars.length) { skipped["sin variantes"] = (skipped["sin variantes"] || 0) + 1; continue; }
   const paths = pathsOf(p);
-  const ropa = ropaOf(p, paths);
+  // De Makito solo se importa el merchandising: la ropa (camisetas, polos, sudaderas, chaquetas/chalecos,
+  // pantalones, gorras…) se descarta. Los delantales pasan a merchandising (hogar).
+  const r0 = ropaOf(p, paths);
+  if (r0 && r0[1] !== "Delantales") { skipped["ropa (no se importa)"] = (skipped["ropa (no se importa)"] || 0) + 1; continue; }
+  const ropa = null;
   let merch = null, mpath = paths[0];
-  if (!ropa) { for (const a of paths) { merch = merchOf(a); if (merch) { mpath = a; break; } } merch ||= typeMerch(p); }
+  if (r0) merch = "m-hog";
+  else { for (const a of paths) { merch = merchOf(a); if (merch) { mpath = a; break; } } merch ||= typeMerch(p); }
   // Colores (un color por código; las tallas de la ropa comparten foto)
   const byColor = new Map();
   for (const v of vars) {
@@ -197,7 +202,7 @@ for (const p of prods) {
   const material = cleanTxt(p.material);
   const desc = cleanTxt(p.description);
   out.push({
-    ref: "MK" + String(p.web_reference || p.ref), name, fam: ropa ? ropa[0] : "Merchandising", sub: ropa ? ropa[1] : subName(mpath?.[2] || mpath?.[1] || type || "Varios"), _ts: !ropa && !mpath ? 1 : 0,
+    ref: "MK" + String(p.web_reference || p.ref), name, fam: ropa ? ropa[0] : "Merchandising", _tx: paths.some(a => a[0] === "Textil") ? 1 : 0, sub: ropa ? ropa[1] : subName(mpath?.[2] || mpath?.[1] || type || "Varios"), _ts: !ropa && !mpath ? 1 : 0,
     gen, brand: p.brand ? capWords(p.brand) : "Makito", source: "makito",
     comp: material, peso: ropa && /(\d{2,3})\s*g\s*\/\s*m/i.test(material) ? material.match(/(\d{2,3})\s*g\s*\/\s*m/i)[1] + " g/m²" : "",
     desc: desc && !/[.!?]$/.test(desc) ? desc + "." : desc,
@@ -226,7 +231,7 @@ for (const p of prods) {
   }
 }
 mkdirSync("data", { recursive: true });
-writeFileSync("data/makito.json", JSON.stringify(out));
+writeFileSync("data/makito.json", JSON.stringify(out, (k, v) => k === "_tx" ? undefined : v));
 const by = {}; for (const p of out) { const k = p.merch || (p.fam + " / " + p.sub); by[k] = by[k] || [0, 0]; by[k][0]++; by[k][1] += p.colors.length; }
 const subs = {}; for (const p of out) if (p.merch) { const k = p.merch + " · " + p.sub; subs[k] = (subs[k] || 0) + 1; }
 const lines = [
@@ -234,6 +239,7 @@ const lines = [
   "Descartados: " + JSON.stringify(skipped),
   "Por categoría (productos / colores):", ...Object.entries(by).sort().map(([k, v]) => `  ${k}: ${v[0]} / ${v[1]}`),
   "Subcategorías de merchandising:", ...Object.entries(subs).sort().map(([k, v]) => `  ${k}: ${v}`),
+  "Productos de la familia Textil que se quedan en merchandising (no son ropa):", "  " + out.filter(p => p._tx).map(p => p.ref + " " + p.name + " (" + p.merch + ")").join(" · "),
   "Nombres de color por código:", "  " + Object.entries(CODE).sort().map(x => x.join("=")).join(" · "),
 ];
 writeFileSync("data/makito-resumen.txt", lines.join("\n") + "\n");
