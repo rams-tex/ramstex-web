@@ -2,7 +2,7 @@ POST /access/auth/login -> HTTP 200; campos de la respuesta: token, expiration
 JWT: rateLimit = {"refillTokens":25,"bucket":"98d76882928ad10fc566f9feb96ed7dc","capacity":100,"refillPeriod":1} · scope = [] · roles = ["CATALOG_CLIENT","STOCK_CLIENT","PRINTPRICELIST_CLIENT","PRICELIST_CLIENT","ORDERS_CLIENT","PRINTCONFIG_CLIENT"] · sandbox = false · resources = ["GENERAL_CATALOG"]
 JWT: caduca en 60 min · campos: jti, sub, iss, iat, exp, ver, rateLimit, clientId, salesOffice, roles, sandbox, resources, salesOfficeDescription, salesOrg, scope, credentialId, printListType, applicationId, salesOfficePrintListType, sapId
   cabeceras de límite (/catalog/files?format=JSON&lang=es): x-ratelimit-remaining: 99
-GET /catalog/files?format=JSON&lang=es -> HTTP 200 application/json 17429326 bytes 336 ms
+GET /catalog/files?format=JSON&lang=es -> HTTP 200 application/json 17429326 bytes 322 ms
 
 == CATÁLOGO: 4565 productos. Claves de la raíz: generatedAt, products
 Forma de un producto:
@@ -501,10 +501,10 @@ Imagen .thumbnail_image: https://apis.makito.es/catalog/assets/15246/thumbnail/5
   con token: HTTP 403  0 bytes · ACAO: null
 
 /catalog/assets/15246/principal/5246-W.jpg sin token: HTTP 403  0 bytes · ACAO: null
-  cabeceras de límite (/catalog/assets/15246/principal/5246-W.jpg): x-ratelimit-remaining: 99
+  cabeceras de límite (/catalog/assets/15246/principal/5246-W.jpg): x-ratelimit-remaining: 98
   con token: HTTP 200 application/octet-stream 370980 bytes · ACAO: null · Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-  cabeceras de límite (/stock/files?format=JSON): x-ratelimit-remaining: 99
-GET /stock/files?format=JSON -> HTTP 200 application/json 2237383 bytes 230 ms
+  cabeceras de límite (/stock/files?format=JSON): x-ratelimit-remaining: 97
+GET /stock/files?format=JSON -> HTTP 200 application/json 2237381 bytes 317 ms
 
 == STOCK: 25646 filas. Claves de la raíz: generatedAt, stocks
 Forma:
@@ -513,16 +513,16 @@ Forma:
  "quantity": 4400
 }
 Ejemplos:
-[{"material":"11011006000","quantity":4400},{"material":"11011008000","quantity":1100},{"material":"11011013000","quantity":810},{"material":"11011022000","quantity":2300},{"material":"11011227000","quantity":1800},{"material":"11011227000","quantity":110,"availableDate":"2026-12-22T00:00:00Z"},{"material":"11012000000","quantity":40},{"material":"11016000000","quantity":0},{"material":"11017000000","quantity":0},{"material":"11017000000","quantity":170000,"availableDate":"2026-11-23T00:00:00Z"},{"material":"11017000000","quantity":170000,"availableDate":"2027-02-04T00:00:00Z"},{"material":"11020001000","quantity":14000}]
+[{"material":"11011006000","quantity":4400},{"material":"11011008000","quantity":1100},{"material":"11011013000","quantity":770},{"material":"11011022000","quantity":2300},{"material":"11011227000","quantity":1800},{"material":"11011227000","quantity":110,"availableDate":"2026-12-22T00:00:00Z"},{"material":"11012000000","quantity":40},{"material":"11016000000","quantity":0},{"material":"11017000000","quantity":0},{"material":"11017000000","quantity":170000,"availableDate":"2026-11-23T00:00:00Z"},{"material":"11017000000","quantity":170000,"availableDate":"2027-02-04T00:00:00Z"},{"material":"11020001000","quantity":14000}]
 Almacenes (plant|storageLocation|storageId): {"||":25646}
 Materiales distintos: 17904 · con fecha de disponibilidad: 7742
-  cabeceras de límite (/price-list/files?format=JSON): x-ratelimit-remaining: 99
-GET /price-list/files?format=JSON -> HTTP 200 application/json 1641266 bytes 232 ms
+  cabeceras de límite (/price-list/files?format=JSON): x-ratelimit-remaining: 97
+GET /price-list/files?format=JSON -> HTTP 200 application/json 1641266 bytes 329 ms
 
 == PRECIOS: 7400 filas. Claves de la raíz: generatedAt, priceList
 Forma (valores ocultos): {"material":"11011","currency":"EUR","baseQuantity":"1000","scales":"(oculto)"} · claves de una fila: material, currency, baseQuantity, scales · claves de scales[]: quantity, amount · ej. material: 11011
-  cabeceras de límite (/print-config/files?format=JSON&lang=es): x-ratelimit-remaining: 99
-GET /print-config/files?format=JSON&lang=es -> HTTP 200 application/json 5121784 bytes 225 ms
+  cabeceras de límite (/print-config/files?format=JSON&lang=es): x-ratelimit-remaining: 96
+GET /print-config/files?format=JSON&lang=es -> HTTP 200 application/json 5121784 bytes 321 ms
 
 == MARCAJE: 6982 productos. Claves de la raíz: generatedAt, lang, products, positions, techniques
 Forma de un producto:
@@ -554,14 +554,14 @@ Claves de técnicas: id, description, category, technicalRange, maximumColors, f
 Nombres de técnicas: TAMPOGRAFÍA A | TAMPOGRAFÍA B | TAMPOGRAFÍA C | TAMPOGRAFÍA D | TAMPOGRAFÍA E | TAMPOGRAFÍA F | TAMPOGRAFÍA G | TAMPOGRAFÍA H | TAMPOGRAFÍA I | TAMPOGRAFÍA J | TAMPOGRAFÍA K | SERIGRAFÍA A | SERIGRAFÍA B | SERIGRAFÍA C | SERIGRAFÍA D | SERIGRAFÍA E | SERIGRAFÍA F | SERIGRAFÍA G | SERIGRAFÍA H | SERIGRAFÍA I | SERIGRAFÍA J | SERIGRAFÍA K | GRABACIÓN CUATRICROMIA M | GRABACIÓN TRANSFER SERIGRÁFICO N | GRABACIÓN TRANSFER DIGITAL O | SUBLIMACIÓN TAZA Q 1 CARA | SUBLIMACIÓN TAZA Q 2 CARAS | SUBLIMACIÓN R TAMAÑO GRANDE (+100 cm2) | SUBLIMACIÓN R TAMAÑO PEQUEÑO (-100 cm2) | TERMOGRABADO SECO T | TERMOGRABADO CINTA COLOR U | DOMING- GOTA DE RESINA V1 -5  cm2 | DOMING- GOTA DE RESINA V2 -10  cm2 | DOMING- GOTA DE RESINA V3 -15  cm2 | DOMING- GOTA DE RESINA V4 -20  cm2 | DIGITAL W1 -5  cm2 | DIGITAL W2 -10cm2 | GRABACIÓN BORDADO P | GRABACIÓN LASER L1 | GRABACIÓN LASER L2 | DIGITAL W3 -25cm2 | DIGITAL W4 -50cm2 | DIGITAL W5 -100cm2 | DIGITAL W6 -150cm2 | DIGITAL W7 -200cm2 | DIGITAL W8 -250cm2 | DIGITAL W9 -300cm2 | DIGITAL W10 -350cm2 | DIGITAL W11 -400cm2 | GRABACIÓN LASER L3 | SUBLIMACIÓN CINTAS | SERIGRAFÍA CINTA NON-WOVEN | SERIGRAFÍA CINTA POLIESTER | SERIGRAFÍA CINTA ALGODÓN | SERIGRAFÍA CINTA CORCHO | DIGITAL WR1 -5  cm2 | DIGITAL WR2 -10cm2 | DIGITAL WR6 -150cm2 | DIGITAL WR7 -200cm2 | DIGITAL WR8 -250cm2 | DIGITAL WR9 -300cm2 | DIGITAL WR10 -350cm2 | DIGITAL WR3 -25cm2 | DIGITAL WR4 -50cm2 | DIGITAL WR5 -100cm2 | SERIGRAFÍA PARAGUAS G | SERIGRAFÍA CIRCULAR B | SERIGRAFÍA CIRCULAR C | SERIGRAFÍA CIRCULAR D | SERIGRAFÍA CIRCULAR E | SERIGRAFIA CIRCULAR F | SERIGRAFIA CIRCULAR G | SERIGRAFÍA CIRCULAR H | SERIGRAFÍA CIRCULAR J | SERIGRAFÍA PARAGUAS F | SERIGRAFÍA PARAGUAS H | SERIGRAFÍA PARASOL G | SERIGRAFÍA AUTOMÁTICA E | SERIGRAFIA AUTOMATICA F | SERIGRAFÍA AUTOMÁTICA G | SERIGRAFÍA AUTOMÁTICA H | TAMPOGRAFÍA MAT ESP B | TAMPOGRAFÍA MAT ESP C | TAMPOGRAFÍA MAT ESP D | TAMPOGRAFÍA MAT ESP E | TAMPOGRAFÍA MAT ESP F | TAMPOGRAFÍA MAT ESP G | TAMPOGRAFÍA A D10M | TAMPOGRAFÍA B D10M | TAMPOGRAFÍA B D5M | TAMPOGRAFÍA C D5M | SERIGRAFÍA CALENDARIOS | Vinilo | Sublimación R Especial | Doming Especial | sublimacion cinta lanyard | SERIGRAFÍA PARASOL H | DTF1 (FULL COLOR) | DTF2 (FULL COLOR) | DTF3 (FULL COLOR) | GRABACIÓN TRANSFER SERIGRÁFICO N1 | DTF1 | DTF2 | DTF3 | SERIGRAFÍA AUTOMÁTICA A
 
 Ejemplos de marcaje guardados (taza, bolígrafo, bolsa, camiseta): 13144 Taza Impex | 15255 Bolígrafo Zardox | 13047 Bolsa Dhar | 14184 Camiseta Adulto Tecnic Plus
-  cabeceras de límite (/print-config/assets/13144/prod_previsualizacio/3144-A1.jpg): x-ratelimit-remaining: 99
+  cabeceras de límite (/print-config/assets/13144/prod_previsualizacio/3144-A1.jpg): x-ratelimit-remaining: 95
 Foto del área 13144 A1: HTTP 200 application/octet-stream 95656 bytes
-  cabeceras de límite (/print-config/assets/15255/prod_previsualizacio/5255-A1.jpg): x-ratelimit-remaining: 99
+  cabeceras de límite (/print-config/assets/15255/prod_previsualizacio/5255-A1.jpg): x-ratelimit-remaining: 94
 Foto del área 15255 A1: HTTP 200 application/octet-stream 720635 bytes
-  cabeceras de límite (/print-config/assets/13047/prod_previsualizacio/3047-A1.jpg): x-ratelimit-remaining: 99
+  cabeceras de límite (/print-config/assets/13047/prod_previsualizacio/3047-A1.jpg): x-ratelimit-remaining: 93
 Foto del área 13047 A1: HTTP 200 application/octet-stream 2168696 bytes
-  cabeceras de límite (/print-price-list/files?format=JSON): x-ratelimit-remaining: 99
-GET /print-price-list/files?format=JSON -> HTTP 200 application/json 184649 bytes 122 ms
+  cabeceras de límite (/print-price-list/files?format=JSON): x-ratelimit-remaining: 92
+GET /print-price-list/files?format=JSON -> HTTP 200 application/json 184649 bytes 181 ms
 
 == TARIFA DE MARCAJE: 141 filas. Claves de la raíz: generatedAt, printPriceList
 Claves de prices.tiers[]: threshold, type, price, additionalPrice · forma de terms: "Para cada cambio de color con idéntico marcaje que no supere el mínimo de imprsión se cobrará el coste del trabajo mínim…"
