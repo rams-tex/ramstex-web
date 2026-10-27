@@ -88,6 +88,8 @@ function page(tpl, h, view, content, ref) {
       s = s.replace(re, (m, a, b, c) => (id === "landing" || id === "catlay" ? a.replace(/ hidden/, "") : a) + val + c);
     }
     if (content.landing !== undefined) s = s.replace('<div class="catlay" id="catlay">', '<div class="catlay" id="catlay" hidden>');
+  } else if (view === "nav") {
+    s = s.replace('<div id="view-nav" hidden>', '<div id="view-nav">').replace('<div class="grid navgrid" id="navgrid"></div>', `<div class="grid navgrid" id="navgrid">${content}</div>`);
   } else {
     s = s.replace('<div id="view-prod" hidden>', '<div id="view-prod">').replace('<div class="wrap cat" id="prod"></div>', `<div class="wrap cat" id="prod" data-pre="${esc(ref)}">${content}</div>`)
       .replace(/<h1 id="cattitle">[^<]*<\/h1>/, '<h1 id="cattitle"></h1>');
@@ -186,6 +188,18 @@ for (const it of D.items) {
     ld: crumbs([["Inicio", "/"], [S.name, S.path], [c[1], cURL(it.c)], [it.n, pURL(it)]]) });
   write(pURL(it), page(TPL, h, "prod", body, it.r));
   urls.push(pURL(it)); nprod++;
+}
+
+// ---------- Navidad (selección de regalos; la lista es NAVIDAD_REFS en index.html) ----------
+{
+  const refs = pick("NAVIDAD_REFS"), hasta = (html.match(/var NAVIDAD_HASTA="([^"]+)"/) || [])[1];
+  const byR = {}; for (const it of D.items) if (!byR[it.r]) byR[it.r] = it;
+  const items = refs.map(r => byR[r]).filter(Boolean);
+  const h = head({ title: "Regalos de empresa personalizados para Navidad | Ramstex",
+    desc: "Regalos de empresa para Navidad con tu logo: termos, tazas, mantas, sudaderas, gorros, tecnología y más. Diseño gratis y presupuesto en 24 horas.",
+    path: "/navidad/", image: items[0] && imgURL(items[0].i, 1000), ld: crumbs([["Inicio", "/"], ["Regalos de Navidad", "/navidad/"]]) });
+  write("/navidad/", page(TPL, h, "nav", items.map(card).join("")));
+  if (!hasta || Date.now() < new Date(hasta + "T23:59:59").getTime()) urls.push("/navidad/"); /* en el sitemap solo durante la campaña */
 }
 
 // ---------- 404 (la web completa, para direcciones que ya no existen) ----------
