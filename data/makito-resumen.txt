@@ -1,21 +1,11 @@
-Makito: 4532 productos, 12716 colores, 17648 variantes en la API · fotos distintas: 14718
-Descartados: {"sin variantes":33}
+Makito: 4263 productos, 11275 colores, 17648 variantes en la API · fotos distintas: 13070
+Descartados: {"ropa (no se importa)":269,"sin variantes":33}
 Por categoría (productos / colores):
-  Headwear & Accesorios / Gorras: 74 / 365
-  Headwear & Accesorios / Viseras: 6 / 27
-  Ropa / Camisetas deportiva: 30 / 214
-  Ropa / Camisetas: 51 / 250
-  Ropa / Chalecos: 21 / 76
-  Ropa / Chaquetas: 27 / 112
-  Ropa / Delantales: 2 / 2
-  Ropa / Pantalones: 6 / 28
-  Ropa / Polos: 32 / 181
-  Ropa / Sudaderas: 22 / 188
   m-bol: 571 / 1721
   m-dep: 286 / 706
   m-esc: 745 / 2295
   m-eve: 80 / 266
-  m-hog: 817 / 1719
+  m-hog: 819 / 1721
   m-inv: 123 / 497
   m-nav: 25 / 39
   m-out: 269 / 460
@@ -127,7 +117,7 @@ Subcategorías de merchandising:
   m-hog · Cuidado personal: 11
   m-hog · Culot: 1
   m-hog · Decoración: 28
-  m-hog · Delantales y manoplas: 27
+  m-hog · Delantales y manoplas: 29
   m-hog · Delantales: 3
   m-hog · Difusor aromático: 1
   m-hog · Eau de toilette mujer: 1
@@ -305,5 +295,7 @@ Subcategorías de merchandising:
   m-ver · Sombreros sintéticos: 7
   m-ver · Sombrillas: 4
   m-ver · Verano: 12
+Productos de la familia Textil que se quedan en merchandising (no son ropa):
+  MK3221 Poncho Teo (m-inv) · MK3503 Poncho Remo (m-inv) · MK3875 Chubasquero Garu (m-inv) · MK4262 Poncho Zaril (m-inv) · MK4551 Chubasquero Hinbow (m-inv) · MK4594 Cinturón Kyiss (m-hog) · MK4718 Culot Bizax (m-hog) · MK4807 Cinturón lumbar Visser (m-hog) · MK5125 Manguito Duttier (m-hog) · MK9486 Poncho Montello (m-inv) · MK6589 Poncho Reizon (m-inv) · MK1084 Llavero poncho Gol (m-hog) · MK1478 Poncho Brinek (m-out) · MK20112 Zapatillas Coulter (m-hog) · MK20346 Poncho Claytop (m-inv) · MK21096 Chanclas Kanger (m-ver) · MK21112 Zapatillas Telarox (m-hog) · MK21113 Zapatillas Parisix (m-hog) · MK21479 Alpargatas Sergen (m-ver) · MK21487 Chanclas Ridel (m-hog) · MK21828 Zapatillas Dakota (m-hog) · MK21829 Chubasquero Bravion (m-tec) · MK21830 Bañador Merlin (m-hog) · MK21939 Zapatillas Kodama (m-hog)
 Nombres de color por código:
   000=S/C · 001=Blanco · 002=Negro · 003=Rojo · 004=Verde · 005=Amarillo · 006=Marino · 007=Naranja · 008=Gris · 009=Plateado · 011=Fucsia · 013=Natural · 014=Kaki · 015=Arena · 016=Pistacho · 018=Marron · 019=Azul · 020=Burdeos · 021=Azul Claro · 022=Rosa · 023=Dorado · 100=Tipo A · 109=Azul/Blanco · 115=Tipo B · 117=Beig · 118=Blanco/Amarillo · 119=Blanco/Azul · 120=Blanco/Fucsia · 123=Blanco/Naranja · 124=Blanco/Negro · 125=Blanco/Rojo · 126=Blanco/Verde · 128=C · 136=Camuflaje · 139=España · 140=Fresa · 141=Perro · 147=Gris/Negro · 158=Limon · 162=Marron Claro · 167=Marron Oscuro · 171=Manzana · 174=Morado · 177=Naranja/Blanco · 191=Negro/Azul · 192=Negro/Blanco · 193=Negro/Rojo · 195=Negro/Gris · 197=Oso · 211=Rojo/Blanco · 216=Transparente · 217=Turquesa · 220=Verde/Blanco · 225=Verde Botella · 227=Verde Oscuro · 228=Azul Royal · 235=Rojo/Amarillo · 240=Tomate · 243=Amarillo/Blanco · 247=Corazon · 248=Estrella · 249=Flor · 252=Rojo/Oro · 253=Rojo/ Plata · 254=Rojo/Bronce · 255=España/Oro · 256=España/Plata · 257=España/Bronce · 259=Uva · 260=Piña · 261=Sandia · 263=Blanco/Plata · 265=Amarillo F. · 266=Fucsia Fluor · 267=Naranja F · 268=Verde F · 269=Negro/Plata · 270=Traslucido Amarillo · 271=Traslucido Azul · 272=Traslucido Blanco · 273=Traslucido Fucsia · 274=Traslucido Naranja · 276=Traslucido Rojo · 277=Traslucido Verde · 279=Verde Claro · 280=Gato · 283=Papa Noel · 284=Lima · 287=Cerdo · 295=Coche · 296=Casa · 297=Negro/Negro · 299=Nieve · 300=Arbol · 301=Reno · 302=Golf · 303=Tenis · 304=Futbol · 307=Plata Mate · 312=Baloncesto · 315=Kiwi · 316=Corazon · 317=Gafas · 318=Guiño · 319=Sonrisa · 323=Muñeco Nieve · 325=B/Arbol · 328=Pato · 330=Andalucia · 331=Alemania · 332=Paises Bajos · 333=Marino Oscuro · 369=Elefante · 370=Rana · 371=Gris Claro · 372=Gris Oscuro · 373=Círculo · 374=Rectángulo · 391=Hojas · 400=Plata/Oscuro · 401=Papa Noel · 402=Muñeco Nieve · 406=Redondo · 407=Ovalado · 415=Aguacate · 431=Granate · 433=Multicolor · 483=Mostaza · 507=Verde Aguamarina · 627=Cuadrado · 628=Verde Militar · 659=Rainbow · 660=Salmon · 661=Beig Pastel · 662=Rosa Pastel · 663=Azul Pastel · 664=Verde Pastel · 665=Amarillo Pastel · 666=Bola · 668=Pitaya · 669=Calcetin · 700=Gorro · 702=Celeste · 703=Rosa Fluor · 704=Ver Menta · 705=Arena Os · 711=Azul Fluor · 712=Natural Claro · 713=Natural Claro · 714=Mandarina
