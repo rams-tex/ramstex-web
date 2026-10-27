@@ -37,18 +37,56 @@ export function contorno(d, w, h) {
   return { on, x0, y0, x1, y1, bw, by0 };
 }
 
-export function mideFoto(d, W, H, vista) {
+// x: {k: vista (f|b|s|sl|sr), corta: manga corta sin capucha, tbw: ancho del cuerpo de la plantilla en cm}
+export function mideFoto(d, W, H, x = {}) {
   const r = reduce(d, W, H, 240);
   const c = contorno(r.d, r.w, r.h);
   if (!c) return null;
   const { w, h } = r;
   const out = [c.x0 / w, c.y0 / h, (c.x1 + 1) / w, (c.y1 + 1) / h, c.bw / w, c.by0 / h];
-  if (vista === "s" || vista === "sl" || vista === "sr") {
-    const m = manga(d, W, H);
-    if (m) out.push(m[0], m[1]);
+  if (/^s/.test(x.k || "")) {
+    const m = manga(d, W, H, x);
+    if (m) out.push((m[0] - out[0]) / (out[2] - out[0]), (m[1] - out[1]) / (out[3] - out[1]));
   }
   return out;
 }
 
-// Centro de la manga en una foto lateral: de momento sin detección (se usa la proporción del proveedor)
-export function manga(d, W, H) { return null; }
+// Centro de la manga en una foto lateral (proporciones de la foto, sin voltear).
+// Horizontal: la manga cae sobre la línea media del costado → mediana del punto medio del contorno entre el 45 y el 75 % de la altura
+//   (no se usa el contorno entero porque la capucha o el cuello alargan la prenda hacia un lado).
+// Vertical: en manga corta se busca el bajo de la manga: la línea horizontal más marcada (tela clara arriba, sombra o abertura debajo)
+//   entre el 18 y el 48 % de la altura, cerca de la línea media; la zona queda justo encima. Si no, al 36 % de la altura.
+export function manga(d, W, H, x = {}) {
+  const on = mascara(d, W, H);
+  let x0 = W, y0 = H, x1 = -1, y1 = -1;
+  for (let y = 0; y < H; y++) for (let xx = 0; xx < W; xx++) if (on[y * W + xx]) { if (xx < x0) x0 = xx; if (xx > x1) x1 = xx; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+  if (x1 < 0) return null;
+  x1++; y1++;
+  const gh = y1 - y0, gw = x1 - x0;
+  const mediana = v => { v.sort((a, b) => a - b); return v.length % 2 ? v[v.length >> 1] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2; };
+  const mids = [];
+  for (let y = Math.floor(y0 + .45 * gh); y < Math.floor(y0 + .75 * gh); y++) {
+    let L = -1, R = -1; for (let xx = 0; xx < W; xx++) if (on[y * W + xx]) { if (L < 0) L = xx; R = xx + 1; }
+    if (L >= 0) mids.push((L + R) / 2);
+  }
+  if (!mids.length) return null;
+  const mid = mediana(mids);
+  let sy = y0 + .36 * gh;
+  if (x.corta) {
+    const I = p => { const i = p * 4, a = d[i + 3] / 255; return ((d[i] + d[i + 1] + d[i + 2]) / 3) * a + 255 * (1 - a); };
+    const dd = Math.max(1, Math.floor(.006 * gh)), xa = Math.max(0, Math.floor(mid - .3 * gw)), xb = Math.min(W, Math.floor(mid + .3 * gw));
+    const sc = [];
+    for (let y = Math.floor(y0 + .18 * gh); y < Math.floor(y0 + .48 * gh); y++) {
+      let g = 0, n = 0;
+      for (let xx = xa; xx < xb; xx++) { const p1 = (y - dd) * W + xx, p2 = (y + dd) * W + xx; if (on[p1] && on[p2]) { n++; g += Math.max(0, I(p1) - I(p2)); } }
+      sc.push([n ? g / n : 0, y]);
+    }
+    let best = sc[0]; for (const a of sc) if (a[0] > best[0]) best = a;
+    const medv = mediana(sc.map(a => a[0]));
+    if (best && best[0] / (medv + 1) > 4) {
+      const lado = 10 * gh * .46 / (x.tbw || 42); /* alto de la zona de manga (10 cm) en la foto, como dzGeom */
+      sy = Math.max(y0 + .16 * gh, best[1] - lado / 2 - .015 * gh);
+    }
+  }
+  return [mid / W, sy / H];
+}

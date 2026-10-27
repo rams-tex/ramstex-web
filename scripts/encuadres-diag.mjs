@@ -23,7 +23,7 @@ export async function diagnostico(dir, fotos, med, bajar) {
     const tiles = [];
     for (const x of lista) {
       const buf = await bajar(x.url); if (!buf) continue;
-      const { data, info } = await sharp(buf).flatten({ background: "#ffffff" }).resize(T, T, { fit: "contain", background: "#ffffff" }).raw().toBuffer({ resolveWithObject: true });
+      const { data, info } = await sharp(buf).flatten({ background: "#ffffff" }).resize(T, T, { fit: "inside" }).raw().toBuffer({ resolveWithObject: true });
       const W = info.width, H = info.height;
       const B = ctx.DZ_TPL[x.tpl], tpl = { bw: B.bw, cuerpo: !!B.cuerpo, z: {} };
       for (const p of Object.keys(B.z)) tpl.z[p] = Object.assign({ dx: 0 }, B.z[p]);
@@ -41,7 +41,9 @@ export async function diagnostico(dir, fotos, med, bajar) {
         <rect x="${ax}" y="${ay}" width="${aw}" height="${ah}" fill="rgba(230,0,0,.18)" stroke="#e00000" stroke-width="2"/>
         <text x="4" y="${H - 6}" font-family="sans-serif" font-size="12" fill="#000">${esc(x.ref + " " + x.k + " · " + (side ? det : medida ? "medida" : "sin medida"))}</text>
         <text x="4" y="14" font-family="sans-serif" font-size="11" fill="#555">${esc((x.col || "").slice(0, 30))}</text></svg>`;
-      tiles.push(await sharp(data, { raw: { width: W, height: H, channels: 3 } }).composite([{ input: Buffer.from(svg) }]).png().toBuffer());
+      const px = T - W, py = T - H; /* foto entera, centrada en su casilla */
+      tiles.push(await sharp(await sharp(data, { raw: { width: W, height: H, channels: 3 } }).composite([{ input: Buffer.from(svg) }]).png().toBuffer())
+        .extend({ left: px >> 1, right: px - (px >> 1), top: py >> 1, bottom: py - (py >> 1), background: "#ffffff" }).png().toBuffer());
     }
     if (!tiles.length) continue;
     const rows = Math.ceil(tiles.length / COLS);

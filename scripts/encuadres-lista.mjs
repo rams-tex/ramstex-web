@@ -28,6 +28,15 @@ export function contexto(html = readFileSync("index.html", "utf8")) {
   return ctx;
 }
 
+// ¿Manga corta (y sin capucha)? Solo entonces se busca el bajo de la manga en la foto lateral
+function corta(ctx, it) {
+  const nm = ctx.norm(it.n + " " + (it.st || ""));
+  if (/capucha|hood/.test(nm)) return false;
+  if (it.m === "Manga corta") return true;
+  if (it.m === "Manga larga" || it.m === "Sin mangas") return false;
+  return /camiseta|polo|tee|t-shirt/.test(nm) && !/manga larga|long/.test(nm);
+}
+
 export function fotosDisenador({ todosLosColores = true } = {}) {
   const ctx = contexto();
   const D = JSON.parse(readFileSync("data/catalogo.json", "utf8"));
@@ -47,7 +56,7 @@ export function fotosDisenador({ todosLosColores = true } = {}) {
       if (!p.st || sup.cors || ctx.isT(p.st)) continue; /* esta foto ya se mide en el navegador */
       usa = true;
       if (out.has(p.st)) continue;
-      out.set(p.st, { st: p.st, k: ctx.dzKind(p.st), ref: it.r, sup: f.src || "", side: sup.side, tpl: tpl.key, hex: it.k[ci][1] || "", col: it.k[ci][0], url: ctx.dzUrls(p.st, 800) });
+      out.set(p.st, { st: p.st, k: ctx.dzKind(p.st), ref: it.r, sup: f.src || "", side: sup.side, tpl: tpl.key, tbw: tpl.bw, corta: corta(ctx, it), hex: it.k[ci][1] || "", col: it.k[ci][0], url: ctx.dzUrls(p.st, 800) });
     }
     if (usa) prods++;
   }

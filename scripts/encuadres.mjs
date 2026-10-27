@@ -44,7 +44,7 @@ async function una(x) {
   try {
     const img = sharp(buf).ensureAlpha().resize(500, 500, { fit: "inside", withoutEnlargement: true });
     const { data, info } = await img.raw().toBuffer({ resolveWithObject: true });
-    const m = mideFoto(data, info.width, info.height, x.k);
+    const m = mideFoto(data, info.width, info.height, x);
     if (MUESTRAS && /^s/.test(x.k)) {
       const nom = x.st.replace(/[^\w-]+/g, "_");
       await sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } }).flatten({ background: "#ffffff" }).jpeg({ quality: 88 }).toFile(`${MUESTRAS}/${x.sup}-${x.k}-${nom}.jpg`);
@@ -54,7 +54,7 @@ async function una(x) {
   } catch (e) { sinMedida++; }
 }
 let i = 0;
-await Promise.all(Array.from({ length: 16 }, async () => { while (i < fotos.length) { const x = fotos[i++]; await una(x); if (++n % 1000 === 0) console.log(n, "/", fotos.length); } }));
+await Promise.all(Array.from({ length: 24 }, async () => { while (i < fotos.length) { const x = fotos[i++]; await una(x); if (++n % 1000 === 0) console.log(n, "/", fotos.length); } }));
 console.log("Medidas:", ok, "· sin foto:", sinFoto, "· sin medida (p. ej. blanco sobre blanco):", sinMedida);
 
 // Valor por producto y vista: mediana de los colores; se guardan aparte las fotos que se apartan
