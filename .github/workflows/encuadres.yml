@@ -34,7 +34,8 @@ jobs:
       - name: Muestra para revisar
         if: env.MODO == 'revision'
         run: |
-          node scripts/encuadres-muestras.mjs /tmp/muestras 12 2>&1 | tee /tmp/muestras/../registro-muestras.txt
+          mkdir -p /tmp/muestras
+          node scripts/encuadres-muestras.mjs /tmp/muestras 12 2>&1 | tee /tmp/registro-muestras.txt
           cp /tmp/registro-muestras.txt /tmp/muestras/registro.txt
           cd /tmp/muestras && git init -q -b encuadres-muestras && git add -A
           git -c user.name="github-actions" -c user.email="github-actions@users.noreply.github.com" commit -q -m "Muestra de fotos del diseñador para revisar [skip netlify]"
