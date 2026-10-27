@@ -285,11 +285,33 @@ h2{font-size:var(--fs-2xl);font-weight:700;max-width:18ch}
 .steps h3{font-size:var(--fs-l);margin:0 0 6px}
 .steps p{margin:0;color:var(--muted);font-size:1rem}
 
-/* ---------- Casos de éxito ---------- */
-.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.shot{aspect-ratio:1/1;background:var(--tint);border:2px dashed var(--line);border-radius:var(--r-m);display:flex;flex-direction:column;justify-content:flex-end;padding:16px}
-.shot b{font:700 var(--fs-m) "Bricolage Grotesque",sans-serif}
-.shot span{color:var(--muted);font-size:var(--fs-s)}
+/* ---------- Casos de éxito (fotos reales de clientes; datos en CASOS) ---------- */
+.cases{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.case{display:flex;flex-direction:column;gap:0;padding:0;border:0;background:none;text-align:left;color:var(--text);cursor:pointer;font:inherit;-webkit-tap-highlight-color:transparent;transition:transform 160ms var(--ease-ui)}
+.case:active{transform:scale(.98)}
+.case .cph{position:relative;aspect-ratio:4/5;border-radius:var(--r-m);overflow:hidden;background:var(--tint)}
+.case img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 300ms var(--ease-ui)}
+@media (hover:hover) and (pointer:fine){.case:hover img{transform:scale(1.04)}.case:hover .cn{color:var(--red-text)}}
+.case .cnum{position:absolute;right:10px;bottom:10px;padding:4px 10px;border-radius:999px;background:rgba(17,17,17,.62);color:#fff;font:600 var(--fs-xs)/1.4 Figtree,sans-serif;backdrop-filter:blur(4px)}
+.case .cn{display:block;margin-top:12px;font:700 var(--fs-l)/1.15 "Bricolage Grotesque",sans-serif;letter-spacing:-.01em;transition:color 150ms ease}
+.case .ct{display:block;margin-top:4px;color:var(--muted);font-size:var(--fs-s);line-height:1.45}
+.case:focus-visible{outline:none}.case:focus-visible .cph{outline:3px solid var(--red-text);outline-offset:3px}
+@media (max-width:900px){.cases{grid-template-columns:1fr 1fr;gap:22px 12px}.case .cn{font-size:1.05rem}}
+.lb{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:rgba(12,12,12,.94);color:#fff;overscroll-behavior:contain}
+.lb[open]{display:flex;flex-direction:column;animation:lbin 200ms var(--ease-ui)}
+@keyframes lbin{from{opacity:0}}
+.lb::backdrop{background:transparent}
+.lbtop{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top,0px))}
+.lbtop b{font:700 var(--fs-m) "Bricolage Grotesque",sans-serif}.lbtop span{color:rgba(255,255,255,.7);font-size:var(--fs-s);margin-left:8px;font-variant-numeric:tabular-nums}
+.lbx,.lbnav{border:0;background:rgba(255,255,255,.12);color:#fff;border-radius:999px;cursor:pointer;display:grid;place-items:center;-webkit-tap-highlight-color:transparent}
+.lbx{width:44px;height:44px}.lbx svg,.lbnav svg{width:20px;height:20px}
+.lbstage{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:0 12px 16px;touch-action:pan-y}
+.lbstage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;user-select:none;-webkit-user-drag:none}
+.lbnav{position:absolute;top:50%;width:48px;height:48px;transform:translateY(-50%)}.lbnav.p{left:16px}.lbnav.n{right:16px}
+@media (hover:hover){.lbx:hover,.lbnav:hover{background:rgba(255,255,255,.22)}}
+.lbcap{padding:0 16px calc(16px + env(safe-area-inset-bottom,0px));text-align:center;color:rgba(255,255,255,.78);font-size:var(--fs-s)}
+@media (max-width:600px){.lbnav{display:none}}
+@media (prefers-reduced-motion: reduce){.case,.case img{transition:none}.lb[open]{animation:none}}
 
 /* ---------- Contacto ---------- */
 .redband{background:var(--red);padding:calc(var(--eh) + 48px) 0;margin-top:16px;position:relative;overflow-x:clip}
@@ -1076,7 +1098,7 @@ footer .wrap.fgrid{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,m
   <a class="mi" href="/#quienes">Quiénes somos</a>
   <a class="mi" href="/#hacemos">Qué hacemos</a>
   <a class="mi" href="/#proceso">Cómo trabajamos</a>
-  <a class="mi" href="/#casos" hidden>Casos de éxito</a>
+  <a class="mi" href="/#casos">Casos de éxito</a>
   <a class="mi" href="/#contacto">Contacto</a>
   <div class="mdiv" aria-hidden="true"></div>
   <div class="mcta">
@@ -1230,25 +1252,23 @@ var NAVIDAD_HASTA="2026-12-20";
     </div>
   </section>
 
-  <!-- Casos de éxito: oculto hasta tener las fotos reales. Para mostrarlo, quitar "hidden" aquí y en los dos enlaces del menú. -->
-  <section id="casos" style="padding-top:0" hidden>
+  <!-- Casos de éxito: fotos reales de clientes (carpeta CONTENIDO RAMSTEX del Drive). Se pintan desde CASOS (script al final). -->
+  <section id="casos">
     <div class="wrap">
       <div class="shead">
         <div>
           <h2>Casos de éxito</h2>
-          <p class="lead">Proyectos que hemos hecho realidad para empresas, eventos y marcas.</p>
+          <p class="lead">Algunos proyectos que hemos hecho para marcas, equipos y eventos.</p>
         </div>
       </div>
-      <div class="gallery">
-        <div class="shot"><b>Camisetas para un evento</b><span>Foto del trabajo</span></div>
-        <div class="shot"><b>Sudaderas de empresa</b><span>Foto del trabajo</span></div>
-        <div class="shot"><b>Merchandising de marca</b><span>Foto del trabajo</span></div>
-        <div class="shot"><b>Despedida de soltero</b><span>Foto del trabajo</span></div>
-        <div class="shot"><b>Equipo deportivo</b><span>Foto del trabajo</span></div>
-        <div class="shot"><b>Colección propia</b><span>Foto del trabajo</span></div>
-      </div>
+      <div class="cases" id="cases"></div>
     </div>
   </section>
+  <dialog class="lb" id="lb" aria-label="Fotos del proyecto">
+    <div class="lbtop"><div><b id="lbn"></b><span id="lbc"></span></div><button class="lbx" type="button" id="lbx" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="lbstage" id="lbs"><img id="lbi" alt=""><button class="lbnav p" type="button" id="lbp" aria-label="Foto anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button class="lbnav n" type="button" id="lbnx" aria-label="Foto siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
+    <p class="lbcap" id="lbt"></p>
+  </dialog>
 
   <section id="contacto" class="redband">
     <svg class="edge t" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="tf" filter="url(#fibras)" d="M-4,120 L-4.0,33.4 L-1.1,32.6 L0.9,31.5 L4.0,30.3 L7.6,30.6 L10.9,28.2 L12.4,27.1 L14.5,27.1 L17.8,26.3 L20.7,25.8 L22.0,25.5 L23.9,24.8 L25.2,25.0 L28.7,22.8 L31.4,21.0 L33.5,20.7 L36.9,20.9 L40.3,19.7 L43.3,20.0 L45.9,21.2 L48.7,20.3 L51.7,20.1 L53.5,20.5 L54.9,20.3 L57.6,18.9 L60.4,18.9 L63.3,19.0 L64.6,20.7 L66.1,19.7 L68.6,19.3 L71.2,19.5 L73.9,19.9 L75.9,19.9 L78.8,20.2 L81.4,21.8 L82.7,21.2 L85.4,20.9 L88.5,21.2 L90.5,21.4 L94.1,21.8 L97.4,22.7 L100.9,23.7 L103.0,24.0 L106.5,22.8 L109.9,23.5 L111.6,25.1 L113.6,23.6 L115.6,23.7 L117.0,24.1 L119.3,23.6 L122.4,24.0 L126.1,25.1 L129.4,26.5 L132.8,26.3 L134.2,26.1 L137.0,27.5 L139.9,27.6 L141.4,28.0 L142.8,26.8 L144.2,27.4 L147.7,27.5 L149.2,28.2 L151.0,28.6 L153.9,28.4 L155.6,27.5 L157.7,26.0 L161.2,26.2 L162.8,26.1 L164.3,27.5 L166.5,25.9 L169.6,25.3 L172.4,26.2 L173.9,26.3 L177.5,25.5 L179.4,26.2 L180.8,27.2 L184.0,28.2 L187.3,28.5 L189.7,28.8 L192.6,29.1 L194.2,29.3 L196.6,28.9 L198.3,30.0 L201.0,30.5 L202.9,30.9 L204.6,30.1 L206.2,31.0 L209.6,32.0 L212.7,31.5 L215.3,31.1 L217.8,31.1 L219.7,33.0 L222.4,33.0 L224.8,33.2 L228.0,34.0 L231.4,35.4 L234.2,36.8 L236.9,36.4 L240.1,37.9 L242.0,38.6 L245.6,40.4 L248.2,41.4 L249.7,41.9 L252.0,43.2 L254.2,42.7 L257.5,43.0 L259.3,43.4 L262.9,45.1 L264.5,44.3 L267.0,45.0 L268.9,45.5 L272.3,47.5 L275.6,48.7 L277.0,48.3 L280.3,47.9 L282.8,49.2 L284.7,49.0 L287.6,49.9 L289.2,51.0 L290.7,50.0 L292.8,49.4 L295.2,49.6 L298.2,50.8 L301.4,52.0 L303.3,52.6 L306.5,53.7 L308.8,54.9 L311.0,56.1 L313.9,54.7 L317.4,55.5 L320.0,56.0 L323.4,55.9 L326.5,55.7 L328.1,55.7 L329.4,55.6 L331.1,55.5 L334.6,54.4 L337.3,53.7 L340.9,53.5 L342.6,54.0 L345.1,54.0 L347.4,52.9 L349.0,53.2 L350.6,52.8 L353.3,53.8 L355.0,53.5 L356.5,52.7 L360.2,53.6 L361.6,55.2 L363.7,55.6 L366.9,55.0 L368.9,54.5 L371.7,56.3 L373.3,56.5 L376.0,56.8 L377.5,57.0 L379.0,57.2 L380.9,57.5 L384.0,57.5 L386.0,58.0 L388.4,58.1 L392.1,58.2 L394.3,59.3 L396.6,58.9 L398.9,58.0 L400.6,59.3 L403.0,59.5 L405.4,58.8 L407.0,57.5 L409.7,57.2 L412.7,57.0 L415.8,58.7 L418.0,59.3 L419.7,59.8 L421.7,59.8 L425.0,61.2 L427.3,61.9 L429.9,61.6 L431.4,60.2 L433.1,59.9 L435.1,58.9 L437.1,58.4 L440.2,59.2 L443.4,59.2 L444.8,60.1 L448.0,58.6 L449.9,58.2 L451.7,59.6 L454.5,59.4 L456.4,58.8 L459.0,59.2 L461.1,58.6 L463.2,58.2 L465.3,56.9 L467.9,57.7 L471.5,58.3 L473.7,58.0 L475.3,56.9 L477.1,56.9 L479.0,55.8 L480.6,56.0 L483.4,55.2 L486.2,55.1 L489.8,53.3 L493.1,52.9 L496.1,51.2 L499.8,50.0 L501.3,49.8 L503.4,50.1 L506.2,50.6 L509.6,50.4 L511.8,50.1 L514.3,49.8 L517.0,49.5 L519.1,49.2 L521.4,49.1 L525.0,48.9 L527.1,48.1 L530.8,48.8 L534.1,48.8 L536.7,48.9 L539.2,47.5 L541.8,49.1 L544.0,49.3 L545.6,49.4 L547.8,49.6 L550.4,49.9 L552.4,49.6 L555.6,50.0 L558.4,50.9 L560.0,50.6 L563.4,51.5 L566.7,52.0 L569.7,51.0 L571.3,52.1 L574.3,51.9 L576.7,53.3 L580.1,52.9 L583.8,54.1 L586.0,54.3 L587.7,54.3 L589.5,53.7 L592.3,54.8 L594.6,55.0 L596.1,55.1 L599.8,54.0 L601.6,53.8 L603.5,55.0 L606.1,53.4 L608.2,53.1 L611.0,52.1 L614.1,51.7 L616.8,51.3 L620.4,49.7 L623.4,50.5 L627.0,48.6 L628.8,47.9 L632.2,48.1 L634.7,48.3 L637.2,49.1 L639.6,48.5 L641.4,48.9 L642.9,48.6 L644.5,48.4 L647.3,49.1 L650.0,49.4 L651.7,48.8 L653.1,48.7 L655.2,48.5 L656.6,49.9 L660.0,48.5 L663.3,48.4 L666.3,48.3 L669.9,46.8 L673.2,47.5 L676.2,48.5 L679.8,46.8 L681.7,47.4 L684.4,47.7 L687.0,48.5 L688.6,47.6 L690.5,47.6 L693.1,47.6 L695.3,48.1 L696.8,47.3 L700.5,48.4 L702.3,48.3 L704.3,48.4 L707.6,49.8 L709.0,50.4 L712.6,50.7 L714.6,49.9 L716.7,51.6 L718.8,51.1 L721.0,52.4 L722.4,51.0 L725.3,49.9 L727.2,50.0 L729.6,49.7 L732.5,49.5 L735.2,51.0 L738.3,52.7 L739.9,52.5 L742.7,52.3 L744.8,51.2 L746.9,52.8 L749.2,51.6 L751.3,50.1 L754.5,49.6 L757.2,51.1 L759.7,52.4 L762.2,51.3 L764.5,49.8 L767.3,49.3 L769.9,49.1 L772.0,50.0 L774.8,50.2 L776.8,49.3 L779.2,47.9 L782.4,47.3 L784.0,47.0 L786.1,46.6 L789.4,46.3 L792.1,46.9 L794.2,45.6 L797.2,45.0 L799.6,43.4 L802.8,43.1 L804.8,43.7 L806.9,42.2 L810.0,40.5 L811.6,40.1 L814.1,39.4 L817.4,39.7 L820.8,38.3 L823.2,36.9 L824.9,36.5 L827.0,36.0 L829.5,35.7 L832.9,34.6 L836.4,33.8 L838.9,33.4 L842.2,32.7 L844.4,32.4 L847.8,33.1 L849.5,33.4 L851.2,34.6 L853.9,33.1 L855.7,33.9 L858.5,34.1 L860.2,35.3 L863.8,36.1 L867.4,34.9 L869.6,35.7 L873.0,36.2 L876.7,35.0 L878.9,35.6 L882.2,36.5 L885.6,36.0 L889.1,36.6 L892.6,36.6 L894.2,36.6 L895.6,36.6 L898.2,36.7 L901.2,36.7 L902.6,36.7 L906.1,36.4 L907.8,36.6 L910.3,36.5 L913.9,36.4 L916.4,35.0 L919.5,35.2 L923.2,35.6 L925.5,35.5 L929.1,35.0 L931.6,33.7 L933.5,32.4 L935.5,33.5 L938.2,31.7 L939.9,31.7 L943.4,32.3 L946.7,31.9 L948.5,31.5 L951.8,30.0 L953.4,30.0 L955.2,28.9 L956.9,27.6 L959.7,27.9 L963.1,25.6 L966.6,24.2 L968.1,23.0 L970.5,22.8 L972.3,21.6 L974.8,22.2 L978.1,20.1 L981.5,19.0 L984.8,18.0 L986.5,18.9 L988.9,19.8 L991.3,19.8 L994.1,19.2 L996.2,19.9 L999.0,19.1 L1000.5,18.3 L1002.1,18.3 L1004.9,17.6 L1006.6,18.6 L1009.5,19.1 L1012.3,17.8 L1014.3,19.0 L1016.5,18.0 L1018.4,18.2 L1021.3,18.7 L1023.2,18.2 L1024.8,19.1 L1027.1,20.5 L1030.5,22.4 L1033.4,22.5 L1035.8,23.7 L1037.8,24.0 L1040.2,24.0 L1042.8,24.7 L1046.5,26.7 L1048.3,28.3 L1050.0,27.7 L1051.9,28.7 L1055.3,29.5 L1058.4,32.1 L1061.1,34.3 L1063.7,35.1 L1065.2,34.5 L1067.1,36.1 L1070.0,36.9 L1072.9,37.7 L1075.5,37.7 L1077.0,37.1 L1079.7,39.3 L1082.6,38.7 L1086.0,39.4 L1087.5,41.2 L1089.8,41.7 L1091.5,41.6 L1094.9,42.6 L1098.0,43.1 L1101.5,43.6 L1103.0,42.2 L1105.3,41.7 L1107.8,42.3 L1109.6,43.3 L1112.5,42.0 L1115.5,41.9 L1118.5,43.0 L1121.4,42.4 L1123.8,41.2 L1127.5,41.5 L1131.0,40.9 L1133.0,40.3 L1136.2,39.9 L1139.3,40.1 L1142.9,41.6 L1145.2,42.6 L1147.5,41.6 L1150.4,41.7 L1152.8,42.4 L1155.7,42.5 L1157.6,43.7 L1159.0,45.2 L1161.1,46.2 L1164.5,45.7 L1166.0,44.6 L1168.5,44.7 L1172.1,45.6 L1175.2,47.2 L1176.8,48.9 L1180.5,50.9 L1183.2,51.9 L1186.2,52.4 L1189.1,54.2 L1190.5,55.1 L1192.4,54.5 L1196.1,55.5 L1197.9,56.4 L1200.6,57.7 L1202.1,57.7 L1205.7,58.1 L1208.6,60.2 L1210.6,60.0 L1213.0,62.1 L1215.4,62.8 L1218.0,62.4 L1220.3,62.2 L1223.7,64.2 L1225.7,63.2 L1227.2,64.5 L1230.1,65.8 L1232.8,65.9 L1234.5,65.0 L1237.4,65.0 L1240.2,64.1 L1242.8,64.9 L1244.9,65.5 L1246.9,65.4 L1249.6,67.2 L1251.8,67.5 L1254.3,68.6 L1256.1,68.5 L1258.2,67.5 L1261.4,68.4 L1264.4,68.6 L1266.8,69.1 L1269.9,68.1 L1273.1,69.2 L1275.1,68.5 L1277.3,67.5 L1280.1,68.3 L1282.2,67.9 L1283.6,67.7 L1286.8,66.2 L1288.2,65.7 L1289.9,66.3 L1291.9,66.2 L1295.5,64.6 L1298.7,62.7 L1302.2,63.4 L1303.8,63.8 L1306.4,62.8 L1308.4,62.9 L1310.6,61.8 L1313.3,62.0 L1315.6,61.6 L1318.9,60.4 L1321.1,59.0 L1324.6,59.9 L1326.0,60.0 L1327.4,58.5 L1329.1,56.9 L1332.7,55.6 L1334.7,55.7 L1336.1,54.1 L1338.1,53.6 L1341.6,53.2 L1343.1,53.2 L1345.8,52.8 L1349.0,53.3 L1352.3,54.7 L1354.0,56.1 L1357.0,56.7 L1359.8,55.6 L1361.6,54.6 L1362.9,54.8 L1364.4,53.5 L1367.4,54.7 L1370.8,54.4 L1372.4,55.1 L1373.9,54.4 L1376.8,53.0 L1378.1,52.3 L1379.9,52.4 L1381.9,52.4 L1385.6,52.5 L1389.2,52.5 L1391.5,52.9 L1392.9,54.3 L1396.0,55.2 L1398.5,54.1 L1401.2,52.5 L1403.5,53.9 L1405.3,52.2 L1408.2,52.3 L1409.9,53.5 L1413.5,51.8 L1416.4,50.6 L1419.5,50.1 L1421.5,51.2 L1424.8,51.3 L1427.2,49.6 L1429.9,48.1 L1432.4,47.6 L1433.9,47.2 L1435.4,46.9 L1436.8,46.5 L1438.4,46.1 L1439.8,47.3 L1441.5,45.9 L1444.0,45.2 L1444,120 Z"/><path class="tp" d="M-4,120 L-4.0,41.0 L0.9,37.6 L4.0,37.4 L8.5,36.8 L14.8,32.9 L19.8,31.4 L24.8,30.1 L28.3,29.3 L35.3,28.1 L41.0,27.3 L44.9,27.0 L47.6,27.2 L53.0,26.6 L59.3,26.6 L65.5,26.8 L72.5,27.7 L75.8,27.6 L80.8,28.1 L84.4,30.1 L87.3,30.9 L90.2,30.7 L95.4,31.3 L101.1,30.7 L105.8,32.9 L111.9,35.0 L117.5,36.1 L121.3,36.7 L124.6,37.3 L129.4,37.9 L135.1,37.8 L142.0,37.4 L146.7,35.1 L149.2,34.8 L153.9,35.6 L157.1,35.7 L163.3,33.7 L167.8,34.4 L170.7,35.8 L175.3,33.8 L179.1,32.3 L181.8,32.9 L187.3,33.1 L191.5,32.2 L195.6,34.7 L200.6,34.7 L204.9,35.6 L210.6,37.6 L217.0,41.1 L223.1,43.2 L228.7,43.8 L234.7,44.5 L240.0,45.0 L245.5,46.1 L249.1,48.3 L255.9,51.6 L258.7,52.2 L264.7,55.2 L269.1,56.1 L273.1,58.2 L278.1,58.7 L284.7,60.3 L290.1,59.3 L293.7,57.6 L297.5,57.5 L302.5,58.1 L307.1,57.6 L311.8,57.9 L315.7,57.5 L319.5,58.6 L324.7,57.3 L328.3,56.9 L334.4,56.7 L337.5,58.3 L343.2,59.0 L347.5,57.2 L352.9,57.3 L359.8,56.7 L366.6,58.5 L372.1,59.8 L378.8,60.9 L384.5,60.3 L389.3,60.0 L395.4,61.0 L398.6,63.0 L404.8,65.9 L409.5,64.4 L412.6,65.7 L418.4,67.1 L421.4,67.7 L428.4,68.9 L435.2,67.2 L440.1,67.4 L445.0,66.6 L451.2,66.1 L455.1,66.3 L458.1,65.2 L463.8,62.1 L470.3,60.4 L472.9,60.5 L477.3,59.5 L480.1,59.5 L486.3,56.7 L489.9,57.5 L496.6,57.2 L503.2,55.8 L507.7,53.9 L511.8,51.4 L515.4,50.9 L519.3,52.2 L522.8,50.4 L527.3,51.6 L533.0,52.2 L536.8,53.4 L542.6,55.1 L548.8,55.1 L552.1,56.3 L555.7,55.8 L558.9,55.7 L565.1,54.8 L568.8,53.7 L571.5,54.0 L575.1,55.4 L579.0,55.5 L581.8,56.1 L584.8,58.3 L590.7,58.6 L596.3,60.8 L599.5,60.5 L603.5,62.4 L610.1,62.5 L614.6,63.2 L618.3,60.9 L625.3,61.4 L628.8,59.9 L633.6,58.5 L637.6,58.7 L641.6,56.6 L645.8,57.1 L649.5,55.7 L653.4,55.8 L657.4,53.5 L662.2,51.9 L666.6,52.4 L670.1,50.1 L676.5,49.7 L682.8,51.6 L687.4,51.2 L693.2,52.3 L697.9,50.7 L702.1,53.2 L706.2,52.2 L709.9,54.7 L715.6,56.8 L721.6,59.6 L724.7,60.2 L729.8,58.9 L732.9,60.8 L739.0,62.4 L743.2,61.2 L749.0,61.2 L753.1,59.2 L758.1,58.7 L761.8,59.4 L767.6,59.4 L774.5,59.2 L779.1,60.2 L785.1,57.8 L787.7,56.9 L791.6,56.1 L796.5,53.9 L800.1,53.6 L806.6,52.1 L811.9,50.0 L815.2,49.1 L822.1,45.7 L828.5,43.4 L834.5,41.9 L840.4,41.0 L844.0,40.1 L847.0,40.8 L849.9,39.6 L853.0,40.5 L858.4,41.4 L862.5,39.3 L868.2,37.9 L874.7,39.8 L878.2,40.9 L881.4,42.3 L888.4,41.7 L891.9,42.1 L895.0,42.0 L899.5,42.4 L906.4,41.1 L913.3,39.3 L919.2,38.5 L923.8,37.0 L929.7,36.4 L933.3,35.8 L938.8,35.2 L942.0,34.6 L945.9,33.6 L950.8,33.9 L954.6,32.2 L961.2,30.3 L967.4,29.0 L970.1,30.6 L973.2,29.5 L977.7,28.1 L983.3,26.0 L988.9,25.6 L993.9,27.1 L997.8,27.3 L1002.6,26.4 L1008.1,25.5 L1013.0,24.7 L1018.6,25.7 L1021.3,25.6 L1026.0,27.1 L1031.5,28.8 L1034.3,28.2 L1039.4,30.2 L1045.9,33.0 L1049.1,32.5 L1055.0,35.0 L1060.2,37.2 L1063.6,38.7 L1069.2,40.3 L1076.0,41.8 L1082.8,43.1 L1089.2,44.4 L1093.9,46.8 L1096.8,45.8 L1102.0,45.8 L1107.3,45.6 L1113.8,46.8 L1119.0,46.6 L1123.0,47.2 L1128.6,47.2 L1132.3,47.4 L1134.9,47.5 L1140.6,47.8 L1144.6,48.1 L1151.6,48.8 L1156.5,49.3 L1161.7,50.0 L1164.6,50.9 L1168.4,53.7 L1171.5,54.4 L1178.2,55.9 L1181.2,57.5 L1188.0,57.3 L1194.6,59.6 L1200.7,63.4 L1207.6,67.2 L1214.3,69.0 L1218.4,71.9 L1222.0,73.0 L1228.7,74.2 L1235.1,76.0 L1239.9,76.1 L1245.6,75.2 L1252.0,76.1 L1257.1,76.9 L1261.4,75.8 L1267.5,74.3 L1270.5,72.0 L1274.8,72.8 L1277.8,72.8 L1280.9,71.8 L1283.8,70.2 L1290.0,69.9 L1296.7,69.8 L1299.3,69.5 L1303.7,68.5 L1308.3,66.7 L1314.9,63.5 L1320.5,62.7 L1325.0,61.8 L1330.7,61.9 L1335.8,63.6 L1340.9,62.0 L1344.9,63.5 L1351.6,64.5 L1357.6,65.5 L1360.4,64.5 L1366.1,63.9 L1372.1,65.0 L1378.3,64.5 L1383.6,65.0 L1387.3,67.0 L1393.3,65.5 L1399.1,67.0 L1402.2,66.8 L1405.5,66.5 L1411.8,65.9 L1416.5,65.3 L1421.7,63.0 L1426.4,63.6 L1430.7,61.1 L1437.4,61.1 L1441.6,59.5 L1444.0,58.8 L1444,120 Z"/></svg>
@@ -3556,6 +3576,39 @@ $("send").addEventListener("click",function(e){
   });
 });
 if(window.indexedDB) setTimeout(dzPrune,4000);
+</script>
+<script>
+/* Casos de éxito: para añadir un cliente, sube sus fotos a /casos/<id>-N.webp (y -N-700.webp) y añade una línea aquí */
+var CASOS=[
+  {id:"ciry-garage",n:"Ciry Garage",t:"Sudaderas con capucha para su marca de cultura motor.",f:4},
+  {id:"escandalo",n:"Escándalo",t:"Sudaderas con estampado en la espalda para la comunidad de Escándalo App.",f:5},
+  {id:"ballers",n:"Ballers",t:"Camisetas de juego para el torneo de baloncesto Ballers.",f:4},
+  {id:"ragnar",n:"Ragnar",t:"Sudaderas de uniforme para todo su equipo.",f:2}
+];
+(function(){
+  var box=document.getElementById("cases"), lb=document.getElementById("lb"); if(!box||!lb) return;
+  function src(c,i,small){return "/casos/"+c.id+"-"+i+(small?"-700":"")+".webp";}
+  box.innerHTML=CASOS.map(function(c,k){
+    return '<button class="case" type="button" data-k="'+k+'"><span class="cph"><img src="'+src(c,1,1)+'" alt="'+c.n+': '+c.t+'" loading="lazy" decoding="async"><span class="cnum">'+c.f+' fotos</span></span><span class="cn">'+c.n+'</span><span class="ct">'+c.t+'</span></button>';
+  }).join("");
+  var cur=null, i=1, last=null, img=document.getElementById("lbi");
+  function show(){
+    img.src=src(cur,i); img.alt=cur.n+", foto "+i+" de "+cur.f;
+    document.getElementById("lbn").textContent=cur.n; document.getElementById("lbc").textContent=i+" / "+cur.f;
+    document.getElementById("lbt").textContent=cur.t;
+    if(i<cur.f){var pre=new Image(); pre.src=src(cur,i+1);}
+  }
+  function go(d){if(!cur) return; i=(i-1+d+cur.f)%cur.f+1; show();}
+  box.addEventListener("click",function(e){var b=e.target.closest(".case"); if(!b) return; last=b; cur=CASOS[+b.dataset.k]; i=1; show(); if(lb.showModal) lb.showModal(); else lb.setAttribute("open","");});
+  document.getElementById("lbx").onclick=function(){lb.close();};
+  document.getElementById("lbp").onclick=function(){go(-1);};
+  document.getElementById("lbnx").onclick=function(){go(1);};
+  lb.addEventListener("close",function(){if(last) last.focus();});
+  lb.addEventListener("keydown",function(e){if(e.key==="ArrowRight")go(1); else if(e.key==="ArrowLeft")go(-1);});
+  document.getElementById("lbs").addEventListener("click",function(e){if(e.target.id==="lbs") lb.close();});
+  var sx=null; img.addEventListener("touchstart",function(e){sx=e.touches[0].clientX;},{passive:true});
+  img.addEventListener("touchend",function(e){if(sx===null) return; var dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40) go(dx<0?1:-1); else go(1); sx=null;},{passive:true});
+})();
 </script>
 </body>
 </html>
