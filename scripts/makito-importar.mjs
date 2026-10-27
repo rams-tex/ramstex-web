@@ -53,6 +53,7 @@ function ropaOf(p, paths) {
   if (!isTextil) return null;
   if (/^camiseta/.test(t)) return ["Ropa", /tirantes/.test(t) ? "Tirantes" : /tecnic|deport|sport/.test(nrm(p.type + " " + p.name + " " + p.description)) ? "Camisetas deportiva" : "Camisetas"];
   if (/^polo/.test(t)) return ["Ropa", "Polos"];
+  if (/^(culot|banador|bikini|mallas?|leggings?|vestido|falda|chandal|mono)\b/.test(t)) return ["Ropa", "Otros"];
   if (/^sudadera/.test(t)) return ["Ropa", "Sudaderas"];
   if (/^chaleco/.test(t)) return ["Ropa", "Chalecos"];
   if (/^(chaqueta|parka|softshell|cortavientos|polar|anorak|forro)/.test(t)) return ["Ropa", "Chaquetas"];
@@ -65,13 +66,14 @@ function ropaOf(p, paths) {
 }
 // Si no hay ruta útil, por el tipo de producto
 const BYTYPE = [
+  ["m-hog", /^llavero/],
   ["m-tec", /power bank|cargador|cable|altavoz|auricular|usb|memoria|raton|alfombrilla|soporte movil|smartwatch|reloj|lampara|camara|adaptador|hub|localizador/],
   ["m-esc", /boligrafo|lapiz|lapices|portaminas|rotulador|marcador|libreta|bloc|cuaderno|agenda|carpeta|portadocumentos|estuche|regla|subrayador|calculadora|calendario|lanyard/],
   ["m-taz", /taza|vaso|bidon|botella|termo|fiambrera|cubiertos|jarra|copa|pajita/],
   ["m-bol", /bolsa|mochila|bolso|trolley|maleta|neceser|rinonera|bandolera|portatodo|petate|saco/],
-  ["m-inv", /paraguas|poncho|braga|bufanda|guante|gorro|manta/],
-  ["m-ver", /gafas sol|abanico|hinchable|toalla playa|pareo|esterilla|chancla|sombrero|nevera|pelota playa|frisbee/],
-  ["m-dep", /toalla|balon|cuerda|banda elastica|botiquin|cepillo|espejo|balsamo|manicura|gel|mascarilla/],
+  ["m-inv", /paraguas|poncho|chubasquero|braga|bufanda|guante|gorro|manta/],
+  ["m-ver", /gafas sol|abanico|alpargata|hinchable|toalla playa|pareo|esterilla|chancla|sombrero|nevera|pelota playa|frisbee/],
+  ["m-dep", /manguito|toalla|balon|cuerda|banda elastica|botiquin|cepillo|espejo|balsamo|manicura|gel|mascarilla/],
   ["m-out", /navaja|linterna|multiherramienta|flexometro|herramienta|rascador|parasol|brujula|mascota|comedero/],
   ["m-nav", /navidad|navideno|arbol|adorno|bola navidad/],
   ["m-eve", /pulsera|bandera|medalla|trofeo|identificador|silbato|matasuegras|chapa|pin\b/],
@@ -157,6 +159,7 @@ for (const p of prods) {
   const ropa = null;
   let merch = null, mpath = paths[0];
   if (r0) merch = "m-hog";
+  else if (paths.some(a => a[0] === "Textil")) merch = typeMerch(p); // ponchos, chanclas, cinturones… de la familia Textil
   else { for (const a of paths) { merch = merchOf(a); if (merch) { mpath = a; break; } } merch ||= typeMerch(p); }
   // Colores (un color por código; las tallas de la ropa comparten foto)
   const byColor = new Map();
