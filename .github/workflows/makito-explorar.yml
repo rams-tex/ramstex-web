@@ -23,6 +23,13 @@ jobs:
         env:
           MAKITO_CLIENT_ID: ${{ secrets.MAKITO_CLIENT_ID }}
           MAKITO_CLIENT_SECRET: ${{ secrets.MAKITO_CLIENT_SECRET }}
+      - name: Datos completos (catálogo, stock y marcaje, sin precios) como artefacto privado
+        uses: actions/upload-artifact@v4
+        with:
+          name: makito-datos
+          path: tmp-makito
+          retention-days: 7
+          if-no-files-found: ignore
       - name: Guardar resultado en diagnostico/makito
         run: |
           git config user.name "github-actions"

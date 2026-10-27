@@ -45,6 +45,8 @@ async function get(path, { auth = true, headers = {}, raw = false } = {}) {
   try { r = await fetch(path.startsWith("http") ? path : BASE + path, { headers: { ...(auth && TOKEN ? { Authorization: "Bearer " + TOKEN } : {}), ...headers } }); }
   catch (e) { log(`GET ${path}: ERROR ${e.message} ${e.cause?.code || ""}`); return { status: 0 }; }
   const ct = r.headers.get("content-type") || "";
+  const rl = [...r.headers.entries()].filter(([k]) => /rate|limit|retry|remaining/i.test(k)).map(x => x.join(": ")).join(", ");
+  if (rl) log(`  cabeceras de límite (${path.replace(BASE, "").slice(0, 60)}): ${rl}`);
   const info = { status: r.status, ct, len: r.headers.get("content-length"), acao: r.headers.get("access-control-allow-origin"), cache: r.headers.get("cache-control"), ms: Date.now() - t };
   if (raw) { const b = Buffer.from(await r.arrayBuffer()); return { ...info, bytes: b.length, buf: b, headers: Object.fromEntries(r.headers) }; }
   const text = await r.text();
@@ -72,12 +74,14 @@ const listIn = d => Array.isArray(d) ? d : d && typeof d === "object" ? (Object.
   TOKEN = j.token || j.access_token || "";
   log(`POST /access/auth/login -> HTTP ${r.status}; campos de la respuesta: ${Object.keys(j).join(", ") || "(no JSON)"}`);
   if (!TOKEN) { log("Sin token. Respuesta:", scrub(t.slice(0, 300))); process.exit(1); }
-  try { const pl = JSON.parse(Buffer.from(TOKEN.split(".")[1], "base64url").toString()); log("JWT: caduca en", pl.exp ? Math.round((pl.exp * 1000 - Date.now()) / 60000) + " min" : "(sin exp)", "· campos:", Object.keys(pl).join(", ")); } catch (e) {}
+  try { const pl = JSON.parse(Buffer.from(TOKEN.split(".")[1], "base64url").toString()); log("JWT: rateLimit =", JSON.stringify(pl.rateLimit), "· scope =", JSON.stringify(pl.scope), "· roles =", JSON.stringify(pl.roles), "· sandbox =", JSON.stringify(pl.sandbox), "· resources =", JSON.stringify(pl.resources)); log("JWT: caduca en", pl.exp ? Math.round((pl.exp * 1000 - Date.now()) / 60000) + " min" : "(sin exp)", "· campos:", Object.keys(pl).join(", ")); } catch (e) {}
 }
 
 // ---------- Catálogo ----------
 const cat = await getFile("/catalog/files?format=JSON&lang=es");
 const prods = listIn(cat);
+mkdirSync("tmp-makito", { recursive: true });
+if (prods.length) writeFileSync("tmp-makito/catalogo.json", JSON.stringify(cat));
 const imgUrls = [];
 if (prods.length) {
   log(`\n== CATÁLOGO: ${prods.length} productos. Claves de la raíz: ${cat && !Array.isArray(cat) ? Object.keys(cat).join(", ") : "(lista)"}`);
@@ -98,6 +102,8 @@ if (prods.length) {
     const arr = [...m.entries()].sort((a, b) => b[1] - a[1]);
     log(`\n-- ${path}: ${arr.length} valores distintos` + (arr.length <= 400 ? ":\n" + arr.map(x => x[1] + " × " + x[0]).join(" | ") : " (ej.: " + arr.slice(0, 25).map(x => x[0]).join(" | ") + ")"));
   }
+  const cats = {}; for (const p of prods) for (const c of p.categories || []) cats[c] = (cats[c] || 0) + 1;
+  log("\n-- TODAS las categorías (" + Object.keys(cats).length + "); productos sin categoría: " + prods.filter(p => !(p.categories || []).length).length + "\n" + Object.entries(cats).sort().map(x => x[1] + " × " + x[0].replace(/^Produccion > /, "")).join("\n"));
   // Muestra: 3 productos completos (sin precios) y 40 recortados
   const pickBy = re => prods.find(p => re.test(JSON.stringify(p).slice(0, 2000)));
   const sample = [prods[0], pickBy(/taza|mug/i), pickBy(/bol[ií]grafo|pen\b/i), pickBy(/camiseta|t-shirt/i), pickBy(/mochila|bolsa/i)].filter(Boolean);
@@ -126,6 +132,7 @@ for (const [path, u] of imgs) {
 // ---------- Stock ----------
 const st = await getFile("/stock/files?format=JSON");
 const sl = listIn(st);
+if (sl.length) writeFileSync("tmp-makito/stock.json", JSON.stringify(st));
 log(`\n== STOCK: ${sl.length} filas. Claves de la raíz: ${st && !Array.isArray(st) ? Object.keys(st).join(", ") : "(lista)"}`);
 if (sl.length) {
   log("Forma:\n" + JSON.stringify(shape(sl[0]), null, 1));
@@ -145,6 +152,6 @@ if (pl.length) log("Forma (valores ocultos): " + JSON.stringify(shape(pl[0])) + 
 const pc = await getFile("/print-config/files?format=JSON&lang=es");
 const pcl = listIn(pc);
 log(`\n== MARCAJE: ${pcl.length} productos. Claves de la raíz: ${pc && !Array.isArray(pc) ? Object.keys(pc).join(", ") : "(lista)"}`);
-if (pcl.length) { log("Forma:\n" + JSON.stringify(shape(pcl[0]), null, 1).slice(0, 5000)); writeFileSync(DIR + "/marcaje-muestra.json", JSON.stringify(hide(pcl.slice(0, 2)), null, 1).slice(0, 60000)); }
+if (pcl.length) { writeFileSync("tmp-makito/marcaje.json", JSON.stringify(pc)); log("Forma:\n" + JSON.stringify(shape(pcl[0]), null, 1).slice(0, 5000)); writeFileSync(DIR + "/marcaje-muestra.json", JSON.stringify(hide(pcl.slice(0, 2)), null, 1).slice(0, 60000)); }
 
 log("\nFin. Peticiones de solo lectura; no se ha llamado a /orders.");
