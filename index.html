@@ -2486,15 +2486,16 @@ var DZ_MAX=[35,55], DZ_PEQ=[10,10], DZ_ANCHO=28.4, DZ_ANCHO_BOLSA=18.7, DZ_PECHO
    zoom: la foto se amplía sobre la zona (zonas pequeñas) · rec: ancho recomendado · pecho: botón «Logo en el pecho» (9,5 cm, pecho izquierdo)
    bw: ancho del cuerpo en cm tal como se ve en la foto (en las fotos con maniquí se ve menos que la prenda plana) para pasar de cm a la foto · aprox: colocación orientativa, revisar con fotos reales
    sinMangas: la plantilla no lleva mangas */
-var ZS={v:"s",cm:DZ_PEQ}, ZE=function(t,cm){return {v:"b",cm:cm||[35,45],t:t,rec:DZ_ANCHO};}, ZN=function(t){return {v:"b",cm:DZ_PEQ,t:t,c:1,zoom:1};};
+var ZS={v:"s",cm:DZ_PEQ}, ZE=function(t,cm,th){return {v:"b",cm:cm||[35,45],t:t,th:th,rec:DZ_ANCHO};}, ZN=function(t){return {v:"b",cm:DZ_PEQ,t:t,zoom:1};};
 var DZ_TPL={
-  camiseta:{n:"camiseta",bw:42,z:{d:{v:"f",cm:[30,40],t:.17,pecho:1},e:ZE(.13,[35,55]),n:ZN(.12),mi:ZS,md:ZS}},
-  polo:{n:"polo",bw:42,z:{d:{v:"f",cm:[26,30],t:.27,pecho:1},e:ZE(.13),n:ZN(.13),mi:ZS,md:ZS}},
-  sudadera:{n:"sudadera",bw:46,z:{d:{v:"f",cm:[30,22],t:.31,pecho:1},e:ZE(.22),n:ZN(.2),mi:ZS,md:ZS}},
-  cremallera:{n:"sudadera",bw:46,z:{di:{v:"f",cm:[12,35],t:.36,dx:.25,pecho:1},dd:{v:"f",cm:[12,35],t:.36,dx:-.25,pecho:1},e:ZE(.22),n:ZN(.2),mi:ZS,md:ZS}},
-  chaqueta:{n:"chaqueta",bw:48,aprox:1,z:{di:{v:"f",cm:[12,32],t:.27,dx:.25,pecho:1},dd:{v:"f",cm:[12,32],t:.27,dx:-.25,pecho:1},e:ZE(.2,[35,40]),n:ZN(.1),mi:ZS,md:ZS}},
-  chaleco:{n:"chaleco",bw:46,aprox:1,sinMangas:1,z:{di:{v:"f",cm:[12,32],t:.22,dx:.25,pecho:1},dd:{v:"f",cm:[12,32],t:.22,dx:-.25,pecho:1},e:ZE(.15,[35,40]),n:ZN(.1)}},
-  camisa:{n:"camisa",bw:42,aprox:1,z:{p:{v:"f",cm:DZ_PEQ,t:.25,dx:.22,c:1,zoom:1,pecho:1},e:ZE(.16,[35,40]),mi:ZS,md:ZS}},
+  camiseta:{n:"camiseta",bw:42,alto:86,z:{d:{v:"f",cm:[30,40],t:.2,pecho:1},e:ZE(.13,[35,55]),n:ZN(.04),mi:ZS,md:ZS}},
+  polo:{n:"polo",bw:42,alto:90,z:{d:{v:"f",cm:[26,30],t:.27,pecho:1},e:ZE(.13),n:ZN(.05),mi:ZS,md:ZS}},
+  sudadera:{n:"sudadera",bw:46,alto:92,z:{d:{v:"f",cm:[30,22],t:.31,pecho:1},e:ZE(.3),mi:ZS,md:ZS}},
+  sudaderacr:{n:"sudadera",bw:46,alto:86,z:{d:{v:"f",cm:[30,35],t:.2,pecho:1},e:ZE(.13,[35,45]),n:ZN(.04),mi:ZS,md:ZS}},
+  cremallera:{n:"sudadera",bw:46,alto:100,z:{di:{v:"f",cm:[12,35],t:.25,th:.36,dx:.25,pecho:1},dd:{v:"f",cm:[12,35],t:.25,th:.36,dx:-.25,pecho:1},e:ZE(.15,0,.3),n:ZN(.04),mi:ZS,md:ZS}},
+  chaqueta:{n:"chaqueta",bw:48,alto:90,aprox:1,z:{di:{v:"f",cm:[12,32],t:.27,dx:.25,pecho:1},dd:{v:"f",cm:[12,32],t:.27,dx:-.25,pecho:1},e:ZE(.15,[35,40],.28),n:ZN(.05),mi:ZS,md:ZS}},
+  chaleco:{n:"chaleco",bw:46,alto:86,aprox:1,sinMangas:1,z:{di:{v:"f",cm:[12,32],t:.22,dx:.25,pecho:1},dd:{v:"f",cm:[12,32],t:.22,dx:-.25,pecho:1},e:ZE(.15,[35,40]),n:ZN(.05)}},
+  camisa:{n:"camisa",bw:42,alto:95,aprox:1,z:{p:{v:"f",cm:DZ_PEQ,t:.25,dx:.22,c:1,zoom:1,pecho:1},e:ZE(.16,[35,40]),mi:ZS,md:ZS}},
   delantal:{n:"delantal",bw:50,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[30,30],t:.4}}},
   bata:{n:"prenda",bw:46,aprox:1,z:{p:{v:"f",cm:DZ_PEQ,t:.22,dx:.22,c:1,zoom:1,pecho:1},e:ZE(.15,[35,40])}},
   peto:{n:"peto",bw:40,aprox:1,sinMangas:1,z:{d:{v:"f",cm:[25,30],t:.2},e:{v:"b",cm:[25,30],t:.2}}},
@@ -2544,8 +2545,8 @@ function dzKey(it){
   if((c==="sudaderas"||c==="chaquetas")&&/jersey|cardigan|de punto|punto fino|blazer|traje/.test(nm)) return ""; /* punto y americanas: no se estampan */
   if(c==="camisetas") return sub==="Chaquetas"?"chaqueta":sub==="Blusas"?"camisa":"camiseta";
   if(c==="polos") return sub==="Chaquetas"?"chaqueta":sub==="Polos"?"polo":"camiseta";
-  if(c==="sudaderas"){if(sub==="Jerseys y cárdigans") return ""; if(sub==="Chaquetas"||/chaqueta|cortaviento|polar|chandal/.test(nm)) return /chaleco/.test(nm)?"chaleco":"chaqueta"; return zip?"cremallera":"sudadera";}
-  if(c==="chaquetas"){if(/poncho/.test(nm)||sub==="Ponchos"||sub==="Accesorios"||sub==="Accesorios deportivos") return ""; if(sub==="Camisas y sobrecamisas") return "camisa"; if(/chaleco/.test(nm)||/^Chalecos/.test(sub)) return "chaleco"; if(/sudadera/.test(nm)) return zip?"cremallera":"sudadera"; return "chaqueta";}
+  if(c==="sudaderas"){if(sub==="Jerseys y cárdigans") return ""; if(sub==="Chaquetas"||/chaqueta|cortaviento|polar|chandal/.test(nm)) return /chaleco/.test(nm)?"chaleco":"chaqueta"; if(zip) return "cremallera"; return it.f.indexOf("h")>=0||/capucha|hood/.test(nm)?"sudadera":"sudaderacr";}
+  if(c==="chaquetas"){if(/poncho/.test(nm)||sub==="Ponchos"||sub==="Accesorios"||sub==="Accesorios deportivos") return ""; if(sub==="Camisas y sobrecamisas") return "camisa"; if(/chaleco/.test(nm)||/^Chalecos/.test(sub)) return "chaleco"; if(/sudadera/.test(nm)) return zip?"cremallera":it.f.indexOf("h")>=0||/capucha|hood/.test(nm)?"sudadera":"sudaderacr"; return "chaqueta";}
   if(c==="camisas") return "camisa";
   if(c==="trabajo"){if(/tirantes/.test(nm)) return ""; if(sub==="Delantales"||/delantal/.test(nm)) return "delantal"; if(sub==="Petos"&&/peto/.test(nm)) return "peto"; if(/chaleco/.test(nm)) return "chaleco"; return "bata";}
   if(c==="pantalones"){if(sub==="Faldas"||/falda/.test(nm)) return ""; if(sub==="Chaquetas") return "chaqueta"; if(sub==="Camisetas deportivas") return "camiseta"; return "pantalon";}
@@ -2569,12 +2570,13 @@ function dzTpl(it){
   if(!it||!D) return null;
   var key=dzKey(it); if(!key) return null;
   var b=DZ_TPL[key], z={}, mangas=!b.sinMangas&&it.m!=="Sin mangas";
+  var capucha=it.f.indexOf("h")>=0||/capucha|hood/.test(norm(it.n+" "+(it.st||""))); /* con capucha: la espalda se estampa por debajo */
   Object.keys(b.z).forEach(function(p){
     if(b.z[p].v==="s"&&!mangas) return;
-    if(p==="n"&&/capucha|hood/.test(norm(it.n+" "+(it.st||"")))) return; /* con capucha, la nuca queda tapada */
-    var o=Object.assign({},b.z[p]); o.cm=[Math.min(o.cm[0],DZ_MAX[0]),Math.min(o.cm[1],DZ_MAX[1])]; o.dx=o.dx||0; z[p]=o;
+    if(p==="n"&&capucha) return; /* con capucha, la nuca queda tapada */
+    var o=Object.assign({},b.z[p]); if(capucha&&o.th!=null) o.t=o.th; o.cm=[Math.min(o.cm[0],DZ_MAX[0]),Math.min(o.cm[1],DZ_MAX[1])]; o.dx=o.dx||0; z[p]=o;
   });
-  return {key:key,n:b.n,bw:b.bw,aprox:!!b.aprox,cuerpo:!!b.cuerpo,z:z,pos:DZ_ORD.filter(function(p){return z[p];})};
+  return {key:key,n:b.n,bw:b.bw,alto:b.alto||0,aprox:!!b.aprox,cuerpo:!!b.cuerpo,z:z,pos:DZ_ORD.filter(function(p){return z[p];})};
 }
 /* Qué muestra cada foto del proveedor: f delante, b espalda, s lateral, sl/sr lateral izquierda/derecha, m con modelo */
 function dzKind(st){
@@ -2659,11 +2661,12 @@ function dzDark(k,fr){
 }
 /* Vista de una zona: foto cargada + encuadre de la prenda */
 var DZ_VIEW={};
-/* Encuadre medido de antemano (scripts/encuadres.mjs) para las fotos que el navegador no puede analizar:
-   data/encuadres.json → s: por foto, p: por producto y vista ("REF|f"); [x0,y0,x1,y1,bw,by0(,sx,sy: centro de la manga en la foto lateral)] */
-var DZ_ENC=null;
-function dzEncLoad(){
-  return DZ_ENC||(DZ_ENC=fetch("/data/encuadres.json?v="+BUILD).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}).then(function(d){return d||{p:{},s:{}};}));
+/* Encuadre medido de antemano en el servidor (scripts/encuadres.mjs), un archivo por categoría:
+   data/encuadres/<categoría>.json → s: por foto, p: por producto y vista ("REF|f"); [x0,y0,x1,y1,bw,by0(,sx,sy: centro de la manga en la foto lateral)]
+   Sirve para las fotos que el navegador no puede analizar (TopTex, Falk&Ross), las que no se distinguen (blanco sobre blanco) y la manga */
+var DZ_ENC={};
+function dzEncLoad(c){
+  return DZ_ENC[c]||(DZ_ENC[c]=fetch("/data/encuadres/"+c+".json?v="+BUILD).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}).then(function(d){return d||{p:{},s:{}};}));
 }
 function dzEnc(E,it,st){
   var a=E&&((E.s&&E.s[st])||(E.p&&E.p[it.r+"|"+dzKind(st)]));
@@ -2676,18 +2679,26 @@ function dzView(it,f,ci,pos,tplKey){
   var p=dzPick(it,f,ci,pos,tplKey), sup=dzSup(f), key=p.st+"|"+p.kind+"|"+(p.flip?1:0);
   if(DZ_VIEW[key]) return DZ_VIEW[key];
   var cors=!!sup.cors||isT(p.st);
-  return DZ_VIEW[key]=Promise.all([dzLoad(p.st,cors),cors?null:dzEncLoad()]).then(function(rr){
+  return DZ_VIEW[key]=Promise.all([dzLoad(p.st,cors),dzEncLoad(it.c)]).then(function(rr){
     var r=rr[0];
     if(!r){ /* sin foto: fondo neutro del color de la prenda, para poder colocar el diseño igualmente */
       var c=document.createElement("canvas"); c.width=c.height=1000; var x=c.getContext("2d"); x.fillStyle=dzHex(it.k[ci])||"#E4E4E1"; x.fillRect(80,80,840,840); x.strokeStyle="rgba(17,17,17,.18)"; x.lineWidth=4; x.strokeRect(82,82,836,836);
       return new Promise(function(res){var im=new Image(); im.onload=function(){res({im:im,cors:true,fr:{x0:.08,y0:.08,x1:.92,y1:.92,bw:.84,lum:dzDark(it.k[ci])?40:230,ok:1},kind:"front",flip:false,nophoto:1,st:p.st});}; im.src=c.toDataURL("image/png");});
     }
-    var fr=r.cors?dzMeasure(r.im):null;
-    if(!fr) fr=dzEnc(rr[1],it,p.st);
+    var fr=r.cors?dzMeasure(r.im):null, enc=dzEnc(rr[1],it,p.st);
+    if(fr&&enc&&enc.sx!=null&&p.kind==="side"){fr.sx=enc.sx; fr.sy=enc.sy;} /* manga medida en el servidor (proporción del contorno) */
+    if(!fr) fr=enc;
     if(!fr) fr=Object.assign({},(p.kind==="side"&&sup.sfr)||(p.kind==="side"?{x0:.3,y0:sup.fr.y0,x1:.7,y1:sup.fr.y1,bw:.4}:sup.fr));
     if(p.flip){var a=1-fr.x1; fr.x1=1-fr.x0; fr.x0=a;}
     return {im:r.im,cors:r.cors,fr:fr,kind:p.kind,flip:!!p.flip,noback:!!p.noback,st:p.st,sup:f&&f.src};
   });
+}
+/* Escala (px de la foto por cm): por el ancho del cuerpo; si los brazos van pegados al cuerpo, ese ancho sale de más,
+   así que no se pasa de 1,25 veces la escala que da el alto de la prenda (tpl.alto: alto habitual en las mismas unidades) */
+function dzScale(fr,W,gh,tpl){
+  var s=fr.bw*W/tpl.bw;
+  if(tpl.alto&&gh>0) s=Math.min(s,1.25*gh/tpl.alto);
+  return s;
 }
 /* Geometría: dónde va la foto y la zona de impresión dentro de un recuadro SW×SH */
 function dzGeom(v,tpl,pos,SW,SH,mode){
@@ -2700,12 +2711,12 @@ function dzGeom(v,tpl,pos,SW,SH,mode){
     if(v.kind==="side"){
       s=gh*.46/tpl.bw; var sl=fr.sx!=null?[fr.sx,fr.sy]:DZ_SUP[v.sup]?DZ_SUP[v.sup].sl:DZ_DEF.sl; /* manga medida en la foto, o la habitual del proveedor */
       var sx=v.flip?1-sl[0]:sl[0]; cx=gx0+sx*gw; cy=gy0+sl[1]*gh;
-    } else {s=fr.bw*W/tpl.bw; cx=pos==="mi"?gx0+.9*gw:gx0+.1*gw; cy=gy0+.2*gh;}
+    } else {s=dzScale(fr,W,gh,tpl); cx=pos==="mi"?gx0+.9*gw:gx0+.1*gw; cy=gy0+.2*gh;}
     aw=cm[0]*s; ah=cm[1]*s; a={x:cx-aw/2,y:cy-ah/2,w:aw,h:ah};
   } else {
-    s=fr.bw*W/tpl.bw;
+    s=dzScale(fr,W,gh,tpl); var bwp=s*tpl.bw;
     var k=Math.min(1,gw*.92/(cm[0]*s),bh*.92/(cm[1]*s)); s*=k; /* la zona nunca es más grande que el producto en la foto */
-    aw=cm[0]*s; ah=cm[1]*s; cx=gx0+gw/2+zn.dx*fr.bw*W;
+    aw=cm[0]*s; ah=cm[1]*s; cx=gx0+gw/2+zn.dx*bwp;
     var ay=zn.c?by+zn.t*bh-ah/2:by+zn.t*bh;
     a={x:Math.max(gx0,Math.min(gx0+gw-aw,cx-aw/2)),y:Math.max(by,Math.min(by+bh-ah,ay)),w:aw,h:ah}; /* siempre sobre el producto */
   }

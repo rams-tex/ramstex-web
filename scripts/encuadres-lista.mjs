@@ -21,7 +21,7 @@ export function contexto(html = readFileSync("index.html", "utf8")) {
   const code = [
     linea(html, "var IMG="), linea(html, "var IMGR="), linea(html, "var IMGJ="), linea(html, "var IMGS="),
     linea(html, "var DZ_ORD="), html.slice(a, b),
-    ...["norm", "isR", "isJ", "isS", "isT", "isF", "isPack", "ext", "srcList", "dzKey", "dzTpl", "dzKind", "dzSup", "dzPick", "dzUrls", "dzEnc", "dzGeom"].map(n => trozo(html, n)),
+    ...["norm", "isR", "isJ", "isS", "isT", "isF", "isPack", "ext", "srcList", "dzKey", "dzTpl", "dzKind", "dzSup", "dzPick", "dzUrls", "dzEnc", "dzScale", "dzGeom"].map(n => trozo(html, n)),
   ].join("\n");
   const ctx = { D: null, console };
   vm.createContext(ctx); vm.runInContext(code, ctx);
@@ -55,7 +55,9 @@ export function fotosDisenador({ todos = false, colores = "todos" } = {}) {
     const f = (F[it.c] || {})[it.r] || {};
     const sup = ctx.dzSup(f);
     let usa = false;
-    const cols = colores === "todos" ? it.k.map((_, i) => i) : [Math.floor(Math.random() * it.k.length)];
+    /* fotos que el navegador ya mide: basta con el primer color y el más oscuro (para la manga y por si la foto blanca no se distingue) */
+    const oscuro = () => { let b = 0, bl = 1e9; it.k.forEach((k, i) => { const h = /^#[0-9a-f]{6}$/i.test(k[1] || "") ? k[1] : "#808080", l = .299 * parseInt(h.substr(1, 2), 16) + .587 * parseInt(h.substr(3, 2), 16) + .114 * parseInt(h.substr(5, 2), 16); if (l < bl) { bl = l; b = i; } }); return b; };
+    const cols = colores === "uno" ? [Math.floor(Math.random() * it.k.length)] : sup.cors ? [...new Set([0, oscuro()])] : it.k.map((_, i) => i);
     for (const ci of cols) for (const pos of tpl.pos) {
       const p = ctx.dzPick(it, f, ci, pos, tpl.key);
       if (!p.st) continue;
@@ -63,7 +65,7 @@ export function fotosDisenador({ todos = false, colores = "todos" } = {}) {
       usa = true;
       const prev = out.get(p.st);
       if (prev) { if (!prev.pos.includes(pos)) prev.pos.push(pos); continue; }
-      out.set(p.st, { st: p.st, k: ctx.dzKind(p.st), vista: p.kind, flip: !!p.flip, pos: [pos], ref: it.r, c: it.c, n: it.n, sup: f.src || "", cors: !!(sup.cors || ctx.isT(p.st)), side: sup.side, tpl: tpl.key, tbw: tpl.bw, corta: corta(ctx, it), hex: it.k[ci][1] || "", col: it.k[ci][0], url: urls(ctx, p.st) });
+      out.set(p.st, { st: p.st, k: ctx.dzKind(p.st), vista: p.kind, flip: !!p.flip, pos: [pos], ref: it.r, c: it.c, n: it.n, sup: f.src || "", cors: !!(sup.cors || ctx.isT(p.st)), side: sup.side, tpl: tpl.key, tbw: tpl.bw, corta: corta(ctx, it), capucha: it.f.indexOf("h") >= 0 || /capucha|hood/.test(ctx.norm(it.n + " " + (it.st || ""))), hex: it.k[ci][1] || "", col: it.k[ci][0], url: urls(ctx, p.st) });
     }
     if (usa) prods++;
   }

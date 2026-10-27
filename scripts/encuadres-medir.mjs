@@ -55,7 +55,7 @@ export function mideFoto(d, W, H, x = {}) {
 // Horizontal: la manga cae sobre la línea media del costado → mediana del punto medio del contorno entre el 45 y el 75 % de la altura
 //   (no se usa el contorno entero porque la capucha o el cuello alargan la prenda hacia un lado).
 // Vertical: en manga corta se busca el bajo de la manga: la línea horizontal más marcada (tela clara arriba, sombra o abertura debajo)
-//   entre el 18 y el 48 % de la altura, cerca de la línea media; la zona queda justo encima. Si no, al 36 % de la altura.
+//   entre el 18 y el 48 % de la altura, cerca de la línea media; la zona queda justo encima. Si no, al 30 % de la altura (36 % con capucha).
 export function manga(d, W, H, x = {}) {
   const on = mascara(d, W, H);
   let x0 = W, y0 = H, x1 = -1, y1 = -1;
@@ -71,7 +71,7 @@ export function manga(d, W, H, x = {}) {
   }
   if (!mids.length) return null;
   const mid = mediana(mids);
-  let sy = y0 + .36 * gh;
+  let sy = y0 + (x.capucha ? .36 : .3) * gh; /* manga larga: parte alta del brazo (con capucha, la prenda es más alta) */
   if (x.corta) {
     const I = p => { const i = p * 4, a = d[i + 3] / 255; return ((d[i] + d[i + 1] + d[i + 2]) / 3) * a + 255 * (1 - a); };
     const dd = Math.max(1, Math.floor(.006 * gh)), xa = Math.max(0, Math.floor(mid - .3 * gw)), xb = Math.min(W, Math.floor(mid + .3 * gw));
