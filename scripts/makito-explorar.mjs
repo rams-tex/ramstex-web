@@ -187,7 +187,7 @@ if (pcl.length) {
     if (!a.image || n >= 3) continue;
     const r = await get(a.image, { raw: true });
     log(`Foto del área ${e.ref} ${a.id}: HTTP ${r.status} ${r.ct} ${r.bytes} bytes`);
-    if (r.status === 200 && r.bytes < 3000000) { writeFileSync(`${DIR}/area-${e.ref}-${a.id}.jpg`, r.buf); n++; }
+    if (r.status === 200 && r.bytes < 600000) { writeFileSync(`${DIR}/area-${e.ref}-${a.id}.jpg`, r.buf); n++; }
   }
 }
 // Tarifas de marcaje: SOLO la forma (valores ocultos)

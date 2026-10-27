@@ -100,8 +100,9 @@ for (const p of prods) for (const v of p.variants || []) {
 }
 const CODE = Object.fromEntries(Object.entries(codeNames).map(([c, m]) => [c, Object.entries(m).sort((a, b) => b[1] - a[1])[0][0]]));
 // Abreviaturas de Makito en los colores ("Azul Cl", "Amarillo F.", "Ver Menta")
-const ABBR = { cl: "Claro", "cl.": "Claro", os: "Oscuro", "os.": "Oscuro", osc: "Oscuro", "osc.": "Oscuro", f: "Flúor", "f.": "Flúor", fluor: "Flúor", fluo: "Flúor", ver: "Verde", az: "Azul", am: "Amarillo", nat: "Natural", tr: "Transparente", trans: "Transparente", "trans.": "Transparente", met: "Metalizado", "met.": "Metalizado", gr: "Gris", mar: "Marino", roj: "Rojo", neg: "Negro", bla: "Blanco" };
-const fixColor = n => n.split(" ").map(w => ABBR[w.toLowerCase()] || w).join(" ").replace(/\bFairtrade\s+/i, "");
+const ABBR = { cl: "Claro", "cl.": "Claro", os: "Oscuro", "os.": "Oscuro", osc: "Oscuro", "osc.": "Oscuro", f: "Flúor", "f.": "Flúor", fluor: "Flúor", fluo: "Flúor", ver: "Verde", az: "Azul", am: "Amarillo", nat: "Natural", tr: "Transparente", trans: "Transparente", "trans.": "Transparente", met: "Metalizado", "met.": "Metalizado", gr: "Gris", mar: "Marino", roj: "Rojo", neg: "Negro", bla: "Blanco",
+  marron: "Marrón", beig: "Beige", limon: "Limón", sandia: "Sandía", corazon: "Corazón", traslucido: "Translúcido", arbol: "Árbol", futbol: "Fútbol", platano: "Plátano", raton: "Ratón", cafe: "Café", caqui: "Caqui", kaki: "Caqui", fluor: "Flúor", purpura: "Púrpura", lavanda: "Lavanda", bambu: "Bambú", cesped: "Césped", rinon: "Riñón", jamon: "Jamón", balon: "Balón", pinguino: "Pingüino", leon: "León" };
+const fixColor = n => n.replace(/\s*\/\s*/g, "/").split(/(\/| )/).map(w => ABBR[w.toLowerCase()] || w).join("").replace(/\bFairtrade\s+/i, "");
 function colorName(p, v) {
   const code = v.variant_colorcode;
   if (!code || code === "000") return "Único";
@@ -193,7 +194,7 @@ for (const p of prods) {
   const material = cleanTxt(p.material);
   const desc = cleanTxt(p.description);
   out.push({
-    ref: "MK" + String(p.web_reference || p.ref), name, fam: ropa ? ropa[0] : "Merchandising", sub: ropa ? ropa[1] : subName(mpath?.[2] || mpath?.[1] || type || "Varios"),
+    ref: "MK" + String(p.web_reference || p.ref), name, fam: ropa ? ropa[0] : "Merchandising", sub: ropa ? ropa[1] : subName(mpath?.[2] || mpath?.[1] || type || "Varios"), _ts: !ropa && !mpath ? 1 : 0,
     gen, brand: p.brand ? capWords(p.brand) : "Makito", source: "makito",
     comp: material, peso: ropa && /(\d{2,3})\s*g\s*\/\s*m/i.test(material) ? material.match(/(\d{2,3})\s*g\s*\/\s*m/i)[1] + " g/m²" : "",
     desc: desc && !/[.!?]$/.test(desc) ? desc + "." : desc,
@@ -204,6 +205,22 @@ for (const p of prods) {
     world: [], created: p.web_new ? "2026" : "", alt: [String(p.web_reference || p.ref)], mref: String(p.ref),
     ...(merch ? { merch } : {}), areas, assets: Object.fromEntries([...img, ...colors.map(c => c.img)].filter(Boolean).map(s => [s.slice(2), ASSETS[s.slice(2)]])),
   });
+}
+// Productos sin categoría útil (subcategoría = tipo de producto, en singular): se unen a la subcategoría equivalente
+// de su misma categoría si existe ("Bolígrafo" -> "Bolígrafos", "Bloc notas" -> "Blocs de notas")
+{
+  const plural = w => /[aeiouáéíóú]$/.test(w) ? w + "s" : /z$/.test(w) ? w.slice(0, -1) + "ces" : /s$/.test(w) ? w : w + "es";
+  const key = t => nrm(t).replace(/\bde\b|\by\b/g, " ").split(/[ ,]+/).filter(Boolean);
+  const subsBy = {};
+  for (const p of out) if (p.merch && !p._ts) (subsBy[p.merch] ??= new Set()).add(p.sub);
+  for (const p of out) {
+    if (p._ts && p.merch) {
+      const pl = key(p.sub).map(plural), cands = [...(subsBy[p.merch] || [])];
+      const hit = cands.find(c => key(c).join(" ") === pl.join(" ")) || cands.find(c => { const k = key(c); return pl.every((w, i) => k[i] === w); }) || cands.find(c => key(c)[0] === pl[0]);
+      if (hit) p.sub = hit;
+    }
+    delete p._ts;
+  }
 }
 mkdirSync("data", { recursive: true });
 writeFileSync("data/makito.json", JSON.stringify(out));
