@@ -1,0 +1,22 @@
+name: Prueba Drive
+on:
+  push:
+    branches: [prueba-drive]
+jobs:
+  prueba:
+    runs-on: ubuntu-latest
+    permissions: {contents: write}
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          U="https://script.google.com/macros/s/AKfycbzaOECciqwDsjQ7xb0OXT2UXnohOPQ1f7ScE95aqsuNUqThg36ajLFyGvycdEH9AQ6r3A/exec"
+          echo "GET:" > resultado-drive.txt
+          curl -sSL -m 60 "$U" >> resultado-drive.txt 2>&1 || true
+          echo "" >> resultado-drive.txt
+          PNG=$(base64 -w0 logo.png)
+          printf '{"pedido":"PRUEBA-WEB","cliente":{"nombre":"Prueba Ramstex"},"files":[{"name":"logo-prueba.png","mime":"image/png","base64":"%s"}],"mockups":[]}' "$PNG" > body.json
+          echo "POST:" >> resultado-drive.txt
+          curl -sSL -m 120 -H "Content-Type: text/plain;charset=utf-8" --data-binary @body.json "$U" >> resultado-drive.txt 2>&1 || true
+          cat resultado-drive.txt
+          git config user.name "github-actions"; git config user.email "actions@github.com"
+          git add resultado-drive.txt && git commit -m "Resultado prueba Drive [skip netlify]" && git push
