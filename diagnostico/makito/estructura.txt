@@ -1,0 +1,210 @@
+POST /access/auth/login -> HTTP 200; campos de la respuesta: token, expiration
+JWT: caduca en 60 min · campos: jti, sub, iss, iat, exp, ver, rateLimit, clientId, salesOffice, roles, sandbox, resources, salesOfficeDescription, salesOrg, scope, credentialId, printListType, applicationId, salesOfficePrintListType, sapId
+GET /catalog/files?format=JSON&lang=es -> HTTP 200 application/json 17429326 bytes 318 ms
+
+== CATÁLOGO: 4565 productos. Claves de la raíz: generatedAt, products
+Forma de un producto:
+{
+ "ref": "15246",
+ "web_reference": "5246",
+ "name": "Komir",
+ "type": "Cámara Deportiva",
+ "description": "<p>Cámara deportiva de alta calidad de captura de vídeo HD 720p, de diseño compacto y resistente, especialmente diseñada…",
+ "observations": "Si su necesidad de stock es superior a la disponibilidad mostrada en nuestra web, consulte el stock real con nuestro dep…",
+ "print_observations": "",
+ "printcode": "K(4)",
+ "length": 120,
+ "height": 230,
+ "width": 58,
+ "diameter": null,
+ "weight": false,
+ "material": null,
+ "pf_type": "4192",
+ "pf_units": 1,
+ "pf_length": 120,
+ "pf_height": 230,
+ "pf_width": 60,
+ "pf_weight": 360,
+ "pi2_type": null,
+ "pi2_units": null,
+ "pi2_length": null,
+ "pi2_height": null,
+ "pi2_width": null,
+ "pi2_weight": null,
+ "pi1_type": null,
+ "pi1_units": null,
+ "pi1_length": null,
+ "pi1_height": null,
+ "pi1_width": null,
+ "pi1_weight": null,
+ "ptc_type": "1003",
+ "ptc_units": 20,
+ "ptc_length": 480,
+ "ptc_height": 255,
+ "ptc_width": 330,
+ "ptc_weight": 7.3,
+ "pallet_units": 840,
+ "bundle_pallets": 42,
+ "pallet_weight": 306.6,
+ "sizes": null,
+ "brand": null,
+ "web_new": false,
+ "custom_code": "8525809190",
+ "batteries": [
+  "BATTERY_3481",
+  "(1 elementos)"
+ ],
+ "categories": [
+  "Produccion > PRODUCTOS > Tecnología y accesorios > Otros > Camaras",
+  "(2 elementos)"
+ ],
+ "image360link": "https://etools.boxpromotions.com/videos/5246/360/output/5246.html",
+ "image": "https://apis.makito.es/catalog/assets/15246/principal/5246-W.jpg",
+ "thumbnail_image": "https://apis.makito.es/catalog/assets/15246/thumbnail/5246-W.jpg",
+ "detail_images": [
+  "https://apis.makito.es/catalog/assets/15246/details/5246-D1.jpg",
+  "(2 elementos)"
+ ],
+ "variants": [
+  {
+   "variant_reference": "5246ROJS/T",
+   "variant_image": "https://apis.makito.es/catalog/assets/15246/15246003000/principal/5246-003-P.jpg",
+   "variant_thumbnail": "https://apis.makito.es/catalog/assets/15246/15246003000/thumbnail/5246-003-P.jpg",
+   "variant_name": "Camara Deportiva Komir Rojo",
+   "variant_colorcode": "003",
+   "variant_size": "000"
+  },
+  "(7 elementos)"
+ ]
+}
+Claves (nº de productos que la tienen): {"ref":4565,"web_reference":4565,"name":4565,"type":4565,"description":4565,"observations":4565,"print_observations":4565,"printcode":4565,"length":4565,"height":4565,"width":4565,"diameter":4565,"weight":4565,"material":4565,"pf_type":4565,"pf_units":4565,"pf_length":4565,"pf_height":4565,"pf_width":4565,"pf_weight":4565,"pi2_type":4565,"pi2_units":4565,"pi2_length":4565,"pi2_height":4565,"pi2_width":4565,"pi2_weight":4565,"pi1_type":4565,"pi1_units":4565,"pi1_length":4565,"pi1_height":4565,"pi1_width":4565,"pi1_weight":4565,"ptc_type":4565,"ptc_units":4565,"ptc_length":4565,"ptc_height":4565,"ptc_width":4565,"ptc_weight":4565,"pallet_units":4565,"bundle_pallets":4565,"pallet_weight":4565,"sizes":4565,"brand":4565,"web_new":4565,"custom_code":4565,"batteries":4565,"categories":4565,"image360link":4565,"image":4565,"thumbnail_image":4565,"detail_images":4565,"variants":4565}
+
+-- .ref: 4565 valores distintos (ej.: 15246 | 15255 | 16009 | 13190 | 13437 | 14184 | 15617 | 15787 | 15924 | 16181 | 12008 | 12008C | 12050 | 12233 | 12320 | 12321 | 12420 | 12421 | 12428 | 12469 | 12483 | 12494 | 12500 | 12509 | 12513)
+
+-- .web_reference: 4564 valores distintos (ej.: 20547 | 5246 | 5255 | 6009 | 3190 | 3437 | 4184 | 5617 | 5787 | 5924 | 6181 | 2008 | 2008C | 2050 | 2233 | 2320 | 2321 | 2420 | 2421 | 2428 | 2469 | 2483 | 2494 | 2500 | 2509)
+
+-- .name: 4500 valores distintos (ej.: Tecnic Plus | Seiyo | Epika | Charles | Koupan | Rox | Bandul | Sappor | Hearvin | Cocker | Draco | Theon | Options | Krusly | MC130 | MC150 | MC180 | MPS180 | WCS150 | WCS180 | WPS180 | YC150 | YPS180 | Dynamic | Bailey Light)
+
+-- .type: 928 valores distintos (ej.: Bolsa | Bolígrafo | Mochila | Bidón | Set | Bloc Notas | Taza | Cargador | Llavero | Gorra | Vaso Térmico | Power Bank | Neceser | Altavoz | Libreta | Soporte | Bidón Térmico | Bolígrafo Puntero | Paraguas | Vaso | Gafas Sol | Camiseta Adulto | Auriculares | Nevera | Gorro)
+
+-- .print_observations: 25 valores distintos:
+3734 ×  | 85 × Color blanco especial para sublimación | 27 × <p>+10.000 Uds. Printing 12% Descuento.</p> | 21 × Especial para sublimación | 21 × Especial para marcaje en láser - Logo Plateado | 18 × Se recomienda impresión a doble pasada para colores oscuros | 16 × <p>+5.000 Uds. Printing 12% Descuento.</p> | 12 × Especial para marcaje en láser - Logo plateado | 9 × Especial para marcaje en láser - Logo a juego | 8 × <p> 	Especial para sublimación</p> | 6 × <p> 	Color blanco especial para sublimación</p> | 5 × Especial para marcaje en láser - Logo a juego - Acabado mate | 5 × Acabado mate | 4 × <p>Especial para marcaje en láser - Logo plateado</p> | 3 × <p>Color blanco especial para sublimación</p> | 3 × Color beige especial para sublimación | 3 × Especial para marcaje en láser - Logo luz blanca | 2 × Se recomienda impresión a doble pasada en color negro | 2 × Venta solo en múltiplos de 25 unidades por color | 2 × Especial para marcaje en láser - Rose Gold logo | 1 × Venta solo en múltiplos de 50 unidades | 1 × <p> 	<strong>Especial para marcaje en láser</strong></p> | 1 × <p>Especial para marcaje en láser - Logo luz blanca</p> | 1 × Venta solo en múltiplos de 20 unidades por color | 1 × Calendario Internacional
+
+-- .printcode: 448 valores distintos (ej.: F(1) | F(6),N(8),O,P,DTF1 | D(4),L1 | E(1) | D(1) | D(1),L1 | C(4) | D(4) | F(1),L1 | A(4) | C(1) | G(1) | E(1),L1 | D(4),W | F(4),L2,L3,WR | F(4) | F(1),L2 | D(4),L1,W | C(4),L1 | F(1),N(8),DTF2 | B(4) | B(4),L1 | C(1),L1 | F(1),N(8),O,P,DTF1 | L1)
+
+-- .pf_type: 93 valores distintos:
+1636 × 4000 | 1228 × 4082 | 1185 × 5000 | 104 × 4192 | 47 × 4242 | 37 × 4342 | 33 × 5051 | 28 × 4267 | 16 × 4446 | 15 × 4312 | 11 × 5005 | 10 × 5080 | 9 × 5047 | 9 × 4447 | 8 × 4248 | 7 × 5034 | 6 × 4043 | 6 × 5044 | 6 × 4031 | 6 × 5050 | 5 × 4141 | 5 × 4159 | 4 × 4148 | 4 × 4435 | 3 × 4131 | 3 × 4122 | 3 × 4339 | 3 × 4279 | 3 × 4325 | 3 × 4369 | 3 × 4382 | 3 × 5061 | 3 × 4331 | 3 × 4444 | 2 × 4093 | 2 × 4116 | 2 × 4144 | 2 × 4020 | 2 × 5059 | 2 × 4343 | 2 × 5026 | 2 × 4316 | 2 × 4260 | 2 × 5082 | 2 × 4338 | 2 × 4201 | 2 × 4386 | 2 × 4409 | 2 × 4274 | 2 × 4390 | 2 × 4307 | 2 × 4321 | 2 × 4448 | 1 × 4063 | 1 × 4379 | 1 × 4145 | 1 × 4146 | 1 × 4429 | 1 × 4008 | 1 × 4150 | 1 × 4358 | 1 × 4017 | 1 × 4115 | 1 × 4426 | 1 × 4152 | 1 × 4137 | 1 × 4121 | 1 × 4130 | 1 × 4047 | 1 × 4181 | 1 × 4243 | 1 × 4197 | 1 × 4091 | 1 × 4149 | 1 × 4268 | 1 × 4360 | 1 × 4061 | 1 × 4056 | 1 × 4284 | 1 × 4432 | 1 × 4224 | 1 × 4291 | 1 × 5024 | 1 × 5073 | 1 × 5058 | 1 × 4300 | 1 × 4365 | 1 × 4436 | 1 × 4336 | 1 × 5079 | 1 × 5086 | 1 × 4442 | 1 × 4392
+
+-- .ptc_type: 4 valores distintos:
+4120 × 1001 | 277 × 1003 | 97 × 1004 | 35 × 1002
+
+-- .custom_code: 294 valores distintos:
+89 × 3926909790 | 79 × 4202929190 | 71 × 4202229090 | 45 × 6307909899 | 38 × 9608101000 | 33 × 96081010000 | 33 × 96081010 | 33 × 7326909890 | 28 × 7323930090 | 25 × 3924100090 | 24 × 8504405590 | 23 × 4202929890 | 21 × 6912002510 | 16 × 6505009090 | 16 × 8205510000 | 16 × 6109100010 | 16 × 6505003000 | 15 × 8542326900 | 13 × 61099020 | 12 × 4202129190 | 12 × 65050030 | 12 × 7013990090 | 11 × 9609101000 | 10 × 4202221000 | 9 × 96091090 | 9 × 4820105000 | 9 × 8518210000 | 9 × 8507600090 | 8 × 39261000 | 8 × 6117100000 | 8 × 82055100 | 8 × 82119300 | 8 × 39264000 | 8 × 4202329090 | 7 × 8527130000 | 7 × 9613200000 | 7 × 3924900090 | 7 × 8513100000 | 7 × 6201131090 | 7 × 4820109000 | 7 × 8211930000 | 7 × 6105100000 | 7 × 9504908000 | 7 × 3401300000 | 6 × 8518309590 | 6 × 90178010 | 6 × 4202921900 | 6 × 4823908580 | 6 × 7612908000 | 6 × 62019300 | 6 × 6301409099 | 6 × 66019920 | 6 × 48194000 | 5 × 9617000000 | 5 × 9004109100 | 5 × 48201030 | 5 × 39262000 | 5 × 84719000 | 5 × 96091010 | 5 × 62114210 | 5 × 90041099 | 5 × 6302939000 | 5 × 71179000 | 5 × 4202321000 | 5 × 6109902000 | 5 × 9503009990 | 5 × 6601999000 | 5 × 7013911000 | 4 × 4910000000 | 4 × 39241000900 | 4 × 70099200 | 4 × 9506999000 | 4 × 9503009500 | 4 × 85131000 | 4 × 6504000000 | 4 × 3824999699 | 4 × 3926400000 | 4 × 7616999099 | 4 × 6302600010 | 4 × 3304100000 | 4 × 4419190000 | 4 × 8544429090 | 4 × 7615108090 | 4 × 6211421000 | 4 × 90049010 | 4 × 4202125000 | 3 × 96082000 | 3 × 4202129990 | 3 × 96099010 | 3 × 61143000 | 3 × 4819500000 | 3 × 6214300090 | 3 × 95051090 | 3 × 48201090 | 3 × 90031100 | 3 × 42023210 | 3 × 61171000 | 3 × 62034390 | 3 × 6116930000 | 3 × 90041091 | 3 × 8471607000 | 3 × 8519810090 | 3 × 3406000000 | 3 × 3926909290 | 3 × 96032100 | 3 × 6307901000 | 3 × 482010300 | 3 × 7013379900 | 3 × 6110209100 | 3 × 4504908090 | 3 × 8517620000 | 3 × 4421999999 | 3 × 9025804089 | 3 × 8543709099 | 3 × 8504409090 | 3 × 4820200000 | 2 × 8525809190 | 2 × 5806400090 | 2 × 48203000 | 2 × 4201000090 | 2 × 7616999090 | 2 × 82141000 | 2 × 48201050 | 2 × 42029211 | 2 × 39241000 | 2 × 4823200000 | 2 × 42022210 | 2 × 42029219 | 2 × 33079000 | 2 × 66019990 | 2 × 8423101000 | 2 × 90141000 | 2 × 6110909090 | 2 × 8478100000 | 2 × 6212900000 | 2 × 4602199090 | 2 × 65040000 | 2 × 9608200000 | 2 × 9505109000 | 2 × 9609109000 | 2 × 8543200000 | 2 × 4419110000 | 2 × 9610000000 | 2 × 94017900 | 2 × 8525801990 | 2 × 9017801000 | 2 × 6601910000 | 2 × 4820300000 | 2 × 8205400000 | 2 × 3926300090 | 2 × 4820103000 | 2 × 4503900000 | 2 × 64022000 | 2 × 84701000 | 2 × 64041990 | 2 × 8509800000 | 2 × 6307909817 | 2 × 3923109090 | 2 × 3924100011 | 2 × 9503006100 | 2 × 4008219000 | 2 × 4421910000 | 2 × 8518300090 | 1 × 9026108100 | 1 × 41062290 | 1 × 3926100000 | 1 × 8505110099 | 1 × 8531807000 | 1 × 950699900 | 1 × 6211390090 | 1 × 82152010 | 1 × 6912002910 | 1 × 66019100 | 1 × 65069100 | 1 × 6117801000 | 1 × 9025112000 | 1 × 58064000 | 1 × 95030069 | 1 × 61169900 | 1 × 8306290000 | 1 × 96100000 | 1 × 61169300 | 1 × 9506620000 | 1 × 96083000 | 1 × 96151100 | 1 × 6307109090 | 1 × 83011000 | 1 × 6307101000 | 1 × 4016100090 | 1 × 8414510090 | 1 × 63029390 | 1 × 95063200 | 1 × 95063990 | 1 × 5806321000 | 1 × 73269009890 | 1 × 9404909090 | 1 × 9404300000 | 1 × 3926200000 | 1 × 66019911 | 1 × 42022900 | 1 × 92089000 | 1 × 63014010 | 1 × 6201121010 | 1 × 33074900 | 1 × 61013090 | 1 × 90069100 | 1 × 4202121100 | 1 × 62114241 | 1 × 9620009900 | 1 × 6216000000 | 1 × 9004901000 | 1 × 6217900000 | 1 × 611693 | 1 × 611693000 | 1 × 9011800000 | 1 × 4419120000 | 1 × 4016920000 | 1 × 9004909000 | 1 × 9031808000 | 1 × 4202990090 | 1 × 9102120000 | 1 × 7323990090 | 1 × 9006990000 | 1 × 8205200000 | 1 × 9506399000 | 1 × 9505900000 | 1 × 6601100000 | 1 × 61159610 | 1 × 9404909000 | 1 × 6307909810 | 1 × 8206000000 | 1 × 3918900090 | 1 × 4811419000 | 1 × 95069190 | 1 × 9503009590 | 1 × 1209999100 | 1 × 8536699099 | 1 × 9405201100 | 1 × 9603293000 | 1 × 8414599590 | 1 × 9609909000 | 1 × 8414108990 | 1 × 4202921100 | 1 × 9503004990 | 1 × 1209999910 | 1 × 63071010 | 1 × 96170000 | 1 × 9013809090 | 1 × 82060000 | 1 × 62160000 | 1 × 95069990 | 1 × 7326200090 | 1 × 4602110090 | 1 × 83025000 | 1 × 62113310 | 1 × 62114390 | 1 × 8516797090 | 1 × 95059000 | 1 × 65069990 | 1 × 32131000 | 1 × 6307909999 | 1 × 82111000 | 1 × 4016999790 | 1 × 1209999990 | 1 × 9208900000 | 1 × 960820000 | 1 × 8531109590 | 1 × 340600000 | 1 × 330410000 | 1 × 621600000 | 1 × 8215991000 | 1 × 4420101900 | 1 × 8301409000 | 1 × 6602000090 | 1 × 9503004100 | 1 × 6116102000 | 1 × 9615190000 | 1 × 7009910090 | 1 × 4905990000 | 1 × 4421991000 | 1 × 3917320090 | 1 × 5609000000 | 1 × 6201930000 | 1 × 6601992000 | 1 × 6914900090 | 1 × 7009290000 | 1 × 7326909899 | 1 × 7013499900 | 1 × 4819400000 | 1 × 7323940000 | 1 × 6301401000 | 1 × 6803009000 | 1 × 4414009000 | 1 × 6211431000
+
+-- .batteries[]: 2 valores distintos:
+172 × BATTERY_3481 | 69 × BATTERY_3480
+
+-- .variants[].variant_reference: 17344 valores distintos (ej.: 21909nullS/T | 6462BLAS/T | 4715NEGS/T | 4715ROJS/T | 4715MARS/T | 4715AZULS/T | 4715LIMAS/T | 4722BLAS/T | 4722AZULS/T | 4723BLAS/T | 4723NEGS/T | 4723ROJS/T | 4723VERS/T | 4723AMAS/T | 4723MARS/T | 4723NARAS/T | 4723AZULS/T | 4725BLAS/T | 4725NEGS/T | 4725ROJS/T | 4725AZULS/T | 4756NEGS/T | 4756MARS/T | 4756FUCSIS/T | 5861NEGS/T)
+
+-- .variants[].variant_name: 17638 valores distintos (ej.: Pantalon Tecnic Gerox Blanco 8-10 | Pantalon Tecnic Gerox Blanco 12-14 | Lanyard Loriet Marino | Camiseta Muj. Col.-Keya-Wcs1 Naranja XXL | Camiseta Muj. Col.-Keya-Wcs1 A.Claro XXL | Bolígrafo Jotter Original Blanco | Bolígrafo Jotter Original Negro | BOLÍGRAFO JOTTER RECYCLED BLANCO | BOLÍGRAFO JOTTER RECYCLED NEGRO | BOLÍGRAFO JOTTER RECYCLED AZUL | Camara Deportiva Komir Rojo | Camara Deportiva Komir Verde | Camara Deportiva Komir Amarillo | Camara Deportiva Komir Azul | Camara Deportiva Komir Blanco | Camara Deportiva Komir Negro | Camara Deportiva Komir Plateado | Bolígrafo Zardox Blanco | Bolígrafo Zardox Rojo | Bolígrafo Zardox Verde | Bolígrafo Zardox Amarillo | Bolígrafo Zardox Naranja | Bolígrafo Zardox Fucsia | Bolígrafo Zardox Azul | Bolígrafo Zardox Dorado)
+
+-- .variants[].variant_colorcode: 151 valores distintos:
+2680 × 002 | 1928 × 001 | 1836 × 003 | 1750 × 019 | 1359 × 006 | 1174 × 004 | 920 × 000 | 893 × 008 | 771 × 005 | 644 × 007 | 608 × 013 | 388 × 011 | 350 × 021 | 334 × 009 | 178 × 333 | 161 × 022 | 134 × 225 | 126 × 023 | 118 × 018 | 110 × 279 | 97 × 372 | 89 × 227 | 75 × 174 | 73 × 015 | 71 × 216 | 62 × 628 | 56 × 265 | 48 × 431 | 47 × 117 | 40 × 267 | 37 × 217 | 24 × 703 | 24 × 660 | 20 × 020 | 20 × 663 | 19 × 371 | 17 × 373 | 16 × 659 | 14 × 268 | 14 × 662 | 14 × 664 | 13 × 014 | 13 × 374 | 12 × 661 | 12 × 665 | 11 × 228 | 9 × 139 | 9 × 300 | 8 × 702 | 7 × 266 | 6 × 140 | 6 × 125 | 6 × 301 | 6 × 627 | 5 × 704 | 5 × 705 | 5 × 171 | 5 × 284 | 5 × 283 | 5 × 248 | 4 × 119 | 4 × 261 | 4 × 115 | 4 × 197 | 4 × 280 | 4 × 666 | 4 × 433 | 3 × 240 | 3 × 259 | 3 × 260 | 3 × 315 | 3 × 192 | 3 × 126 | 3 × 100 | 3 × 195 | 3 × 316 | 3 × 317 | 3 × 318 | 3 × 319 | 3 × 483 | 2 × 109 | 2 × 211 | 2 × 220 | 2 × 235 | 2 × 123 | 2 × 118 | 2 × 271 | 2 × 276 | 2 × 303 | 2 × 304 | 2 × 330 | 2 × 331 | 2 × 332 | 2 × 369 | 2 × 370 | 2 × 407 | 2 × 136 | 2 × 299 | 2 × 323 | 2 × 296 | 2 × 295 | 2 × 700 | 2 × 711 | 1 × 016 | 1 × 243 | 1 × 252 | 1 × 253 | 1 × 254 | 1 × 255 | 1 × 256 | 1 × 257 | 1 × 263 | 1 × 120 | 1 × 124 | 1 × 269 | 1 × 270 | 1 × 272 | 1 × 273 | 1 × 274 | 1 × 277 | 1 × 128 | 1 × 162 | 1 × 167 | 1 × 141 | 1 × 287 | 1 × 147 | 1 × 302 | 1 × 307 | 1 × 312 | 1 × 328 | 1 × 325 | 1 × 401 | 1 × 402 | 1 × 297 | 1 × 406 | 1 × 177 | 1 × 191 | 1 × 193 | 1 × 713 | 1 × 712 | 1 × 614 | 1 × 158 | 1 × 668 | 1 × 669 | 1 × 400 | 1 × 507 | 1 × 249 | 1 × 415 | 1 × 714 | 1 × 247 | 1 × 391
+
+-- .variants[].variant_size: 56 valores distintos:
+10670 × 000 | 935 × 103 | 932 × 104 | 930 × 105 | 922 × 102 | 867 × 106 | 342 × 107 | 338 × 101 | 64 × 306 | 64 × 309 | 63 × 315 | 63 × 316 | 60 × 305 | 60 × 308 | 60 × 312 | 50 × 108 | 45 × 616 | 33 × 010 | 33 × 020 | 19 × 658 | 19 × 657 | 19 × 304 | 13 × 662 | 13 × 659 | 8 × 632 | 8 × 201 | 8 × 203 | 8 × 636 | 8 × 638 | 8 × 639 | 8 × 640 | 8 × 641 | 7 × 626 | 7 × 660 | 7 × 661 | 6 × 310 | 6 × 314 | 6 × 202 | 6 × 204 | 6 × 036 | 6 × 037 | 6 × 038 | 6 × 039 | 6 × 040 | 6 × 041 | 6 × 042 | 6 × 043 | 6 × 044 | 6 × 045 | 6 × 046 | 6 × 624 | 4 × 608 | 4 × 0 | 1 × 313 | 1 × 317 | 1 × 318
+
+-- .material: 695 valores distintos (ej.: Bambú | Acero Inox | Poliéster | Madera | Cartón Reciclado | PU | Aluminio | Caña de Trigo | Poliéster 600D RPET | Metal | Aluminio Reciclado | Acero Inox Reciclado | PP | Cerámica | Corcho | PVC | Poliéster 600D | Poliéster RPET | ABS Reciclado | Cristal | Non-Woven | Poliéster 300D RPET | Silicona | RPET | Fieltro RPET)
+
+-- .pi1_type: 12 valores distintos:
+2013 × 2001 | 510 × 2004 | 228 × 2007 | 108 × 2003 | 25 × 0 | 18 × 2010 | 18 × 2006 | 12 × 2005 | 6 × 2002 | 2 × 2017 | 2 × 2008 | 1 × 2009
+
+-- .categories[]: 118 valores distintos:
+217 × Produccion > PRODUCTOS > Verano y playa > TEMPORADA OUTDOOR | 207 × Produccion > PRODUCTOS > Escritura > Bolígrafos > Bolígrafos | 180 × Produccion > PRODUCTOS > Mochilas > Mochilas > Mochilas | 136 × Produccion > PRODUCTOS > Drinkware > Bidones > Bidones | 105 × Produccion > PRODUCTOS > Drinkware > Tazas > Tazas | 63 × Produccion > PRODUCTOS > Novedades | 63 × Produccion > NOVEDADES | 60 × Produccion > PRODUCTOS > Drinkware > Vasos > Vasos térmicos | 54 × Produccion > PRODUCTOS > Take away > Neveras > Neveras | 47 × Produccion > PRODUCTOS > Drinkware > Vasos > Vasos | 40 × Produccion > PRODUCTOS > Llúvia y frío > Lluvia > Paraguas | 34 × Produccion > PRODUCTOS > Ofertas Únicas | 32 × Produccion > PRODUCTOS > Deporte > World Cup 2026 | 31 × Produccion > PRODUCTOS > Eventos y fiesta > Fiesta > Gafas | 31 × Produccion > Catálogos | 29 × Produccion > PRODUCTOS > Drinkware > Tazas > Tazas térmicas | 27 × Produccion > PRODUCTOS > Premium Line | 26 × Produccion > PRODUCTOS > Mochilas > Bolsos > Bolsos | 26 × Produccion > PRODUCTOS > Bar, Vino y Hotel > Hotel > Hotel | 25 × Produccion > PRODUCTOS > Ofertas Únicas > Outlet Keya | 21 × Produccion > PRODUCTOS > Textil > Chaquetas > Shoftshells | 21 × Produccion > PRODUCTOS > Textil > Chaquetas > Chalecos | 20 × Produccion > PRODUCTOS > Textil > Polos > Polos adulto | 19 × Produccion > PRODUCTOS > Escritura > Lápices > Lápices | 18 × Produccion > PRODUCTOS > Mochilas > Accesorios > Riñoneras | 17 × Produccion > PRODUCTOS > Navidad > Más navidad > Más navidad | 16 × Produccion > PRODUCTOS > Textil > Chaquetas > Chaquetas | 15 × Produccion > PRODUCTOS > Viaje > Maletas > Trolley | 14 × Produccion > PRODUCTOS > Mochilas > Accesorios > Bandoleras | 13 × Produccion > PRODUCTOS > Drinkware > Termos > Termos | 13 × Produccion > PRODUCTOS > Take away > Neveras > Bolsa nevera | 13 × Produccion > PRODUCTOS > Textil > Más textil > Más textil | 13 × Produccion > PRODUCTOS > Tecnología y accesorios | 12 × Produccion > PRODUCTOS > Mochilas > Accesorios > Portatodo | 12 × Produccion > PRODUCTOS > Viaje > Maletas > Bolsos de viaje | 11 × Produccion > PRODUCTOS > Llúvia y frío > Lluvia > Ponchos | 11 × Produccion > PRODUCTOS > Spain Line > Spain Line | 9 × Produccion > PRODUCTOS > Textil | 9 × Produccion > PRODUCTOS > Textil > Chaquetas > Polares | 9 × Produccion > PRODUCTOS > Navidad > Menaje > Menaje | 8 × Produccion > PRODUCTOS > Ofertas Únicas > Outlet | 8 × Produccion > PRODUCTOS > Textil > Chaquetas > Parkas | 8 × Produccion > Materiales > RPET | 8 × Produccion > PRODUCTOS > Tecnología y accesorios > Carga | 7 × Produccion > PRODUCTOS > Textil > Pantalones > Pantalones | 7 × Produccion > PRODUCTOS > Textil > Polos > Polos mujer | 7 × Produccion > PRODUCTOS > Drinkware > Vasos > Vasos plegables | 7 × Produccion > PRODUCTOS > Escritura | 6 × Produccion > PRODUCTOS > Bolsas > Más bolsas > Más bolsas | 6 × Produccion > PRODUCTOS > Mochilas > Mochilas de cuerdas | 6 × Produccion > PRODUCTOS > Mochilas | 5 × Produccion > Materiales > Yute | 5 × Produccion > Materiales > Fibra de Paja | 5 × Produccion > Materiales > Papel Reciclado | 5 × Produccion > PRODUCTOS > Textil > Polos > Polos niño/a | 5 × Produccion > Materiales > Algodón | 5 × Produccion > Materiales > Corcho Natural | 5 × Produccion > Materiales > Bambú | 5 × Produccion > Materiales > Madera | 5 × Produccion > Materiales > Algodón Orgánico | 5 × Produccion > Materiales > Caña de Trigo | 5 × Produccion > Materiales > Cartón Reciclado | 5 × Produccion > Materiales > Fibra de Café | 5 × Produccion > Materiales > Aluminio Reciclado | 5 × Produccion > Materiales > Acero Inoxidable Reciclado | 5 × Produccion > Materiales > Cartones de leche Reciclados | 5 × Produccion > Materiales > PP Reciclado | 5 × Produccion > Materiales > Papel de fruta | 5 × Produccion > Materiales > Papel de Semillas | 5 × Produccion > PRODUCTOS > Take away > Accesorios take away | 5 × Produccion > Materiales > PU Reciclado | 5 × Produccion > Home Novedades | 5 × Produccion > PRODUCTOS > Mochilas > Mochilas | 5 × Produccion > PRODUCTOS > Drinkware | 5 × Produccion > Home Destacados | 5 × Produccion > PRODUCTOS > Escritura > Bolígrafos | 4 × Produccion > Materiales > PLA | 4 × Produccion > Materiales > Algodón Reciclado | 4 × Produccion > Materiales > Coco | 4 × Produccion > Materiales > Fieltro RPET | 4 × Produccion > Materiales > Cáñamo | 4 × Produccion > Materiales > Piedra | 4 × Produccion > Materiales > Vidrio reciclado | 4 × Produccion > Materiales > ABS Reciclado | 4 × Produccion > PRODUCTOS > Regalos y premiums | 3 × Produccion > PRODUCTOS > Drinkware > Bidones | 3 × Produccion > PRODUCTOS > Textil > Textile Outlet | 3 × Produccion > Materiales > Nylon Reciclado | 3 × Produccion > PRODUCTOS > Artículos sostenibles | 3 × Produccion > PRODUCTOS > Tecnología y accesorios > Audio | 3 × Produccion > PRODUCTOS > Drinkware > Vasos | 2 × Produccion > Materiales > Cuero Reciclado | 2 × Produccion > Materiales > Lino | 2 × Produccion > PRODUCTOS > Infantil > Juegos infantil | 2 × Produccion > PRODUCTOS > Viaje > Más viaje > Más viaje | 2 × Produccion > Materiales > Fibra de Té | 2 × Produccion > PRODUCTOS > Navidad | 2 × Produccion > PRODUCTOS > Navidad > Decoración de navidad | 2 × Produccion > PRODUCTOS > Take away | 2 × Produccion > PRODUCTOS > Take away > Neveras | 2 × Produccion > PRODUCTOS > Viaje | 1 × Produccion > PRODUCTOS > Navidad > Más navidad | 1 × Produccion > PRODUCTOS > Infantil | 1 × Produccion > PRODUCTOS > Mochilas > Más mochilas | 1 × Produccion > PRODUCTOS > Deporte > Accesorios deportivos | 1 × Produccion > PRODUCTOS > Eventos y fiesta > Eventos | 1 × Produccion > PRODUCTOS > Sublimación > Sublimación circular | 1 × Produccion > PRODUCTOS > Sublimación > sublimación plana | 1 × Produccion > PRODUCTOS > Drinkware > Tazas | 1 × Produccion > PRODUCTOS > Gorras y sombreros > Gorras | 1 × Produccion > PRODUCTOS > Oficina y negocios | 1 × Produccion > PRODUCTOS > Blocs, libretas y notas adhesivas | 1 × Produccion > PRODUCTOS > Cuidado personal y pharma | 1 × Produccion > PRODUCTOS > Herramientas y Bricolaje | 1 × Produccion > PRODUCTOS > Tecnología y accesorios > Otros | 1 × Produccion > PRODUCTOS > Mochilas > Accesorios | 1 × Produccion > PRODUCTOS > Viaje > Accesorios de viaje | 1 × Produccion > PRODUCTOS > Viaje > Maletas
+
+-- .sizes: 35 valores distintos:
+39 × L,M,S,XL,XS,XXL | 31 × S,M,L,XL,XXL | 29 × L,M,S,XL,XXL | 18 × S,M,L,XL,XXL,3XL | 12 × L,M,S,XL,XXL,3XL | 10 × 4-5,6-8,10-12 | 10 × XS,S,M,L,XL,XXL,3XL | 9 × 36-38,42-44 | 5 × XS (5-6),S (7-8),M (10-11),L (12-13),XL (14-15) | 4 × S-M,L-XL | 4 × 36,37,38,39,40,41,42,43,44,45,46 | 4 × 5-6,7-8,9-10,11-12 | 4 × 3-4,5-6,7-8,9-10,11-12 | 3 × L,M,S,XL | 3 × L,M,S,XL,XS,XXL,3XL | 3 × XS,L,M,S,XL,XXL,3XL | 3 × XS,S,M,L,XL,XXL,3XL,4XL | 2 × S,M,L | 2 × S,M,L,XL | 2 × 4-5,6-8,10-12,L,M,S,XL,XXL | 2 × 36-43 | 2 × 36-37,38-39,40-41,42-43,44-45 | 2 × 8,10,12,16,14,6 | 2 × S,M,L,XL,XXL,3XL,4XL | 1 × M,L,XL,XXL | 1 × 8-10,12-14,S,M,L,XL | 1 × M-L,XL-XXL | 1 × L,XL,XXL | 1 × L-XL | 1 × S-M | 1 × M,XL | 1 × 8,16 | 1 × 4,8,12,16 | 1 × L,M | 1 × XS,S,M,L,XL,XXL
+
+-- .pi2_type: 7 valores distintos:
+56 × 3004 | 32 × 3007 | 5 × 3010 | 5 × 3001 | 4 × 3006 | 1 × 3005 | 1 × 0
+
+-- .description: 88 valores distintos:
+32 ×  | 2 × Almohadilla inflable en resistente PVC. | 1 × Lapicero con ruedas en forma de contenedor y con tapa. | 1 × Regla de cuerpo flexible de 30cm, con cuerpo transparente. | 1 × <p>Pai pai plegable en papel.</p> | 1 × Balón inflable en tamaño maxi de PVC. | 1 × <p>Visera de algodón con cierre ajustable de velcro.</p> | 1 × <p>Gorro de niño en algodón.</p> | 1 × Bufanda de diseño España en suave y resistente poliéster. | 1 × Árbol de navidad con ramas ajustables en divertidos colores. | 1 × Llavero con cuerpo acabado en polipiel. | 1 × Taza de cerámica AA de 370ml de capacidad en divertida. | 1 × <p>Llavero circular con cuerpo en suave fieltro.</p> | 1 × <p>Funda para bolígrafo en suave antelina.</p> | 1 × Puntero/juego de habilidad. Con troquelado para llavero. | 1 × Candado de seguridad metálico de combinación numérica. | 1 × Tee para golf. Fabricado en madera  y con 7cm de altura. | 1 × Brújula mosquetón  con cuerpo de suave y resistente acabado. | 1 × <p> 	Imán de 6x6cm con superficie brillante.</p> | 1 × Frisbee de resistente material PP. | 1 × Hucha cerdito con suave cuerpo de acabado goma. | 1 × Grinder de púas con cuerpo y de acabado en transparente. | 1 × Original mesa inflable de PVC con bordes anticaída. | 1 × <p>Identificador troquelado en PVC en diseño vertical.</p> | 1 × <p>Rotulador magnético con borrador incluido.</p> | 1 × <p>Barra de bálsamo labial tipo SPF15.</p> | 1 × Set de 6 bolas de navidad para colgar.. | 1 × Cuchara de cocina en madera de bambú. | 1 × Taza de cerámica de 80ml de capacidad en color blanco. | 1 × Llavero coche de diseño bicolor con cuerpo de acero inox . | 1 × Original llavero abridor en aluminio con diseño de moto. | 1 × <p>Taza de cerámica AA de 470ml de capacidad c</p> | 1 × Pinza para cierre. Con troquelado para colgar. | 1 × Suave foulard de material viscosa  y ancho especial. | 1 × Posavasos de corcho natural. | 1 × Llavero enólogo de corcho natural. | 1 × Alegre patito en PVC de acabado brillante. | 1 × <p>Navaja en acero inox con bloqueo de seguridad .</p> | 1 × <p>Almohadilla inflable para cuello de suave antelina.</p> | 1 × Mano de animación/aplaudidor de divertido diseño. | 1 × <p>Identificador troquelado en PVC en diseño horizontal.</p> | 1 × <p>Sombrero de paja con confortable cinta interior.</p> | 1 × Cuelgabolsos metálico plegable con corona en polipiel. | 1 × <p>Cepillo plegable con espejo.</p> | 1 × <p>Llavero osito de peluche con camisetitas.</p> | 1 × Funda para gafas en suave PU. Con cordones autocierre. | 1 × Hucha con forma de cerdito fabricada en fibra de bambú. | 1 × Frisbee en fibra de bambú. | 1 × Cepillo de dientes. Fabricado en bambú. | 1 × <p>Abanico, con varillas de madera y tela en poliéster.</p> | 1 × <p>Abanico, con varillas de madera y tela en RPET.</p> | 1 × Llavero en corcho natural con detalles en metal. | 1 × Llavero en resistente poliéster con detalles en metal. | 1 × <p>Par de guantes en suave y elástico nylon para adulto.</p> | 1 × <p>Espejo plegable fabricado en caña de trigo.</p> | 1 × Pai Pai en cartón reciclado, con mango de madera. | 1 × Vaso de PP de 500 ml, libre de BPA. Acabado frosted. | 1 × Vaso de PP de 400 ml, libre de BPA. De acabado frosted. | 1 × Pelota antiestrés con diseño fútbol y suave cuerpo en PU. | 1 × Espejo 1X  fabricado en bambú. | 1 × Cortapizzas. Con mango en bambú y cuchilla en acero inox. | 1 × Memoria USB, de 16GB de capacidad. Fabricada en madera. | 1 × <p>Bidón de acero inox de 800 ml de capacidad.</p> | 1 × Nivel fabricado en bambú, con abridor metálico integrado. | 1 × Cepillo de dientes plegable. Fabricado en caña de trigo. | 1 × Posavasos fabricado en bambú natural. | 1 × Copa de 540 ml de capacidad fabricada en aluminio. | 1 × Vaso de 480 ml de capacidad fabricado en aluminio. | 1 × Regla de 30cm fabricada con caña de trigo.. | 1 × Vela aromática en tarro de cerámica con aroma a vainilla. | 1 × Vela aromática en tarro de metal, con aroma a vainilla. | 1 × Mochila de cuerdas de pana con refuerzos laterales. | 1 × Taza de PP Reciclado con 300 ml de capacidad.  Libre de BPA. | 1 × Pulsera infantil de suave silicona. | 1 × Set de 6 ceras en caja de cartón reciclado de color negro. | 1 × Llavero chaleco reflectante en PVC. | 1 × Pai Pai fabricado en bambú en combinación con el papel. | 1 × Pulsera en suave silicona. | 1 × Taza de cerámica de 230 ml de capacidad. | 1 × Llavero de poliéster con banda reflectante. | 1 × Llavero metálico con detalle en color negro. | 1 × Llavero metálico co diseño de casa y detalle en color negro. | 1 × Antiestrés en forma de nube, fabricado en un suave PU. | 1 × Abridor con diseño de botella en bambú y metal. | 1 × Llavero soporte para smartphone fabricado en metal. | 1 × Llavero abridor de metal en acabado. | 1 × Antiestrés en forma de cubo, fabricado en un suave PU. | 1 × Pai Pai plantable  de papel de semillas. Flores silvestres.
+
+-- .observations: 4 valores distintos:
+1134 ×  | 5 × Acabado mate | 2 × Venta por cajas completas 100 unidades | 1 × Venta solo en múltiplos de 24 unidades
+
+-- .brand: 5 valores distintos:
+22 × KEYA | 19 × ANTONIO MIRÓ | 3 × ALEXLUCA | 3 × ORIZONS | 2 × CROSS
+
+URLs de ejemplo:
+.image360link = https://etools.boxpromotions.com/videos/5246/360/output/5246.html
+.image = https://apis.makito.es/catalog/assets/15255/principal/5255-W.jpg
+.variants[].variant_image = https://apis.makito.es/catalog/assets/15255/15255009000/principal/5255-009-P.jpg
+.variants[].variant_thumbnail = https://apis.makito.es/catalog/assets/16009/16009019000/thumbnail/6009-019-P.jpg
+.variants[].variant_image = https://apis.makito.es/catalog/assets/13190/13190005000/principal/3190-005-P.jpg
+.variants[].variant_thumbnail = https://apis.makito.es/catalog/assets/13437/13437007000/thumbnail/3437-007-P.jpg
+.variants[].variant_image = https://apis.makito.es/catalog/assets/14184/14184001105/principal/4184-001-P.jpg
+.variants[].variant_image = https://apis.makito.es/catalog/assets/14184/14184003105/principal/4184-003-P.jpg
+.variants[].variant_image = https://apis.makito.es/catalog/assets/14184/14184005105/principal/4184-005-P.jpg
+.variants[].variant_image = https://apis.makito.es/catalog/assets/14184/14184011105/principal/4184-011-P.jpg
+.variants[].variant_image = https://apis.makito.es/catalog/assets/14184/14184265105/principal/4184-265-P.jpg
+.variants[].variant_image = https://apis.makito.es/catalog/assets/14184/14184006105/principal/4184-006-P.jpg
+.variants[].variant_image = https://apis.makito.es/catalog/assets/14184/14184021105/principal/4184-021-P.jpg
+.variants[].variant_image = https://apis.makito.es/catalog/assets/14184/14184217102/principal/4184-217-P.jpg
+.variants[].variant_image = https://apis.makito.es/catalog/assets/14184/14184268105/principal/4184-268-P.jpg
+.variants[].variant_image = https://apis.makito.es/catalog/assets/14184/14184704105/principal/4184-704-P.jpg
+.detail_images[] = https://apis.makito.es/catalog/assets/15617/details/5617-D4.jpg
+.detail_images[] = https://apis.makito.es/catalog/assets/15787/details/5787-D3.jpg
+.variants[].variant_thumbnail = https://apis.makito.es/catalog/assets/15924/15924005000/thumbnail/5924-005-P.jpg
+.variants[].variant_image = https://apis.makito.es/catalog/assets/12008/12008002000/principal/2008-002-P.jpg
+
+Imagen .image360link: https://etools.boxpromotions.com/videos/5246/360/output/5246.html
+  sin token: HTTP 200 text/html; charset=UTF-8 3916 bytes · Access-Control-Allow-Origin: * · Cache-Control: null
+
+Imagen .image: https://apis.makito.es/catalog/assets/15246/principal/5246-W.jpg
+  sin token: HTTP 403  0 bytes · Access-Control-Allow-Origin: null · Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+  con token: HTTP 403  0 bytes · ACAO: null
+
+Imagen .thumbnail_image: https://apis.makito.es/catalog/assets/15246/thumbnail/5246-W.jpg
+  sin token: HTTP 403  0 bytes · Access-Control-Allow-Origin: null · Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+  con token: HTTP 403  0 bytes · ACAO: null
+
+/catalog/assets/15246/principal/5246-W.jpg sin token: HTTP 403  0 bytes · ACAO: null
+  con token: HTTP 200 application/octet-stream 370980 bytes · ACAO: null · Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+GET /stock/files?format=JSON -> HTTP 200 application/json 2237383 bytes 321 ms
+
+== STOCK: 25646 filas. Claves de la raíz: generatedAt, stocks
+Forma:
+{
+ "material": "11011006000",
+ "quantity": 4400
+}
+Ejemplos:
+[{"material":"11011006000","quantity":4400},{"material":"11011008000","quantity":1100},{"material":"11011013000","quantity":810},{"material":"11011022000","quantity":2300},{"material":"11011227000","quantity":1800},{"material":"11011227000","quantity":110,"availableDate":"2026-12-22T00:00:00Z"},{"material":"11012000000","quantity":40},{"material":"11016000000","quantity":0},{"material":"11017000000","quantity":0},{"material":"11017000000","quantity":170000,"availableDate":"2026-11-23T00:00:00Z"},{"material":"11017000000","quantity":170000,"availableDate":"2027-02-04T00:00:00Z"},{"material":"11020001000","quantity":14000}]
+Almacenes (plant|storageLocation|storageId): {"||":25646}
+Materiales distintos: 17904 · con fecha de disponibilidad: 7742
+GET /price-list/files?format=JSON -> HTTP 200 application/json 1641266 bytes 328 ms
+
+== PRECIOS: 7400 filas. Claves de la raíz: generatedAt, priceList
+Forma (valores ocultos): {"material":"11011","currency":"EUR","baseQuantity":"1000","scales":"(oculto)"} · claves de una fila: material, currency, baseQuantity, scales · claves de scales[]: quantity, amount · ej. material: 11011
+GET /print-config/files?format=JSON&lang=es -> HTTP 200 application/json 5121784 bytes 320 ms
+
+== MARCAJE: 6982 productos. Claves de la raíz: generatedAt, lang, products, positions, techniques
+Forma:
+{
+ "id": "14964",
+ "areas": [
+  {
+   "id": "A1",
+   "position": "457",
+   "image": "https://apis.makito.es/print-config/assets/14964/prod_previsualizacio/4964-A1.jpg",
+   "width": 25,
+   "height": 20,
+   "techniques": "103001(1)"
+  },
+  "(5 elementos)"
+ ]
+}
+
+Fin. Peticiones de solo lectura; no se ha llamado a /orders.

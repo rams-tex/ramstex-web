@@ -1,0 +1,60 @@
+[
+ {
+  "id": "14964",
+  "areas": [
+   {
+    "id": "A1",
+    "position": "457",
+    "image": "https://apis.makito.es/print-config/assets/14964/prod_previsualizacio/4964-A1.jpg",
+    "width": 25,
+    "height": 20,
+    "techniques": "103001(1)"
+   },
+   {
+    "id": "A2",
+    "position": "457",
+    "image": "https://apis.makito.es/print-config/assets/14964/prod_previsualizacio1/4964-A2.jpg",
+    "width": 50,
+    "height": 20,
+    "techniques": "103002(1)"
+   },
+   {
+    "id": "A3",
+    "position": "457",
+    "image": "https://apis.makito.es/print-config/assets/14964/prod_previsualizacio2/4964-A3.jpg",
+    "width": 40,
+    "height": 50,
+    "techniques": "103063(1)"
+   },
+   {
+    "id": "A6",
+    "position": "457",
+    "image": "https://apis.makito.es/print-config/assets/14964/prod_previsualizacio5/4964-A6.jpg",
+    "width": 120,
+    "height": 74,
+    "techniques": "103065(1)"
+   },
+   {
+    "id": "A7",
+    "position": "457",
+    "image": "https://apis.makito.es/print-config/assets/14964/prod_previsualizacio6/4964-A7.jpg",
+    "width": 154,
+    "height": 74,
+    "techniques": "103006(1)"
+   }
+  ]
+ },
+ {
+  "id": "15246",
+  "areas": [
+   {
+    "id": "A1",
+    "position": "2915",
+    "image": "https://apis.makito.es/print-config/assets/15246/prod_previsualizacio/5246-A1.jpg",
+    "width": 12,
+    "height": 6,
+    "techniques": "100123(4)"
+   }
+  ]
+ }
+]

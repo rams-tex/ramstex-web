@@ -1,0 +1,1322 @@
+[
+ {
+  "ref": "15246",
+  "web_reference": "5246",
+  "name": "Komir",
+  "type": "Cámara Deportiva",
+  "description": "<p>Cámara deportiva de alta calidad de captura de vídeo HD 720p, de diseño compacto y resistente, especialmente diseñada para uso intensivo. Incluye carcasa sumergible hasta 30m de profundidad y multitud de accesorios para ajuste en casco, manillar o cinturón, así como correas ajustables para cabeza y torso o un adaptador giratorio de 360º. La versatilidad y resistencia de esta cámara deportiva la…",
+  "observations": "Si su necesidad de stock es superior a la disponibilidad mostrada en nuestra web, consulte el stock real con nuestro departamento comercial.",
+  "print_observations": "",
+  "printcode": "K(4)",
+  "length": 120,
+  "height": 230,
+  "width": 58,
+  "diameter": null,
+  "weight": false,
+  "material": null,
+  "pf_type": "4192",
+  "pf_units": 1,
+  "pf_length": 120,
+  "pf_height": 230,
+  "pf_width": 60,
+  "pf_weight": 360,
+  "pi2_type": null,
+  "pi2_units": null,
+  "pi2_length": null,
+  "pi2_height": null,
+  "pi2_width": null,
+  "pi2_weight": null,
+  "pi1_type": null,
+  "pi1_units": null,
+  "pi1_length": null,
+  "pi1_height": null,
+  "pi1_width": null,
+  "pi1_weight": null,
+  "ptc_type": "1003",
+  "ptc_units": 20,
+  "ptc_length": 480,
+  "ptc_height": 255,
+  "ptc_width": 330,
+  "ptc_weight": 7.3,
+  "pallet_units": 840,
+  "bundle_pallets": 42,
+  "pallet_weight": 306.6,
+  "sizes": null,
+  "brand": null,
+  "web_new": false,
+  "custom_code": "8525809190",
+  "batteries": [
+   "BATTERY_3481"
+  ],
+  "categories": [
+   "Produccion > PRODUCTOS > Tecnología y accesorios > Otros > Camaras",
+   "Produccion > PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Serigrafía"
+  ],
+  "image360link": "https://etools.boxpromotions.com/videos/5246/360/output/5246.html",
+  "image": "https://apis.makito.es/catalog/assets/15246/principal/5246-W.jpg",
+  "thumbnail_image": "https://apis.makito.es/catalog/assets/15246/thumbnail/5246-W.jpg",
+  "detail_images": [
+   "https://apis.makito.es/catalog/assets/15246/details/5246-D1.jpg",
+   "https://apis.makito.es/catalog/assets/15246/details/5246-D2.jpg"
+  ],
+  "variants": [
+   {
+    "variant_reference": "5246ROJS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15246/15246003000/principal/5246-003-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15246/15246003000/thumbnail/5246-003-P.jpg",
+    "variant_name": "Camara Deportiva Komir Rojo",
+    "variant_colorcode": "003",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "5246VERS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15246/15246004000/principal/5246-004-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15246/15246004000/thumbnail/5246-004-P.jpg",
+    "variant_name": "Camara Deportiva Komir Verde",
+    "variant_colorcode": "004",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "5246AMAS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15246/15246005000/principal/5246-005-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15246/15246005000/thumbnail/5246-005-P.jpg",
+    "variant_name": "Camara Deportiva Komir Amarillo",
+    "variant_colorcode": "005",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "5246AZULS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15246/15246019000/principal/5246-019-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15246/15246019000/thumbnail/5246-019-P.jpg",
+    "variant_name": "Camara Deportiva Komir Azul",
+    "variant_colorcode": "019",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "5246BLAS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15246/15246001000/principal/5246-001-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15246/15246001000/thumbnail/5246-001-P.jpg",
+    "variant_name": "Camara Deportiva Komir Blanco",
+    "variant_colorcode": "001",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "5246NEGS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15246/15246002000/principal/5246-002-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15246/15246002000/thumbnail/5246-002-P.jpg",
+    "variant_name": "Camara Deportiva Komir Negro",
+    "variant_colorcode": "002",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "5246PLATS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15246/15246009000/principal/5246-009-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15246/15246009000/thumbnail/5246-009-P.jpg",
+    "variant_name": "Camara Deportiva Komir Plateado",
+    "variant_colorcode": "009",
+    "variant_size": "000"
+   }
+  ]
+ },
+ {
+  "ref": "16009",
+  "web_reference": "6009",
+  "name": "Tancher",
+  "type": "Termo",
+  "description": "<p>Termo de acero inox de 500ml de capacidad en acabado brillante. Con tapón de seguridad/taza .</p>",
+  "observations": "Si su necesidad de stock es superior a la disponibilidad mostrada en nuestra web, consulte el stock real con nuestro departamento comercial.",
+  "print_observations": "",
+  "printcode": "F(4),L2,L3,WR",
+  "length": null,
+  "height": 245,
+  "width": null,
+  "diameter": 70,
+  "weight": false,
+  "material": "Acero Inox",
+  "pf_type": "4082",
+  "pf_units": 1,
+  "pf_length": 75,
+  "pf_height": 255,
+  "pf_width": 75,
+  "pf_weight": 400,
+  "pi2_type": null,
+  "pi2_units": null,
+  "pi2_length": null,
+  "pi2_height": null,
+  "pi2_width": null,
+  "pi2_weight": null,
+  "pi1_type": null,
+  "pi1_units": null,
+  "pi1_length": null,
+  "pi1_height": null,
+  "pi1_width": null,
+  "pi1_weight": null,
+  "ptc_type": "1001",
+  "ptc_units": 30,
+  "ptc_length": 480,
+  "ptc_height": 275,
+  "ptc_width": 400,
+  "ptc_weight": 11,
+  "pallet_units": 1080,
+  "bundle_pallets": 36,
+  "pallet_weight": 396,
+  "sizes": null,
+  "brand": null,
+  "web_new": false,
+  "custom_code": "9617000000",
+  "batteries": [],
+  "categories": [
+   "Produccion > PRODUCTOS > Drinkware > Termos > Termos",
+   "Produccion > PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Digital 360º",
+   "Produccion > PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Láser",
+   "Produccion > PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Serigrafía",
+   "Produccion > PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Láser circular"
+  ],
+  "image360link": "https://etools.boxpromotions.com/videos/6009/360/output/6009.html",
+  "image": "https://apis.makito.es/catalog/assets/16009/principal/6009-W.jpg",
+  "thumbnail_image": "https://apis.makito.es/catalog/assets/16009/thumbnail/6009-W.jpg",
+  "detail_images": [
+   "https://apis.makito.es/catalog/assets/16009/details/6009-D1.jpg",
+   "https://apis.makito.es/catalog/assets/16009/details/6009-D2.jpg",
+   "https://apis.makito.es/catalog/assets/16009/details/6009-D3.jpg",
+   "https://apis.makito.es/catalog/assets/16009/details/6009-D4.jpg"
+  ],
+  "variants": [
+   {
+    "variant_reference": "6009BLAS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/16009/16009001000/principal/6009-001-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/16009/16009001000/thumbnail/6009-001-P.jpg",
+    "variant_name": "Termo Tancher Blanco",
+    "variant_colorcode": "001",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "6009NEGS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/16009/16009002000/principal/6009-002-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/16009/16009002000/thumbnail/6009-002-P.jpg",
+    "variant_name": "Termo Tancher Negro",
+    "variant_colorcode": "002",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "6009ROJS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/16009/16009003000/principal/6009-003-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/16009/16009003000/thumbnail/6009-003-P.jpg",
+    "variant_name": "Termo Tancher Rojo",
+    "variant_colorcode": "003",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "6009VERS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/16009/16009004000/principal/6009-004-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/16009/16009004000/thumbnail/6009-004-P.jpg",
+    "variant_name": "Termo Tancher Verde",
+    "variant_colorcode": "004",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "6009PLATS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/16009/16009009000/principal/6009-009-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/16009/16009009000/thumbnail/6009-009-P.jpg",
+    "variant_name": "Termo Tancher Plateado",
+    "variant_colorcode": "009",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "6009AZULS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/16009/16009019000/principal/6009-019-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/16009/16009019000/thumbnail/6009-019-P.jpg",
+    "variant_name": "Termo Tancher Azul",
+    "variant_colorcode": "019",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "6009MARS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/16009/16009006000/principal/6009-006-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/16009/16009006000/thumbnail/6009-006-P.jpg",
+    "variant_name": "Termo Tancher Marino",
+    "variant_colorcode": "006",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "6009DORS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/16009/16009023000/principal/6009-023-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/16009/16009023000/thumbnail/6009-023-P.jpg",
+    "variant_name": "Termo Tancher Dorado",
+    "variant_colorcode": "023",
+    "variant_size": "000"
+   }
+  ]
+ },
+ {
+  "ref": "15255",
+  "web_reference": "5255",
+  "name": "Zardox",
+  "type": "Bolígrafo",
+  "description": "<p>Bolígrafo fabricado en aluminio, de acabado brillo y mecanismo giratorio, con accesorios y anillas en cromado. con tinta azul.</p>\r\n<div id=\"newvtPopupMenu\"> </div>",
+  "observations": "Si su necesidad de stock es superior a la disponibilidad mostrada en nuestra web, consulte el stock real con nuestro departamento comercial.",
+  "print_observations": "<p>+5.000 Uds. Printing 12% Descuento.</p>",
+  "printcode": "B(4),L1",
+  "length": null,
+  "height": 129,
+  "width": null,
+  "diameter": 8,
+  "weight": false,
+  "material": "Aluminio",
+  "pf_type": "5000",
+  "pf_units": 1,
+  "pf_length": null,
+  "pf_height": null,
+  "pf_width": null,
+  "pf_weight": null,
+  "pi2_type": null,
+  "pi2_units": null,
+  "pi2_length": null,
+  "pi2_height": null,
+  "pi2_width": null,
+  "pi2_weight": null,
+  "pi1_type": "2001",
+  "pi1_units": 100,
+  "pi1_length": 150,
+  "pi1_height": 95,
+  "pi1_width": 50,
+  "pi1_weight": 0.2,
+  "ptc_type": "1001",
+  "ptc_units": 1000,
+  "ptc_length": 325,
+  "ptc_height": 265,
+  "ptc_width": 220,
+  "ptc_weight": 12,
+  "pallet_units": 45000,
+  "bundle_pallets": 45,
+  "pallet_weight": 495,
+  "sizes": null,
+  "brand": null,
+  "web_new": false,
+  "custom_code": "96081010000",
+  "batteries": [],
+  "categories": [
+   "Produccion > PRODUCTOS > Escritura > Bolígrafos > Bolígrafos",
+   "Produccion > PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Tampografía",
+   "Produccion > PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Láser"
+  ],
+  "image360link": "https://etools.boxpromotions.com/videos/5255/360/output/5255.html",
+  "image": "https://apis.makito.es/catalog/assets/15255/principal/5255-W.jpg",
+  "thumbnail_image": "https://apis.makito.es/catalog/assets/15255/thumbnail/5255-W.jpg",
+  "detail_images": [],
+  "variants": [
+   {
+    "variant_reference": "5255BLAS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15255/15255001000/principal/5255-001-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15255/15255001000/thumbnail/5255-001-P.jpg",
+    "variant_name": "Bolígrafo Zardox Blanco",
+    "variant_colorcode": "001",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "5255ROJS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15255/15255003000/principal/5255-003-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15255/15255003000/thumbnail/5255-003-P.jpg",
+    "variant_name": "Bolígrafo Zardox Rojo",
+    "variant_colorcode": "003",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "5255VERS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15255/15255004000/principal/5255-004-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15255/15255004000/thumbnail/5255-004-P.jpg",
+    "variant_name": "Bolígrafo Zardox Verde",
+    "variant_colorcode": "004",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "5255AMAS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15255/15255005000/principal/5255-005-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15255/15255005000/thumbnail/5255-005-P.jpg",
+    "variant_name": "Bolígrafo Zardox Amarillo",
+    "variant_colorcode": "005",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "5255NARAS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15255/15255007000/principal/5255-007-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15255/15255007000/thumbnail/5255-007-P.jpg",
+    "variant_name": "Bolígrafo Zardox Naranja",
+    "variant_colorcode": "007",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "5255FUCSIS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15255/15255011000/principal/5255-011-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15255/15255011000/thumbnail/5255-011-P.jpg",
+    "variant_name": "Bolígrafo Zardox Fucsia",
+    "variant_colorcode": "011",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "5255AZULS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15255/15255019000/principal/5255-019-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15255/15255019000/thumbnail/5255-019-P.jpg",
+    "variant_name": "Bolígrafo Zardox Azul",
+    "variant_colorcode": "019",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "5255DORS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15255/15255023000/principal/5255-023-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15255/15255023000/thumbnail/5255-023-P.jpg",
+    "variant_name": "Bolígrafo Zardox Dorado",
+    "variant_colorcode": "023",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "5255NEGS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15255/15255002000/principal/5255-002-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15255/15255002000/thumbnail/5255-002-P.jpg",
+    "variant_name": "Bolígrafo Zardox Negro",
+    "variant_colorcode": "002",
+    "variant_size": "000"
+   },
+   {
+    "variant_reference": "5255PLATS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/15255/15255009000/principal/5255-009-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/15255/15255009000/thumbnail/5255-009-P.jpg",
+    "variant_name": "Bolígrafo Zardox Plateado",
+    "variant_colorcode": "009",
+    "variant_size": "000"
+   }
+  ]
+ },
+ {
+  "ref": "14184",
+  "web_reference": "4184",
+  "name": "Tecnic Plus",
+  "type": "Camiseta Adulto",
+  "description": "Camiseta técnica para adulto en 100% poliéster de 135g/m2. Fabricada en cómodo y suave tejido transpirable ofreciendo una temperatura fresca y seca.",
+  "observations": "Si su necesidad de stock es superior a la disponibilidad mostrada en nuestra web, consulte el stock real con nuestro departamento comercial.",
+  "print_observations": "<p>Color blanco especial para sublimación</p>\r\n<p>Se recomienda impresión a doble pasada para colores oscuros</p><p><strong style=\"font-weight: bolder !important;\">BORDADO:</strong> Debido a las características de este trabajo no se puede hacer un cálculo previo del importe. Cuando recibamos el pedido será informado del coste final para confirmar el pedido</p>",
+  "printcode": "F(6),N(8),O,P,R",
+  "length": null,
+  "height": null,
+  "width": null,
+  "diameter": null,
+  "weight": false,
+  "material": "100% Poliéster 135 g/ m2",
+  "pf_type": "4000",
+  "pf_units": 1,
+  "pf_length": null,
+  "pf_height": null,
+  "pf_width": null,
+  "pf_weight": null,
+  "pi2_type": null,
+  "pi2_units": null,
+  "pi2_length": null,
+  "pi2_height": null,
+  "pi2_width": null,
+  "pi2_weight": null,
+  "pi1_type": "2004",
+  "pi1_units": 10,
+  "pi1_length": null,
+  "pi1_height": null,
+  "pi1_width": null,
+  "pi1_weight": null,
+  "ptc_type": "1001",
+  "ptc_units": 80,
+  "ptc_length": 600,
+  "ptc_height": 400,
+  "ptc_width": 290,
+  "ptc_weight": 12.5,
+  "pallet_units": 2880,
+  "bundle_pallets": 36,
+  "pallet_weight": 450,
+  "sizes": "S,M,L,XL,XXL",
+  "brand": null,
+  "web_new": false,
+  "custom_code": "61099020",
+  "batteries": [],
+  "categories": [
+   "Produccion > PRODUCTOS > Textil > Camisetas > Camisetas de adulto",
+   "Produccion > PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Bordado",
+   "Produccion > PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Transfer",
+   "Produccion > PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Serigrafía",
+   "Produccion > PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Sublimación",
+   "Produccion > PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Tránsfer digital"
+  ],
+  "image360link": "https://etools.boxpromotions.com/videos/4184/360/output/4184.html",
+  "image": "https://apis.makito.es/catalog/assets/14184/principal/4184-W.jpg",
+  "thumbnail_image": "https://apis.makito.es/catalog/assets/14184/thumbnail/4184-W.jpg",
+  "detail_images": [
+   "https://apis.makito.es/catalog/assets/14184/details/4184-D1.jpg",
+   "https://apis.makito.es/catalog/assets/14184/details/4184-D2.jpg"
+  ],
+  "variants": [
+   {
+    "variant_reference": "4184BLAS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184001102/principal/4184-001-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184001102/thumbnail/4184-001-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Blanco S",
+    "variant_colorcode": "001",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184BLAM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184001103/principal/4184-001-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184001103/thumbnail/4184-001-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Blanco M",
+    "variant_colorcode": "001",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184BLAL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184001104/principal/4184-001-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184001104/thumbnail/4184-001-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Blanco L",
+    "variant_colorcode": "001",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184BLAXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184001105/principal/4184-001-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184001105/thumbnail/4184-001-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Blanco XL",
+    "variant_colorcode": "001",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184BLAXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184001106/principal/4184-001-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184001106/thumbnail/4184-001-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Blanco XXL",
+    "variant_colorcode": "001",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184NEGS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184002102/principal/4184-002-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184002102/thumbnail/4184-002-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Negro S",
+    "variant_colorcode": "002",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184NEGM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184002103/principal/4184-002-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184002103/thumbnail/4184-002-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Negro M",
+    "variant_colorcode": "002",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184NEGL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184002104/principal/4184-002-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184002104/thumbnail/4184-002-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Negro L",
+    "variant_colorcode": "002",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184NEGXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184002105/principal/4184-002-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184002105/thumbnail/4184-002-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Negro XL",
+    "variant_colorcode": "002",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184NEGXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184002106/principal/4184-002-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184002106/thumbnail/4184-002-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Negro XXL",
+    "variant_colorcode": "002",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184ROJS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184003102/principal/4184-003-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184003102/thumbnail/4184-003-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Rojo S",
+    "variant_colorcode": "003",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184ROJM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184003103/principal/4184-003-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184003103/thumbnail/4184-003-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Rojo M",
+    "variant_colorcode": "003",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184ROJL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184003104/principal/4184-003-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184003104/thumbnail/4184-003-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Rojo L",
+    "variant_colorcode": "003",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184ROJXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184003105/principal/4184-003-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184003105/thumbnail/4184-003-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Rojo XL",
+    "variant_colorcode": "003",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184ROJXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184003106/principal/4184-003-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184003106/thumbnail/4184-003-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Rojo XXL",
+    "variant_colorcode": "003",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184VERS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184004102/principal/4184-004-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184004102/thumbnail/4184-004-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Verde S",
+    "variant_colorcode": "004",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184VERM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184004103/principal/4184-004-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184004103/thumbnail/4184-004-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Verde M",
+    "variant_colorcode": "004",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184VERL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184004104/principal/4184-004-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184004104/thumbnail/4184-004-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Verde L",
+    "variant_colorcode": "004",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184VERXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184004105/principal/4184-004-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184004105/thumbnail/4184-004-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Verde XL",
+    "variant_colorcode": "004",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184VERXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184004106/principal/4184-004-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184004106/thumbnail/4184-004-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Verde XXL",
+    "variant_colorcode": "004",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184AMAS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184005102/principal/4184-005-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184005102/thumbnail/4184-005-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Amarillo S",
+    "variant_colorcode": "005",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184AMAM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184005103/principal/4184-005-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184005103/thumbnail/4184-005-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Amarillo M",
+    "variant_colorcode": "005",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184AMAL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184005104/principal/4184-005-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184005104/thumbnail/4184-005-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Amarillo L",
+    "variant_colorcode": "005",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184AMAXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184005105/principal/4184-005-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184005105/thumbnail/4184-005-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Amarillo XL",
+    "variant_colorcode": "005",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184AMAXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184005106/principal/4184-005-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184005106/thumbnail/4184-005-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Amarillo XXL",
+    "variant_colorcode": "005",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184NARAS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184007102/principal/4184-007-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184007102/thumbnail/4184-007-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Naranja S",
+    "variant_colorcode": "007",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184NARAM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184007103/principal/4184-007-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184007103/thumbnail/4184-007-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Naranja M",
+    "variant_colorcode": "007",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184NARAL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184007104/principal/4184-007-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184007104/thumbnail/4184-007-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Naranja L",
+    "variant_colorcode": "007",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184NARAXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184007105/principal/4184-007-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184007105/thumbnail/4184-007-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Naranja XL",
+    "variant_colorcode": "007",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184NARAXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184007106/principal/4184-007-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184007106/thumbnail/4184-007-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Naranja XXL",
+    "variant_colorcode": "007",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184FUCSIS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184011102/principal/4184-011-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184011102/thumbnail/4184-011-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Fucsia S",
+    "variant_colorcode": "011",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184FUCSIM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184011103/principal/4184-011-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184011103/thumbnail/4184-011-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Fucsia M",
+    "variant_colorcode": "011",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184FUCSIL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184011104/principal/4184-011-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184011104/thumbnail/4184-011-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Fucsia L",
+    "variant_colorcode": "011",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184FUCSIXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184011105/principal/4184-011-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184011105/thumbnail/4184-011-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Fucsia XL",
+    "variant_colorcode": "011",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184FUCSIXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184011106/principal/4184-011-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184011106/thumbnail/4184-011-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Fucsia XXL",
+    "variant_colorcode": "011",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184AZULS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184019102/principal/4184-019-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184019102/thumbnail/4184-019-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Azul S",
+    "variant_colorcode": "019",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184AZULM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184019103/principal/4184-019-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184019103/thumbnail/4184-019-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Azul M",
+    "variant_colorcode": "019",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184AZULL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184019104/principal/4184-019-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184019104/thumbnail/4184-019-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Azul L",
+    "variant_colorcode": "019",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184AZULXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184019105/principal/4184-019-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184019105/thumbnail/4184-019-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Azul XL",
+    "variant_colorcode": "019",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184AZULXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184019106/principal/4184-019-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184019106/thumbnail/4184-019-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Azul XXL",
+    "variant_colorcode": "019",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184FAMAS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184265102/principal/4184-265-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184265102/thumbnail/4184-265-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Amarillo F. S",
+    "variant_colorcode": "265",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184FAMAM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184265103/principal/4184-265-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184265103/thumbnail/4184-265-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Amarillo F. M",
+    "variant_colorcode": "265",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184FAMAL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184265104/principal/4184-265-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184265104/thumbnail/4184-265-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Amarillo F. L",
+    "variant_colorcode": "265",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184FAMAXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184265105/principal/4184-265-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184265105/thumbnail/4184-265-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Amarillo F. XL",
+    "variant_colorcode": "265",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184FAMAXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184265106/principal/4184-265-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184265106/thumbnail/4184-265-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Amarillo F. XXL",
+    "variant_colorcode": "265",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184FNARS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184267102/principal/4184-267-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184267102/thumbnail/4184-267-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Naranja F. S",
+    "variant_colorcode": "267",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184FNARM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184267103/principal/4184-267-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184267103/thumbnail/4184-267-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Naranja F. M",
+    "variant_colorcode": "267",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184FNARL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184267104/principal/4184-267-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184267104/thumbnail/4184-267-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Naranja F. L",
+    "variant_colorcode": "267",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184FNARXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184267105/principal/4184-267-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184267105/thumbnail/4184-267-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Naranja F. XL",
+    "variant_colorcode": "267",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184FNARXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184267106/principal/4184-267-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184267106/thumbnail/4184-267-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Naranja F. XXL",
+    "variant_colorcode": "267",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184MARS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184006102/principal/4184-006-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184006102/thumbnail/4184-006-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Marino S",
+    "variant_colorcode": "006",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184MARM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184006103/principal/4184-006-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184006103/thumbnail/4184-006-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Marino M",
+    "variant_colorcode": "006",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184MARL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184006104/principal/4184-006-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184006104/thumbnail/4184-006-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Marino L",
+    "variant_colorcode": "006",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184MARXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184006105/principal/4184-006-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184006105/thumbnail/4184-006-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Marino Xl",
+    "variant_colorcode": "006",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184MARXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184006106/principal/4184-006-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184006106/thumbnail/4184-006-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Marino Xxl",
+    "variant_colorcode": "006",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184GRIS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184008102/principal/4184-008-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184008102/thumbnail/4184-008-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Gris S",
+    "variant_colorcode": "008",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184GRIM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184008103/principal/4184-008-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184008103/thumbnail/4184-008-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Gris M",
+    "variant_colorcode": "008",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184GRIL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184008104/principal/4184-008-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184008104/thumbnail/4184-008-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Gris L",
+    "variant_colorcode": "008",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184GRIXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184008105/principal/4184-008-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184008105/thumbnail/4184-008-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Gris Xl",
+    "variant_colorcode": "008",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184GRIXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184008106/principal/4184-008-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184008106/thumbnail/4184-008-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Gris Xxl",
+    "variant_colorcode": "008",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184AZCS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184021102/principal/4184-021-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184021102/thumbnail/4184-021-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Azul Cl S",
+    "variant_colorcode": "021",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184AZCM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184021103/principal/4184-021-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184021103/thumbnail/4184-021-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Azul Cl M",
+    "variant_colorcode": "021",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184AZCL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184021104/principal/4184-021-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184021104/thumbnail/4184-021-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Azul Cl L",
+    "variant_colorcode": "021",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184AZCXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184021105/principal/4184-021-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184021105/thumbnail/4184-021-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Azul Cl Xl",
+    "variant_colorcode": "021",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184AZCXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184021106/principal/4184-021-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184021106/thumbnail/4184-021-P.jpg",
+    "variant_name": "Camiseta Adulto Tecnic Plus Azul Cl Xxl",
+    "variant_colorcode": "021",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184MORAS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184174102/principal/4184-174-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184174102/thumbnail/4184-174-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Morado S",
+    "variant_colorcode": "174",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184MORAM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184174103/principal/4184-174-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184174103/thumbnail/4184-174-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Morado M",
+    "variant_colorcode": "174",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184MORAL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184174104/principal/4184-174-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184174104/thumbnail/4184-174-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Morado L",
+    "variant_colorcode": "174",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184MORAXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184174105/principal/4184-174-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184174105/thumbnail/4184-174-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Morado Xl",
+    "variant_colorcode": "174",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184MORAXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184174106/principal/4184-174-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184174106/thumbnail/4184-174-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Morado Xxl",
+    "variant_colorcode": "174",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184BLAXXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184001107/principal/4184-001-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184001107/thumbnail/4184-001-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Blanco 3XL",
+    "variant_colorcode": "001",
+    "variant_size": "107"
+   },
+   {
+    "variant_reference": "4184NEGXXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184002107/principal/4184-002-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184002107/thumbnail/4184-002-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Negro 3XL",
+    "variant_colorcode": "002",
+    "variant_size": "107"
+   },
+   {
+    "variant_reference": "4184MARXXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184006107/principal/4184-006-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184006107/thumbnail/4184-006-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Marino 3XL",
+    "variant_colorcode": "006",
+    "variant_size": "107"
+   },
+   {
+    "variant_reference": "4184TURQS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184217102/principal/4184-217-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184217102/thumbnail/4184-217-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Turquesa S",
+    "variant_colorcode": "217",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184TURQM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184217103/principal/4184-217-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184217103/thumbnail/4184-217-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Turquesa M",
+    "variant_colorcode": "217",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184TURQL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184217104/principal/4184-217-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184217104/thumbnail/4184-217-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Turquesa L",
+    "variant_colorcode": "217",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184TURQXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184217105/principal/4184-217-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184217105/thumbnail/4184-217-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Turquesa XL",
+    "variant_colorcode": "217",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184TURQXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184217106/principal/4184-217-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184217106/thumbnail/4184-217-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Turquesa XXL",
+    "variant_colorcode": "217",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184FAMAXXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184265107/principal/4184-265-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184265107/thumbnail/4184-265-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Amarillo F 3XL",
+    "variant_colorcode": "265",
+    "variant_size": "107"
+   },
+   {
+    "variant_reference": "4184FNARXXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184267107/principal/4184-267-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184267107/thumbnail/4184-267-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Naranja F 3XL",
+    "variant_colorcode": "267",
+    "variant_size": "107"
+   },
+   {
+    "variant_reference": "4184FVERS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184268102/principal/4184-268-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184268102/thumbnail/4184-268-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Verde F S",
+    "variant_colorcode": "268",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184FVERM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184268103/principal/4184-268-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184268103/thumbnail/4184-268-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Verde F M",
+    "variant_colorcode": "268",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184FVERL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184268104/principal/4184-268-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184268104/thumbnail/4184-268-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Verde F L",
+    "variant_colorcode": "268",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184FVERXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184268105/principal/4184-268-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184268105/thumbnail/4184-268-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Verde F XL",
+    "variant_colorcode": "268",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184FVERXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184268106/principal/4184-268-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184268106/thumbnail/4184-268-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Verde F XXL",
+    "variant_colorcode": "268",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184ROFLS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184703102/principal/4184-703-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184703102/thumbnail/4184-703-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Rosa Fluor S",
+    "variant_colorcode": "703",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184ROFLM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184703103/principal/4184-703-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184703103/thumbnail/4184-703-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Rosa Fluor M",
+    "variant_colorcode": "703",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184ROFLL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184703104/principal/4184-703-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184703104/thumbnail/4184-703-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Rosa Fluor L",
+    "variant_colorcode": "703",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184ROFLXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184703105/principal/4184-703-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184703105/thumbnail/4184-703-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Rosa Fluor XL",
+    "variant_colorcode": "703",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184ROFLXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184703106/principal/4184-703-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184703106/thumbnail/4184-703-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Rosa Fluor XXL",
+    "variant_colorcode": "703",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184VEMS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184704102/principal/4184-704-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184704102/thumbnail/4184-704-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Ver Menta S",
+    "variant_colorcode": "704",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184VEMM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184704103/principal/4184-704-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184704103/thumbnail/4184-704-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Ver Menta M",
+    "variant_colorcode": "704",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184VEML",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184704104/principal/4184-704-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184704104/thumbnail/4184-704-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Ver Menta L",
+    "variant_colorcode": "704",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184VEMXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184704105/principal/4184-704-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184704105/thumbnail/4184-704-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Ver Menta XL",
+    "variant_colorcode": "704",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184VEMXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184704106/principal/4184-704-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184704106/thumbnail/4184-704-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Ver Menta XXL",
+    "variant_colorcode": "704",
+    "variant_size": "106"
+   },
+   {
+    "variant_reference": "4184AREOS",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184705102/principal/4184-705-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184705102/thumbnail/4184-705-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Arena Os S",
+    "variant_colorcode": "705",
+    "variant_size": "102"
+   },
+   {
+    "variant_reference": "4184AREOM",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184705103/principal/4184-705-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184705103/thumbnail/4184-705-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Arena Os M",
+    "variant_colorcode": "705",
+    "variant_size": "103"
+   },
+   {
+    "variant_reference": "4184AREOL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184705104/principal/4184-705-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184705104/thumbnail/4184-705-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Arena Os L",
+    "variant_colorcode": "705",
+    "variant_size": "104"
+   },
+   {
+    "variant_reference": "4184AREOXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184705105/principal/4184-705-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184705105/thumbnail/4184-705-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Arena Os XL",
+    "variant_colorcode": "705",
+    "variant_size": "105"
+   },
+   {
+    "variant_reference": "4184AREOXXL",
+    "variant_image": "https://apis.makito.es/catalog/assets/14184/14184705106/principal/4184-705-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/14184/14184705106/thumbnail/4184-705-P.jpg",
+    "variant_name": "Camiseta Ad. Tecnic Plus Arena Os XXL",
+    "variant_colorcode": "705",
+    "variant_size": "106"
+   }
+  ]
+ },
+ {
+  "ref": "12428",
+  "web_reference": "2428",
+  "name": "Adapta",
+  "type": "Reutilizabolsas",
+  "description": "Reutilizabolsas extensible adaptable a multitud de tamaños de bolsas y cubos de basura.",
+  "observations": "Si su necesidad de stock es superior a la disponibilidad mostrada en nuestra web, consulte el stock real con nuestro departamento comercial.<br />\r\n<p><strong style=\"font-weight: bolder !important;\">ARTICULO CON DESCUENTO ESPECIAL</strong></p>",
+  "print_observations": "",
+  "printcode": "E(1)",
+  "length": 340,
+  "height": 26,
+  "width": 183,
+  "diameter": null,
+  "weight": false,
+  "material": null,
+  "pf_type": "4000",
+  "pf_units": 1,
+  "pf_length": null,
+  "pf_height": null,
+  "pf_width": null,
+  "pf_weight": null,
+  "pi2_type": null,
+  "pi2_units": null,
+  "pi2_length": null,
+  "pi2_height": null,
+  "pi2_width": null,
+  "pi2_weight": null,
+  "pi1_type": null,
+  "pi1_units": null,
+  "pi1_length": null,
+  "pi1_height": null,
+  "pi1_width": null,
+  "pi1_weight": null,
+  "ptc_type": "1001",
+  "ptc_units": 40,
+  "ptc_length": 580,
+  "ptc_height": 380,
+  "ptc_width": 270,
+  "ptc_weight": 4.2,
+  "pallet_units": 1400,
+  "bundle_pallets": 35,
+  "pallet_weight": 147,
+  "sizes": null,
+  "brand": null,
+  "web_new": false,
+  "custom_code": "39261000",
+  "batteries": [],
+  "categories": [
+   "Produccion > PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Serigrafía"
+  ],
+  "image360link": "https://etools.boxpromotions.com/videos/2428/360/output/2428.html",
+  "image": "https://apis.makito.es/catalog/assets/12428/principal/2428-W.jpg",
+  "thumbnail_image": "https://apis.makito.es/catalog/assets/12428/thumbnail/2428-W.jpg",
+  "detail_images": [
+   "https://apis.makito.es/catalog/assets/12428/details/2428-D1.jpg"
+  ],
+  "variants": [
+   {
+    "variant_reference": "2428VERS/T",
+    "variant_image": "https://apis.makito.es/catalog/assets/12428/12428004000/principal/2428-004-P.jpg",
+    "variant_thumbnail": "https://apis.makito.es/catalog/assets/12428/12428004000/thumbnail/2428-004-P.jpg",
+    "variant_name": "REUTILIZABOLSAS ADAPTA* VERDE",
+    "variant_colorcode": "004",
+    "variant_size": "000"
+   }
+  ]
+ }
+]
