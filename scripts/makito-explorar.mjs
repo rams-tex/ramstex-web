@@ -165,12 +165,19 @@ if (pcl.length) {
     log(`\n-- ${k}: ${L.length} elementos. Forma: ${JSON.stringify(shape(L[0]))}`);
     log(JSON.stringify(hide(L.slice(0, k === "techniques" ? 400 : 60))).slice(0, 30000));
   }
+  if (Array.isArray(pc.techniques)) {
+    const tc = {}; for (const t of pc.techniques) { const k = t.category + " (máx. colores " + t.maximumColors + ", fullColor " + t.fullColor + ")"; tc[k] = (tc[k] || 0) + 1; }
+    log("Técnicas por categoría: " + JSON.stringify(tc));
+    const tk = new Set(); pc.techniques.forEach(t => Object.keys(t).forEach(k => tk.add(k))); log("Claves de técnicas: " + [...tk].join(", "));
+    log("Nombres de técnicas: " + [...new Set(pc.techniques.map(t => t.description))].join(" | "));
+  }
+  const POS = Object.fromEntries((pc.positions || []).map(x => [String(x.id), x.description]));
   // Ejemplos: taza, bolígrafo, bolsa (tote) y camiseta
   const byRef = Object.fromEntries(pcl.map(p => [String(p.id), p]));
   const ex = [];
   for (const re of [/^Taza$/i, /^Bolígrafo$/i, /^Bolsa$/i, /^Camiseta Adulto$/i]) {
     const p = prods.find(x => re.test(x.type || "") && byRef[String(x.ref)]);
-    if (p) { ex.push({ ref: p.ref, name: p.name, type: p.type, printcode: p.printcode, length: p.length, height: p.height, width: p.width, diameter: p.diameter, image: p.image, config: byRef[String(p.ref)] }); }
+    if (p) { ex.push({ ref: p.ref, name: p.name, type: p.type, printcode: p.printcode, length: p.length, height: p.height, width: p.width, diameter: p.diameter, image: p.image, config: byRef[String(p.ref)], posiciones: Object.fromEntries((byRef[String(p.ref)].areas || []).map(a => [a.position, POS[String(a.position)]])) }); }
   }
   writeFileSync(DIR + "/marcaje-ejemplos.json", JSON.stringify(hide(ex), null, 1));
   log("\nEjemplos de marcaje guardados (taza, bolígrafo, bolsa, camiseta): " + ex.map(e => e.ref + " " + e.type + " " + e.name).join(" | "));
@@ -180,7 +187,7 @@ if (pcl.length) {
     if (!a.image || n >= 3) continue;
     const r = await get(a.image, { raw: true });
     log(`Foto del área ${e.ref} ${a.id}: HTTP ${r.status} ${r.ct} ${r.bytes} bytes`);
-    if (r.status === 200 && r.bytes < 600000) { writeFileSync(`${DIR}/area-${e.ref}-${a.id}.jpg`, r.buf); n++; }
+    if (r.status === 200 && r.bytes < 3000000) { writeFileSync(`${DIR}/area-${e.ref}-${a.id}.jpg`, r.buf); n++; }
   }
 }
 // Tarifas de marcaje: SOLO la forma (valores ocultos)
@@ -190,8 +197,20 @@ log(`\n== TARIFA DE MARCAJE: ${ppl.length} filas. Claves de la raíz: ${pp && !A
 if (ppl.length) {
   const keys = new Set(), pk = new Set(), ik = new Set();
   for (const x of ppl) { Object.keys(x).forEach(k => keys.add(k)); if (x.prices && typeof x.prices === "object") { Object.keys(x.prices).forEach(k => pk.add(k)); for (const it of x.prices.items || []) Object.keys(it).forEach(k => ik.add(k)); } }
+  const tk = new Set(); for (const x of ppl) for (const t of (Array.isArray(x.prices?.tiers) ? x.prices.tiers : [])) Object.keys(t).forEach(k => tk.add(k));
+  log("Claves de prices.tiers[]: " + [...tk].join(", ") + " · forma de terms: " + JSON.stringify(shape(ppl[0].terms)));
   log("Claves de una fila: " + [...keys].join(", ") + " · prices: " + [...pk].join(", ") + " · prices.items[]: " + [...ik].join(", "));
   log("Ejemplos (sin importes): " + JSON.stringify(ppl.slice(0, 15).map(x => ({ id: x.id, category: x.category, code: x.code, name: x.name, tramos: (x.prices?.items || []).length, tipos: [...new Set((x.prices?.items || []).map(i => i.type))] }))));
+}
+
+// ¿Hay fotos públicas (sin token) en la web de Makito o en etools.boxpromotions.com?
+for (const u of ["https://www.makito.es/", "https://etools.boxpromotions.com/videos/5246/360/output/5246.html"]) {
+  try {
+    const r = await fetch(u, { headers: { "User-Agent": "Mozilla/5.0" } }); const t = await r.text();
+    const hosts = {}; for (const m of t.matchAll(/(?:src|href|data-src)=["']([^"']+\.(?:jpe?g|png|webp)[^"']*)/gi)) { const h = m[1].replace(/^(https?:\/\/[^/]+)?(\/[^/]*\/?[^/]*).*$/, "$1$2"); hosts[h] = (hosts[h] || 0) + 1; }
+    log(`\nPágina pública ${u}: HTTP ${r.status}, ${t.length} bytes. Fotos por ruta: ${JSON.stringify(hosts).slice(0, 1500)}`);
+    log("  ejemplos: " + [...t.matchAll(/(?:src|data-src)=["']([^"']+\.(?:jpe?g|png|webp)[^"']*)/gi)].slice(0, 8).map(m => m[1]).join(" | "));
+  } catch (e) { log("Página pública " + u + ": error " + e.message); }
 }
 
 log("\nFin. Peticiones de solo lectura; no se ha llamado a /orders.");
