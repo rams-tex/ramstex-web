@@ -1,0 +1,52 @@
+name: Encuadre de fotos del diseñador
+# Mide en las fotos de TopTex y Falk&Ross (que el navegador no puede analizar) dónde está la prenda y la manga,
+# para que el diseñador de logos coloque bien las zonas. Resultado: data/encuadres.json (+ hojas de revisión en diagnostico/).
+on:
+  workflow_dispatch:
+    inputs:
+      muestras:
+        description: "Solo una muestra de fotos para revisar (no guarda el resultado)"
+        type: boolean
+        default: false
+  push:
+    branches: [encuadres]
+    paths: [".github/workflows/encuadres.yml", "scripts/encuadres*.mjs"]
+permissions:
+  contents: write
+concurrency:
+  group: encuadres
+  cancel-in-progress: true
+jobs:
+  medir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save sharp@0.33
+      - name: Medir fotos
+        env:
+          MUESTRA: ${{ inputs.muestras || contains(github.event.head_commit.message, '[muestras]') }}
+        run: |
+          if [ "$MUESTRA" = "true" ]; then
+            MUESTRAS=muestras LIMITE=600 DIAG=diagnostico node scripts/encuadres.mjs
+          else
+            DIAG=diagnostico node scripts/encuadres.mjs
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: encuadres-revision
+          path: |
+            muestras
+            diagnostico
+          if-no-files-found: ignore
+      - name: Guardar
+        if: ${{ !(inputs.muestras || contains(github.event.head_commit.message, '[muestras]')) }}
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add data/encuadres.json diagnostico
+          git diff --cached --quiet || git commit -m "Encuadre de fotos del diseñador actualizado [skip netlify]"
+          git pull --rebase && git push

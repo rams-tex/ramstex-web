@@ -1,0 +1,63 @@
+// Lista de fotos que usa el diseñador de logos y que el navegador no puede analizar (sin CORS: TopTex, Falk&Ross, Stamina…).
+// Usa las mismas funciones de index.html (dzKey, dzTpl, dzKind, dzPick, srcList…), sacadas del propio archivo, para no desincronizarse.
+// Exporta fotosDisenador() → [{st, k (f|b|s|sl|sr), ref, sup, side (i|d), tpl, url}]
+import { readFileSync, readdirSync } from "node:fs";
+import vm from "node:vm";
+
+function trozo(src, nombre) {
+  const i = src.indexOf("function " + nombre + "(");
+  if (i < 0) throw new Error("No encuentro " + nombre + " en index.html");
+  let j = src.indexOf("{", i), n = 0;
+  for (; j < src.length; j++) { const c = src[j]; if (c === "{") n++; else if (c === "}") { n--; if (!n) break; } }
+  return src.slice(i, j + 1);
+}
+function linea(src, empieza) {
+  const i = src.indexOf(empieza); if (i < 0) throw new Error("No encuentro " + empieza);
+  return src.slice(i, src.indexOf("\n", i));
+}
+
+export function contexto(html = readFileSync("index.html", "utf8")) {
+  const a = html.indexOf("var DZ_DPI="), b = html.indexOf("var DZ_ICON=");
+  const code = [
+    linea(html, "var IMG="), linea(html, "var IMGR="), linea(html, "var IMGJ="), linea(html, "var IMGS="),
+    linea(html, "var DZ_ORD="), html.slice(a, b),
+    ...["norm", "isR", "isJ", "isS", "isT", "isF", "isPack", "ext", "srcList", "dzKey", "dzTpl", "dzKind", "dzSup", "dzPick", "dzUrls", "dzEnc", "dzGeom"].map(n => trozo(html, n)),
+  ].join("\n");
+  const ctx = { D: null, console };
+  vm.createContext(ctx); vm.runInContext(code, ctx);
+  return ctx;
+}
+
+export function fotosDisenador({ todosLosColores = true } = {}) {
+  const ctx = contexto();
+  const D = JSON.parse(readFileSync("data/catalogo.json", "utf8"));
+  ctx.D = D;
+  const F = {};
+  for (const f of readdirSync("data/fichas")) F[f.replace(/\.json$/, "")] = JSON.parse(readFileSync("data/fichas/" + f, "utf8"));
+  const out = new Map();
+  let prods = 0;
+  for (const it of D.items) {
+    const tpl = ctx.dzTpl(it); if (!tpl) continue;
+    const f = (F[it.c] || {})[it.r] || {};
+    const sup = ctx.dzSup(f);
+    let usa = false;
+    const cols = todosLosColores ? it.k.map((_, i) => i) : [0];
+    for (const ci of cols) for (const pos of tpl.pos) {
+      const p = ctx.dzPick(it, f, ci, pos, tpl.key);
+      if (!p.st || sup.cors || ctx.isT(p.st)) continue; /* esta foto ya se mide en el navegador */
+      usa = true;
+      if (out.has(p.st)) continue;
+      out.set(p.st, { st: p.st, k: ctx.dzKind(p.st), ref: it.r, sup: f.src || "", side: sup.side, tpl: tpl.key, hex: it.k[ci][1] || "", col: it.k[ci][0], url: ctx.dzUrls(p.st, 800) });
+    }
+    if (usa) prods++;
+  }
+  return { fotos: [...out.values()], prods };
+}
+
+if (import.meta.url === "file://" + process.argv[1]) {
+  const { fotos, prods } = fotosDisenador();
+  const by = {};
+  for (const x of fotos) { const k = x.sup + ":" + x.k; by[k] = (by[k] || 0) + 1; }
+  console.log("Productos:", prods, "· fotos:", fotos.length, by);
+  console.log(fotos.slice(0, 3));
+}
