@@ -1,0 +1,4 @@
+GET:
+{"ok":true,"servicio":"Ramstex diseños"}
+POST:
+{"ok":true,"folderUrl":"https://drive.google.com/drive/folders/19bZ_NZDr_ukl2R-D-cyc1sHdMnyCDP9T","files":["https://drive.google.com/file/d/1eorEMUp-tWsvB2mOhsefSzfziES8TX5_/view?usp=drivesdk"]}
