@@ -1,0 +1,186 @@
+[
+ {
+  "ref": "13144",
+  "name": "Impex",
+  "type": "Taza",
+  "printcode": "F(4)",
+  "length": null,
+  "height": 98,
+  "width": null,
+  "diameter": 82,
+  "image": "https://apis.makito.es/catalog/assets/13144/principal/3144-W.jpg",
+  "config": {
+   "id": "13144",
+   "areas": [
+    {
+     "id": "A1",
+     "position": "386",
+     "image": "https://apis.makito.es/print-config/assets/13144/prod_previsualizacio/3144-A1.jpg",
+     "width": 38,
+     "height": 60,
+     "techniques": "100116(4)"
+    },
+    {
+     "id": "A2",
+     "position": "397",
+     "image": "https://apis.makito.es/print-config/assets/13144/prod_previsualizacio1/3144-A2.jpg",
+     "width": 38,
+     "height": 60,
+     "techniques": "100116(4)"
+    },
+    {
+     "id": "A3",
+     "position": "851",
+     "image": "https://apis.makito.es/print-config/assets/13144/prod_previsualizacio2/3144-A3.jpg",
+     "width": 38,
+     "height": 60,
+     "techniques": "100116(4)"
+    }
+   ]
+  }
+ },
+ {
+  "ref": "15255",
+  "name": "Zardox",
+  "type": "Bolígrafo",
+  "printcode": "B(4),L1",
+  "length": null,
+  "height": 129,
+  "width": null,
+  "diameter": 8,
+  "image": "https://apis.makito.es/catalog/assets/15255/principal/5255-W.jpg",
+  "config": {
+   "id": "15255",
+   "areas": [
+    {
+     "id": "A1",
+     "position": "3570",
+     "image": "https://apis.makito.es/print-config/assets/15255/prod_previsualizacio/5255-A1.jpg",
+     "width": 35,
+     "height": 5,
+     "techniques": "100400,100112(4),101007(1)"
+    },
+    {
+     "id": "A2",
+     "position": "3571",
+     "image": "https://apis.makito.es/print-config/assets/15255/prod_previsualizacio1/5255-A2.jpg",
+     "width": 35,
+     "height": 5,
+     "techniques": "100400,100112(4),101007(1)"
+    },
+    {
+     "id": "A3",
+     "position": "3572",
+     "image": "https://apis.makito.es/print-config/assets/15255/prod_previsualizacio2/5255-A3.jpg",
+     "width": 35,
+     "height": 5,
+     "techniques": "100400,100112(4)"
+    },
+    {
+     "id": "A6",
+     "position": "3575",
+     "image": "https://apis.makito.es/print-config/assets/15255/prod_previsualizacio5/5255-A6.jpg",
+     "width": 40,
+     "height": 5,
+     "techniques": "100400,100112(4)"
+    },
+    {
+     "id": "A7",
+     "position": "3576",
+     "image": "https://apis.makito.es/print-config/assets/15255/prod_previsualizacio6/5255-A7.jpg",
+     "width": 40,
+     "height": 5,
+     "techniques": "100400,100112(4)"
+    }
+   ]
+  }
+ },
+ {
+  "ref": "13047",
+  "name": "Dhar",
+  "type": "Bolsa",
+  "printcode": "F(1),N(8)",
+  "length": 380,
+  "height": 420,
+  "width": null,
+  "diameter": null,
+  "image": "https://apis.makito.es/catalog/assets/13047/principal/3047-W.jpg",
+  "config": {
+   "id": "13047",
+   "areas": [
+    {
+     "id": "A1",
+     "position": "481",
+     "image": "https://apis.makito.es/print-config/assets/13047/prod_previsualizacio/3047-A1.jpg",
+     "width": 265,
+     "height": 240,
+     "techniques": "100316(1),100600(8)"
+    },
+    {
+     "id": "A2",
+     "position": "853",
+     "image": "https://apis.makito.es/print-config/assets/13047/prod_previsualizacio1/3047-A2.jpg",
+     "width": 265,
+     "height": 240,
+     "techniques": "100316(1),100600(8)"
+    }
+   ]
+  }
+ },
+ {
+  "ref": "14184",
+  "name": "Tecnic Plus",
+  "type": "Camiseta Adulto",
+  "printcode": "F(6),N(8),O,P,R",
+  "length": null,
+  "height": null,
+  "width": null,
+  "diameter": null,
+  "image": "https://apis.makito.es/catalog/assets/14184/principal/4184-W.jpg",
+  "config": {
+   "id": "14184",
+   "areas": [
+    {
+     "id": "A1",
+     "position": "3570",
+     "image": "https://apis.makito.es/print-config/assets/14184/prod_previsualizacio/4184-A1.jpg",
+     "width": 80,
+     "height": 80,
+     "techniques": "100316(6),100500(1),100600(8),100800(1),100820(1)"
+    },
+    {
+     "id": "A2",
+     "position": "3571",
+     "image": "https://apis.makito.es/print-config/assets/14184/prod_previsualizacio1/4184-A2.jpg",
+     "width": 80,
+     "height": 80,
+     "techniques": "100316(6),100500(1),100600(8),100800(1),100820(1)"
+    },
+    {
+     "id": "A3",
+     "position": "3572",
+     "image": "https://apis.makito.es/print-config/assets/14184/prod_previsualizacio2/4184-A3.jpg",
+     "width": 280,
+     "height": 400,
+     "techniques": "100316(6),100600(8),100800(1),100819(1)"
+    },
+    {
+     "id": "A6",
+     "position": "3575",
+     "image": "https://apis.makito.es/print-config/assets/14184/prod_previsualizacio5/4184-A6.jpg",
+     "width": 100,
+     "height": 60,
+     "techniques": "100500(1)"
+    },
+    {
+     "id": "A7",
+     "position": "3576",
+     "image": "https://apis.makito.es/print-config/assets/14184/prod_previsualizacio6/4184-A7.jpg",
+     "width": 280,
+     "height": 400,
+     "techniques": "100316(6),100600(8),100800(1),100819(1)"
+    }
+   ]
+  }
+ }
+]
