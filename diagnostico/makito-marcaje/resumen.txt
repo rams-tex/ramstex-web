@@ -1,25 +1,25 @@
-Marcaje Makito · 2026-10-27T22:03:21.458Z · versión de detección 4
-Esta ejecución: 9954 áreas pendientes · 396 peticiones (176 previsualizaciones, 219 fotos), 1 fallos, 30 min
+Marcaje Makito · 2026-10-27T23:46:13.389Z · versión de detección 4
+Esta ejecución: 0 áreas pendientes · 1128 peticiones (495 previsualizaciones, 632 fotos), 1 fallos, 101 min
 
 Categoría: productos (sin áreas) · áreas · analizadas · con zona · sin zona/sin previa · caja sobre foto principal / foto de color / previsualización limpia · varias zonas · formas
-  m-bol: 571 (0) · 1124 · 32 · 32 (100.0%) · 0 · 14/7/11 · 0 · {"r":31,"o":1} · productos con alguna zona: 32
-  m-dep: 286 (2) · 525 · 32 · 32 (100.0%) · 0 · 10/2/20 · 0 · {"r":24,"o":3,"x":5} · productos con alguna zona: 32
-  m-esc: 745 (2) · 2557 · 31 · 31 (100.0%) · 0 · 9/5/17 · 0 · {"r":30,"o":1} · productos con alguna zona: 31
-  m-eve: 80 (2) · 152 · 29 · 29 (100.0%) · 0 · 12/3/14 · 0 · {"x":6,"o":7,"r":16} · productos con alguna zona: 29
-  m-hog: 819 (5) · 1693 · 31 · 31 (100.0%) · 0 · 15/1/15 · 0 · {"r":21,"x":7,"o":3} · productos con alguna zona: 31
-  m-inv: 123 (1) · 244 · 31 · 31 (100.0%) · 0 · 9/5/17 · 0 · {"x":6,"r":20,"o":5} · productos con alguna zona: 31
+  m-bol: 571 (0) · 1124 · 82 · 82 (100.0%) · 0 · 37/20/25 · 0 · {"r":73,"o":6,"x":3} · productos con alguna zona: 82
+  m-dep: 286 (2) · 525 · 81 · 81 (100.0%) · 0 · 27/8/46 · 0 · {"r":62,"o":14,"x":5} · productos con alguna zona: 81
+  m-esc: 745 (2) · 2557 · 81 · 81 (100.0%) · 0 · 29/10/42 · 0 · {"r":69,"o":8,"x":4} · productos con alguna zona: 81
+  m-eve: 80 (2) · 152 · 78 · 77 (98.7%) · 1 · 25/7/45 · 1 · {"x":19,"o":16,"r":42} · productos con alguna zona: 77
+  m-hog: 819 (5) · 1693 · 81 · 81 (100.0%) · 0 · 36/2/43 · 0 · {"r":53,"x":19,"o":9} · productos con alguna zona: 81
+  m-inv: 123 (1) · 244 · 80 · 78 (97.5%) · 2 · 23/15/40 · 0 · {"x":6,"r":63,"o":8,"l":1} · productos con alguna zona: 78
   m-nav: 25 (0) · 45 · 25 · 25 (100.0%) · 0 · 10/0/15 · 0 · {"r":20,"o":3,"x":2} · productos con alguna zona: 25
-  m-out: 269 (2) · 454 · 31 · 30 (96.8%) · 1 · 9/3/18 · 0 · {"r":17,"o":7,"x":6} · productos con alguna zona: 30
-  m-taz: 524 (0) · 1849 · 31 · 31 (100.0%) · 0 · 3/1/27 · 0 · {"o":19,"r":11,"x":1} · productos con alguna zona: 31
-  m-tec: 575 (0) · 1176 · 31 · 31 (100.0%) · 0 · 15/0/16 · 0 · {"r":17,"x":8,"o":6} · productos con alguna zona: 31
-  m-ver: 246 (8) · 468 · 29 · 29 (100.0%) · 0 · 1/2/26 · 0 · {"r":20,"x":5,"o":4} · productos con alguna zona: 29
-  TOTAL: 4263 productos (22 sin áreas en Makito) · 10287 áreas · analizadas 333 (3.2%) · con zona 332 (99.7%) · sin zona 1
-  caja sobre foto principal 107 · sobre foto de color 29 · previsualización limpia 196 (59.0%)
-  productos con alguna zona detectada: 332 de 4263 · formas: {"r":227,"o":59,"x":46} (r rectángulo, o redondeada/elipse, x irregular, l solo contorno) · varias zonas en la imagen: 0
+  m-out: 269 (2) · 454 · 81 · 80 (98.8%) · 1 · 27/5/48 · 0 · {"r":51,"o":22,"x":7} · productos con alguna zona: 80
+  m-taz: 524 (0) · 1849 · 81 · 81 (100.0%) · 0 · 22/1/58 · 0 · {"o":36,"r":35,"x":10} · productos con alguna zona: 81
+  m-tec: 575 (0) · 1176 · 81 · 81 (100.0%) · 0 · 33/0/48 · 0 · {"r":45,"x":23,"o":13} · productos con alguna zona: 81
+  m-ver: 246 (8) · 468 · 77 · 77 (100.0%) · 0 · 14/8/55 · 1 · {"r":47,"x":16,"o":14} · productos con alguna zona: 77
+  TOTAL: 4263 productos (22 sin áreas en Makito) · 10287 áreas · analizadas 828 (8.0%) · con zona 824 (99.5%) · sin zona 4
+  caja sobre foto principal 283 · sobre foto de color 76 · previsualización limpia 465 (56.4%)
+  productos con alguna zona detectada: 824 de 4263 · formas: {"r":560,"o":149,"x":114,"l":1} (r rectángulo, o redondeada/elipse, x irregular, l solo contorno) · varias zonas en la imagen: 2
   áreas sin técnicas en Makito: 0 · técnicas sin nº de colores en el área: 3094 · ids de técnica desconocidos: 104032, 104033, 100419, 100837
-  previsualizaciones limpias: 196 · 1.2 MB (media 6.3 KB) · estimado si se analizan todas las áreas: ~37 MB
-  data/makito-marcaje: 1454 KB (m-bol 171, m-dep 79, m-esc 332, m-eve 23, m-hog 243, m-inv 38, m-nav 8, m-out 66, m-taz 247, m-tec 168, m-ver 70 KB; tecnicas.json 9.6 KB)
-  IoU silueta previsualización vs foto principal: {"0":18,"0.8":9,"0.1":19,"0.7":25,"0.3":42,"0.2":33,"0.9":104,"0.6":23,"0.5":34,"0.4":26}
-  IoU silueta previsualización vs foto de color: {"0":4,"0.9":26,"0.4":6,"0.3":9,"0.6":7,"0.1":7,"0.5":7,"0.7":6,"0.2":6,"0.8":8}
+  previsualizaciones limpias: 465 · 2.6 MB (media 5.7 KB) · estimado si se analizan todas las áreas: ~32 MB
+  data/makito-marcaje: 1481 KB (m-bol 173, m-dep 81, m-esc 334, m-eve 26, m-hog 246, m-inv 39, m-nav 8, m-out 69, m-taz 250, m-tec 171, m-ver 73 KB; tecnicas.json 9.6 KB)
+  IoU silueta previsualización vs foto principal: {"0":51,"0.8":38,"0.1":49,"0.7":54,"0.3":87,"0.2":77,"0.9":261,"0.6":54,"0.5":77,"0.4":80}
+  IoU silueta previsualización vs foto de color: {"0":19,"0.9":64,"0.4":13,"0.3":17,"0.6":16,"0.1":14,"0.5":23,"0.7":19,"0.2":16,"0.8":22}
 
-Áreas sin zona (1): 11570|A1:sin-verde
+Áreas sin zona (4): 11570|A1:sin-verde 20367|A1:verde-sin-forma 22351|A1:sin-verde 22455|A1:sin-verde
