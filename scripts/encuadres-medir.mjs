@@ -75,8 +75,29 @@ export function mideFoto(d, W, H, x = {}) {
   if (/^s/.test(x.k || "")) {
     const m = manga(d, W, H, x);
     if (m) out.push((m[0] - out[0]) / (out[2] - out[0]), (m[1] - out[1]) / (out[3] - out[1]));
+  } else if (x.vista === "sleeve" || (x.pos || []).some(p => p === "mi" || p === "md")) {
+    const m = mangaDelante(c, w, h, x);
+    if (m) out.push(...m);
   }
   return out;
+}
+
+// Mangas en la foto de delante (productos sin foto lateral): a la altura de la manga (25 % de la prenda, 30 % con capucha)
+// se busca el borde exterior de la prenda a cada lado; la manga queda un poco hacia dentro, a un 22 % del camino hacia el centro.
+// Devuelve [x manga izquierda de la foto, x manga derecha, y] en proporción al contorno.
+function mangaDelante(c, w, h, x) {
+  const { on, x0, y0, x1, y1 } = c, gw = x1 + 1 - x0, gh = y1 + 1 - y0, fy = x.capucha ? .3 : .25, cx = (x0 + x1 + 1) / 2;
+  const Ls = [], Rs = [];
+  for (let y = Math.round(y0 + (fy - .03) * gh); y <= Math.round(y0 + (fy + .03) * gh); y++) {
+    let L = -1, R = -1; for (let xx = x0; xx <= x1; xx++) if (on[y * w + xx]) { if (L < 0) L = xx; R = xx + 1; }
+    if (L >= 0) { Ls.push(L); Rs.push(R); }
+  }
+  if (!Ls.length) return null;
+  const med = v => { v.sort((a, b) => a - b); return v[v.length >> 1]; };
+  const L = med(Ls), R = med(Rs);
+  const xl = L + .22 * (cx - L), xr = R - .22 * (R - cx);
+  const r3 = v => Math.round(v * 1000) / 1000;
+  return [r3((xl - x0) / gw), r3((xr - x0) / gw), fy];
 }
 
 // Centro de la manga en una foto lateral (proporciones de la foto, sin voltear).
