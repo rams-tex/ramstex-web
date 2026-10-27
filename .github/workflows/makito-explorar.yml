@@ -1,0 +1,33 @@
+name: Prueba API Makito
+on:
+  workflow_dispatch:
+  push:
+    branches: [makito]
+    paths:
+      - scripts/makito-explorar.mjs
+      - .github/workflows/makito-explorar.yml
+permissions:
+  contents: write
+concurrency:
+  group: makito-explorar
+jobs:
+  explorar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/makito-explorar.mjs
+        continue-on-error: true
+        env:
+          MAKITO_CLIENT_ID: ${{ secrets.MAKITO_CLIENT_ID }}
+          MAKITO_CLIENT_SECRET: ${{ secrets.MAKITO_CLIENT_SECRET }}
+      - name: Guardar resultado en diagnostico/makito
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -f diagnostico/makito
+          git diff --cached --quiet || git commit -m "Resultado prueba API Makito [skip netlify]"
+          git pull --rebase -q || true
+          git push
