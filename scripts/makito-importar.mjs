@@ -165,9 +165,9 @@ for (const p of prods) {
     return { code, n, hex: hexOf(n), dom: code === "000" ? [] : domOf(n), img: kst(v.variant_image) || "", views: [], new: p.web_new ? 1 : 0 };
   });
   const main = kst(p.image);
-  const details = (p.detail_images || []).map(kst).filter(Boolean).slice(0, 3);
-  // Foto principal: la de grupo (todos los colores) si hay varios colores; si solo hay uno, la de ese color
-  const img = [...new Set([colors.length > 1 || !colors[0]?.img ? main : colors[0].img, ...details].filter(Boolean))];
+  // Solo foto principal + una por color (sin fotos de detalle: el espacio de GitHub Pages es limitado).
+  // Principal: la de grupo (todos los colores) si hay varios colores; si solo hay uno, la de ese color
+  const img = [colors.length > 1 || !colors[0]?.img ? main : colors[0].img].filter(Boolean);
   if (!img.length && !colors.some(c => c.img)) { skipped["sin fotos"] = (skipped["sin fotos"] || 0) + 1; continue; }
   // Tallas (solo ropa)
   const sizecodes = {};

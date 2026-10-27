@@ -1,11 +1,11 @@
-// Descarga las fotos de Makito que usa la web y las guarda optimizadas (WebP, 800 px) en una carpeta que GitHub
+// Descarga las fotos de Makito que usa la web y las guarda optimizadas (WebP, 600 px, calidad 72; ~25 KB) en una carpeta que GitHub
 // conserva entre ejecuciones (caché). Makito solo deja bajar las fotos con token y a 25 peticiones por minuto,
-// así que la primera vez tarda varios días (unas 7.000 fotos por ejecución); después solo baja las nuevas.
-// Orden: primero la foto principal de cada producto, después la de cada color y por último las de detalle.
+// así que la primera vez tarda 2-3 ejecuciones (unas 7.000 fotos por ejecución); después solo baja las nuevas.
+// Solo la foto principal de cada producto y una por color (sin fotos de detalle). Orden: primero las principales.
 // Al final deja en data/makito.json SOLO las fotos que ya están descargadas (y quita los productos sin ninguna),
 // para que la web no enlace fotos que todavía no existen. Se sirven desde ramstex.com/mk/<nombre>.webp.
 // Uso: node scripts/makito-fotos.mjs <carpeta> [minutos máximos de descarga, por defecto 300]
-import { readFileSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { readFileSync, existsSync, mkdirSync, writeFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import sharp from "sharp";
 import { makitoGet } from "./makito-api.mjs";
@@ -19,11 +19,10 @@ const file = id => join(DIR, id + ".webp");
 const id = st => st && st.startsWith("K:") ? st.slice(2) : "";
 const where = {};
 for (const p of data) Object.assign(where, p.assets || {});
-const tiers = [[], [], []];
+const tiers = [[], []];
 for (const p of data) {
   tiers[0].push(id(p.img[0]) || id(p.colors[0]?.img));
   for (const c of p.colors) tiers[1].push(id(c.img));
-  for (const s of p.img.slice(1)) tiers[2].push(id(s));
 }
 const order = [...new Set(tiers.flat().filter(Boolean))];
 const todo = order.filter(f => !existsSync(file(f)) && where[f]);
@@ -34,7 +33,7 @@ for (const f of todo) {
   if (Date.now() - t0 > BUDGET) { console.log("Tiempo agotado: el resto se descarga en la próxima ejecución"); break; }
   try {
     const buf = await makitoGet("/catalog/assets/" + where[f], { raw: true });
-    await sharp(buf).flatten({ background: "#ffffff" }).resize({ width: 800, height: 800, fit: "inside", withoutEnlargement: true }).webp({ quality: 76 }).toFile(file(f));
+    await sharp(buf).flatten({ background: "#ffffff" }).resize({ width: 600, height: 600, fit: "inside", withoutEnlargement: true }).webp({ quality: 72, effort: 5 }).toFile(file(f));
     ok++;
   } catch (e) { fail++; if (fail <= 30) console.log("  no se pudo:", f, e.message); if (/Login|secretos/.test(e.message)) break; }
   if ((ok + fail) % 500 === 0) console.log(`  ${ok + fail} / ${todo.length} (${Math.round((Date.now() - t0) / 60000)} min)`);
@@ -52,7 +51,9 @@ for (const p of data) {
   out.push(p);
 }
 writeFileSync("data/makito.json", JSON.stringify(out));
-const have = order.filter(f => existsSync(file(f))).length;
-const line = `Fotos Makito: ${have} de ${order.length} descargadas · productos con foto: ${out.length} de ${data.length}`;
+const have = order.filter(f => existsSync(file(f)));
+const bytes = have.reduce((a, f) => a + statSync(file(f)).size, 0), avg = have.length ? bytes / have.length : 0;
+const line = `Fotos Makito: ${have.length} de ${order.length} descargadas · productos con foto: ${out.length} de ${data.length}` +
+  ` · ocupan ${(bytes / 1048576).toFixed(1)} MB (media ${(avg / 1024).toFixed(1)} KB; todas: ~${(avg * order.length / 1048576).toFixed(0)} MB)`;
 console.log(line);
 writeFileSync("data/makito-fotos.txt", line + "\n");

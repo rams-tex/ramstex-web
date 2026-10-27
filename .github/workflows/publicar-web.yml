@@ -46,8 +46,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: mkimg
-          key: mkimg-v1-${{ github.run_id }}
-          restore-keys: mkimg-v1-
+          key: mkimg-v2-${{ github.run_id }}
+          restore-keys: mkimg-v2-
       - name: Preparar archivos de la web (sin datos internos)
         run: |
           mkdir -p _site/data

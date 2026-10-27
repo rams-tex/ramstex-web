@@ -1,7 +1,7 @@
 name: Importar Makito
 # Catálogo de Makito (merchandising) + fotos. Las fotos solo se pueden bajar a 25 por minuto: cada ejecución
 # descarga las que faltan durante unas horas y las guarda en la caché de GitHub (mkimg); la web solo publica
-# los productos cuya foto ya está descargada. La primera carga completa necesita 3-4 ejecuciones.
+# los productos cuya foto ya está descargada. La primera carga completa necesita 2-3 ejecuciones.
 on:
   workflow_dispatch:
     inputs:
@@ -35,8 +35,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: mkimg
-          key: mkimg-v1-${{ github.run_id }}
-          restore-keys: mkimg-v1-
+          key: mkimg-v2-${{ github.run_id }}
+          restore-keys: mkimg-v2-
       - run: node scripts/makito-importar.mjs
         env:
           MAKITO_CLIENT_ID: ${{ secrets.MAKITO_CLIENT_ID }}
@@ -51,8 +51,26 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: mkimg
-          key: mkimg-v1-${{ github.run_id }}
+          key: mkimg-v2-${{ github.run_id }}
         continue-on-error: true
+      - name: Recuperar fotos de Stanley (solo para medir el tamaño de la web)
+        uses: actions/cache/restore@v4
+        with:
+          path: stimg
+          key: stimg-v1-${{ hashFiles('data/stanley.json') }}
+          restore-keys: stimg-v1-
+      - name: Medir el tamaño de la web publicada (GitHub Pages admite ~1 GB)
+        run: |
+          mkdir -p /tmp/seo/data && cp index.html /tmp/seo/ && cp data/catalogo.json /tmp/seo/data/ && cp -r data/fichas /tmp/seo/data/
+          node scripts/paginas-seo.mjs /tmp/seo > /dev/null
+          {
+            echo "Tamaño de la web (lo que copia publicar-web):"
+            echo "  fotos Stanley/Stella /st/: $(du -sm stimg 2>/dev/null | cut -f1) MB ($(ls stimg 2>/dev/null | grep -c webp) fotos)"
+            echo "  fotos Makito /mk/ ya descargadas: $(du -sm mkimg | cut -f1) MB"
+            echo "  páginas SEO generadas: $(du -sm /tmp/seo | cut -f1) MB"
+            echo "  resto (index, imágenes, casos, catálogo, fichas, stock, encuadres): $(du -smc index.html *.png *.jpg *.webp *.ico foto img portada casos data/catalogo.json data/fichas data/stock data/encuadres 2>/dev/null | tail -1 | cut -f1) MB"
+          } >> data/makito-fotos.txt
+          cat data/makito-fotos.txt
       - name: Construir el catálogo y guardar
         run: |
           git config user.name "github-actions"
