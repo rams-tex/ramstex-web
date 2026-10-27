@@ -1,6 +1,8 @@
 POST /access/auth/login -> HTTP 200; campos de la respuesta: token, expiration
+JWT: rateLimit = {"refillTokens":25,"bucket":"98d76882928ad10fc566f9feb96ed7dc","capacity":100,"refillPeriod":1} · scope = [] · roles = ["CATALOG_CLIENT","STOCK_CLIENT","PRINTPRICELIST_CLIENT","PRICELIST_CLIENT","ORDERS_CLIENT","PRINTCONFIG_CLIENT"] · sandbox = false · resources = ["GENERAL_CATALOG"]
 JWT: caduca en 60 min · campos: jti, sub, iss, iat, exp, ver, rateLimit, clientId, salesOffice, roles, sandbox, resources, salesOfficeDescription, salesOrg, scope, credentialId, printListType, applicationId, salesOfficePrintListType, sapId
-GET /catalog/files?format=JSON&lang=es -> HTTP 200 application/json 17429326 bytes 318 ms
+  cabeceras de límite (/catalog/files?format=JSON&lang=es): x-ratelimit-remaining: 99
+GET /catalog/files?format=JSON&lang=es -> HTTP 200 application/json 17429326 bytes 343 ms
 
 == CATÁLOGO: 4565 productos. Claves de la raíz: generatedAt, products
 Forma de un producto:
@@ -137,6 +139,334 @@ Claves (nº de productos que la tienen): {"ref":4565,"web_reference":4565,"name"
 -- .brand: 5 valores distintos:
 22 × KEYA | 19 × ANTONIO MIRÓ | 3 × ALEXLUCA | 3 × ORIZONS | 2 × CROSS
 
+-- TODAS las categorías (326); productos sin categoría: 2
+31 × Catálogos
+5 × Home Destacados
+5 × Home Novedades
+4 × Materiales > ABS Reciclado
+5 × Materiales > Acero Inoxidable Reciclado
+5 × Materiales > Algodón Orgánico
+4 × Materiales > Algodón Reciclado
+5 × Materiales > Algodón
+5 × Materiales > Aluminio Reciclado
+5 × Materiales > Bambú
+5 × Materiales > Cartones de leche Reciclados
+5 × Materiales > Cartón Reciclado
+5 × Materiales > Caña de Trigo
+4 × Materiales > Coco
+5 × Materiales > Corcho Natural
+2 × Materiales > Cuero Reciclado
+4 × Materiales > Cáñamo
+5 × Materiales > Fibra de Café
+5 × Materiales > Fibra de Paja
+2 × Materiales > Fibra de Té
+4 × Materiales > Fieltro RPET
+2 × Materiales > Lino
+5 × Materiales > Madera
+3 × Materiales > Nylon Reciclado
+4 × Materiales > PLA
+5 × Materiales > PP Reciclado
+5 × Materiales > PU Reciclado
+5 × Materiales > Papel Reciclado
+5 × Materiales > Papel de Semillas
+5 × Materiales > Papel de fruta
+4 × Materiales > Piedra
+8 × Materiales > RPET
+4 × Materiales > Vidrio reciclado
+5 × Materiales > Yute
+63 × NOVEDADES
+12 × PRODUCTOS > Agricultura > Artículos de medición > Cubos
+16 × PRODUCTOS > Agricultura > Artículos de medición > Instrumentos de Medición
+14 × PRODUCTOS > Agricultura > Artículos de medición > Lupas
+28 × PRODUCTOS > Agricultura > Artículos de medición > Navajas
+1 × PRODUCTOS > Agricultura > Más agricultura > Más agricultura
+1569 × PRODUCTOS > Artículos sostenibles > Artículos sostenibles
+3 × PRODUCTOS > Artículos sostenibles
+4 × PRODUCTOS > Bar, Vino y Hotel > Accesorios de bar y hotel > Accesorios de bar y hotel
+40 × PRODUCTOS > Bar, Vino y Hotel > Accesorios de vino y bar > Abridores
+27 × PRODUCTOS > Bar, Vino y Hotel > Accesorios de vino y bar > Accesorios de vino
+39 × PRODUCTOS > Bar, Vino y Hotel > Accesorios de vino y bar > Bar
+7 × PRODUCTOS > Bar, Vino y Hotel > Accesorios de vino y bar > Cócteles
+10 × PRODUCTOS > Bar, Vino y Hotel > Accesorios de vino y bar > Delantales
+9 × PRODUCTOS > Bar, Vino y Hotel > Accesorios de vino y bar > Enfriadores
+13 × PRODUCTOS > Bar, Vino y Hotel > Accesorios de vino y bar > Posavasos
+9 × PRODUCTOS > Bar, Vino y Hotel > Accesorios de vino y bar > Set de bebida
+20 × PRODUCTOS > Bar, Vino y Hotel > Accesorios de vino y bar > Vasos, jarrar y copas
+26 × PRODUCTOS > Bar, Vino y Hotel > Hotel > Hotel
+88 × PRODUCTOS > Blocs, libretas y notas adhesivas > Blocs de notas > Blocs de notas
+1 × PRODUCTOS > Blocs, libretas y notas adhesivas > Blocs de notas
+54 × PRODUCTOS > Blocs, libretas y notas adhesivas > Libretas > Libretas
+14 × PRODUCTOS > Blocs, libretas y notas adhesivas > Porta notas adhesivas > Porta notas adhesivas
+29 × PRODUCTOS > Blocs, libretas y notas adhesivas > Sets de blocs y libretas > Sets de blocs y libretas
+1 × PRODUCTOS > Blocs, libretas y notas adhesivas
+6 × PRODUCTOS > Bolsas > Más bolsas > Más bolsas
+73 × PRODUCTOS > Bolsas > Según formato de la bolsa > Bolsas de fuelle
+19 × PRODUCTOS > Bolsas > Según formato de la bolsa > Bolsas plegables
+11 × PRODUCTOS > Bolsas > Según formato de la bolsa > Bolsas térmicas
+72 × PRODUCTOS > Bolsas > Según formato de la bolsa > Bolsas
+6 × PRODUCTOS > Bolsas > Según material de la bolsa > Bolsas de algodón orgánico
+27 × PRODUCTOS > Bolsas > Según material de la bolsa > Bolsas de algodón reciclado
+81 × PRODUCTOS > Bolsas > Según material de la bolsa > Bolsas de algodón
+13 × PRODUCTOS > Bolsas > Según material de la bolsa > Bolsas de papel reciclado
+36 × PRODUCTOS > Bolsas > Según material de la bolsa > Brosas non-woven
+67 × PRODUCTOS > Bolsas > Según material de la bolsa > Otras bolsas
+12 × PRODUCTOS > Bolsas > Según material de la bolsa > Polsas de RPET
+11 × PRODUCTOS > Cuidado personal y pharma > Colección proteción higiénica > Accesorios protección higiénica
+19 × PRODUCTOS > Cuidado personal y pharma > Cuidad personal y pharma > Bálsamos labiales
+16 × PRODUCTOS > Cuidado personal y pharma > Cuidad personal y pharma > Cepillos de dientes
+19 × PRODUCTOS > Cuidado personal y pharma > Cuidad personal y pharma > Cuidado facial
+19 × PRODUCTOS > Cuidado personal y pharma > Cuidad personal y pharma > Cuidado personal
+18 × PRODUCTOS > Cuidado personal y pharma > Cuidad personal y pharma > Espejos
+57 × PRODUCTOS > Cuidado personal y pharma > Cuidad personal y pharma > Neceseres
+14 × PRODUCTOS > Cuidado personal y pharma > Cuidad personal y pharma > Peines
+48 × PRODUCTOS > Cuidado personal y pharma > Cuidad personal y pharma > Salud
+1 × PRODUCTOS > Cuidado personal y pharma > Cuidad personal y pharma
+22 × PRODUCTOS > Cuidado personal y pharma > Más cuidado personal y pharma > Más cuidado personal y pharma
+1 × PRODUCTOS > Cuidado personal y pharma
+63 × PRODUCTOS > Decoración y Hogar > Accesorios para cocinca > Acceosrios de bebida
+29 × PRODUCTOS > Decoración y Hogar > Accesorios para cocinca > Delantales y manoplas
+38 × PRODUCTOS > Decoración y Hogar > Accesorios para cocinca > Menaje de hogar
+18 × PRODUCTOS > Decoración y Hogar > Accesorios para cocinca > Tablas de cortar
+39 × PRODUCTOS > Decoración y Hogar > Decoración > Decoración
+9 × PRODUCTOS > Decoración y Hogar > Decoración > Estaciones meteorológicas
+24 × PRODUCTOS > Decoración y Hogar > Decoración > Lámparas
+13 × PRODUCTOS > Decoración y Hogar > Decoración > Posavasos
+29 × PRODUCTOS > Decoración y Hogar > Decoración > Velas y aromas
+15 × PRODUCTOS > Decoración y Hogar > Más hogar y decoración > Más hogar
+17 × PRODUCTOS > Deporte > Accesorios deportivos > Bidones deportivos
+17 × PRODUCTOS > Deporte > Accesorios deportivos > Bolsas de deporte
+126 × PRODUCTOS > Deporte > Accesorios deportivos > Complementos deportivos
+15 × PRODUCTOS > Deporte > Accesorios deportivos > Toallas deportivas
+1 × PRODUCTOS > Deporte > Accesorios deportivos
+32 × PRODUCTOS > Deporte > World Cup 2026
+52 × PRODUCTOS > Drinkware > Bidones > Bidones térmicos
+136 × PRODUCTOS > Drinkware > Bidones > Bidones
+3 × PRODUCTOS > Drinkware > Bidones
+19 × PRODUCTOS > Drinkware > Más Drinkware > Más Tazas, Vasos, Bidones y Termos
+29 × PRODUCTOS > Drinkware > Tazas > Tazas térmicas
+105 × PRODUCTOS > Drinkware > Tazas > Tazas
+1 × PRODUCTOS > Drinkware > Tazas
+13 × PRODUCTOS > Drinkware > Termos > Termos
+7 × PRODUCTOS > Drinkware > Vasos > Vasos plegables
+19 × PRODUCTOS > Drinkware > Vasos > Vasos reutilizables
+60 × PRODUCTOS > Drinkware > Vasos > Vasos térmicos
+47 × PRODUCTOS > Drinkware > Vasos > Vasos
+3 × PRODUCTOS > Drinkware > Vasos
+5 × PRODUCTOS > Drinkware
+22 × PRODUCTOS > Escritura > Accesorios de escritura > Estuches
+27 × PRODUCTOS > Escritura > Accesorios de escritura > Set de escritura
+48 × PRODUCTOS > Escritura > Bolígrafos > Bolígrafos puntero
+13 × PRODUCTOS > Escritura > Bolígrafos > Bolígrafos rollers
+207 × PRODUCTOS > Escritura > Bolígrafos > Bolígrafos
+37 × PRODUCTOS > Escritura > Bolígrafos > Set de escritura
+5 × PRODUCTOS > Escritura > Bolígrafos
+16 × PRODUCTOS > Escritura > Lápices > Escritura eterna
+19 × PRODUCTOS > Escritura > Lápices > Lápices
+32 × PRODUCTOS > Escritura > Lápices > Set de lápices
+15 × PRODUCTOS > Escritura > Más escritura > Más escritura
+7 × PRODUCTOS > Escritura
+50 × PRODUCTOS > Eventos y fiesta > Eventos > Animación
+7 × PRODUCTOS > Eventos y fiesta > Eventos > Bandera
+18 × PRODUCTOS > Eventos y fiesta > Eventos > Medallas, trofeos y placas
+1 × PRODUCTOS > Eventos y fiesta > Eventos
+31 × PRODUCTOS > Eventos y fiesta > Fiesta > Gafas
+22 × PRODUCTOS > Eventos y fiesta > Fiesta > Lanyard e identificadores
+24 × PRODUCTOS > Eventos y fiesta > Fiesta > Pulseras
+24 × PRODUCTOS > Eventos y fiesta > Fiesta > Vasos y platos
+6 × PRODUCTOS > Eventos y fiesta > Más eventos y fiesta > Más eventos y fiesta
+13 × PRODUCTOS > Eventos y fiesta > Rainbow > Rainbow
+73 × PRODUCTOS > Gorras y sombreros > Gorras > Gorras adulto
+6 × PRODUCTOS > Gorras y sombreros > Gorras > Gorras infantil
+1 × PRODUCTOS > Gorras y sombreros > Gorras
+7 × PRODUCTOS > Gorras y sombreros > Sombreros > Cintas de sombreros
+13 × PRODUCTOS > Gorras y sombreros > Sombreros > Sombreros de paja
+7 × PRODUCTOS > Gorras y sombreros > Sombreros > Sombreros sintéticos
+17 × PRODUCTOS > Gorras y sombreros > Sombreros > Sombreros
+24 × PRODUCTOS > Herramientas y Bricolaje > Automóvil > Accesorios de automóvil
+19 × PRODUCTOS > Herramientas y Bricolaje > Automóvil > Herramientras automóvil
+13 × PRODUCTOS > Herramientas y Bricolaje > Automóvil > Parasoles
+21 × PRODUCTOS > Herramientas y Bricolaje > Bricolaje > Flexómetros
+31 × PRODUCTOS > Herramientas y Bricolaje > Bricolaje > Linternas
+38 × PRODUCTOS > Herramientas y Bricolaje > Bricolaje > Multiherramientas
+32 × PRODUCTOS > Herramientas y Bricolaje > Bricolaje > Navajas
+1 × PRODUCTOS > Herramientas y Bricolaje > Bricolaje
+25 × PRODUCTOS > Herramientas y Bricolaje > Más herramientas > Más herramientas
+5 × PRODUCTOS > Herramientas y Bricolaje > Más herramientas
+1 × PRODUCTOS > Herramientas y Bricolaje
+54 × PRODUCTOS > Infantil > Estuches infantil > Estuches infantil
+103 × PRODUCTOS > Infantil > Juegos infantil > Juegos infantil
+2 × PRODUCTOS > Infantil > Juegos infantil
+31 × PRODUCTOS > Infantil > Más infantil > Más infantil
+1 × PRODUCTOS > Infantil
+24 × PRODUCTOS > Llúvia y frío > Frío > Acceosrios para el frío
+52 × PRODUCTOS > Llúvia y frío > Frío > Gorros, bragas, guantes y bufandas
+40 × PRODUCTOS > Llúvia y frío > Lluvia > Paraguas
+11 × PRODUCTOS > Llúvia y frío > Lluvia > Ponchos
+12 × PRODUCTOS > Mascotas > Accesorios de paseo > Accesorios de paseo
+10 × PRODUCTOS > Mascotas > Comederos y bebederos > Comederos y bebederos
+5 × PRODUCTOS > Mascotas > Cuidado de mascotas > Cuidado de mascotas
+9 × PRODUCTOS > Mascotas > Jueguetes mascotas > Jueguetes mascotas
+6 × PRODUCTOS > Mascotas > Más mascotas > Más mascotas
+14 × PRODUCTOS > Mochilas > Accesorios > Bandoleras
+12 × PRODUCTOS > Mochilas > Accesorios > Portatodo
+18 × PRODUCTOS > Mochilas > Accesorios > Riñoneras
+1 × PRODUCTOS > Mochilas > Accesorios
+26 × PRODUCTOS > Mochilas > Bolsos > Bolsos
+6 × PRODUCTOS > Mochilas > Mochilas > Mochilas antirrobo
+75 × PRODUCTOS > Mochilas > Mochilas > Mochilas con bolsillo para portátiles
+19 × PRODUCTOS > Mochilas > Mochilas > Mochilas de viaje
+13 × PRODUCTOS > Mochilas > Mochilas > Mochilas nevera
+180 × PRODUCTOS > Mochilas > Mochilas > Mochilas
+24 × PRODUCTOS > Mochilas > Mochilas de cuerdas > Mochilas de algodón
+124 × PRODUCTOS > Mochilas > Mochilas de cuerdas > Mochilas de poliéster
+6 × PRODUCTOS > Mochilas > Mochilas de cuerdas
+5 × PRODUCTOS > Mochilas > Mochilas
+1 × PRODUCTOS > Mochilas > Más mochilas
+6 × PRODUCTOS > Mochilas
+37 × PRODUCTOS > Navidad > Decoración de navidad > Decoración de navidad
+2 × PRODUCTOS > Navidad > Decoración de navidad
+9 × PRODUCTOS > Navidad > Menaje > Menaje
+17 × PRODUCTOS > Navidad > Más navidad > Más navidad
+1 × PRODUCTOS > Navidad > Más navidad
+2 × PRODUCTOS > Navidad
+63 × PRODUCTOS > Novedades
+25 × PRODUCTOS > Ofertas Únicas > Outlet Keya
+8 × PRODUCTOS > Ofertas Únicas > Outlet
+34 × PRODUCTOS > Ofertas Únicas
+9 × PRODUCTOS > Oficina y negocios > Accesorios de Oficina y Organización > Agendas
+19 × PRODUCTOS > Oficina y negocios > Accesorios de Oficina y Organización > Blocs multifunción
+20 × PRODUCTOS > Oficina y negocios > Accesorios de Oficina y Organización > Fundas Portátiles
+12 × PRODUCTOS > Oficina y negocios > Accesorios de Oficina y Organización > Identificadores
+27 × PRODUCTOS > Oficina y negocios > Accesorios de Oficina y Organización > Lanyards
+19 × PRODUCTOS > Oficina y negocios > Accesorios de Oficina y Organización > Porta documentos
+1 × PRODUCTOS > Oficina y negocios > Accesorios de Oficina y Organización
+21 × PRODUCTOS > Oficina y negocios > Accesorios de escritorio > Alfombrillas para ratón
+6 × PRODUCTOS > Oficina y negocios > Accesorios de escritorio > Calculadoras
+10 × PRODUCTOS > Oficina y negocios > Accesorios de escritorio > Calendarios
+36 × PRODUCTOS > Oficina y negocios > Accesorios de escritorio > Lapiceros y organizadores
+40 × PRODUCTOS > Oficina y negocios > Carpetas y organizadores > Carpetas y organizadores
+30 × PRODUCTOS > Oficina y negocios > Más oficina y negocios > Más oficina y negocios
+1 × PRODUCTOS > Oficina y negocios > Más oficina y negocios
+1 × PRODUCTOS > Oficina y negocios
+65 × PRODUCTOS > Outdoor > Gadget de exterior > Accesorios de ocio
+43 × PRODUCTOS > Outdoor > Gadget de exterior > Picninc
+46 × PRODUCTOS > Packaging > Bolsas especial packaging > Bolsas especial packaging
+25 × PRODUCTOS > Packaging > Cajas presentación > Cajas presentación
+4 × PRODUCTOS > Packaging > Etiquetas especial packing > Etiquetas especial packing
+27 × PRODUCTOS > Premium Line
+12 × PRODUCTOS > Regalos y premiums > Accesorios gifts and premiums > Antiestrés
+11 × PRODUCTOS > Regalos y premiums > Accesorios gifts and premiums > Encendedores
+24 × PRODUCTOS > Regalos y premiums > Accesorios gifts and premiums > Hogar
+153 × PRODUCTOS > Regalos y premiums > Accesorios gifts and premiums > Llavero
+46 × PRODUCTOS > Regalos y premiums > Accesorios gifts and premiums > Plantas
+48 × PRODUCTOS > Regalos y premiums > Accesorios gifts and premiums > Trofeos y medallas
+2 × PRODUCTOS > Regalos y premiums > Accesorios gifts and premiums
+13 × PRODUCTOS > Regalos y premiums > Accesorios y Entretenimiento > Carteras y monederos
+25 × PRODUCTOS > Regalos y premiums > Accesorios y Entretenimiento > Cuidado personal
+37 × PRODUCTOS > Regalos y premiums > Accesorios y Entretenimiento > Juegos de habilidad
+31 × PRODUCTOS > Regalos y premiums > Accesorios y Entretenimiento > Tarjeteros
+1 × PRODUCTOS > Regalos y premiums > Accesorios y Entretenimiento
+22 × PRODUCTOS > Regalos y premiums > Más gifts and premiums > Más gifts and premiums
+1 × PRODUCTOS > Regalos y premiums > Más gifts and premiums
+12 × PRODUCTOS > Regalos y premiums > Rainbow > Rainbow
+4 × PRODUCTOS > Regalos y premiums
+11 × PRODUCTOS > Spain Line > Spain Line
+50 × PRODUCTOS > Sublimación > Sublimación circular > Sublimación circular
+1 × PRODUCTOS > Sublimación > Sublimación circular
+16 × PRODUCTOS > Sublimación > Textil para sublimación > Textil para sublimación
+18 × PRODUCTOS > Sublimación > sublimación plana > sublimación plana
+1 × PRODUCTOS > Sublimación > sublimación plana
+17 × PRODUCTOS > Take away > Accesorios take away > Cubiertos
+26 × PRODUCTOS > Take away > Accesorios take away > Fiambreras
+4 × PRODUCTOS > Take away > Accesorios take away > Portasnacks
+5 × PRODUCTOS > Take away > Accesorios take away
+13 × PRODUCTOS > Take away > Neveras > Bolsa nevera
+54 × PRODUCTOS > Take away > Neveras > Neveras
+2 × PRODUCTOS > Take away > Neveras
+2 × PRODUCTOS > Take away
+21 × PRODUCTOS > Tecnología y accesorios > Accesorios de ordenador > Alfombrillas
+25 × PRODUCTOS > Tecnología y accesorios > Accesorios de ordenador > Memorias
+21 × PRODUCTOS > Tecnología y accesorios > Accesorios de ordenador > Puertos USB
+9 × PRODUCTOS > Tecnología y accesorios > Accesorios de ordenador > Ratones y teclados
+5 × PRODUCTOS > Tecnología y accesorios > Accesorios de ordenador > Tapas webcam
+32 × PRODUCTOS > Tecnología y accesorios > Accesorios de tecnología > Accesorios para smartphone
+32 × PRODUCTOS > Tecnología y accesorios > Accesorios de tecnología > Gadget
+9 × PRODUCTOS > Tecnología y accesorios > Accesorios de tecnología > Portatodo
+4 × PRODUCTOS > Tecnología y accesorios > Accesorios de tecnología
+63 × PRODUCTOS > Tecnología y accesorios > Audio > Altavoces
+39 × PRODUCTOS > Tecnología y accesorios > Audio > Auriculares
+3 × PRODUCTOS > Tecnología y accesorios > Audio
+38 × PRODUCTOS > Tecnología y accesorios > Carga > Cables cargador
+21 × PRODUCTOS > Tecnología y accesorios > Carga > Cargadores inalambricos
+147 × PRODUCTOS > Tecnología y accesorios > Carga > Cargadores
+61 × PRODUCTOS > Tecnología y accesorios > Carga > Power bank
+8 × PRODUCTOS > Tecnología y accesorios > Carga
+20 × PRODUCTOS > Tecnología y accesorios > Más tecnología
+6 × PRODUCTOS > Tecnología y accesorios > Otros > Camaras
+23 × PRODUCTOS > Tecnología y accesorios > Otros > Lamparas
+9 × PRODUCTOS > Tecnología y accesorios > Otros > Localizadores
+18 × PRODUCTOS > Tecnología y accesorios > Otros > Relojes
+7 × PRODUCTOS > Tecnología y accesorios > Otros > Smartwatch
+63 × PRODUCTOS > Tecnología y accesorios > Otros > Soportes
+1 × PRODUCTOS > Tecnología y accesorios > Otros
+2 × PRODUCTOS > Tecnología y accesorios > USBs stock > Doble conexion
+23 × PRODUCTOS > Tecnología y accesorios > USBs stock > Memorias 2.0
+2 × PRODUCTOS > Tecnología y accesorios > USBs stock > Memorias 3.0
+13 × PRODUCTOS > Tecnología y accesorios
+49 × PRODUCTOS > Textil > Camisetas > Camisetas de adulto
+15 × PRODUCTOS > Textil > Camisetas > Camisetas de niño
+16 × PRODUCTOS > Textil > Camisetas > Camisetas para mujer
+21 × PRODUCTOS > Textil > Chaquetas > Chalecos
+16 × PRODUCTOS > Textil > Chaquetas > Chaquetas
+8 × PRODUCTOS > Textil > Chaquetas > Parkas
+9 × PRODUCTOS > Textil > Chaquetas > Polares
+21 × PRODUCTOS > Textil > Chaquetas > Shoftshells
+18 × PRODUCTOS > Textil > Más textil > BE COMPETITIVE
+13 × PRODUCTOS > Textil > Más textil > Más textil
+7 × PRODUCTOS > Textil > Pantalones > Pantalones
+20 × PRODUCTOS > Textil > Polos > Polos adulto
+7 × PRODUCTOS > Textil > Polos > Polos mujer
+5 × PRODUCTOS > Textil > Polos > Polos niño/a
+1 × PRODUCTOS > Textil > Sudaderas > Sudaderas Mujer
+18 × PRODUCTOS > Textil > Sudaderas > Sudaderas de adulto
+3 × PRODUCTOS > Textil > Sudaderas > Sudaderas infantiles
+3 × PRODUCTOS > Textil > Textile Outlet
+9 × PRODUCTOS > Textil
+375 × PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Bordado
+28 × PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Catricomía
+97 × PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Digital 360º
+376 × PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Digital
+27 × PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Doming
+88 × PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Láser circular
+1205 × PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Láser
+2163 × PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Serigrafía
+200 × PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Sublimación
+1137 × PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Tampografía
+17 × PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Termograbado
+1038 × PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Transfer
+338 × PRODUCTOS > Técnicas de marcaje > Técnicas de marcaje > Tránsfer digital
+50 × PRODUCTOS > Verano y playa > Artículos de playa y piscina > Abanicos y ventiladores
+78 × PRODUCTOS > Verano y playa > Artículos de playa y piscina > Bolsas de playa y piscina
+10 × PRODUCTOS > Verano y playa > Artículos de playa y piscina > Chanclas
+42 × PRODUCTOS > Verano y playa > Artículos de playa y piscina > Gafas de sol
+16 × PRODUCTOS > Verano y playa > Artículos de playa y piscina > Hinchables
+26 × PRODUCTOS > Verano y playa > Artículos de playa y piscina > Juegos de playa y piscina
+17 × PRODUCTOS > Verano y playa > Artículos de playa y piscina > Pareos y esterillas
+4 × PRODUCTOS > Verano y playa > Artículos de playa y piscina > Portatodo playa y piscina
+4 × PRODUCTOS > Verano y playa > Artículos de playa y piscina > Sombrillas
+21 × PRODUCTOS > Verano y playa > Más verano > Más verano
+217 × PRODUCTOS > Verano y playa > TEMPORADA OUTDOOR
+38 × PRODUCTOS > Viaje > Accesorios de viaje > Accesorios de viaje
+9 × PRODUCTOS > Viaje > Accesorios de viaje > Adaptadores
+17 × PRODUCTOS > Viaje > Accesorios de viaje > Antifaces y almohadillas
+16 × PRODUCTOS > Viaje > Accesorios de viaje > Identificadores portadocumentos
+1 × PRODUCTOS > Viaje > Accesorios de viaje
+12 × PRODUCTOS > Viaje > Maletas > Bolsos de viaje
+15 × PRODUCTOS > Viaje > Maletas > Trolley
+1 × PRODUCTOS > Viaje > Maletas
+2 × PRODUCTOS > Viaje > Más viaje > Más viaje
+2 × PRODUCTOS > Viaje
+
 URLs de ejemplo:
 .image360link = https://etools.boxpromotions.com/videos/5246/360/output/5246.html
 .image = https://apis.makito.es/catalog/assets/15255/principal/5255-W.jpg
@@ -171,8 +501,10 @@ Imagen .thumbnail_image: https://apis.makito.es/catalog/assets/15246/thumbnail/5
   con token: HTTP 403  0 bytes · ACAO: null
 
 /catalog/assets/15246/principal/5246-W.jpg sin token: HTTP 403  0 bytes · ACAO: null
+  cabeceras de límite (/catalog/assets/15246/principal/5246-W.jpg): x-ratelimit-remaining: 99
   con token: HTTP 200 application/octet-stream 370980 bytes · ACAO: null · Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-GET /stock/files?format=JSON -> HTTP 200 application/json 2237383 bytes 321 ms
+  cabeceras de límite (/stock/files?format=JSON): x-ratelimit-remaining: 99
+GET /stock/files?format=JSON -> HTTP 200 application/json 2237383 bytes 344 ms
 
 == STOCK: 25646 filas. Claves de la raíz: generatedAt, stocks
 Forma:
@@ -184,11 +516,13 @@ Ejemplos:
 [{"material":"11011006000","quantity":4400},{"material":"11011008000","quantity":1100},{"material":"11011013000","quantity":810},{"material":"11011022000","quantity":2300},{"material":"11011227000","quantity":1800},{"material":"11011227000","quantity":110,"availableDate":"2026-12-22T00:00:00Z"},{"material":"11012000000","quantity":40},{"material":"11016000000","quantity":0},{"material":"11017000000","quantity":0},{"material":"11017000000","quantity":170000,"availableDate":"2026-11-23T00:00:00Z"},{"material":"11017000000","quantity":170000,"availableDate":"2027-02-04T00:00:00Z"},{"material":"11020001000","quantity":14000}]
 Almacenes (plant|storageLocation|storageId): {"||":25646}
 Materiales distintos: 17904 · con fecha de disponibilidad: 7742
-GET /price-list/files?format=JSON -> HTTP 200 application/json 1641266 bytes 328 ms
+  cabeceras de límite (/price-list/files?format=JSON): x-ratelimit-remaining: 99
+GET /price-list/files?format=JSON -> HTTP 200 application/json 1641266 bytes 343 ms
 
 == PRECIOS: 7400 filas. Claves de la raíz: generatedAt, priceList
 Forma (valores ocultos): {"material":"11011","currency":"EUR","baseQuantity":"1000","scales":"(oculto)"} · claves de una fila: material, currency, baseQuantity, scales · claves de scales[]: quantity, amount · ej. material: 11011
-GET /print-config/files?format=JSON&lang=es -> HTTP 200 application/json 5121784 bytes 320 ms
+  cabeceras de límite (/print-config/files?format=JSON&lang=es): x-ratelimit-remaining: 99
+GET /print-config/files?format=JSON&lang=es -> HTTP 200 application/json 5121784 bytes 341 ms
 
 == MARCAJE: 6982 productos. Claves de la raíz: generatedAt, lang, products, positions, techniques
 Forma:
