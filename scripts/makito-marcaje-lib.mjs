@@ -7,7 +7,7 @@
 // - limpiar(): borra la zona verde (relleno desde los bordes) para usar la previsualización como vista
 import sharp from "sharp";
 
-export const VERSION = 4; // sube si cambia la detección (se recalcula todo desde la caché, sin API)
+export const VERSION = 5; // sube si cambia la detección (se recalcula todo desde la caché, sin API)
 export const MAXPX = 600;
 
 // Imagen -> {d: RGB crudo, w, h} reducida a 600 px como mucho, sin transparencia
@@ -95,15 +95,20 @@ export function detectar(img) {
   const box = [r4(z.x0 / w), r4(z.y0 / h), r4((z.x1 + 1) / w), r4((z.y1 + 1) / h)];
   const out = { box, n, forma, dens: Math.round(z.dens * 100) / 100, px: [z.bw, z.bh] };
   if (forma !== "r") {
-    // zona inclinada o deformada: 4 esquinas (los puntos extremos en las diagonales) para dibujarla como polígono
-    const ids = new Set(z.ids), e = { tl: [1e9], br: [-1e9], tr: [-1e9], bl: [1e9] };
+    // zona inclinada, en perspectiva o deformada: 4 esquinas para dibujarla como polígono. Se prueban los puntos extremos
+    // en diagonal (rectángulos girados) y en horizontal/vertical (rombos: tapas de cajas en perspectiva) y se queda el de más área
+    const ids = new Set(z.ids), e = { tl: [1e9], br: [-1e9], tr: [-1e9], bl: [1e9], t: [1e9], b: [-1e9], l: [1e9], r: [-1e9] };
     for (let y = z.y0; y <= z.y1; y++) for (let x = z.x0; x <= z.x1; x++) {
       const i = y * w + x; if (!m[i] || !ids.has(lab[i])) continue;
       const s1 = x + y, s2 = x - y;
       if (s1 < e.tl[0]) e.tl = [s1, x, y]; if (s1 > e.br[0]) e.br = [s1, x + 1, y + 1];
       if (s2 > e.tr[0]) e.tr = [s2, x + 1, y]; if (s2 < e.bl[0]) e.bl = [s2, x, y + 1];
+      if (y < e.t[0]) e.t = [y, x + 0.5, y]; if (y + 1 > e.b[0]) e.b = [y + 1, x + 0.5, y + 1];
+      if (x < e.l[0]) e.l = [x, x, y + 0.5]; if (x + 1 > e.r[0]) e.r = [x + 1, x + 1, y + 0.5];
     }
-    out.quad = [e.tl, e.tr, e.br, e.bl].flatMap(([, x, y]) => [r4(x / w), r4(y / h)]);
+    const area = q => Math.abs(q.reduce((a, p, k) => { const n = q[(k + 1) % 4]; return a + p[1] * n[2] - n[1] * p[2]; }, 0)) / 2;
+    const qd = [e.tl, e.tr, e.br, e.bl], qa = [e.l, e.t, e.r, e.b];
+    out.quad = (area(qa) > area(qd) ? qa : qd).flatMap(([, x, y]) => [r4(x / w), r4(y / h)]);
   }
   if (n > 1) out.otras = zonas.slice(1, 4).map(c => [r4(c.x0 / w), r4(c.y0 / h), r4((c.x1 + 1) / w), r4((c.y1 + 1) / h)]);
   return out;
