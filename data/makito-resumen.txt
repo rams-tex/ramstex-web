@@ -35,19 +35,17 @@ Subcategorías de merchandising:
   m-bol · Bolsas térmicas: 1
   m-bol · Bolsas: 77
   m-bol · Bolso al vacío: 1
-  m-bol · Bolso: 2
   m-bol · Bolsos de viaje: 1
-  m-bol · Bolsos: 24
+  m-bol · Bolsos: 26
   m-bol · Cuelgabolsos plegable: 1
   m-bol · Funda organizador viaje: 1
   m-bol · Identificadores portadocumentos: 12
-  m-bol · Mochila trolley: 1
-  m-bol · Mochila: 7
+  m-bol · Mochila: 4
   m-bol · Mochilas con bolsillo para portátiles: 1
   m-bol · Mochilas de algodón: 2
   m-bol · Mochilas de poliéster: 4
   m-bol · Mochilas de viaje: 2
-  m-bol · Mochilas: 167
+  m-bol · Mochilas: 171
   m-bol · Portatodo: 14
   m-bol · Reutilizabolsas: 1
   m-bol · Riñoneras: 17
@@ -68,18 +66,17 @@ Subcategorías de merchandising:
   m-dep · Neceseres: 51
   m-dep · Peines: 13
   m-dep · Salud: 19
-  m-dep · Toalla: 1
-  m-dep · Toallas deportivas: 13
+  m-dep · Toallas deportivas: 14
   m-esc · Agenda: 1
   m-esc · Agendas: 8
   m-esc · Bloc notas: 19
   m-esc · Blocs de notas: 75
   m-esc · Blocs multifunción: 14
   m-esc · Bolígrafo soporte: 2
-  m-esc · Bolígrafo: 10
+  m-esc · Bolígrafo: 5
   m-esc · Bolígrafos puntero: 48
   m-esc · Bolígrafos rollers: 13
-  m-esc · Bolígrafos: 201
+  m-esc · Bolígrafos: 206
   m-esc · Calculadoras: 6
   m-esc · Calendarios: 9
   m-esc · Carpetas y organizadores: 22
@@ -88,10 +85,8 @@ Subcategorías de merchandising:
   m-esc · Estuches: 20
   m-esc · Fundas Portátiles: 19
   m-esc · Lapiceros y organizadores: 23
-  m-esc · Libreta: 9
-  m-esc · Libretas: 48
-  m-esc · Lápices: 19
-  m-esc · Lápiz: 1
+  m-esc · Libretas: 57
+  m-esc · Lápices: 20
   m-esc · Minibolígrafo: 1
   m-esc · Minilibreta: 1
   m-esc · Oficina y negocios: 28
@@ -162,9 +157,8 @@ Subcategorías de merchandising:
   m-hog · Lentes: 1
   m-hog · Limpiapantallas: 1
   m-hog · Linterna: 1
-  m-hog · Llavero moneda: 1
   m-hog · Llavero peluche: 1
-  m-hog · Llaveros: 136
+  m-hog · Llaveros: 137
   m-hog · Lámparas: 2
   m-hog · Maceta: 1
   m-hog · Manguito: 1
@@ -213,8 +207,7 @@ Subcategorías de merchandising:
   m-hog · Vaporizador: 1
   m-hog · Velas y aromas: 25
   m-inv · Accesorios para el frío: 18
-  m-inv · Gorro: 3
-  m-inv · Gorros, bragas, guantes y bufandas: 49
+  m-inv · Gorros, bragas, guantes y bufandas: 52
   m-inv · Guante: 1
   m-inv · Manta: 1
   m-inv · Paraguas: 42
@@ -242,11 +235,10 @@ Subcategorías de merchandising:
   m-out · Parasoles: 13
   m-out · Pícnic: 17
   m-taz · Accesorios take away: 4
-  m-taz · Bidones térmicos: 47
-  m-taz · Bidones: 135
+  m-taz · Bidones térmicos: 50
+  m-taz · Bidones: 136
   m-taz · Bidón sublimación: 1
-  m-taz · Bidón térmico: 4
-  m-taz · Bidón: 1
+  m-taz · Bidón térmico: 1
   m-taz · Cubiertos: 17
   m-taz · Enfriadores: 7
   m-taz · Fiambreras: 26
@@ -261,9 +253,9 @@ Subcategorías de merchandising:
   m-taz · Tazas, Vasos, Bidones y Termos: 9
   m-taz · Tazas: 105
   m-taz · Termos: 13
-  m-taz · Vaso térmico: 5
+  m-taz · Vaso térmico: 3
   m-taz · Vasos plegables: 1
-  m-taz · Vasos térmicos: 57
+  m-taz · Vasos térmicos: 59
   m-taz · Vasos, jarras y copas: 6
   m-taz · Vasos: 44
   m-tec · Accesorios de tecnología: 1
@@ -277,21 +269,18 @@ Subcategorías de merchandising:
   m-tec · Cable cargador soporte: 1
   m-tec · Cable cargador: 1
   m-tec · Cables cargador: 35
-  m-tec · Cargador multifunción: 1
   m-tec · Cargadores inalámbricos: 18
-  m-tec · Cargadores: 104
+  m-tec · Cargadores: 105
   m-tec · Control remoto cámara: 1
   m-tec · Cámaras: 6
   m-tec · Gadgets: 29
   m-tec · Localizador: 1
-  m-tec · Lámpara esterilizadora uv cargador: 1
-  m-tec · Lámparas: 18
+  m-tec · Lámparas: 19
   m-tec · Memorias 2.0: 1
   m-tec · Memorias: 25
   m-tec · Power bank multifunción: 1
   m-tec · Power bank: 51
-  m-tec · Puerto USB: 2
-  m-tec · Puertos USB: 21
+  m-tec · Puertos USB: 23
   m-tec · Ratones y teclados: 9
   m-tec · Relojes: 18
   m-tec · Smartwatch: 7
@@ -303,12 +292,10 @@ Subcategorías de merchandising:
   m-ver · Bolsa nevera: 13
   m-ver · Bolsas de playa y piscina: 1
   m-ver · Chanclas: 9
-  m-ver · Cinta sombrero: 1
-  m-ver · Cintas de sombreros: 7
+  m-ver · Cintas de sombreros: 8
   m-ver · Esterilla: 2
   m-ver · Frisbee: 1
-  m-ver · Gafas de sol: 41
-  m-ver · Gafas sol: 1
+  m-ver · Gafas de sol: 42
   m-ver · Hinchables: 8
   m-ver · Juegos de playa y piscina: 21
   m-ver · Neveras: 52
