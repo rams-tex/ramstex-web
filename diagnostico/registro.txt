@@ -1,36 +1,52 @@
-Productos con diseñador y fotos sin CORS: 3480 · fotos: 30363
-1000 / 30363
-2000 / 30363
-3000 / 30363
-4000 / 30363
-5000 / 30363
-6000 / 30363
-7000 / 30363
-8000 / 30363
-9000 / 30363
-10000 / 30363
-11000 / 30363
-12000 / 30363
-13000 / 30363
-14000 / 30363
-15000 / 30363
-16000 / 30363
-17000 / 30363
-18000 / 30363
-19000 / 30363
-20000 / 30363
-21000 / 30363
-22000 / 30363
-23000 / 30363
-24000 / 30363
-25000 / 30363
-26000 / 30363
-27000 / 30363
-28000 / 30363
-29000 / 30363
-30000 / 30363
-Medidas: 30347 · sin foto: 0 · sin medida (p. ej. blanco sobre blanco): 16
-Guardado data/encuadres.json · productos/vista: 5765 · fotos aparte: 5083 · 611834 bytes
-Hoja laterales-1 40 fotos
-Hoja laterales-2 40 fotos
+Productos con diseñador: 4686 · fotos: 34949
+1000 / 34949
+2000 / 34949
+3000 / 34949
+4000 / 34949
+5000 / 34949
+6000 / 34949
+7000 / 34949
+8000 / 34949
+9000 / 34949
+10000 / 34949
+11000 / 34949
+12000 / 34949
+13000 / 34949
+14000 / 34949
+15000 / 34949
+16000 / 34949
+17000 / 34949
+18000 / 34949
+19000 / 34949
+20000 / 34949
+21000 / 34949
+22000 / 34949
+23000 / 34949
+24000 / 34949
+25000 / 34949
+26000 / 34949
+27000 / 34949
+28000 / 34949
+29000 / 34949
+30000 / 34949
+31000 / 34949
+32000 / 34949
+33000 / 34949
+34000 / 34949
+Medidas: 34844 · sin foto: 50 · sin medida (p. ej. blanco sobre blanco): 55
+  camisetas · productos/vista: 1853 · fotos aparte: 932 · 154077 bytes
+  polos · productos/vista: 878 · fotos aparte: 388 · 70695 bytes
+  sudaderas · productos/vista: 1247 · fotos aparte: 667 · 107128 bytes
+  chaquetas · productos/vista: 1792 · fotos aparte: 665 · 129428 bytes
+  camisas · productos/vista: 675 · fotos aparte: 205 · 47996 bytes
+  pantalones · productos/vista: 521 · fotos aparte: 202 · 36689 bytes
+  trabajo · productos/vista: 266 · fotos aparte: 173 · 22855 bytes
+  gorras · productos/vista: 490 · fotos aparte: 805 · 74879 bytes
+  bolsas · productos/vista: 759 · fotos aparte: 580 · 74538 bytes
+  hogar · productos/vista: 85 · fotos aparte: 31 · 5858 bytes
+  complementos · productos/vista: 13 · fotos aparte: 23 · 1800 bytes
+  otros · productos/vista: 38 · fotos aparte: 34 · 4020 bytes
+Guardado data/encuadres · 729963 bytes
+Hoja laterales-1 39 fotos
+Hoja laterales-2 39 fotos
 Hoja delante-espalda 24 fotos
