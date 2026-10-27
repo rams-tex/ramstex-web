@@ -1,7 +1,7 @@
 // Muestra de fotos del diseñador de TODOS los proveedores, para revisar a mano dónde caen las zonas de impresión.
 // Por cada proveedor × plantilla × vista (delante, espalda, lateral) elige hasta N productos al azar (un color cada uno),
 // guarda la foto reducida (JPEG, fondo blanco) y su medida en <dir>/index.json.
-// Uso: node scripts/encuadres-muestras.mjs <dir> [N]
+// Uso: node scripts/encuadres-muestras.mjs <dir> [N]   (en la acción: commit con [revision] en el mensaje)
 import { mkdirSync, writeFileSync } from "node:fs";
 import sharp from "sharp";
 import { fotosDisenador } from "./encuadres-lista.mjs";
