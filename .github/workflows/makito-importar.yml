@@ -20,7 +20,8 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: makito-importar
+  group: makito-api
+  cancel-in-progress: false
 jobs:
   importar:
     runs-on: ubuntu-latest

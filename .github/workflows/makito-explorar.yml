@@ -9,7 +9,8 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: makito-explorar
+  group: makito-api
+  cancel-in-progress: false
 jobs:
   explorar:
     runs-on: ubuntu-latest
