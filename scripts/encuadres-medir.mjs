@@ -6,8 +6,36 @@
 export function mascara(d, w, h) {
   const tr = d[3] < 128 || d[(w - 1) * 4 + 3] < 128 || d[(w * h - 1) * 4 + 3] < 128;
   const on = new Uint8Array(w * h);
+  const gris = !tr && fondoGris(d, w, h);
+  if (gris) { /* fondo de estudio gris (Falk&Ross, algunas bolsas y gorras): se resta el fondo, que se estima en los bordes de cada fila */
+    for (let y = 0; y < h; y++) {
+      const L = borde(d, w, y, 0), R = borde(d, w, y, w - 3);
+      for (let x = 0; x < w; x++) {
+        const f = x / (w - 1), i = (y * w + x) * 4;
+        let dm = 0; for (let c = 0; c < 3; c++) dm = Math.max(dm, Math.abs(d[i + c] - (L[c] * (1 - f) + R[c] * f)));
+        on[y * w + x] = dm > 24 ? 1 : 0;
+      }
+    }
+    return on;
+  }
   for (let p = 0; p < w * h; p++) { const i = p * 4; on[p] = tr ? (d[i + 3] > 60 ? 1 : 0) : (d[i] < 249 || d[i + 1] < 249 || d[i + 2] < 249 ? 1 : 0); }
   return on;
+}
+// Color del fondo en el borde (3 px desde x0) de la fila y
+function borde(d, w, y, x0) { const a = [0, 0, 0]; for (let x = x0; x < x0 + 3; x++) for (let c = 0; c < 3; c++) a[c] += d[(y * w + x) * 4 + c] / 3; return a; }
+// ¿Fondo de color liso? Los bordes izquierdo y derecho no son blancos, son casi grises y cambian poco a poco
+function fondoGris(d, w, h) {
+  let noBlanco = 0, n = 0, salto = 0;
+  for (const x0 of [0, w - 3]) {
+    let prev = null;
+    for (let y = 0; y < h; y += 2) {
+      const c = borde(d, w, y, x0); n++;
+      if (Math.min(c[0], c[1], c[2]) < 250 && Math.max(c[0], c[1], c[2]) - Math.min(c[0], c[1], c[2]) < 30) noBlanco++;
+      if (prev && Math.max(...c.map((v, k) => Math.abs(v - prev[k]))) > 10) salto++;
+      prev = c;
+    }
+  }
+  return noBlanco > n * .8 && salto < n * .1;
 }
 
 // Reducción a ~240 px de lado (como el lienzo de dzMeasure)
