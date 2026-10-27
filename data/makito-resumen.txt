@@ -1,4 +1,4 @@
-Makito: 4532 productos, 12716 colores, 17648 variantes en la API · fotos distintas: 24802
+Makito: 4532 productos, 12716 colores, 17648 variantes en la API · fotos distintas: 14718
 Descartados: {"sin variantes":33}
 Por categoría (productos / colores):
   Headwear & Accesorios / Gorras: 74 / 365
