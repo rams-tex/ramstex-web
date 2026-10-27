@@ -67,7 +67,7 @@ function ropaOf(p, paths) {
 // Si no hay ruta útil, por el tipo de producto
 const BYTYPE = [
   ["m-hog", /^llavero/],
-  ["m-tec", /power bank|cargador|cable|altavoz|auricular|usb|memoria|raton|alfombrilla|soporte movil|smartwatch|reloj|lampara|camara|adaptador|hub|localizador/],
+  ["m-tec", /power bank|cargador|cable|altavoz|auricular|usb|memoria|raton|alfombrilla|soporte movil|smartwatch|reloj|lampara|camara|adaptador|\bhub\b|localizador/],
   ["m-esc", /boligrafo|lapiz|lapices|portaminas|rotulador|marcador|libreta|bloc|cuaderno|agenda|carpeta|portadocumentos|estuche|regla|subrayador|calculadora|calendario|lanyard/],
   ["m-taz", /taza|vaso|bidon|botella|termo|fiambrera|cubiertos|jarra|copa|pajita/],
   ["m-bol", /bolsa|mochila|bolso|trolley|maleta|neceser|rinonera|bandolera|portatodo|petate|saco/],
