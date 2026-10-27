@@ -1,13 +1,16 @@
 name: Encuadre de fotos del diseñador
-# Mide en las fotos de TopTex y Falk&Ross (que el navegador no puede analizar) dónde está la prenda y la manga,
-# para que el diseñador de logos coloque bien las zonas. Resultado: data/encuadres.json (+ hojas de revisión en diagnostico/).
+# Mide en las fotos de los proveedores dónde está la prenda (contorno, cuerpo, manga) para que el diseñador de logos
+# coloque bien las zonas de impresión. Resultado: data/encuadres.json (+ hojas de revisión en diagnostico/).
+# Modos: datos (lo normal) · revision (muestra de todos los proveedores para revisar a mano; se sube a una rama nueva
+#   encuadres-muestras-<número de ejecución>, aparte, que se puede borrar después)
 on:
   workflow_dispatch:
     inputs:
-      muestras:
-        description: "Solo una muestra de fotos para revisar (no guarda el resultado)"
-        type: boolean
-        default: false
+      modo:
+        description: "datos o revision"
+        type: choice
+        options: [datos, revision]
+        default: datos
   push:
     branches: [encuadres]
     paths: [".github/workflows/encuadres.yml", "scripts/encuadres*.mjs"]
@@ -19,26 +22,32 @@ concurrency:
 jobs:
   medir:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 120
+    env:
+      MODO: ${{ inputs.modo || (contains(github.event.head_commit.message, '[revision]') && 'revision') || 'datos' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
       - run: npm install --no-save sharp@0.33
-      - name: Medir fotos
-        env:
-          MUESTRA: ${{ inputs.muestras || contains(github.event.head_commit.message, '[muestras]') }}
+      - name: Muestra para revisar
+        if: env.MODO == 'revision'
         run: |
-          if [ "$MUESTRA" = "true" ]; then
-            mkdir -p diagnostico && MUESTRAS=diagnostico/muestras LIMITE=240 DIAG=diagnostico node scripts/encuadres.mjs 2>&1 | tee diagnostico/registro.txt
-          else
-            mkdir -p diagnostico && rm -rf diagnostico/muestras && DIAG=diagnostico node scripts/encuadres.mjs 2>&1 | tee diagnostico/registro.txt
-          fi
+          node scripts/encuadres-muestras.mjs /tmp/muestras 12 2>&1 | tee /tmp/muestras/../registro-muestras.txt
+          cp /tmp/registro-muestras.txt /tmp/muestras/registro.txt
+          cd /tmp/muestras && git init -q -b encuadres-muestras && git add -A
+          git -c user.name="github-actions" -c user.email="github-actions@users.noreply.github.com" commit -q -m "Muestra de fotos del diseñador para revisar [skip netlify]"
+          git push "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "encuadres-muestras:encuadres-muestras-${{ github.run_id }}"
+      - name: Medir fotos
+        if: env.MODO == 'datos'
+        run: |
+          mkdir -p diagnostico && DIAG=diagnostico node scripts/encuadres.mjs 2>&1 | tee diagnostico/registro.txt
       - name: Guardar
+        if: env.MODO == 'datos'
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add -A diagnostico; [ -f data/encuadres.json ] && git add data/encuadres.json
+          git add -A diagnostico data/encuadres*
           git diff --cached --quiet || git commit -m "Encuadre de fotos del diseñador actualizado [skip netlify]"
           git pull --rebase && git push

@@ -37,7 +37,12 @@ function corta(ctx, it) {
   return /camiseta|polo|tee|t-shirt/.test(nm) && !/manga larga|long/.test(nm);
 }
 
-export function fotosDisenador({ todosLosColores = true } = {}) {
+// Dirección para descargar la foto en el servidor (Stanley/Stella: el original, que la web sirve reducido desde /st/)
+const STANLEY = "https://res.cloudinary.com/www-stanleystella-com/t_pim/TechnicalNames/";
+function urls(ctx, st) { return ctx.isT(st) ? [STANLEY + encodeURIComponent(st.slice(2))] : ctx.dzUrls(st, 800); }
+
+// todos: también los proveedores cuyas fotos el navegador sí puede medir · colores: "todos" | "uno" (uno al azar por producto)
+export function fotosDisenador({ todos = false, colores = "todos" } = {}) {
   const ctx = contexto();
   const D = JSON.parse(readFileSync("data/catalogo.json", "utf8"));
   ctx.D = D;
@@ -50,13 +55,15 @@ export function fotosDisenador({ todosLosColores = true } = {}) {
     const f = (F[it.c] || {})[it.r] || {};
     const sup = ctx.dzSup(f);
     let usa = false;
-    const cols = todosLosColores ? it.k.map((_, i) => i) : [0];
+    const cols = colores === "todos" ? it.k.map((_, i) => i) : [Math.floor(Math.random() * it.k.length)];
     for (const ci of cols) for (const pos of tpl.pos) {
       const p = ctx.dzPick(it, f, ci, pos, tpl.key);
-      if (!p.st || sup.cors || ctx.isT(p.st)) continue; /* esta foto ya se mide en el navegador */
+      if (!p.st) continue;
+      if (!todos && (sup.cors || ctx.isT(p.st))) continue; /* esta foto ya se mide en el navegador */
       usa = true;
-      if (out.has(p.st)) continue;
-      out.set(p.st, { st: p.st, k: ctx.dzKind(p.st), ref: it.r, sup: f.src || "", side: sup.side, tpl: tpl.key, tbw: tpl.bw, corta: corta(ctx, it), hex: it.k[ci][1] || "", col: it.k[ci][0], url: ctx.dzUrls(p.st, 800) });
+      const prev = out.get(p.st);
+      if (prev) { if (!prev.pos.includes(pos)) prev.pos.push(pos); continue; }
+      out.set(p.st, { st: p.st, k: ctx.dzKind(p.st), vista: p.kind, flip: !!p.flip, pos: [pos], ref: it.r, c: it.c, n: it.n, sup: f.src || "", cors: !!(sup.cors || ctx.isT(p.st)), side: sup.side, tpl: tpl.key, tbw: tpl.bw, corta: corta(ctx, it), hex: it.k[ci][1] || "", col: it.k[ci][0], url: urls(ctx, p.st) });
     }
     if (usa) prods++;
   }

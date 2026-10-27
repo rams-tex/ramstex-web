@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
   workflow_run:
-    workflows: ["Importar catálogo", "Importar catálogo TopTex", "Actualizar stock", "Fotos Sol's", "Importar Stanley Stella", "Importar Falk&Ross"]
+    workflows: ["Importar catálogo", "Importar catálogo TopTex", "Actualizar stock", "Fotos Sol's", "Importar Stanley Stella", "Importar Falk&Ross", "Encuadre de fotos del diseñador"]
     types: [completed]
   workflow_dispatch:
 permissions:
@@ -48,6 +48,7 @@ jobs:
           cp index.html logo.png favicon.ico favicon-32.png favicon-192.png apple-touch-icon.png portada.webp portada-900.webp portada-900.png taller.jpg taller-900.jpg merch-home.jpg merch-home-900.jpg _site/
           cp -r foto img portada _site/
           cp data/catalogo.json _site/data/
+          if [ -f data/encuadres.json ]; then cp data/encuadres.json _site/data/; fi
           cp -r data/fichas _site/data/
           if [ -d data/stock ]; then cp -r data/stock _site/data/; fi
           sed -i "s/var BUILD=\"dev\"/var BUILD=\"$(date +%s)\"/" _site/index.html
