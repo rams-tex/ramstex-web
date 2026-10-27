@@ -7,7 +7,7 @@
 // - limpiar(): borra la zona verde (relleno desde los bordes) para usar la previsualización como vista
 import sharp from "sharp";
 
-export const VERSION = 5; // sube si cambia la detección (se recalcula todo desde la caché, sin API)
+export const VERSION = 6; // sube si cambia la detección (se recalcula todo desde la caché, sin API)
 export const MAXPX = 600;
 
 // Imagen -> {d: RGB crudo, w, h} reducida a 600 px como mucho, sin transparencia
@@ -52,7 +52,7 @@ function componentes(m, w, h) {
 }
 
 // Busca la zona verde. Devuelve {box, n, forma, dens, px} o {box:null, motivo}
-//  forma: "r" rectángulo · "o" redondeada/elipse/inclinada · "x" irregular (curva, deformada) · "l" solo contorno
+//  forma: "r" rectángulo · "o" redondeada/curva · "e" elipse/círculo · "x" inclinada/perspectiva/irregular · "l" solo contorno; quad = 4 esquinas si es un cuadrilátero inclinado
 export function detectar(img) {
   const { w, h } = img, m = mascaraVerde(img);
   const minN = Math.max(10, Math.round(w * h * 0.00004));
@@ -108,7 +108,10 @@ export function detectar(img) {
     }
     const area = q => Math.abs(q.reduce((a, p, k) => { const n = q[(k + 1) % 4]; return a + p[1] * n[2] - n[1] * p[2]; }, 0)) / 2;
     const qd = [e.tl, e.tr, e.br, e.bl], qa = [e.l, e.t, e.r, e.b];
-    out.quad = (area(qa) > area(qd) ? qa : qd).flatMap(([, x, y]) => [r4(x / w), r4(y / h)]);
+    const best = area(qa) > area(qd) ? qa : qd;
+    // si el polígono deja fuera mucha zona no es un cuadrilátero: elipse/círculo (forma "e") o banda curva (tazas): sin esquinas
+    if (area(best) >= z.n * 0.85) out.quad = best.flatMap(([, x, y]) => [r4(x / w), r4(y / h)]);
+    else if (z.dens >= 0.72 && z.dens <= 0.82 && Math.abs(area(best) / (z.bw * z.bh) - 0.5) < 0.08) out.forma = "e";
   }
   if (n > 1) out.otras = zonas.slice(1, 4).map(c => [r4(c.x0 / w), r4(c.y0 / h), r4((c.x1 + 1) / w), r4((c.y1 + 1) / h)]);
   return out;

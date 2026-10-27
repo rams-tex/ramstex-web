@@ -217,7 +217,7 @@ function resumen(tamCat) {
   }
   L.push(`  TOTAL: ${tot.p} productos (${tot.sinAreas} sin áreas en Makito) · ${tot.a} áreas · analizadas ${tot.an} (${pct(tot.an, tot.a)}) · con zona ${tot.box} (${pct(tot.box, tot.an)}) · sin zona ${tot.sin}`);
   L.push(`  caja sobre foto principal ${tot.main} · sobre foto de color ${tot.col} · previsualización limpia ${tot.z} (${pct(tot.z, tot.box)})`);
-  L.push(`  productos con alguna zona detectada: ${tot.pcon} de ${tot.p} · formas: ${JSON.stringify(tot.forma)} (r rectángulo, o redondeada/elipse, x irregular, l solo contorno) · varias zonas en la imagen: ${tot.multi}`);
+  L.push(`  productos con alguna zona detectada: ${tot.pcon} de ${tot.p} · formas: ${JSON.stringify(tot.forma)} (r rectángulo, o redondeada/curva, e elipse/círculo, x inclinada o irregular (con quad), l solo contorno) · varias zonas en la imagen: ${tot.multi}`);
   L.push(`  áreas sin técnicas en Makito: ${tot.sinTec} · técnicas sin nº de colores en el área: ${tot.nulCol} · ids de técnica desconocidos: ${[...tecDesconocidas].join(", ") || "ninguno"}`);
   const nz = tot.z, kb = tot.zkb;
   L.push(`  previsualizaciones limpias: ${nz} · ${(kb / 1024).toFixed(1)} MB (media ${nz ? (kb / nz).toFixed(1) : 0} KB) · estimado si se analizan todas las áreas: ~${tot.box ? Math.round(kb / 1024 * tot.a / tot.an) : "?"} MB`);
