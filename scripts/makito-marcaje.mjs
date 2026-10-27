@@ -336,7 +336,7 @@ async function lote(cola, nombre) {
     if (!(await analizar(p, a))) { pendientes++; continue; } // sin tiempo/sin API: queda para la próxima ejecución
     hechas++;
     if (hechas % 200 === 0) log(`  ${hechas} áreas revisadas (${peticiones} peticiones)`);
-    if (Date.now() - ultimo > 60 * 60000) { ultimo = Date.now(); resumen(escribirDatos()); guardar("Marcaje Makito: avance"); }
+    if (Date.now() - ultimo > 100 * 60000) { ultimo = Date.now(); resumen(escribirDatos()); guardar("Marcaje Makito: avance"); }
   }
   log(`${nombre}: ${pendientes} áreas pendientes para la próxima ejecución`);
 }

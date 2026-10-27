@@ -25,10 +25,18 @@ concurrency:
   cancel-in-progress: false
 jobs:
   marcaje:
+    # Tres tandas seguidas (no en paralelo) de hasta ~5,5 h: cada una sigue donde lo dejó la anterior (caché + estado.json)
+    strategy:
+      max-parallel: 1
+      fail-fast: false
+      matrix:
+        tanda: [1, 2, 3]
     runs-on: ubuntu-latest
     timeout-minutes: 355
     steps:
       - uses: actions/checkout@v4
+      - name: Traer el estado que guardó la tanda anterior
+        run: git fetch -q --depth=1 origin "$GITHUB_REF_NAME" && git reset -q --hard FETCH_HEAD
       - uses: actions/setup-node@v4
         with:
           node-version: 20
