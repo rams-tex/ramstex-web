@@ -1,0 +1,322 @@
+Makito: 4532 productos, 12716 colores, 17648 variantes en la API · fotos distintas: 24802
+Descartados: {"sin variantes":33}
+Por categoría (productos / colores):
+  Headwear & Accesorios / Gorras: 74 / 365
+  Headwear & Accesorios / Viseras: 6 / 27
+  Ropa / Camisetas deportiva: 30 / 214
+  Ropa / Camisetas: 51 / 250
+  Ropa / Chalecos: 21 / 76
+  Ropa / Chaquetas: 27 / 112
+  Ropa / Delantales: 2 / 2
+  Ropa / Pantalones: 6 / 28
+  Ropa / Polos: 32 / 181
+  Ropa / Sudaderas: 22 / 188
+  m-bol: 571 / 1721
+  m-dep: 286 / 706
+  m-esc: 745 / 2295
+  m-eve: 80 / 266
+  m-hog: 817 / 1719
+  m-inv: 123 / 497
+  m-nav: 25 / 39
+  m-out: 269 / 460
+  m-taz: 524 / 1618
+  m-tec: 575 / 1063
+  m-ver: 246 / 889
+Subcategorías de merchandising:
+  m-bol · Accesorios de viaje: 30
+  m-bol · Antifaces y almohadillas: 17
+  m-bol · Bandoleras: 11
+  m-bol · Bolsas de RPET: 2
+  m-bol · Bolsas de algodón: 40
+  m-bol · Bolsas de fuelle: 71
+  m-bol · Bolsas de papel reciclado: 13
+  m-bol · Bolsas non-woven: 20
+  m-bol · Bolsas plegables: 16
+  m-bol · Bolsas térmicas: 1
+  m-bol · Bolsas: 77
+  m-bol · Bolso al vacío: 1
+  m-bol · Bolso: 2
+  m-bol · Bolsos de viaje: 1
+  m-bol · Bolsos: 24
+  m-bol · Cuelgabolsos plegable: 1
+  m-bol · Funda organizador viaje: 1
+  m-bol · Identificadores portadocumentos: 12
+  m-bol · Mochila trolley: 1
+  m-bol · Mochila: 7
+  m-bol · Mochilas con bolsillo para portátiles: 1
+  m-bol · Mochilas de algodón: 2
+  m-bol · Mochilas de poliéster: 4
+  m-bol · Mochilas de viaje: 2
+  m-bol · Mochilas: 167
+  m-bol · Portatodo: 14
+  m-bol · Reutilizabolsas: 1
+  m-bol · Riñoneras: 17
+  m-bol · Soporte bolsas: 1
+  m-bol · Trolley: 13
+  m-bol · Viaje: 1
+  m-dep · Accesorios deportivos: 1
+  m-dep · Accesorios protección higiénica: 11
+  m-dep · Bidones deportivos: 3
+  m-dep · Bolsas de deporte: 6
+  m-dep · Bálsamos labiales: 16
+  m-dep · Cepillos de dientes: 7
+  m-dep · Complementos deportivos: 93
+  m-dep · Cuidado facial: 14
+  m-dep · Cuidado personal y pharma: 14
+  m-dep · Cuidado personal: 10
+  m-dep · Espejos: 14
+  m-dep · Neceseres: 51
+  m-dep · Peines: 13
+  m-dep · Salud: 19
+  m-dep · Toalla: 1
+  m-dep · Toallas deportivas: 13
+  m-esc · Agenda: 1
+  m-esc · Agendas: 8
+  m-esc · Bloc notas: 19
+  m-esc · Blocs de notas: 75
+  m-esc · Blocs multifunción: 14
+  m-esc · Bolígrafo soporte: 2
+  m-esc · Bolígrafo: 10
+  m-esc · Bolígrafos puntero: 48
+  m-esc · Bolígrafos rollers: 13
+  m-esc · Bolígrafos: 201
+  m-esc · Calculadoras: 6
+  m-esc · Calendarios: 9
+  m-esc · Carpetas y organizadores: 22
+  m-esc · Escritura eterna: 16
+  m-esc · Escritura: 8
+  m-esc · Estuches: 20
+  m-esc · Fundas Portátiles: 19
+  m-esc · Lapiceros y organizadores: 23
+  m-esc · Libreta: 9
+  m-esc · Libretas: 48
+  m-esc · Lápices: 19
+  m-esc · Lápiz: 1
+  m-esc · Minibolígrafo: 1
+  m-esc · Minilibreta: 1
+  m-esc · Oficina y negocios: 28
+  m-esc · Porta documentos: 19
+  m-esc · Porta notas adhesivas: 9
+  m-esc · Portadocumentos: 3
+  m-esc · Regla marcapáginas: 1
+  m-esc · Set de escritura: 33
+  m-esc · Set de lápices: 31
+  m-esc · Set lápices: 1
+  m-esc · Sets de blocs y libretas: 27
+  m-eve · Animación: 24
+  m-eve · Bandera: 4
+  m-eve · Eventos y fiesta: 3
+  m-eve · Eventos: 1
+  m-eve · Gafas: 1
+  m-eve · Identificadores: 12
+  m-eve · Lanyard e identificadores: 2
+  m-eve · Lanyards: 25
+  m-eve · Medallas, trofeos y placas: 1
+  m-eve · Pin lazo: 1
+  m-eve · Pulseras: 1
+  m-eve · Rainbow: 1
+  m-eve · Vasos y platos: 3
+  m-eve · World Cup 2026: 1
+  m-hog · Abridores: 8
+  m-hog · Accesorios de bar y hotel: 4
+  m-hog · Accesorios de bebida: 63
+  m-hog · Accesorios de vino: 19
+  m-hog · Accesorios gifts and premiums: 1
+  m-hog · Almohadilla: 1
+  m-hog · Antiestrés: 9
+  m-hog · Bar: 18
+  m-hog · Cajas presentación: 22
+  m-hog · Carteras y monederos: 11
+  m-hog · Cinta gafas: 1
+  m-hog · Comba: 1
+  m-hog · Cuidado personal: 11
+  m-hog · Culot: 1
+  m-hog · Decoración: 28
+  m-hog · Delantales y manoplas: 27
+  m-hog · Delantales: 3
+  m-hog · Difusor aromático: 1
+  m-hog · Eau de toilette mujer: 1
+  m-hog · Encendedores: 10
+  m-hog · Estaciones meteorológicas: 6
+  m-hog · Estuches infantil: 9
+  m-hog · Etiquetas especial packing: 2
+  m-hog · Funda multiusos: 1
+  m-hog · Funda ordenador portátil: 1
+  m-hog · Funda seguridad: 1
+  m-hog · Funda sillín: 1
+  m-hog · Funda tabaco: 1
+  m-hog · Funda: 3
+  m-hog · Gancho multiusos: 1
+  m-hog · Gifts and premiums: 14
+  m-hog · Goma elástica: 1
+  m-hog · Grinder: 1
+  m-hog · Hogar: 28
+  m-hog · Hotel y alojamiento: 18
+  m-hog · Imán: 1
+  m-hog · Infantil: 14
+  m-hog · Inyectora: 1
+  m-hog · Juegos de habilidad: 36
+  m-hog · Juegos infantil: 54
+  m-hog · Kaftan: 1
+  m-hog · Lector tarjetas: 2
+  m-hog · Lentes: 1
+  m-hog · Limpiapantallas: 1
+  m-hog · Linterna: 1
+  m-hog · Llavero moneda: 1
+  m-hog · Llavero peluche: 1
+  m-hog · Llaveros: 136
+  m-hog · Lámparas: 2
+  m-hog · Maceta: 1
+  m-hog · Manguito: 1
+  m-hog · Mano animación: 1
+  m-hog · Marcapáginas: 1
+  m-hog · Menaje de hogar: 35
+  m-hog · Mesa: 1
+  m-hog · Molde: 1
+  m-hog · Monopod: 3
+  m-hog · Moqueta: 1
+  m-hog · Pantalla soporte: 1
+  m-hog · Pantalones: 1
+  m-hog · Pasador: 1
+  m-hog · Pinza: 1
+  m-hog · Plantas: 30
+  m-hog · Plato entremeses: 1
+  m-hog · Portaclips: 1
+  m-hog · Portanotas: 3
+  m-hog · Posavasos: 11
+  m-hog · Puntero láser presentador: 1
+  m-hog · Puntero: 1
+  m-hog · Rainbow: 4
+  m-hog · Receptor bluetooth: 1
+  m-hog · Salvamantel: 1
+  m-hog · Selfie: 1
+  m-hog · Set aromático: 1
+  m-hog · Set limpieza: 1
+  m-hog · Set moldes: 1
+  m-hog · Set viaje: 1
+  m-hog · Set whisky: 1
+  m-hog · Set: 4
+  m-hog · Sombrilla: 1
+  m-hog · Soporte: 2
+  m-hog · Sudadera técnica: 1
+  m-hog · Tablas de cortar: 18
+  m-hog · Tapa webcam joystick: 1
+  m-hog · Tapa webcam: 2
+  m-hog · Tarjetero billetero: 1
+  m-hog · Tarjeteros: 20
+  m-hog · Tenedor: 1
+  m-hog · Textil para sublimación: 1
+  m-hog · Textil: 7
+  m-hog · Tirantes: 1
+  m-hog · Trofeos y medallas: 41
+  m-hog · Trípode universal: 1
+  m-hog · Vaporizador: 1
+  m-hog · Velas y aromas: 25
+  m-inv · Accesorios para el frío: 18
+  m-inv · Gorro: 3
+  m-inv · Gorros, bragas, guantes y bufandas: 49
+  m-inv · Guante: 1
+  m-inv · Manta: 1
+  m-inv · Paraguas: 42
+  m-inv · Ponchos: 9
+  m-nav · Adorno navidad: 1
+  m-nav · Decoración de navidad: 20
+  m-nav · Menaje: 1
+  m-nav · Navidad: 3
+  m-out · Accesorios de automóvil: 18
+  m-out · Accesorios de ocio: 40
+  m-out · Accesorios de paseo: 11
+  m-out · Comederos y bebederos: 10
+  m-out · Cubos: 10
+  m-out · Cuidado de mascotas: 4
+  m-out · Flexómetros: 20
+  m-out · Herramientas de automóvil: 17
+  m-out · Herramientas: 12
+  m-out · Instrumentos de Medición: 12
+  m-out · Juguetes para mascotas: 8
+  m-out · Linternas: 9
+  m-out · Lupas: 11
+  m-out · Mascotas: 5
+  m-out · Multiherramientas: 24
+  m-out · Navajas: 28
+  m-out · Parasoles: 13
+  m-out · Pícnic: 17
+  m-taz · Accesorios take away: 4
+  m-taz · Bidones térmicos: 47
+  m-taz · Bidones: 135
+  m-taz · Bidón sublimación: 1
+  m-taz · Bidón térmico: 4
+  m-taz · Bidón: 1
+  m-taz · Cubiertos: 17
+  m-taz · Enfriadores: 7
+  m-taz · Fiambreras: 26
+  m-taz · Nevera: 2
+  m-taz · Pajita antibacteriana: 1
+  m-taz · Pajita: 1
+  m-taz · Portasnacks: 4
+  m-taz · Set de bebida: 4
+  m-taz · Set vasos: 1
+  m-taz · Sublimación circular: 2
+  m-taz · Tazas térmicas: 27
+  m-taz · Tazas, Vasos, Bidones y Termos: 9
+  m-taz · Tazas: 105
+  m-taz · Termos: 13
+  m-taz · Vaso térmico: 5
+  m-taz · Vasos plegables: 1
+  m-taz · Vasos térmicos: 57
+  m-taz · Vasos, jarras y copas: 6
+  m-taz · Vasos: 44
+  m-tec · Accesorios de tecnología: 1
+  m-tec · Accesorios para smartphone: 22
+  m-tec · Alfombrillas: 21
+  m-tec · Altavoces: 61
+  m-tec · Altavoz: 2
+  m-tec · Auriculares: 38
+  m-tec · Bloc notas nfc: 1
+  m-tec · Cable cargador masajeador: 1
+  m-tec · Cable cargador soporte: 1
+  m-tec · Cable cargador: 1
+  m-tec · Cables cargador: 35
+  m-tec · Cargador multifunción: 1
+  m-tec · Cargadores inalámbricos: 18
+  m-tec · Cargadores: 104
+  m-tec · Control remoto cámara: 1
+  m-tec · Cámaras: 6
+  m-tec · Gadgets: 29
+  m-tec · Localizador: 1
+  m-tec · Lámpara esterilizadora uv cargador: 1
+  m-tec · Lámparas: 18
+  m-tec · Memorias 2.0: 1
+  m-tec · Memorias: 25
+  m-tec · Power bank multifunción: 1
+  m-tec · Power bank: 51
+  m-tec · Puerto USB: 2
+  m-tec · Puertos USB: 21
+  m-tec · Ratones y teclados: 9
+  m-tec · Relojes: 18
+  m-tec · Smartwatch: 7
+  m-tec · Softshells: 1
+  m-tec · Soportes: 53
+  m-tec · Tapas webcam: 5
+  m-tec · Tecnología: 18
+  m-ver · Abanicos y ventiladores: 37
+  m-ver · Bolsa nevera: 13
+  m-ver · Bolsas de playa y piscina: 1
+  m-ver · Chanclas: 9
+  m-ver · Cinta sombrero: 1
+  m-ver · Cintas de sombreros: 7
+  m-ver · Esterilla: 2
+  m-ver · Frisbee: 1
+  m-ver · Gafas de sol: 41
+  m-ver · Gafas sol: 1
+  m-ver · Hinchables: 8
+  m-ver · Juegos de playa y piscina: 21
+  m-ver · Neveras: 52
+  m-ver · Pareos y esterillas: 15
+  m-ver · Portatodo playa y piscina: 1
+  m-ver · Sombreros de paja: 13
+  m-ver · Sombreros sintéticos: 7
+  m-ver · Sombrillas: 4
+  m-ver · Verano: 12
+Nombres de color por código:
+  000=S/C · 001=Blanco · 002=Negro · 003=Rojo · 004=Verde · 005=Amarillo · 006=Marino · 007=Naranja · 008=Gris · 009=Plateado · 011=Fucsia · 013=Natural · 014=Kaki · 015=Arena · 016=Pistacho · 018=Marron · 019=Azul · 020=Burdeos · 021=Azul Claro · 022=Rosa · 023=Dorado · 100=Tipo A · 109=Azul/Blanco · 115=Tipo B · 117=Beig · 118=Blanco/Amarillo · 119=Blanco/Azul · 120=Blanco/Fucsia · 123=Blanco/Naranja · 124=Blanco/Negro · 125=Blanco/Rojo · 126=Blanco/Verde · 128=C · 136=Camuflaje · 139=España · 140=Fresa · 141=Perro · 147=Gris/Negro · 158=Limon · 162=Marron Claro · 167=Marron Oscuro · 171=Manzana · 174=Morado · 177=Naranja/Blanco · 191=Negro/Azul · 192=Negro/Blanco · 193=Negro/Rojo · 195=Negro/Gris · 197=Oso · 211=Rojo/Blanco · 216=Transparente · 217=Turquesa · 220=Verde/Blanco · 225=Verde Botella · 227=Verde Oscuro · 228=Azul Royal · 235=Rojo/Amarillo · 240=Tomate · 243=Amarillo/Blanco · 247=Corazon · 248=Estrella · 249=Flor · 252=Rojo/Oro · 253=Rojo/ Plata · 254=Rojo/Bronce · 255=España/Oro · 256=España/Plata · 257=España/Bronce · 259=Uva · 260=Piña · 261=Sandia · 263=Blanco/Plata · 265=Amarillo F. · 266=Fucsia Fluor · 267=Naranja F · 268=Verde F · 269=Negro/Plata · 270=Traslucido Amarillo · 271=Traslucido Azul · 272=Traslucido Blanco · 273=Traslucido Fucsia · 274=Traslucido Naranja · 276=Traslucido Rojo · 277=Traslucido Verde · 279=Verde Claro · 280=Gato · 283=Papa Noel · 284=Lima · 287=Cerdo · 295=Coche · 296=Casa · 297=Negro/Negro · 299=Nieve · 300=Arbol · 301=Reno · 302=Golf · 303=Tenis · 304=Futbol · 307=Plata Mate · 312=Baloncesto · 315=Kiwi · 316=Corazon · 317=Gafas · 318=Guiño · 319=Sonrisa · 323=Muñeco Nieve · 325=B/Arbol · 328=Pato · 330=Andalucia · 331=Alemania · 332=Paises Bajos · 333=Marino Oscuro · 369=Elefante · 370=Rana · 371=Gris Claro · 372=Gris Oscuro · 373=Círculo · 374=Rectángulo · 391=Hojas · 400=Plata/Oscuro · 401=Papa Noel · 402=Muñeco Nieve · 406=Redondo · 407=Ovalado · 415=Aguacate · 431=Granate · 433=Multicolor · 483=Mostaza · 507=Verde Aguamarina · 627=Cuadrado · 628=Verde Militar · 659=Rainbow · 660=Salmon · 661=Beig Pastel · 662=Rosa Pastel · 663=Azul Pastel · 664=Verde Pastel · 665=Amarillo Pastel · 666=Bola · 668=Pitaya · 669=Calcetin · 700=Gorro · 702=Celeste · 703=Rosa Fluor · 704=Ver Menta · 705=Arena Os · 711=Azul Fluor · 712=Natural Claro · 713=Natural Claro · 714=Mandarina
