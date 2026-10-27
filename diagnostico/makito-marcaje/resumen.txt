@@ -1,0 +1,25 @@
+Marcaje Makito · 2026-10-27T21:30:30.738Z · versión de detección 3
+Esta ejecución: 10131 áreas pendientes · 357 peticiones (157 previsualizaciones, 200 fotos), 0 fallos, 25 min
+
+Categoría: productos (sin áreas) · áreas · analizadas · con zona · sin zona/sin previa · caja sobre foto principal / foto de color / previsualización limpia · varias zonas · formas
+  m-bol: 571 (0) · 1124 · 15 · 15 (100.0%) · 0 · 6/4/5 · 0 · {"r":15} · productos con alguna zona: 15
+  m-dep: 286 (2) · 525 · 15 · 15 (100.0%) · 0 · 6/1/8 · 0 · {"r":11,"o":2,"x":2} · productos con alguna zona: 15
+  m-esc: 745 (2) · 2557 · 15 · 15 (100.0%) · 0 · 4/3/8 · 0 · {"r":15} · productos con alguna zona: 15
+  m-eve: 80 (2) · 152 · 13 · 10 (76.9%) · 3 · 4/0/6 · 0 · {"o":2,"x":1,"r":7} · productos con alguna zona: 10
+  m-hog: 819 (5) · 1693 · 14 · 14 (100.0%) · 0 · 6/1/7 · 0 · {"r":10,"x":3,"o":1} · productos con alguna zona: 14
+  m-inv: 123 (1) · 244 · 14 · 14 (100.0%) · 0 · 3/3/8 · 0 · {"x":6,"r":6,"o":2} · productos con alguna zona: 14
+  m-nav: 25 (0) · 45 · 14 · 14 (100.0%) · 0 · 8/0/6 · 0 · {"r":12,"o":2} · productos con alguna zona: 14
+  m-out: 269 (2) · 454 · 14 · 14 (100.0%) · 0 · 4/1/9 · 0 · {"r":12,"o":2} · productos con alguna zona: 14
+  m-taz: 524 (0) · 1849 · 14 · 14 (100.0%) · 0 · 0/0/14 · 0 · {"o":10,"r":4} · productos con alguna zona: 14
+  m-tec: 575 (0) · 1176 · 14 · 14 (100.0%) · 0 · 6/0/8 · 0 · {"r":7,"x":6,"o":1} · productos con alguna zona: 14
+  m-ver: 246 (8) · 468 · 14 · 14 (100.0%) · 0 · 1/0/13 · 0 · {"r":8,"x":4,"o":2} · productos con alguna zona: 14
+  TOTAL: 4263 productos (22 sin áreas en Makito) · 10287 áreas · analizadas 156 (1.5%) · con zona 153 (98.1%) · sin zona 3
+  caja sobre foto principal 48 · sobre foto de color 13 · previsualización limpia 92 (60.1%)
+  productos con alguna zona detectada: 153 de 4263 · formas: {"r":107,"o":24,"x":22} (r rectángulo, o redondeada/elipse, x irregular, l solo contorno) · varias zonas en la imagen: 0
+  áreas sin técnicas en Makito: 0 · técnicas sin nº de colores en el área: 3094 · ids de técnica desconocidos: 104032, 104033, 100419, 100837
+  previsualizaciones limpias: 92 · 0.6 MB (media 6.7 KB) · estimado si se analizan todas las áreas: ~40 MB
+  data/makito-marcaje: 1442 KB (m-bol 170, m-dep 78, m-esc 331, m-eve 22, m-hog 242, m-inv 36, m-nav 7, m-out 64, m-taz 245, m-tec 167, m-ver 69 KB; tecnicas.json 9.6 KB)
+  IoU silueta previsualización vs foto principal: {"0":4,"0.8":17,"0.3":10,"0.1":7,"0.2":14,"0.9":48,"0.6":20,"0.4":13,"0.7":10,"0.5":13}
+  IoU silueta previsualización vs foto de color: {"0.9":14,"0.5":8,"0.6":4,"0.3":3,"0.1":2,"0.2":4,"0.7":3,"0.8":2,"0.4":3}
+
+Áreas sin zona (3): 11540|A1:verde-sin-forma 11541|A1:verde-sin-forma 11864|A1:verde-sin-forma
