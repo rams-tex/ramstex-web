@@ -515,8 +515,6 @@ img.pack{object-fit:contain!important;padding:6%}
 .gtot b{font:700 var(--fs-l) "Bricolage Grotesque",sans-serif}
 .send{width:100%}
 .palt{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.pmail{color:var(--muted);font-size:var(--fs-s);padding:6px 4px}
-.pmail:hover{color:var(--text)}
 .pdfbtn{height:var(--h-md);padding:0 16px;font-size:.95rem}
 .pdfbtn svg{width:16px;height:16px;flex:none}
 .pdfbtn[aria-busy="true"]{cursor:progress;opacity:.7}
@@ -1043,6 +1041,108 @@ footer .wrap.fgrid{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,m
 .fcol a[href^="https://wa.me"]{white-space:nowrap}
 .fcol a:hover{color:var(--text);text-decoration:underline;text-underline-offset:3px}
 @media (max-width:900px){footer .wrap.fgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.fbrand{grid-column:1/-1}}
+/* ---------- Solicitar presupuesto (/presupuesto/) ---------- */
+.palt .btn{height:var(--h-md);padding:0 16px;font-size:.95rem;flex:1 1 auto}
+.pwa svg{width:16px;height:16px;flex:none}
+.pwa[aria-busy="true"]{cursor:progress;opacity:.7}
+.qpage{padding-top:32px;padding-bottom:96px}
+.qpage h1{font-size:var(--fs-2xl);font-weight:800;text-wrap:balance}
+.qpage h1:focus{outline:0}
+.qpage .sub{margin:12px 0 28px}
+.qco{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:48px;align-items:start}
+.qf{order:1;display:block;max-width:640px}
+.qsum{order:2;position:sticky;top:92px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-m)}
+.qsumbtn{display:none}
+.qsumbody{padding:20px 22px 22px}
+.qsumhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:4px}
+.qsumhead h2{font-size:var(--fs-l);font-weight:700}
+.qsumhead .qrm{margin:0}
+.qsl{list-style:none;margin:0;padding:0}
+.qsl>li{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:4px 12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.qsl .qimg{width:56px;height:70px}
+.qsl .qname{font-size:var(--fs-s)}
+.qsl .qsz2{margin:4px 0 0;font-size:var(--fs-xs);line-height:1.45;color:var(--text);font-variant-numeric:tabular-nums}
+.qsl .qsz2.tbd{color:var(--muted);font-style:italic}
+.qsl .qcol{text-align:right;font:700 var(--fs-s)/1.3 Figtree,sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}
+.qsl .qcol.tbd{font-weight:500;color:var(--muted)}
+.qsl .qsdz{grid-column:2/-1;display:flex;gap:10px;align-items:flex-start;margin-top:6px;padding:8px;border-radius:var(--r-s);background:var(--bg);border:1px solid var(--line)}
+.qsl .qsdz img{width:96px;height:auto;max-height:96px;object-fit:contain;border-radius:4px;flex:none;background:#fff}
+.qsl .qsdz p{margin:0;font-size:var(--fs-xs);line-height:1.4}
+.qsl .qsdz b{display:block}
+.qstot{display:flex;justify-content:space-between;align-items:baseline;margin:14px 0 0;font-size:var(--fs-s);font-variant-numeric:tabular-nums}
+.qstot b{font:700 var(--fs-l) "Bricolage Grotesque",sans-serif}
+.qsund{margin:2px 0 0;color:var(--muted);font-size:var(--fs-xs)}
+.qprom{list-style:none;margin:16px 0 0;padding:14px 0 0;border-top:1px solid var(--line);display:grid;gap:6px;font-size:var(--fs-s);font-weight:500}
+.qprom li{display:flex;align-items:center;gap:8px}
+.qprom svg{width:16px;height:16px;color:var(--red-text);flex:none}
+.qfs{border:0;margin:0 0 28px;padding:0;min-width:0}
+.qfs legend{padding:0;margin:0 0 14px;font:700 var(--fs-l)/1.2 "Bricolage Grotesque",Figtree,sans-serif;letter-spacing:-0.01em}
+.qhelp{margin:-6px 0 12px;color:var(--muted);font-size:var(--fs-xs);line-height:1.45}
+.qrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}
+.qfld{display:flex;flex-direction:column;min-width:0}
+.qfld>label{display:block;margin-bottom:6px;font-weight:600;font-size:var(--fs-s)}
+.qopt{font-weight:400;color:var(--muted)}
+.qpage input:not([type="checkbox"]):not([type="radio"]),.qpage textarea{background:var(--surface);min-height:48px}
+.qpage input[type="date"]{max-width:240px;-webkit-appearance:none;appearance:none}
+.qpage input[aria-invalid="true"]{border-color:var(--red-text);box-shadow:0 0 0 1px var(--red-text)}
+.qerr{margin:4px 0 0;min-height:22px;color:var(--red-text);font-size:var(--fs-xs);font-weight:600;line-height:1.35}
+.qtel{display:grid;grid-template-columns:76px minmax(0,1fr);gap:8px}
+.qtel input:first-child{text-align:center;padding-left:6px;padding-right:6px}
+.qradios{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.qradio{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:1.5px solid var(--line-strong);border-radius:var(--r-s);background:var(--surface);cursor:pointer;font-weight:400;transition:border-color 150ms ease,background-color 150ms ease}
+.qradio input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--red);flex:none}
+.qradio b{display:block;font-weight:700}
+.qradio span span{display:block;color:var(--muted);font-size:var(--fs-xs);line-height:1.4;margin-top:2px}
+.qradio:has(input:checked){border-color:var(--red-text);background:color-mix(in srgb,var(--red) 5%,var(--surface))}
+.qradio:has(input:focus-visible){outline:3px solid var(--red-text);outline-offset:2px}
+.qradio input:focus-visible{outline:0}
+@media (hover:hover) and (pointer:fine){.qradio:not(:has(input:checked)):hover{border-color:var(--text)}}
+.qfld>.qcheck,.qcheck{display:flex;margin:0;align-items:flex-start;gap:12px;font-weight:600;font-size:var(--fs-s);cursor:pointer;line-height:1.4}
+.qcheck input{width:20px;height:20px;margin:0;accent-color:var(--red);flex:none}
+.qconsent .qhelp{margin:6px 0 0 32px}
+.qconsent .qerr{margin-left:32px}
+.qhp{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+.qstat{margin:4px 0 16px;padding:14px 16px;border-radius:var(--r-s);background:color-mix(in srgb,var(--red) 7%,var(--surface));border:1px solid color-mix(in srgb,var(--red) 35%,transparent);font-size:var(--fs-s);line-height:1.45}
+.qstat p{margin:0 0 10px}
+.qstat b{color:var(--red-text)}
+.qstat .btn{height:var(--h-md);font-size:.95rem}
+.qsubmit{width:100%}
+.qsubmit[aria-busy="true"]{cursor:progress}
+.qsubmit[aria-busy="true"]::before{content:"";width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;animation:qspin .8s linear infinite;flex:none}
+@keyframes qspin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.qsubmit[aria-busy="true"]::before{animation-duration:2.4s}}
+.qnote{margin:10px 0 0;text-align:center;color:var(--muted);font-size:var(--fs-xs)}
+.qbtns{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.qempty,.qok{max-width:640px;padding:24px 0 40px}
+.qok{text-align:left}
+.qokic{width:48px;height:48px;color:var(--red);display:block;margin-bottom:18px}
+.qokt{font-size:var(--fs-l);margin:14px 0 6px;line-height:1.4}
+.qokt b{overflow-wrap:anywhere}
+.qokref{margin:0;font-size:var(--fs-m)}
+.qokref b{font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.qokn{margin:14px 0 0;color:var(--muted);font-size:var(--fs-s)}
+#view-quote:not([hidden])~.wa{display:none}
+@media (max-width:900px){
+  .qco{grid-template-columns:minmax(0,1fr);gap:24px}
+  .qf{max-width:none}
+  .qsum{order:0;position:static}
+  .qsumbtn{display:flex;align-items:center;gap:10px;width:100%;min-height:56px;padding:12px 18px;border:0;background:none;border-radius:var(--r-m);font:600 var(--fs-s)/1.3 Figtree,sans-serif;color:var(--text);cursor:pointer;text-align:left}
+  .qsumbtn .qsumbl{color:var(--red-text);text-decoration:underline;text-underline-offset:3px}
+  .qsumbtn .qsumn{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums}
+  .qsumbtn svg{width:16px;height:16px;flex:none;transition:transform 200ms var(--ease-ui)}
+  .qsumbtn[aria-expanded="true"] svg{transform:rotate(180deg)}
+  .qsum:not(.open) .qsumbody{display:none}
+  .qsumbody{padding:0 18px 18px;border-top:1px solid var(--line)}
+  .qsumhead{padding-top:14px}
+}
+@media (max-width:600px){
+  .qpage{padding-top:20px}
+  .qpage .sub{margin-bottom:20px}
+  .qrow,.qradios{grid-template-columns:minmax(0,1fr)}
+  .qpage input[type="date"]{max-width:none}
+  .qbtns .btn{width:100%}
+  .pwl{display:none}
+}
 </style>
 </head>
 <body>
@@ -1359,6 +1459,89 @@ var NAVIDAD_HASTA="2026-12-20";
   </div>
 </div>
 
+<!-- =============== SOLICITAR PRESUPUESTO (formulario por correo) =============== -->
+<div id="view-quote" hidden>
+  <div class="wrap qpage" id="qpage">
+    <div id="qmain">
+      <a class="back" href="/catalogo/">Seguir añadiendo productos</a>
+      <h1 id="qh1" tabindex="-1">Solicitar presupuesto</h1>
+      <p class="sub">Déjanos tus datos y te enviamos el presupuesto por correo en 24 horas. Sin compromiso y sin pagar nada ahora.</p>
+      <div class="qco">
+        <aside class="qsum" id="qsum" aria-labelledby="qsumh">
+          <button class="qsumbtn" id="qsumbtn" type="button" aria-expanded="false" aria-controls="qsumbody"><span class="qsumbl">Ver tu pedido</span><span class="qsumn" id="qsumn"></span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="qsumbody" id="qsumbody">
+            <div class="qsumhead"><h2 id="qsumh">Tu pedido</h2><button class="qrm" id="qedit" type="button">Editar</button></div>
+            <ul class="qsl" id="qsl"></ul>
+            <p class="qstot"><span>Total</span><b id="qstot">0 uds.</b></p>
+            <p class="qsund" id="qsund" hidden></p>
+            <ul class="qprom">
+              <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Presupuesto en 24 h</li>
+              <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Diseño gratis antes de producir</li>
+              <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Sin pago ahora</li>
+            </ul>
+          </div>
+        </aside>
+        <form class="qf" id="qf" novalidate>
+          <fieldset class="qfs">
+            <legend>Contacto</legend>
+            <div class="qfld"><label for="qf-email">Correo electrónico</label><input id="qf-email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" required aria-describedby="qf-email-e"><p class="qerr" id="qf-email-e"></p></div>
+            <div class="qrow">
+              <div class="qfld"><label for="qf-nombre">Nombre</label><input id="qf-nombre" name="nombre" autocomplete="name" required aria-describedby="qf-nombre-e"><p class="qerr" id="qf-nombre-e"></p></div>
+              <div class="qfld"><label for="qf-empresa">Empresa <span class="qopt">(opcional)</span></label><input id="qf-empresa" name="empresa" autocomplete="organization"><p class="qerr"></p></div>
+            </div>
+            <div class="qrow">
+              <div class="qfld"><label for="qf-tel">Teléfono</label><div class="qtel"><input id="qf-pre" name="prefijo" value="+34" autocomplete="tel-country-code" inputmode="tel" aria-label="Prefijo del país" maxlength="5"><input id="qf-tel" name="telefono" type="tel" inputmode="tel" autocomplete="tel-national" required aria-describedby="qf-tel-e"></div><p class="qerr" id="qf-tel-e"></p></div>
+              <div class="qfld"><label for="qf-nif">NIF/CIF <span class="qopt">(opcional)</span></label><input id="qf-nif" name="nif" autocapitalize="characters" spellcheck="false" maxlength="20"><p class="qerr"></p></div>
+            </div>
+          </fieldset>
+          <fieldset class="qfs">
+            <legend>Entrega</legend>
+            <p class="qhelp">Para calcular el envío. La dirección completa te la pedimos al confirmar el pedido.</p>
+            <div class="qrow">
+              <div class="qfld"><label for="qf-prov">Provincia o ciudad <span class="qopt">(recomendado)</span></label><input id="qf-prov" name="provincia" autocomplete="address-level2"><p class="qerr"></p></div>
+              <div class="qfld"><label for="qf-cp">Código postal <span class="qopt">(recomendado)</span></label><input id="qf-cp" name="cp" inputmode="numeric" autocomplete="postal-code" maxlength="10"><p class="qerr"></p></div>
+            </div>
+          </fieldset>
+          <fieldset class="qfs">
+            <legend>Plazo</legend>
+            <div class="qradios">
+              <label class="qradio"><input type="radio" name="plazo" value="estandar" checked><span><b>Estándar</b><span>7-10 días laborables desde que apruebas el diseño</span></span></label>
+              <label class="qradio"><input type="radio" name="plazo" value="urgente"><span><b>Urgente</b><span>Con suplemento. Te confirmamos plazo y precio</span></span></label>
+            </div>
+            <div class="qfld qdate"><label for="qf-fecha">¿Tienes una fecha límite? <span class="qopt">(opcional)</span></label><input id="qf-fecha" name="fecha" type="date" aria-describedby="qf-fecha-e"><p class="qerr" id="qf-fecha-e"></p></div>
+          </fieldset>
+          <fieldset class="qfs">
+            <legend>Comentarios</legend>
+            <div class="qfld"><label for="qf-com" class="vh">Comentarios</label><textarea id="qf-com" name="comentarios" rows="4" maxlength="3000" placeholder="Por ejemplo: técnica que prefieres, colores del logo o si quieres una muestra antes"></textarea></div>
+          </fieldset>
+          <div class="qhp" aria-hidden="true"><label for="qf-web">No rellenes este campo</label><input id="qf-web" name="web" tabindex="-1" autocomplete="off"></div>
+          <div class="qfld qconsent">
+            <label class="qcheck"><input id="qf-ok" name="acepto" type="checkbox" required aria-describedby="qf-ok-e qf-ok-h"><span>Acepto que Ramstex use estos datos para responder a mi solicitud</span></label>
+            <p class="qhelp" id="qf-ok-h">Solo los usamos para prepararte el presupuesto y hablar contigo sobre él. No los compartimos con nadie ni te enviamos publicidad.</p>
+            <p class="qerr" id="qf-ok-e"></p>
+          </div>
+          <div class="qstat" id="qstat" role="alert" hidden></div>
+          <button class="btn qsubmit" id="qsubmit" type="submit"><span id="qsublbl">Solicitar presupuesto</span></button>
+          <p class="qnote">Sin compromiso. Te respondemos en 24 horas a tu correo.</p>
+        </form>
+      </div>
+    </div>
+    <div class="qempty" id="qempty" hidden>
+      <h1 tabindex="-1">Tu presupuesto está vacío</h1>
+      <p class="sub">Añade las prendas o productos que te interesen y vuelve aquí para pedir el presupuesto. También puedes contarnos tu idea por WhatsApp.</p>
+      <div class="qbtns"><a class="btn" href="/catalogo/">Ver el catálogo</a><a class="btn ghost" href="/merchandising/">Ver merchandising</a></div>
+    </div>
+    <div class="qok" id="qok" hidden>
+      <svg class="qokic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="currentColor"/><path d="M14 24.5l7 7 13-15" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h1 id="qokh" tabindex="-1">¡Recibido!</h1>
+      <p class="qokt">Te enviamos el presupuesto en 24 horas a <b id="qokmail"></b>.</p>
+      <p class="qokref">Número de solicitud <b id="qokref"></b></p>
+      <p class="qokn">Te hemos mandado un correo con el resumen de tu pedido. Si no lo ves, mira en la carpeta de correo no deseado.</p>
+      <div class="qbtns"><a class="btn" id="qokwa" href="https://wa.me/34682368645" target="_blank" rel="noopener">¿Prisa? Escríbenos por WhatsApp</a><a class="btn ghost" href="/catalogo/">Volver al catálogo</a></div>
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="wrap fgrid">
     <div class="fbrand">
@@ -1410,10 +1593,10 @@ var NAVIDAD_HASTA="2026-12-20";
   </div>
   <div class="pfoot" id="pfoot">
     <p class="gtot"><span>Total</span><b id="gtot">0 uds.</b></p>
-    <a class="send" id="send" href="https://wa.me/34682368645" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+    <a class="send" id="qgo" href="/presupuesto/">Solicitar presupuesto</a>
     <div class="palt">
+      <a class="btn ghost pwa" id="send" href="https://wa.me/34682368645" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg><span id="sendlbl"><span class="pwl">Enviar por </span>WhatsApp</span></a>
       <button class="btn ghost pdfbtn" id="pdfbtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 10.5l5 5 5-5"/><path d="M5 20h14"/></svg><span id="pdflbl">Descargar PDF</span></button>
-      <a class="pmail" id="sendmail" href="mailto:info@ramstex.com">o envíalo por correo</a>
     </div>
     <p class="pdferr" id="pdferr" role="status" aria-live="polite" hidden></p>
   </div>
@@ -2385,7 +2568,7 @@ function cartTotals(){
   var tail=!dzIds.length?"Logo/diseño: ":dzUp.length===dzIds.length?"He preparado el diseño en la web. Archivos y vista previa: "+uniqA(dzUp).join(" "):"He preparado el diseño en la web (detalles arriba). Os envío el logo por aquí.";
   var txt="Hola, os escribo desde la web de Ramstex. Quería pedir presupuesto de:\n\n"+lines+"\n\n"+(ids.length>1?sum+"\n\n":"")+tail;
   $("send").href="https://wa.me/34682368645?text="+encodeURIComponent(txt);
-  $("sendmail").href="mailto:info@ramstex.com?subject="+encodeURIComponent("Presupuesto desde el catálogo")+"&body="+encodeURIComponent(txt);
+  quoteSync();
 }
 $("list").addEventListener("input",function(e){
   var i=e.target; if(!i.dataset||!i.dataset.id) return; var l=cart[i.dataset.id]; if(!l) return;
@@ -2434,13 +2617,15 @@ function pdfImg(st){
     })();
   });
 }
-function pdfQuote(JS,imgs){
+/* o (opcional): {ref, cliente:["Nombre / empresa","Teléfono · correo"], out:true}. Con out devuelve el PDF en base64 en vez de descargarlo */
+function pdfQuote(JS,imgs,o){
+  o=o||{};
   var doc=new JS({unit:"mm",format:"a4",orientation:"portrait"}), PW=210, PH=297, M=16, CW=PW-2*M;
   var RED=[152,38,38], INK=[20,20,20], MUT=[100,100,100], LINE=[214,214,210], TINT=[237,237,235];
   var now=new Date(), p2=function(n){return (n<10?"0":"")+n;};
   var fecha=p2(now.getDate())+"/"+p2(now.getMonth()+1)+"/"+now.getFullYear();
   var AB="ABCDEFGHJKLMNPQRSTUVWXYZ23456789", rnd=""; for(var r=0;r<4;r++) rnd+=AB.charAt(Math.floor(Math.random()*AB.length));
-  var ref="RX-"+String(now.getFullYear()).slice(2)+p2(now.getMonth()+1)+p2(now.getDate())+"-"+rnd;
+  var ref=o.ref||("RX-"+String(now.getFullYear()).slice(2)+p2(now.getMonth()+1)+p2(now.getDate())+"-"+rnd);
   var col=function(c){doc.setTextColor(c[0],c[1],c[2]);}, fill=function(c){doc.setFillColor(c[0],c[1],c[2]);}, draw=function(c){doc.setDrawColor(c[0],c[1],c[2]);};
   /* Logo real de Ramstex: los mismos trazados del SVG de la cabecera, dibujados como vectores */
   function wordmark(x,y,size){
@@ -2477,9 +2662,10 @@ function pdfQuote(JS,imgs){
     return M+16;
   }
   var BOT=PH-20, y=header(true);
-  /* datos del cliente: dos líneas en blanco para escribir a mano */
-  [["Nombre / empresa:",0],["Teléfono o correo:",8.5]].forEach(function(f){
+  /* datos del cliente: los del formulario o dos líneas en blanco para escribir a mano */
+  [["Nombre / empresa:",0],["Teléfono o correo:",8.5]].forEach(function(f,i){
     var fy=y+f[1]; doc.setFont("helvetica","normal"); doc.setFontSize(9.5); col(MUT); doc.text(f[0],M,fy);
+    if(o.cliente&&o.cliente[i]){doc.setFont("helvetica","bold"); col(INK); doc.text(doc.splitTextToSize(String(o.cliente[i]),CW-33)[0],M+33,fy);}
     draw(LINE); doc.setLineWidth(0.3); doc.line(M+33,fy+0.8,PW-M,fy+0.8);
   });
   y+=18;
@@ -2558,6 +2744,7 @@ function pdfQuote(JS,imgs){
     doc.text("Página "+pgi+" de "+N,PW-M,PH-8.5,{align:"right"});
   }
   doc.setProperties({title:"Solicitud de presupuesto "+ref,author:"Ramstex",subject:"Presupuesto"});
+  if(o.out) return String(doc.output("datauristring")).split(",")[1]||"";
   doc.save("Presupuesto-Ramstex-"+p2(now.getDate())+"-"+p2(now.getMonth()+1)+"-"+now.getFullYear()+".pdf");
 }
 var pdfBusy=false;
@@ -2594,7 +2781,7 @@ function openPanel(from){
   if(!was) panelFrom=from||document.activeElement;
   PANEL.classList.add("open"); SCRIM.classList.add("on"); document.body.style.overflow="hidden";
   /* lo de detrás no se puede tocar ni leer mientras el panel está abierto */
-  if(!was){panelInert=[]; document.querySelectorAll("#view-home,#view-cat,#view-prod,#view-nav,header.top,.topbar,.xbar,footer,.wa,#menu,#dz").forEach(function(el){panelInert.push([el,el.inert]); el.inert=true;});}
+  if(!was){panelInert=[]; document.querySelectorAll("#view-home,#view-cat,#view-prod,#view-nav,#view-quote,header.top,.topbar,.xbar,footer,.wa,#menu,#dz").forEach(function(el){panelInert.push([el,el.inert]); el.inert=true;});}
   fillLines(); placeToast();
   requestAnimationFrame(function(){$("close").focus();});
 }
@@ -2982,7 +3169,7 @@ function dzOpen(push,from){
   var el=$("dz"); el.hidden=false; document.body.style.overflow="hidden";
   if(!document.documentElement.classList.contains("dzopen")){DZ.scroll=window.scrollY; document.documentElement.classList.add("dzopen");} /* solo el diseñador: la página no se desplaza */
   if(DZ.zoomed===undefined) DZ.zoomed=false; /* de entrada se ve la prenda entera; «Acercar» para hacer zoom */
-  dzInert=[]; document.querySelectorAll("#view-home,#view-cat,#view-prod,#view-nav,header.top,.topbar,.xbar,footer,.wa,#menu").forEach(function(x){dzInert.push([x,x.inert]); x.inert=true;});
+  dzInert=[]; document.querySelectorAll("#view-home,#view-cat,#view-prod,#view-nav,#view-quote,header.top,.topbar,.xbar,footer,.wa,#menu").forEach(function(x){dzInert.push([x,x.inert]); x.inert=true;});
   dzSeg(); dzDots(); dzShow();
   dzRestore();
   requestAnimationFrame(function(){try{$("dzclose").focus({preventScroll:true,focusVisible:false});}catch(e){$("dzclose").focus();}});
@@ -3471,8 +3658,8 @@ function subirDiseno(files,meta){
 function dzRef(){var n=new Date(), p2=function(v){return (v<10?"0":"")+v;}, AB="ABCDEFGHJKLMNPQRSTUVWXYZ23456789", r=""; for(var i=0;i<4;i++) r+=AB.charAt(Math.floor(Math.random()*AB.length)); return "RX-"+String(n.getFullYear()).slice(2)+p2(n.getMonth()+1)+p2(n.getDate())+"-"+r;}
 /* Antes de abrir WhatsApp: si hay diseños sin subir y está configurada la subida, se suben y el mensaje lleva los enlaces */
 function dzPendingIds(){return Object.keys(cart).filter(function(id){var l=cart[id]; return l.dz&&l.dz.p&&!l.dz.up;});}
-function dzSendUpload(){
-  var ids=dzPendingIds(), pedido=dzRef(), files=[], mockups=[], lineas=[];
+function dzSendUpload(ref,cliente){
+  var ids=dzPendingIds(), pedido=ref||dzRef(), files=[], mockups=[], lineas=[];
   return Promise.all(ids.map(function(id){
     var l=cart[id]; lineas.push({ref:l.r,nombre:l.n,color:l.c,diseno:dzText(l)});
     if(l.dz.img) mockups.push({name:l.r+"-"+slug(l.c)+"-vista-previa.jpg",mime:"image/jpeg",base64:l.dz.img.split(",")[1]||""});
@@ -3481,12 +3668,229 @@ function dzSendUpload(){
     }));
   })).then(function(){
     if(!files.length&&!mockups.length) return null;
-    return subirDiseno(files,{pedido:pedido,cliente:"",lineas:lineas,mockups:mockups});
+    return subirDiseno(files,{pedido:pedido,cliente:cliente||"",lineas:lineas,mockups:mockups});
   }).then(function(r){
     if(r&&r.ok){ids.forEach(function(id){if(cart[id]&&cart[id].dz) cart[id].dz.up=r.folderUrl;}); saveCart(); cartTotals();}
     return r;
   });
 }
+
+/* ---------- Solicitar presupuesto por correo (/presupuesto/) ----------
+   El formulario manda la solicitud a la misma app de Google Apps Script que guarda los diseños (DISENO_URL),
+   con tipo:"presupuesto". El script envía un correo a Ramstex (con el PDF), otro de confirmación al cliente
+   y apunta la solicitud en una hoja de cálculo. Respuesta: {ok:true, ref}. Sin «ref» = script antiguo: no se da por enviado. */
+var QTITLE="Solicitar presupuesto | Ramstex", QS={busy:false,done:false,ref:"",tried:false};
+var QF_KEY="ramstex-contacto", QSENT_KEY="ramstex-presupuesto-enviado";
+var QFIELDS=["email","nombre","empresa","prefijo","telefono","nif","provincia","cp","plazo","fecha","comentarios"];
+function qf(n){return $("qf").elements[n];}
+function qVal(n){var e=qf(n); if(!e) return ""; if(e.length&&!e.tagName){for(var i=0;i<e.length;i++) if(e[i].checked) return e[i].value; return "";} return String(e.value||"").trim();}
+function qSet(n,v){var e=qf(n); if(!e||v==null) return; if(e.length&&!e.tagName){for(var i=0;i<e.length;i++) e[i].checked=e[i].value===v;} else e.value=v;}
+/* Datos de contacto guardados en este navegador para la próxima vez */
+function qLoad(){
+  var d=null; try{d=JSON.parse(localStorage.getItem(QF_KEY)||"null");}catch(e){}
+  if(!d) return; QFIELDS.forEach(function(n){if(d[n]!=null&&d[n]!=="") qSet(n,d[n]);});
+}
+function qStore(clearOrder){
+  var d={}; QFIELDS.forEach(function(n){d[n]=qVal(n);});
+  if(clearOrder){d.plazo="estandar"; d.fecha=""; d.comentarios="";}
+  try{localStorage.setItem(QF_KEY,JSON.stringify(d));}catch(e){}
+}
+function qToday(){var n=new Date(), p2=function(v){return (v<10?"0":"")+v;}; return n.getFullYear()+"-"+p2(n.getMonth()+1)+"-"+p2(n.getDate());}
+function qDigits(s){return String(s||"").replace(/\D/g,"");}
+/* Comprobaciones: devuelven el texto del error (qué pasa y cómo arreglarlo) o "" */
+var QCHECK={
+  email:function(v){return !v?"Escribe tu correo: ahí te enviamos el presupuesto.":/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)?"":"Revisa el correo: nombre@empresa.com";},
+  nombre:function(v){return v?"":"Escribe tu nombre.";},
+  telefono:function(v){
+    var d=qDigits(v), pre=qDigits(qVal("prefijo")||"34");
+    if(!d) return "Escribe tu teléfono de contacto.";
+    if(pre==="34"&&d.length===11&&d.indexOf("34")===0) d=d.slice(2);
+    if(pre==="34"?d.length!==9:(d.length<6||d.length>14)) return pre==="34"?"Revisa el teléfono: en España tiene 9 cifras.":"Revisa el teléfono: faltan o sobran cifras.";
+    return "";
+  },
+  fecha:function(v){return v&&v<qToday()?"Esa fecha ya ha pasado: elige otra o déjala vacía.":"";},
+  acepto:function(){return qf("acepto").checked?"":"Marca la casilla para poder responderte.";}
+};
+var QERRID={email:"qf-email-e",nombre:"qf-nombre-e",telefono:"qf-tel-e",fecha:"qf-fecha-e",acepto:"qf-ok-e"};
+function qCheck(n){
+  var msg=QCHECK[n](qVal(n)), el=qf(n), er=$(QERRID[n]);
+  er.textContent=msg;
+  if(msg) el.setAttribute("aria-invalid","true"); else el.removeAttribute("aria-invalid");
+  return !msg;
+}
+/* Resumen del pedido (columna derecha; en el móvil, plegado arriba). La columna de unidades puede llevar el precio más adelante */
+function qSizes(l){
+  var q=l.q||{}, t=lineTotal(l);
+  if(!t) return "";
+  if(l.zs&&l.zs.length) return l.zs.filter(function(z){return +q[z]>0;}).map(function(z){return zLabel(z)+" × "+fmt(+q[z]);}).join(" · ");
+  return "";
+}
+function qColor(l){return l.c==="color por decidir"?"Color por decidir":colES(l.c);}
+function quoteSum(){
+  var ids=Object.keys(cart), ul=$("qsl"), g=0, und=0; ul.innerHTML="";
+  ids.forEach(function(id){
+    var l=cart[id], t=lineTotal(l), sz=qSizes(l); g+=t; if(!t) und++;
+    var li=document.createElement("li");
+    li.innerHTML='<div class="qimg"><img alt="" loading="lazy" decoding="async"></div><div><p class="qname">'+esc(l.n)+'</p><p class="qmeta">Ref. '+esc(l.r)+' · '+esc(qColor(l))+'</p>'+
+      (t?(sz?'<p class="qsz2">'+esc(sz)+'</p>':''):'<p class="qsz2 tbd">Cantidades por definir</p>')+'</div><p class="qcol'+(t?'':' tbd')+'">'+(t?uds(t):'—')+'</p>';
+    var img=li.querySelector("img"); if(l.i) setSrc(img,l.i,200); else img.parentNode.style.visibility="hidden";
+    if(l.dz&&l.dz.p){
+      var d=document.createElement("div"); d.className="qsdz";
+      d.innerHTML=(l.dz.img?'<img alt="Vista previa de tu diseño en '+esc(l.n)+'" src="'+l.dz.img+'">':'')+'<p><b>Tu diseño</b>'+esc(dzText(l))+'</p>';
+      li.appendChild(d);
+    }
+    ul.appendChild(li);
+  });
+  $("qstot").textContent=uds(g);
+  $("qsund").hidden=!und; $("qsund").textContent=und?"Más "+und+(und===1?" producto":" productos")+" con cantidades por definir: te ayudamos a decidirlas.":"";
+  $("qsumn").textContent=ids.length+(ids.length===1?" producto":" productos")+" · "+uds(g);
+}
+/* Qué se ve: formulario, presupuesto vacío o «Recibido» */
+function quoteSync(){
+  if(!VQ||VQ.hidden||QS.done) return;
+  var n=Object.keys(cart).length;
+  $("qmain").hidden=!n; $("qempty").hidden=!!n; $("qok").hidden=true;
+  if(n) quoteSum();
+}
+function quoteShow(focus){
+  QS.done=false; $("qstat").hidden=true;
+  if(!QS.loaded){QS.loaded=true; qLoad(); $("qf-fecha").min=qToday();}
+  if(!$("qok").hidden) $("qok").hidden=true;
+  quoteSync(); fillLines();
+  if(focus) requestAnimationFrame(function(){var h=Object.keys(cart).length?$("qh1"):$("qempty").querySelector("h1"); if(h) h.focus({preventScroll:true});});
+}
+function qRobots(on){
+  var m=document.getElementById("qrobots");
+  if(on&&!m){m=document.createElement("meta"); m.name="robots"; m.content="noindex"; m.id="qrobots"; document.head.appendChild(m);}
+  else if(!on&&m) m.remove();
+}
+/* Datos que se envían (y que lleva el mensaje de WhatsApp si el correo falla) */
+function qData(ref,folder,pdf){
+  var ids=Object.keys(cart), g=0;
+  var lineas=ids.map(function(id){
+    var l=cart[id], q=l.q||{}, t=lineTotal(l), tallas={}; g+=t;
+    if(l.zs&&l.zs.length) l.zs.forEach(function(z){if(+q[z]>0) tallas[zLabel(z)]=+q[z];});
+    return {nombre:l.n,ref:l.r,color:qColor(l),tallas:tallas,unidades:t,diseno:dzText(l),carpeta:(l.dz&&l.dz.up)||""};
+  });
+  return {tipo:"presupuesto",pedido:ref,
+    contacto:{email:qVal("email"),nombre:qVal("nombre"),empresa:qVal("empresa"),telefono:(qVal("prefijo")||"+34")+" "+qVal("telefono"),nif:qVal("nif").toUpperCase()},
+    entrega:{provincia:qVal("provincia"),cp:qVal("cp")},
+    plazo:{tipo:qVal("plazo")==="urgente"?"urgente":"estandar",texto:qVal("plazo")==="urgente"?"Urgente (con suplemento)":"Estándar (7-10 días laborables)",fecha:qVal("fecha")},
+    comentarios:qVal("comentarios"),lineas:lineas,unidades:g,carpeta:folder||"",pdf:pdf||"",web:qVal("web"),origen:location.href};
+}
+function qFecha(v){var m=String(v||"").match(/^(\d{4})-(\d{2})-(\d{2})$/); return m?m[3]+"/"+m[2]+"/"+m[1]:v;}
+function qWAText(d){
+  var c=d.contacto, out="Hola, os escribo desde la web de Ramstex. Quería pedir presupuesto"+(d.pedido?" (Nº "+d.pedido+")":"")+":\n\n";
+  out+=d.lineas.map(function(l){
+    var t="- "+l.nombre+"\n  Ref. "+l.ref+" · "+l.color, k=Object.keys(l.tallas);
+    t+=!l.unidades?"\n  Cantidades por definir":k.length?"\n  Tallas: "+k.map(function(z){return z+": "+l.tallas[z];}).join(", ")+"\n  Total: "+uds(l.unidades):"\n  Unidades: "+fmt(l.unidades);
+    if(l.diseno) t+="\n  Diseño: "+l.diseno;
+    return t;
+  }).join("\n\n");
+  if(d.lineas.length>1) out+="\n\nTotal: "+uds(d.unidades);
+  out+="\n\nPlazo: "+d.plazo.texto+(d.plazo.fecha?" · Fecha límite: "+qFecha(d.plazo.fecha):"");
+  if(d.comentarios) out+="\nComentarios: "+d.comentarios;
+  if(d.carpeta) out+="\nDiseños: "+d.carpeta;
+  out+="\n\nMis datos: "+[c.nombre,c.empresa,c.email,c.telefono,c.nif].filter(Boolean).join(" · ");
+  if(d.entrega.provincia||d.entrega.cp) out+="\nEntrega en: "+[d.entrega.provincia,d.entrega.cp].filter(Boolean).join(", ");
+  return out;
+}
+function qStatus(kind,d){
+  var s=$("qstat"), wa="https://wa.me/34682368645?text="+encodeURIComponent(qWAText(d));
+  var msg=kind==="old"?"<b>Ahora mismo no podemos recibir solicitudes por correo.</b> Envíanosla por WhatsApp con todo ya escrito y te respondemos igual de rápido."
+    :kind==="limite"?"<b>Estamos recibiendo muchas solicitudes a la vez.</b> Inténtalo de nuevo en unos minutos o envíanosla por WhatsApp."
+    :"<b>No hemos podido enviar tu solicitud.</b> Revisa tu conexión y vuelve a pulsar «Solicitar presupuesto», o envíanosla por WhatsApp con todo ya escrito.";
+  s.innerHTML='<p>'+msg+'</p><a class="btn ghost" target="_blank" rel="noopener">Enviar por WhatsApp</a>';
+  s.querySelector("a").href=wa; s.hidden=false;
+}
+/* Prepara el PDF del presupuesto (el mismo que «Descargar PDF», con los datos del cliente). Si tarda o falla, se envía sin él */
+function qPdf(ref){
+  var ids=Object.keys(cart), cli=[[qVal("nombre"),qVal("empresa")].filter(Boolean).join(" · "),[(qVal("prefijo")||"+34")+" "+qVal("telefono"),qVal("email")].join(" · ")];
+  var work=Promise.all([loadJsPDF(),Promise.all(ids.map(function(id){return pdfImg(cart[id].i);}))]).then(function(r){
+    var b=pdfQuote(r[0],r[1],{ref:ref,cliente:cli,out:true});
+    return b&&b.length<3*1024*1024*1.37?b:""; /* el PDF no pasa de 3 MB */
+  });
+  return Promise.race([work,new Promise(function(res){setTimeout(function(){res("");},25000);})]).catch(function(){return "";});
+}
+function qPost(d){
+  var ctl=window.AbortController?new AbortController():null, to=setTimeout(function(){if(ctl) ctl.abort();},60000);
+  return fetch(DISENO_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d),redirect:"follow",signal:ctl?ctl.signal:undefined})
+    .then(function(r){clearTimeout(to); return r.json();});
+}
+function qBusy(on,txt){
+  var b=$("qsubmit"); QS.busy=on;
+  if(on){b.setAttribute("aria-busy","true"); $("qf").setAttribute("aria-busy","true");} else {b.removeAttribute("aria-busy"); $("qf").removeAttribute("aria-busy");}
+  $("qsublbl").textContent=txt||"Solicitar presupuesto";
+}
+function qSubmit(e){
+  e.preventDefault();
+  if(QS.busy) return;
+  QS.tried=true; $("qstat").hidden=true;
+  var bad=["email","nombre","telefono","fecha","acepto"].filter(function(n){return !qCheck(n);});
+  if(bad.length){var f=qf(bad[0]); f.focus(); return;}
+  if(!Object.keys(cart).length){quoteSync(); return;}
+  qStore(false);
+  var ref=QS.ref||(QS.ref=dzRef()), cliente=qVal("empresa")||qVal("nombre");
+  qBusy(true,dzPendingIds().length?"Subiendo tu diseño…":"Enviando…");
+  var up=DISENO_URL&&dzPendingIds().length?dzSendUpload(ref,cliente).catch(function(){return null;}):Promise.resolve(null);
+  var folder="";
+  Promise.all([up,qPdf(ref)]).then(function(r){
+    folder=(r[0]&&r[0].ok&&r[0].folderUrl)||uniqA(Object.keys(cart).map(function(id){return cart[id].dz&&cart[id].dz.up;}).filter(Boolean))[0]||"";
+    qBusy(true,"Enviando…");
+    var d=qData(ref,folder,r[1]);
+    if(!DISENO_URL) return {kind:"red",d:d};
+    return qPost(d).then(function(j){
+      if(j&&j.ok&&j.ref) return {kind:"ok",d:d,ref:j.ref};
+      if(j&&j.ok) return {kind:"old",d:d}; /* la app de Google aún tiene el código antiguo: solo ha guardado archivos */
+      return {kind:j&&j.error==="limite"?"limite":"red",d:d};
+    },function(){return {kind:"red",d:d};});
+  }).then(function(res){
+    qBusy(false);
+    if(res.kind!=="ok"){res.d.pdf=""; qStatus(res.kind,res.d); return;}
+    qDone(res.ref,res.d.contacto.email);
+  }).catch(function(){qBusy(false); qStatus("red",qData(ref,folder,""));});
+}
+/* Enviado: se guarda una copia del presupuesto (por si acaso) y se vacía */
+function qDone(ref,email){
+  try{localStorage.setItem(QSENT_KEY,JSON.stringify({ref:ref,fecha:new Date().toISOString(),email:email,cart:cart}));}catch(e){}
+  qStore(true); qSet("plazo","estandar"); qSet("fecha",""); qSet("comentarios","");
+  QS.done=true; QS.ref="";
+  cart={}; cartUI(); syncAdds();
+  $("qmain").hidden=true; $("qempty").hidden=true; $("qok").hidden=false;
+  $("qokmail").textContent=email; $("qokref").textContent=ref;
+  $("qokwa").href="https://wa.me/34682368645?text="+encodeURIComponent("Hola, acabo de pedir presupuesto en la web (Nº "+ref+"). ");
+  window.scrollTo(0,0);
+  requestAnimationFrame(function(){$("qokh").focus({preventScroll:true});});
+}
+var VQ=$("view-quote");
+(function(){
+  var f=$("qf"); if(!f) return;
+  f.addEventListener("submit",qSubmit);
+  /* al salir de un campo con algo escrito se comprueba; si ya tenía error, se revisa mientras se escribe */
+  f.addEventListener("focusout",function(e){
+    var n=e.target.name; if(n==="nif") e.target.value=e.target.value.toUpperCase().replace(/\s+/g,"");
+    if(n==="prefijo"){var p=qDigits(e.target.value); e.target.value="+"+(p||"34"); if(qVal("telefono")) qCheck("telefono");}
+    if(QCHECK[n]&&(qVal(n)||QS.tried||e.target.getAttribute("aria-invalid"))) qCheck(n);
+  });
+  f.addEventListener("input",function(e){
+    var n=e.target.name;
+    if(QCHECK[n]&&e.target.getAttribute("aria-invalid")) qCheck(n);
+    clearTimeout(QS.st); QS.st=setTimeout(function(){qStore(false);},400);
+  });
+  f.addEventListener("change",function(e){if(e.target.name==="acepto"||e.target.name==="fecha") qCheck(e.target.name);});
+  $("qsumbtn").onclick=function(){
+    var s=$("qsum"), on=!s.classList.contains("open"); s.classList.toggle("open",on);
+    this.setAttribute("aria-expanded",on?"true":"false"); this.querySelector(".qsumbl").textContent=on?"Ocultar tu pedido":"Ver tu pedido";
+  };
+  $("qedit").onclick=function(){openPanel(this);};
+  /* «Solicitar presupuesto» en el panel: se cierra y se abre la página del formulario */
+  $("qgo").addEventListener("click",function(e){
+    if(e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
+    e.preventDefault(); closePanel();
+    if(location.pathname!=="/presupuesto/") history.pushState(null,"","/presupuesto/");
+    route(); requestAnimationFrame(function(){$("qh1").focus({preventScroll:true});});
+  });
+})();
 
 /* ---------- Carga de datos ---------- */
 var loading=null;
@@ -3514,8 +3918,13 @@ function route(){
   lastRouted=location.href;
   document.querySelectorAll(".dnav a[data-view],.menu a[data-view]").forEach(function(a){a.removeAttribute("aria-current");});
   if(inCat) catScroll=window.scrollY;
-  VN.hidden=true;
-  if(path==="/navidad/"||path==="/navidad"){
+  VN.hidden=true; VQ.hidden=true; qRobots(false);
+  if(path==="/presupuesto/"||path==="/presupuesto"){
+    inCat=false; VH.hidden=true;VC.hidden=true;VP.hidden=true;VQ.hidden=false; window.scrollTo(0,0);
+    if(path!=="/presupuesto/") history.replaceState(null,"","/presupuesto/");
+    setMeta(QTITLE,"/presupuesto/"); qRobots(true);
+    quoteShow();
+  } else if(path==="/navidad/"||path==="/navidad"){
     inCat=false; VH.hidden=true;VC.hidden=true;VP.hidden=true;VN.hidden=false; window.scrollTo(0,0);
     setMeta(NAVTITLE,"/navidad/"); navCur("nav");
     ensureData(renderNav);
@@ -3572,7 +3981,7 @@ document.addEventListener("click",function(e){
   if(e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
   var a=e.target.closest("a"); if(!a||a.target||a.hasAttribute("download")||!a.href) return;
   var u=new URL(a.href,location.href); if(u.origin!==location.origin) return;
-  if(!/^\/($|catalogo\/|merchandising\/|producto\/|navidad\/)/.test(u.pathname)) return;
+  if(!/^\/($|catalogo\/|merchandising\/|producto\/|navidad\/|presupuesto\/)/.test(u.pathname)) return;
   if(u.pathname===location.pathname&&u.search===location.search&&u.hash) return; /* ancla en la misma página */
   if(u.pathname==="/"&&!VH.children.length) return; /* el inicio se carga entero */
   e.preventDefault();
@@ -3596,9 +4005,9 @@ $("send").addEventListener("click",function(e){
   if(!DISENO_URL||!dzPendingIds().length) return;
   e.preventDefault();
   var a=this, w=window.open("","_blank"), er=$("pdferr");
-  a.setAttribute("aria-busy","true"); a.textContent="Subiendo tu diseño…"; er.hidden=true;
+  a.setAttribute("aria-busy","true"); $("sendlbl").textContent="Subiendo tu diseño…"; er.hidden=true;
   dzSendUpload().catch(function(){return null;}).then(function(r){
-    a.removeAttribute("aria-busy"); a.textContent="Enviar por WhatsApp";
+    a.removeAttribute("aria-busy"); $("sendlbl").innerHTML='<span class="pwl">Enviar por </span>WhatsApp';
     if(!r||!r.ok){er.textContent="No se han podido subir los archivos: envíanos el logo por el chat."; er.hidden=false;}
     if(w&&!w.closed) w.location.href=a.href; else location.href=a.href;
   });

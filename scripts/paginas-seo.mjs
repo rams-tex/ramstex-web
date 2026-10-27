@@ -90,6 +90,9 @@ function page(tpl, h, view, content, ref) {
     if (content.landing !== undefined) s = s.replace('<div class="catlay" id="catlay">', '<div class="catlay" id="catlay" hidden>');
   } else if (view === "nav") {
     s = s.replace('<div id="view-nav" hidden>', '<div id="view-nav">').replace('<div class="grid navgrid" id="navgrid"></div>', `<div class="grid navgrid" id="navgrid">${content}</div>`);
+  } else if (view === "quote") {
+    if (!s.includes('<div id="view-quote" hidden>')) throw new Error("Falta #view-quote");
+    s = s.replace('<div id="view-quote" hidden>', '<div id="view-quote">');
   } else {
     s = s.replace('<div id="view-prod" hidden>', '<div id="view-prod">').replace('<div class="wrap cat" id="prod"></div>', `<div class="wrap cat" id="prod" data-pre="${esc(ref)}">${content}</div>`)
       .replace(/<h1 id="cattitle">[^<]*<\/h1>/, '<h1 id="cattitle"></h1>');
@@ -201,6 +204,12 @@ for (const it of D.items) {
   write("/navidad/", page(TPL, h, "nav", items.map(card).join("")));
   if (!hasta || Date.now() < new Date(hasta + "T23:59:59").getTime()) urls.push("/navidad/"); /* en el sitemap solo durante la campaña */
 }
+
+// ---------- Solicitar presupuesto (formulario; el pedido lo pinta la aplicación con lo que hay en el navegador) ----------
+// No se indexa ni va en el sitemap: sin productos en el presupuesto no tiene contenido propio.
+write("/presupuesto/", page(TPL, head({ title: "Solicitar presupuesto | Ramstex",
+  desc: "Déjanos tus datos y te enviamos el presupuesto por correo en 24 horas. Sin compromiso y sin pagar nada ahora.",
+  path: "/presupuesto/", noindex: true }), "quote"));
 
 // ---------- 404 (la web completa, para direcciones que ya no existen) ----------
 writeFileSync(join(OUT, "404.html"), html.replace(/<!--seo-->[\s\S]*?<!--\/seo-->/, head({ title: "Página no encontrada | Ramstex", desc: "Esta página ya no existe. Visita el catálogo de Ramstex.", path: "/", noindex: true })));
