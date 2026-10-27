@@ -37,6 +37,11 @@
      "techniques": "100116(4)"
     }
    ]
+  },
+  "posiciones": {
+   "386": "En la cara A",
+   "397": "En la cara B",
+   "851": "Frontal"
   }
  },
  {
@@ -93,6 +98,13 @@
      "techniques": "100400,100112(4)"
     }
    ]
+  },
+  "posiciones": {
+   "3570": "Area 1",
+   "3571": "Area 2",
+   "3572": "Area 3",
+   "3575": "Area 6",
+   "3576": "Area 7"
   }
  },
  {
@@ -125,6 +137,10 @@
      "techniques": "100316(1),100600(8)"
     }
    ]
+  },
+  "posiciones": {
+   "481": "Centrado cara A",
+   "853": "Centrado cara B"
   }
  },
  {
@@ -181,6 +197,13 @@
      "techniques": "100316(6),100600(8),100800(1),100819(1)"
     }
    ]
+  },
+  "posiciones": {
+   "3570": "Area 1",
+   "3571": "Area 2",
+   "3572": "Area 3",
+   "3575": "Area 6",
+   "3576": "Area 7"
   }
  }
 ]
