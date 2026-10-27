@@ -200,7 +200,8 @@ try {
   for (const [mat, q] of Object.entries(sum)) {
     const p = byM[mat.slice(0, -6)]; if (!p) continue;
     const color = mat.slice(-6, -3), size = mat.slice(-3);
-    put(p.ref, color, p.merch ? "Única" : (p.sizecodes || {})[size] || size, q); n++;
+    const z = p.merch ? "Única" : (p.sizecodes || {})[size]; if (!z) continue;
+    put(p.ref, color, z, q); n++;
   }
   log.push(`Makito: ${n} referencias`);
 } catch (e) { log.push("Makito: error " + e.message); }

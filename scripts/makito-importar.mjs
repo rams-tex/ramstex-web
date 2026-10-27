@@ -180,6 +180,9 @@ for (const p of prods) {
       if (hit) sizecodes[v.variant_size] = hit;
     }
     if (Object.keys(sizecodes).length < codes.length && codes.length === names.length) codes.forEach((c, i) => sizecodes[c] ??= names[i]);
+    // Códigos de talla habituales de Makito (por si la talla no aparece en "sizes")
+    const STD = { 101: "XS", 102: "S", 103: "M", 104: "L", 105: "XL", 106: "XXL", 107: "3XL", 108: "4XL" };
+    for (const c of codes) if (!sizecodes[c]) { const w = String(vars.find(v => v.variant_size === c)?.variant_name || "").trim().split(/\s+/).pop(); sizecodes[c] = /^(x{0,3}[sml]|[2-6]?xl|xxl)$/i.test(w) ? w.toUpperCase() : STD[c] || w; }
   }
   const sizes = ropa ? [...new Set(Object.values(sizecodes))].sort((a, b) => sizeRank(a) - sizeRank(b)) : [];
   // Nombre: "Cámara Deportiva" + "Komir" -> "Cámara deportiva Komir"
