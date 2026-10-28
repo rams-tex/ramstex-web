@@ -1,0 +1,62 @@
+name: Marcaje Makito - previsualizaciones para la web
+# Prepara las previsualizaciones limpias (sin el verde) para la web a partir de las originales que «Marcaje Makito» guarda en su caché
+# (mkm/v/; scripts/makito-previas-web.py, con un relleno más natural que el de mkm/z/) y las guarda en mkz/ en el repositorio,
+# para que el diseñador de merchandising las sirva en ramstex.com/mkz/<mref>-<área>.webp (publicar-web copia mkz/ si existe).
+# No toca los scripts ni el flujo de «Marcaje Makito» ni la API de Makito: solo lee su caché (que solo se puede leer desde esta rama).
+# Se lanza cuando «Marcaje Makito» guarda datos (data/makito-marcaje/) o cambia este archivo. Sus propios commits solo cambian mkz/,
+# así que no se vuelve a lanzar a sí mismo ni lanza «Marcaje Makito» (que solo mira sus scripts, su flujo y relanzar.txt).
+on:
+  push:
+    branches: [makito-marcaje]
+    paths:
+      - data/makito-marcaje/**
+      - .github/workflows/makito-previas-web.yml
+      - scripts/makito-previas-web.py
+permissions:
+  contents: write
+concurrency:
+  group: makito-previas-web
+  cancel-in-progress: false
+jobs:
+  previas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q opencv-python-headless==4.10.0.84 pillow==10.4.0 numpy==1.26.4
+      - name: Traer lo último de la rama
+        run: git fetch -q --depth=1 origin "$GITHUB_REF_NAME" && git reset -q --hard FETCH_HEAD
+      - name: Recuperar la caché de «Marcaje Makito» (la última que haya guardado)
+        id: cache
+        uses: actions/cache/restore@v4
+        with:
+          path: mkm
+          key: mkm-v1-previas-${{ github.run_id }}
+          restore-keys: mkm-v1-
+      - name: Previsualizaciones limpias en mkz/ y guardarlas por tandas
+        run: |
+          if [ ! -d mkm/z ] || [ ! -d mkm/v ]; then echo "La caché no tiene previsualizaciones (mkm/z): nada que copiar"; exit 0; fi
+          python3 scripts/makito-previas-web.py mkm mkz
+          echo "En mkz: $(ls mkz | wc -l) archivos, $(du -sh mkz | cut -f1)"
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          guardar() {
+            git diff --cached --quiet && return 0
+            git commit -q -m "Marcaje Makito: previsualizaciones para la web ($1) [skip netlify]"
+            for i in 1 2 3 4 5; do
+              if git pull -q --rebase origin "$GITHUB_REF_NAME" && git push -q origin "HEAD:$GITHUB_REF_NAME"; then return 0; fi
+              echo "push falló, reintento"; sleep 20
+            done
+            return 1
+          }
+          # tandas de 800 archivos (~3-5 MB por commit)
+          git ls-files -o -m --exclude-standard mkz | split -l 800 - /tmp/tanda-
+          k=0
+          for t in /tmp/tanda-*; do
+            [ -f "$t" ] || continue
+            k=$((k+1)); xargs -a "$t" git add --
+            guardar "tanda $k"
+          done
