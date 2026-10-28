@@ -1068,11 +1068,11 @@ input.dzin:focus-visible{outline:0;border-bottom-color:var(--red-text);backgroun
 #bq{flex:1;min-width:0;height:100%;border:0;background:transparent;padding:0 8px 0 0;font:500 clamp(1.15rem,1.8vw,1.45rem)/1.2 Figtree,system-ui,sans-serif;color:var(--text);outline:0;-webkit-appearance:none;appearance:none;caret-color:var(--red-text)}
 #bq::placeholder{color:var(--muted);opacity:1}
 #bq::-webkit-search-cancel-button{display:none}
-.bqf.ghost #bq::placeholder{color:transparent}
+.bqf.ghost #bq::placeholder,#bq:focus::placeholder{color:transparent}
 .bqghost{position:absolute;left:72px;right:96px;top:50%;transform:translateY(-50%);pointer-events:none;white-space:nowrap;overflow:hidden;font:500 clamp(1.15rem,1.8vw,1.45rem)/1.2 Figtree,system-ui,sans-serif;color:var(--muted);display:none}
 .bqf.ghost .bqghost{display:block}
-.bqghost .bqg2{color:var(--text)}
-.bqghost .bqg2::after{content:"";display:inline-block;width:2px;height:1.05em;margin-left:2px;vertical-align:-.15em;background:var(--red-text);animation:bqcaret 1s steps(1) infinite}
+.bqghost .bqg2{color:var(--muted)}
+.bqghost .bqg2::after{content:"";display:inline-block;width:2px;height:1.05em;margin-left:2px;vertical-align:-.15em;background:var(--line-strong);animation:bqcaret 1s steps(1) infinite}
 @keyframes bqcaret{50%{opacity:0}}
 .bqgo{flex:none;width:60px;height:60px;margin-right:8px;border:0;border-radius:50%;background:var(--red);color:var(--on-red);display:grid;place-items:center;cursor:pointer;transition:transform 160ms var(--ease-ui),background-color 150ms ease}
 .bqgo svg{width:24px;height:24px}
@@ -1135,15 +1135,16 @@ input.dzin:focus-visible{outline:0;border-bottom-color:var(--red-text);backgroun
 @media (max-width:700px){
   .bq{padding:40px 0 20px}
   .bqtop{margin-bottom:20px}
-  .bq h2{font-size:clamp(1.9rem,8.4vw,2.4rem)}
+  .bq h2{font-size:clamp(2.2rem,9.8vw,2.8rem)}
+  .bqbox{margin:0 -12px} /* el buscador se acerca a los bordes: cabe el texto */
   .promband{padding:calc(var(--eh) + 14px) 0 calc(var(--eh) + 10px)}
   .promband+section{padding-top:44px}
-  .bqf{height:64px}
-  .bqico{width:54px}
+  .bqf{height:62px}
+  .bqico{width:48px}
   .bqico svg,.bqsw{width:22px;height:22px}
-  .bqghost{left:54px;right:66px}
+  .bqghost{left:48px;right:58px}
   #bq,.bqghost{font-size:1.125rem}
-  .bqgo{width:48px;height:48px;margin-right:6px}
+  .bqgo{width:46px;height:46px;margin-right:6px}
   .bqgo svg{width:20px;height:20px}
   /* en el móvil, los resultados van debajo del buscador (no flotan): el teclado no los tapa y la página se desliza con ellos */
   .bqpanel{position:static;margin-top:10px;max-height:none;overflow:visible;box-shadow:none;border:1.5px solid var(--line);padding:6px;border-radius:22px}
@@ -4765,11 +4766,20 @@ function ensureData(cb){
   /* Ejemplos que se escriben solos en el buscador vacío (solo es decoración: el texto real es el placeholder) */
   var EX=["sudadera negra con capucha","taza blanca","camiseta oversize roja","botella de acero","gorra de pana","bolígrafo de bambú","lanyard para eventos","polo azul marino","bolsa de algodón"];
   var exI=0, exT=null, seen=true;
-  function ghostOn(){return !inp.value;}
+  function ghostOn(){return !inp.value&&document.activeElement!==inp;} /* con el foco, el campo queda vacío y listo */
   function ghostSync(){form.classList.toggle("ghost",ghostOn());}
+  /* solo los ejemplos que caben enteros en el buscador (en el móvil, los cortos) */
+  var gctx=null;
+  function fitsGhost(w){
+    var gh=form.querySelector(".bqghost"); if(!gh.clientWidth) return true;
+    if(!gctx) gctx=document.createElement("canvas").getContext("2d");
+    var cs=getComputedStyle(gh); gctx.font=cs.fontWeight+" "+cs.fontSize+" "+cs.fontFamily;
+    return gctx.measureText("Prueba: "+w).width+12<=gh.clientWidth;
+  }
   function typeLoop(){
     clearTimeout(exT); if(RM.matches||!seen||!ghostOn()){g2.textContent="taza blanca"; return;} /* quieto: el mismo ejemplo que el placeholder */
-    var w=EX[exI%EX.length], n=0, del=false;
+    var fits=EX.filter(fitsGhost); if(!fits.length) fits=[EX[1]];
+    var w=fits[exI%fits.length], n=0, del=false;
     (function step(){
       if(!ghostOn()||!seen) return;
       if(!del){n++; g2.textContent=w.slice(0,n); if(n>=w.length){del=true; exT=setTimeout(step,1700); return;} exT=setTimeout(step,55+Math.random()*45);}
@@ -4885,7 +4895,7 @@ function ensureData(cb){
   }
   inp.addEventListener("input",function(){ghostSync(); load(); clearTimeout(tm); if(!inp.value.trim()){run();typeLoop();return;} tm=setTimeout(function(){run();},ready?120:0);});
   inp.addEventListener("focus",function(){
-    load(); ghostSync();
+    clearTimeout(exT); load(); ghostSync();
     /* en el móvil, el buscador sube arriba del todo: así el teclado no tapa los resultados */
     if(NARROW.matches){var hd=document.querySelector("header.top"), off=(hd?hd.getBoundingClientRect().height:68)+12;
       setTimeout(function(){var y=inp.getBoundingClientRect().top+window.scrollY-off- (form.offsetHeight-inp.offsetHeight)/2; if(Math.abs(window.scrollY-y)>4) window.scrollTo({top:y,behavior:RM.matches?"auto":"smooth"});},60);}
@@ -4917,6 +4927,7 @@ function ensureData(cb){
   foot.addEventListener("click",function(e){if(e.target.closest("a")) close();});
   /* fuera del buscador se cierra (en el móvil no: los resultados forman parte de la página) */
   document.addEventListener("pointerdown",function(e){if(!panel.hidden&&!e.target.closest(".bqbox")&&!e.target.closest(".bquse")&&!NARROW.matches) close();});
+  inp.addEventListener("blur",function(){ghostSync(); if(!inp.value) typeLoop();});
   inp.addEventListener("blur",function(){setTimeout(function(){if(!NARROW.matches&&!document.activeElement.closest(".bqbox")&&!panel.matches(":hover")) close();},150);});
   document.querySelector(".bquse").addEventListener("click",function(e){var b=e.target.closest("button[data-q]"); if(b) chip(b);});
   function chip(b){
