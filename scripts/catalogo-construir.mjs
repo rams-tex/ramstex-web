@@ -149,6 +149,15 @@ const clean = t => {
 const stem = u => { u = String(u || ""); if (u.startsWith("T:") || u.startsWith("F:") || u.startsWith("K:")) return u; if (/resources\.jhktshirt\.com\/pictures\//.test(u)) return "J:" + u.replace(/^.*resources\.jhktshirt\.com\/pictures\//, "").replace(/\.(jpg|png)(\?.*)?$/i, ""); if (/s7g3\.scene7\.com\/is\/image\/soloinvest\//.test(u)) return "S:" + u.replace(/^.*\/soloinvest\//, "").replace(/\?.*$/, ""); if (/static\.gorfactory\.es\/images\/models\//.test(u)) return "R:" + u.replace(/^.*\/images\/models\//, "").replace(/\.(jpg|png)$/i, ""); return u.replace(/^https?:\/\/[^/]+\//, "").replace(/\.(jpg|png)$/i, ""); };
 const grams = t => { const m = String(t || "").match(/(\d+)/); return m ? +m[1] : 0; };
 
+// Materiales (para el buscador: «botella acero», «bolígrafo bambú»…), a partir de la composición y el nombre.
+// Palabras cortas y en español; la web las añade al texto de búsqueda.
+const MATS = [["acero", /acero|inox|stainless|steel/], ["aluminio", /alumini/], ["bambu", /bambu|bamboo/], ["corcho", /corcho|\bcork\b/],
+  ["cristal", /cristal|vidrio|glass|borosilic/], ["ceramica", /ceramic|porcelan|\bgres\b|stoneware/], ["madera", /madera|\bwood|\bhaya\b|\bpino\b|nogal|roble/],
+  ["algodon", /algodon|cotton/], ["organico", /organic/], ["reciclado", /reciclad|recycl|\brpet\b/], ["yute", /\byute\b|\bjute\b/],
+  ["papel", /papel|paper|carton|kraft/], ["cuero", /cuero|leather|polipiel|\bpiel\b/], ["silicona", /silicon/], ["plastico", /plastic|\babs\b|\bpp\b|polipropileno|tritan/],
+  ["poliester", /poliester|polyester/], ["lino", /\blino\b|\blinen\b/], ["lana", /\blana\b|\bwool\b|merino/], ["trigo", /trigo|wheat/], ["metal", /metal/]];
+const matsOf = p => { const t = nrm(decode(String(p.comp || "")) + " " + (p.name || "")); return [...new Set(MATS.filter(m => m[1].test(t)).map(m => m[0]))].join(" "); };
+
 const idx = arr => v => { let i = arr.indexOf(v); if (i < 0) { arr.push(v); i = arr.length - 1; } return i; };
 const SUBS = [], WORLD = [], DOMS = [];
 const subI = idx(SUBS), worldI = idx(WORLD), domI = idx(DOMS);
@@ -193,6 +202,7 @@ for (const p of src) {
     o: genRank(p.gen) >= 3 ? 1 : 0, h: mix(p.ref), b: String(p.brand || p.source || ""),
     m: sleeveOf(p, cat[0]), cu: neckOf(p, cat[0]), ft: fitOf(p),
     z: (p.sizes || []).length ? [p.sizes[0], p.sizes[p.sizes.length - 1]].filter((v, i, a) => a.indexOf(v) === i).join(" a ") : "",
+    ...(matsOf(p) ? { mt: matsOf(p) } : {}),
   });
   (fichas[cat[0]] ??= {})[p.ref] = {
     d: clean(p.desc), a: (p.args || []).map(clean).filter(Boolean), comp: decode(String(p.comp || "")), peso: decode(String(p.peso || "")),
