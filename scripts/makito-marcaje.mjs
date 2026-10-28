@@ -98,10 +98,29 @@ async function foto(f, p) {
   catch (e) { fallos++; if (e.status === 404) E.f[f] = "x"; log("  foto no disponible", f, e.message); return null; }
 }
 
+// Área ya analizada cuya previsualización no está en la caché (p. ej. una tanda que no pudo guardar su caché):
+// se vuelve a bajar (sin repetir el análisis) y se rehace la previsualización limpia (mkm/z/) si la vista es esa.
+// Las usa «Marcaje Makito - previsualizaciones para la web» para mkz/. Devuelve false si no hay tiempo.
+let recuperadas = 0;
+async function recuperar(p, a, r) {
+  if (r.sin || !r.box) return true;
+  const v = cacheV(p.mref, a.id);
+  if (!existsSync(v)) {
+    const rel = String(a.image || "").replace(/^https?:\/\/[^/]+/, "");
+    try { const b = await bajar(rel, v, 85); if (!b) return false; if (b === 2) { bajadas.v++; recuperadas++; } }
+    catch (e) { fallos++; log("  no se pudo recuperar", p.mref, a.id, e.message); return true; }
+  }
+  if (r.img === "z" && !existsSync(cacheZ(p.mref, a.id))) {
+    const img = await cargar(v);
+    await aSharp(limpiar(img, mascaraVerde(img))).webp({ quality: 72, effort: 5 }).toFile(cacheZ(p.mref, a.id));
+  }
+  return true;
+}
+
 // Analiza una área (desde la caché; descarga lo que falte). Devuelve false si se quedó sin tiempo.
 async function analizar(p, a) {
   const key = `${p.mref}|${a.id}`, prev = E.a[key];
-  if (prev && prev.v === VERSION) return true;
+  if (prev && prev.v === VERSION) return recuperar(p, a, prev);
   if (prev && prev.sin) return true; // Makito no tiene previsualización (404)
   const rel = String(a.image || "").replace(/^https?:\/\/[^/]+/, "");
   if (!rel) { E.a[key] = { v: VERSION, sin: "sin-url" }; return true; }
@@ -191,7 +210,7 @@ function escribirDatos() {
 function resumen(tamCat) {
   const L = [], pct = (a, b) => b ? (100 * a / b).toFixed(1) + "%" : "-";
   L.push(`Marcaje Makito · ${new Date().toISOString()} · versión de detección ${VERSION}`);
-  L.push(`Esta ejecución: ${pendientes} áreas pendientes · ${peticiones} peticiones (${bajadas.v} previsualizaciones, ${bajadas.p} fotos), ${fallos} fallos, ${Math.round((Date.now() - t0) / 60000)} min`);
+  L.push(`Esta ejecución: ${pendientes} áreas pendientes · ${recuperadas} previsualizaciones recuperadas · ${peticiones} peticiones (${bajadas.v} previsualizaciones, ${bajadas.p} fotos), ${fallos} fallos, ${Math.round((Date.now() - t0) / 60000)} min`);
   let tot = { p: 0, a: 0, an: 0, box: 0, sin: 0, sinTec: 0, main: 0, col: 0, z: 0, multi: 0, forma: {}, pcon: 0, zkb: 0, sinTecP: 0, sinAreas: 0, nulCol: 0 };
   L.push("", "Categoría: productos (sin áreas) · áreas · analizadas · con zona · sin zona/sin previa · caja sobre foto principal / foto de color / previsualización limpia · varias zonas · formas");
   for (const c of cats) {
@@ -342,7 +361,12 @@ async function lote(cola, nombre) {
 }
 // Las áreas analizadas con una versión anterior de la detección se recalculan desde la caché (sin API)
 await lote(tier0, "primeras áreas");
+// Primero se recuperan las previsualizaciones que faltan en la caché de las áreas ya analizadas (las necesita mkz/),
+// después se siguen analizando las áreas nuevas
+const hechasAntes = tier1.filter(([p, a]) => E.a[`${p.mref}|${a.id}`]?.v === VERSION);
+await lote(hechasAntes, "recuperar previsualizaciones");
 await lote(tier1, "resto de áreas");
+log(`Previsualizaciones recuperadas (faltaban en la caché): ${recuperadas}`);
 const tam = escribirDatos();
 verificacion();
 await hojas();
