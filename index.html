@@ -1036,21 +1036,14 @@ input.dzin:focus-visible{outline:0;border-bottom-color:var(--red-text);backgroun
 }
 
 /* ---------- Buscador del inicio: «¿Qué quieres diseñar hoy?» ---------- */
-.bq{padding:44px 0 4px;position:relative;z-index:3}
-.bqtop{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px 48px;align-items:end}
-.bqtop>div{padding-bottom:30px}
+.bq{padding:48px 0 0;position:relative;z-index:3}
+/* su propia superficie: un paso de tono sobre el fondo, separado de los compromisos */
+.bqcard{background:var(--tint);border-radius:var(--r-l);padding:56px 56px 40px}
+.bqtop{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px 56px;align-items:end;margin-bottom:32px}
+.bqtop>div{display:contents}
+.bqsub{align-self:end}
 .bq h2{font-size:clamp(2.5rem,5.4vw,4.6rem);font-weight:800;letter-spacing:-0.04em;line-height:.94;text-wrap:balance}
-.bqsub{margin:18px 0 0;font-size:var(--fs-l);line-height:1.45;color:var(--text);max-width:30rem}
-/* Estantería: los productos de la portada, en fila; el que se busca se adelanta */
-.bqshelf{list-style:none;margin:0 0 -3px;padding:0 6px;height:220px;position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
-.bqshelf li{height:var(--h);flex:1 1 0;min-width:0;display:flex;justify-content:center;transition:opacity 220ms var(--ease-ui),filter 220ms var(--ease-ui)}
-.bqshelf button{height:100%;width:100%;padding:0;border:0;background:none;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;transform-origin:50% 100%;transition:transform 240ms var(--ease-ui)}
-.bqshelf img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;filter:drop-shadow(0 6px 5px rgba(0,0,0,.2))} /* de pie sobre el buscador, como los de la portada sobre el papel */
-.bqshelf.pick li{opacity:.28;filter:saturate(.4)}
-.bqshelf.pick li.on{opacity:1;filter:none}
-.bqshelf li.on button{transform:translateY(-12px) scale(1.08)}
-@media (hover:hover) and (pointer:fine){.bqshelf button:hover{transform:translateY(-6px)}.bqshelf li.on button:hover{transform:translateY(-12px) scale(1.08)}}
-.bqshelf button:active{transform:scale(.96)}
+.bqsub{margin:0 0 4px;font-size:var(--fs-l);line-height:1.45;color:var(--text);max-width:30rem}
 .bqbox{position:relative}
 .bqf{position:relative;display:flex;align-items:center;gap:0;margin:0;height:80px;background:var(--surface);border:2px solid var(--text);border-radius:999px;transition:border-color 150ms ease,box-shadow 200ms var(--ease-ui)}
 .bqf:focus-within{border-color:var(--red-text);box-shadow:0 0 0 5px rgba(152,38,38,.14)}
@@ -1112,11 +1105,6 @@ input.dzin:focus-visible{outline:0;border-bottom-color:var(--red-text);backgroun
 .bqload i{width:16px;height:16px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--red-text);animation:bqspin .7s linear infinite}
 @keyframes bqspin{to{transform:rotate(360deg)}}
 /* Ideas para empezar */
-.bqchips{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.bqchips button{text-align:left;line-height:1.2;display:flex;align-items:center;gap:8px;min-height:50px;padding:5px 15px 5px 5px;border:1.5px solid var(--line-strong);border-radius:999px;background:var(--surface);font:600 .875rem/1 Figtree,system-ui,sans-serif;color:var(--text);cursor:pointer;transition:transform 160ms var(--ease-ui),border-color 150ms ease}
-.bqchips img{flex:none;width:38px;height:38px;border-radius:50%;background:#EFEEEA;object-fit:contain;padding:3px}
-.bqchips button:active{transform:scale(.97)}
-@media (hover:hover) and (pointer:fine){.bqchips button:hover{border-color:var(--text)}}
 .bquse{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:16px;font-size:var(--fs-s);color:var(--muted)}
 .bquse ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 18px}
 .bquse button{border:0;background:none;padding:6px 0;font:600 var(--fs-s)/1.2 Figtree,system-ui,sans-serif;color:var(--text);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:5px;text-decoration-thickness:1.5px;cursor:pointer;transition:text-decoration-color 150ms ease,color 150ms ease}
@@ -1128,15 +1116,16 @@ input.dzin:focus-visible{outline:0;border-bottom-color:var(--red-text);backgroun
 .bqpills button[aria-pressed="true"] small{color:inherit;opacity:.75}
 .bqpills button:active{transform:scale(.97)}
 @media (hover:hover) and (pointer:fine){.bqpills button:hover{border-color:var(--text)}}
-.bq+.prom{padding-top:56px}
+.bq+.prom{padding-top:64px}
 @media (max-width:900px){
-  .bqtop{grid-template-columns:1fr;gap:0}
-  .bqtop>div{padding-bottom:22px}
-  .bqshelf{height:118px;gap:6px;padding:0 4px}
+  .bqcard{padding:44px 36px 32px}
+  .bqtop{grid-template-columns:1fr;gap:14px;margin-bottom:24px}
   .bqsub{font-size:var(--fs-m)}
 }
 @media (max-width:700px){
   .bq{padding-top:28px}
+  .wrap>.bqcard{margin:0 -12px;padding:28px 20px 22px;border-radius:24px}
+  .bqtop{margin-bottom:20px}
   .bq h2{font-size:clamp(2.35rem,11vw,3.2rem)}
   .bqf{height:64px}
   .bqico{width:54px}
@@ -1153,12 +1142,9 @@ input.dzin:focus-visible{outline:0;border-bottom-color:var(--red-text);backgroun
   .bqa a,.bqa .btn{height:38px;padding:0 14px}
   .bqn{font-size:1rem}
   .bqm .bqk{display:none}
-  .bqchips{gap:8px}
-  .bqchips button{min-height:46px;padding:4px 14px 4px 4px;font-size:.875rem;gap:8px}
-  .bqchips img{width:36px;height:36px}
   .bquse{gap:4px 12px}
   .bquse ul{gap:2px 16px}
-  .bq+.prom{padding-top:40px}
+  .bq+.prom{padding-top:44px}
 }
 @media (prefers-reduced-motion: reduce){
   .bqpanel.open{animation:bqfade 150ms ease}
@@ -1166,8 +1152,7 @@ input.dzin:focus-visible{outline:0;border-bottom-color:var(--red-text);backgroun
   .bqghost .bqg2::after{animation:none}
   .bqico svg,.bqsw{transition:opacity 150ms ease}
   .bqf.col .bqico svg,.bqsw{transform:none}
-  .bqgo:active,.bqchips button:active,.bqshelf button:active{transform:none}
-  .bqshelf button,.bqshelf li.on button,.bqshelf button:hover{transform:none!important}
+  .bqgo:active{transform:none}
   .bqload i{animation-duration:1.6s}
 }
 @keyframes bqfade{from{opacity:0}}
@@ -1445,20 +1430,12 @@ var NAVIDAD_HASTA="2026-12-20";
   </div>
 
   <section class="bq" id="disena" aria-labelledby="bqh">
-    <div class="wrap">
+    <div class="wrap"><div class="bqcard">
       <div class="bqtop">
         <div>
           <h2 id="bqh">¿Qué quieres diseñar hoy?</h2>
           <p class="bqsub">Escribe el producto y el color que buscas, elige el modelo y ponle tu logo.</p>
         </div>
-        <ul class="bqshelf" id="bqshelf" aria-label="Productos que más se personalizan">
-          <li data-k="sudadera" style="--h:100%"><button type="button" data-q="sudadera" aria-label="Buscar sudaderas"><img src="/portada/sudadera.webp" width="1000" height="1200" alt="" loading="lazy" decoding="async"></button></li>
-          <li data-k="camiseta" style="--h:84%"><button type="button" data-q="camiseta" aria-label="Buscar camisetas"><img src="/portada/camiseta.webp" width="1200" height="1200" alt="" loading="lazy" decoding="async"></button></li>
-          <li data-k="bidon" style="--h:76%"><button type="button" data-q="botella de acero" aria-label="Buscar botellas de acero"><img src="/portada/bidon.webp" width="149" height="541" alt="" loading="lazy" decoding="async"></button></li>
-          <li data-k="lanyard" style="--h:62%"><button type="button" data-q="lanyard" aria-label="Buscar lanyards"><img src="/portada/lanyard.webp" width="354" height="474" alt="" loading="lazy" decoding="async"></button></li>
-          <li data-k="gorra" style="--h:40%"><button type="button" data-q="gorra" aria-label="Buscar gorras"><img src="/portada/gorra.webp" width="844" height="548" alt="" loading="lazy" decoding="async"></button></li>
-          <li data-k="boligrafo" style="--h:52%"><button type="button" data-q="bolígrafo" aria-label="Buscar bolígrafos"><img src="/portada/boli.webp" width="187" height="488" alt="" loading="lazy" decoding="async"></button></li>
-        </ul>
       </div>
       <div class="bqbox">
         <form class="bqf ghost" id="bqf" role="search" action="/catalogo/" method="get">
@@ -1475,18 +1452,10 @@ var NAVIDAD_HASTA="2026-12-20";
           <div class="bqfoot" id="bqfoot"></div>
         </div>
       </div>
-      <ul class="bqchips" aria-label="Ideas para empezar">
-        <li><button type="button" data-q="camiseta blanca"><img alt="" loading="lazy" decoding="async" data-st="packshots/PS_K356_WHITE">Camiseta blanca</button></li>
-        <li><button type="button" data-q="sudadera con capucha negra"><img alt="" loading="lazy" decoding="async" data-st="packshots/PS_K476_BLACK">Sudadera con capucha negra</button></li>
-        <li><button type="button" data-q="taza blanca"><img alt="" loading="lazy" decoding="async" data-st="R:4000/views/large/p_4000_01_1_1">Taza blanca</button></li>
-        <li><button type="button" data-q="botella de acero"><img alt="" loading="lazy" decoding="async" data-st="R:4125/views/large/p_4125_01_1_1">Botella de acero</button></li>
-        <li><button type="button" data-q="bolsa de algodón"><img alt="" loading="lazy" decoding="async" data-st="packshots/PS_KI0252_NATURAL">Bolsa de algodón</button></li>
-        <li><button type="button" data-q="gorra"><img alt="" loading="lazy" decoding="async" data-st="packshots/PS_KP162_BLACK">Gorra</button></li>
-      </ul>
       <div class="bquse"><span id="bqusel">O busca por uso:</span><ul aria-labelledby="bqusel">
         <li><button type="button" data-q="hostelería">Hostelería</button></li><li><button type="button" data-q="deporte">Deporte</button></li><li><button type="button" data-q="eventos">Eventos y ferias</button></li><li><button type="button" data-q="ropa de trabajo">Ropa de trabajo</button></li><li><button type="button" data-q="regalo empresa">Regalos de empresa</button></li>
       </ul></div>
-    </div>
+    </div></div>
   </section>
 
   <ul class="wrap prom" aria-label="Nuestros compromisos">
@@ -4777,29 +4746,19 @@ function ensureData(cb){
   var WA="https://wa.me/34682368645?text=";
   var IPEN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 6l3 3"/></svg>';
   var IARR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
-  [].forEach.call(document.querySelectorAll(".bqchips img"),function(img){setSrc(img,img.dataset.st,200);});
 
   /* Ejemplos que se escriben solos en el buscador vacío (solo es decoración: el texto real es el placeholder) */
   var EX=["sudadera negra con capucha","taza blanca","camiseta oversize roja","botella de acero","gorra de pana","bolígrafo de bambú","lanyard para eventos","polo azul marino","bolsa de algodón"];
-  /* estantería: se adelanta el producto que se está escribiendo (el del ejemplo o el del cliente) */
-  var shelf=$("bqshelf"), SHK={sudadera:"sudadera",hoodie:"sudadera",camiseta:"camiseta",polo:"camiseta",botella:"bidon",bidon:"bidon",termo:"bidon",lanyard:"lanyard",evento:"lanyard",feria:"lanyard",gorra:"gorra",gorro:"gorra",boligrafo:"boligrafo",boli:"boligrafo",lapiz:"boligrafo"};
-  function shelfSync(txt){
-    var k=""; norm(txt).split(/[^a-z0-9ñ]+/).some(function(w){var b=stemW(w); k=SHK[w]||SHK[b]||"";
-      if(!k&&w.length>=4) Object.keys(SHK).some(function(x){if(x.indexOf(w)===0){k=SHK[x];return true;}}); /* a medio escribir: «sudad» */
-      return !!k;});
-    shelf.classList.toggle("pick",!!k);
-    [].forEach.call(shelf.children,function(li){li.classList.toggle("on",li.dataset.k===k);});
-  }
   var exI=0, exT=null, seen=true;
   function ghostOn(){return !inp.value;}
   function ghostSync(){form.classList.toggle("ghost",ghostOn());}
   function typeLoop(){
-    clearTimeout(exT); if(RM.matches||!seen||!ghostOn()){g2.textContent="taza blanca"; shelfSync(""); return;} /* quieto: el mismo ejemplo que el placeholder */
+    clearTimeout(exT); if(RM.matches||!seen||!ghostOn()){g2.textContent="taza blanca"; return;} /* quieto: el mismo ejemplo que el placeholder */
     var w=EX[exI%EX.length], n=0, del=false;
     (function step(){
       if(!ghostOn()||!seen) return;
-      if(!del){n++; g2.textContent=w.slice(0,n); shelfSync(w.slice(0,n)); if(n>=w.length){del=true; exT=setTimeout(step,1700); return;} exT=setTimeout(step,55+Math.random()*45);}
-      else {n--; g2.textContent=w.slice(0,n); if(n<=0){shelfSync(""); exI++; exT=setTimeout(typeLoop,350); return;} exT=setTimeout(step,24);}
+      if(!del){n++; g2.textContent=w.slice(0,n); if(n>=w.length){del=true; exT=setTimeout(step,1700); return;} exT=setTimeout(step,55+Math.random()*45);}
+      else {n--; g2.textContent=w.slice(0,n); if(n<=0){exI++; exT=setTimeout(typeLoop,350); return;} exT=setTimeout(step,24);}
     })();
   }
   if("IntersectionObserver" in window) new IntersectionObserver(function(e){seen=e[0].isIntersecting; if(seen) typeLoop(); else clearTimeout(exT);}).observe(form);
@@ -4907,8 +4866,7 @@ function ensureData(cb){
     if(ready) P=qParse(q);
     render(); open();
   }
-  shelf.addEventListener("click",function(e){var b=e.target.closest("button[data-q]"); if(b) chip(b);});
-  inp.addEventListener("input",function(){ghostSync(); shelfSync(inp.value); load(); clearTimeout(tm); if(!inp.value.trim()){run();typeLoop();return;} tm=setTimeout(function(){run();},ready?120:0);});
+  inp.addEventListener("input",function(){ghostSync(); load(); clearTimeout(tm); if(!inp.value.trim()){run();typeLoop();return;} tm=setTimeout(function(){run();},ready?120:0);});
   inp.addEventListener("focus",function(){
     load(); ghostSync();
     /* en el móvil, el buscador sube arriba del todo: así el teclado no tapa los resultados */
@@ -4941,14 +4899,11 @@ function ensureData(cb){
   });
   foot.addEventListener("click",function(e){if(e.target.closest("a")) close();});
   /* fuera del buscador se cierra (en el móvil no: los resultados forman parte de la página) */
-  document.addEventListener("pointerdown",function(e){if(!panel.hidden&&!e.target.closest(".bqbox")&&!e.target.closest(".bqchips,.bquse,.bqshelf")&&!NARROW.matches) close();});
+  document.addEventListener("pointerdown",function(e){if(!panel.hidden&&!e.target.closest(".bqbox")&&!e.target.closest(".bquse")&&!NARROW.matches) close();});
   inp.addEventListener("blur",function(){setTimeout(function(){if(!NARROW.matches&&!document.activeElement.closest(".bqbox")&&!panel.matches(":hover")) close();},150);});
   document.querySelector(".bquse").addEventListener("click",function(e){var b=e.target.closest("button[data-q]"); if(b) chip(b);});
-  document.querySelector(".bqchips").addEventListener("click",function(e){
-    var b=e.target.closest("button[data-q]"); if(b) chip(b);
-  });
   function chip(b){
-    inp.value=b.dataset.q; ghostSync(); shelfSync(inp.value); load(); clearTimeout(exT); inp.focus({preventScroll:NARROW.matches?false:true}); run(true);
+    inp.value=b.dataset.q; ghostSync(); load(); clearTimeout(exT); inp.focus({preventScroll:NARROW.matches?false:true}); run(true);
   }
   ghostSync();
 })();
