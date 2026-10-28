@@ -6,6 +6,9 @@ name: Marcaje Makito - previsualizaciones para la web
 # Se lanza cuando «Marcaje Makito» guarda datos (data/makito-marcaje/) o cambia este archivo. Sus propios commits solo cambian mkz/,
 # así que no se vuelve a lanzar a sí mismo ni lanza «Marcaje Makito» (que solo mira sus scripts, su flujo y relanzar.txt).
 on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */3 * * *'   # cada 3 h: los commits del propio Marcaje (con GITHUB_TOKEN) no lanzan flujos
   push:
     branches: [makito-marcaje]
     paths:
