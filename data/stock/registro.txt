@@ -1,10 +1,10 @@
-2026-10-27T19:21:16.921Z
-TopTex: 74190 referencias
+2026-10-28T03:10:56.135Z
+TopTex: 74180 referencias
 roly: 18037 referencias
 stamina: 5213 referencias
 JHK: 11939 referencias (229 modelos desde el área de clientes, 1 desde la API)
 Sol's: 16280 referencias
 Stanley/Stella: 10657 referencias
 Falk&Ross: error credenciales rechazadas (401)
-Makito: 1991 referencias
-productos con stock: 5993
+Makito: 10023 referencias
+productos con stock: 9500
