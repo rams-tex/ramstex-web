@@ -1,0 +1,84 @@
+name: Marcaje Makito
+# Zonas de marcaje de Makito (merchandising) para el diseñador: descarga poco a poco las previsualizaciones de cada área,
+# detecta la zona verde y guarda data/makito-marcaje/ + diagnostico/makito-marcaje/ (hojas de contactos, resumen).
+# Solo lectura de la API. Comparte el límite de peticiones con los demás flujos de Makito (mismas credenciales):
+# grupo de concurrencia "makito-api" para no coincidir con ellos. Sigue donde lo dejó la ejecución anterior.
+# Para relanzar desde un push: cambia diagnostico/makito-marcaje/relanzar.txt (minutos=NN).
+on:
+  workflow_dispatch:
+    inputs:
+      minutos:
+        description: "Minutos máximos descargando"
+        default: "300"
+  push:
+    branches: [makito-marcaje]
+    paths:
+      - scripts/makito-marcaje.mjs
+      - scripts/makito-marcaje-lib.mjs
+      - .github/workflows/makito-marcaje.yml
+      - diagnostico/makito-marcaje/relanzar.txt
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: makito-api
+  cancel-in-progress: false
+jobs:
+  marcaje:
+    # Tres tandas seguidas (no en paralelo) de hasta ~5,5 h: cada una sigue donde lo dejó la anterior (caché + estado.json)
+    strategy:
+      max-parallel: 1
+      fail-fast: false
+      matrix:
+        tanda: [1, 2, 3]
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+      - name: Traer el estado que guardó la tanda anterior
+        run: git fetch -q --depth=1 origin "$GITHUB_REF_NAME" && git reset -q --hard FETCH_HEAD
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save sharp@0.33
+      - name: Recuperar previsualizaciones y fotos ya descargadas
+        uses: actions/cache/restore@v4
+        with:
+          path: mkm
+          key: mkm-v1-${{ github.run_id }}
+          restore-keys: mkm-v1-
+      - name: Catálogo completo de Makito (solo para saber qué es merchandising y sus fotos; no se guarda)
+        run: |
+          node scripts/makito-importar.mjs
+          cp data/makito.json "$RUNNER_TEMP/makito-completo.json"
+          git checkout -- data/
+        env:
+          MAKITO_CLIENT_ID: ${{ secrets.MAKITO_CLIENT_ID }}
+          MAKITO_CLIENT_SECRET: ${{ secrets.MAKITO_CLIENT_SECRET }}
+      - name: Zonas de marcaje
+        run: |
+          MIN="${{ inputs.minutos }}"
+          if [ -z "$MIN" ] && [ -f diagnostico/makito-marcaje/relanzar.txt ]; then MIN=$(grep -oP 'minutos=\K[0-9]+' diagnostico/makito-marcaje/relanzar.txt || true); fi
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          node scripts/makito-marcaje.mjs mkm "$RUNNER_TEMP/makito-completo.json" "${MIN:-300}"
+          du -sh mkm mkm/* || true
+        env:
+          MARCAJE_COMMIT: "1"
+          MAKITO_CLIENT_ID: ${{ secrets.MAKITO_CLIENT_ID }}
+          MAKITO_CLIENT_SECRET: ${{ secrets.MAKITO_CLIENT_SECRET }}
+      - name: Guardar caché para la próxima ejecución
+        id: guardar
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: mkm
+          key: mkm-v1-${{ github.run_id }}
+        continue-on-error: true
+      - name: Borrar cachés anteriores de este flujo (no ocupar espacio de las demás)
+        if: always() && steps.guardar.outcome == 'success'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh cache list -R "$GITHUB_REPOSITORY" --key mkm-v1- --limit 50 --json id,key -q '.[] | select(.key != "mkm-v1-${{ github.run_id }}") | .id' | while read id; do gh cache delete -R "$GITHUB_REPOSITORY" "$id" || true; done

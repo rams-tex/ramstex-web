@@ -1,0 +1,77 @@
+Verificación de técnicas por área: texto original de Makito (areas[].techniques) · lo guardado en data/makito-marcaje · lo que trae data/makito.json (importación, independiente)
+
+MK1040 (11040) Mochila Budley [m-bol]
+  A1 «En el bolsillo inferior» 140×100 mm · Makito: "100218(1),100602(8)" · guardado: Serigrafía(1)[100218], Transfer serigráfico(8)[100602] · importación: SERIGRAFÍA H(1), GRABACIÓN TRANSFER SERIGRÁFICO N1(8) · igual al original
+MK22026 (22026) Bolsa Heleta [m-bol]
+  A1 «Area 1» 265×240 mm · Makito: "100316(6),100600(8),100800(1),100901(1)" · guardado: Serigrafía(6)[100316], Transfer serigráfico(8)[100600], Transfer digital(1)[100800], DTF(1)[100901] · importación: SERIGRAFIA AUTOMATICA F(6), GRABACIÓN TRANSFER SERIGRÁFICO N(8), GRABACIÓN TRANSFER DIGITAL O(1), DTF1(1) · igual al original
+  A2 «Area 2» 265×240 mm · Makito: "100316(6),100600(8),100800(1),100901(1)" · guardado: Serigrafía(6)[100316], Transfer serigráfico(8)[100600], Transfer digital(1)[100800], DTF(1)[100901] · importación: SERIGRAFIA AUTOMATICA F(6), GRABACIÓN TRANSFER SERIGRÁFICO N(8), GRABACIÓN TRANSFER DIGITAL O(1), DTF1(1) · igual al original
+  A3 «Area 3» 140×140 mm · Makito: "100500(1)" · guardado: Bordado(1)[100500] · importación: GRABACIÓN BORDADO P(1) · igual al original
+MK1020 (11020) Protección solar Cretus [m-dep]
+  A1 «Cara A» 25×40 mm · Makito: "100113(4)" · guardado: Tampografía(4)[100113] · importación: TAMPOGRAFÍA C(4) · igual al original
+MK21819 (21819) Bidón plegable Risix [m-dep]
+  A1 «Area 1» 70×80 mm · Makito: "100216(1)" · guardado: Serigrafía(1)[100216] · importación: SERIGRAFÍA F(1) · igual al original
+MK1043 (11043) Portadocumentos soporte Murray [m-esc]
+  A1 «En la parte superior» 100×60 mm · Makito: "100217(1)" · guardado: Serigrafía(1)[100217] · importación: SERIGRAFÍA G(1) · igual al original
+  A2 «En la zona inferior» 100×60 mm · Makito: "100217(1)" · guardado: Serigrafía(1)[100217] · importación: SERIGRAFÍA G(1) · igual al original
+  A3 «En la parte superior» 170×60 mm · Makito: "100602(8),100902(1)" · guardado: Transfer serigráfico(8)[100602], DTF(1)[100902] · importación: GRABACIÓN TRANSFER SERIGRÁFICO N1(8), DTF2(1) · igual al original
+MK21995 (21995) Bloc notas Vierax [m-esc]
+  A1 «Area 1» 60×40 mm · Makito: "100216(1),100600(8)" · guardado: Serigrafía(1)[100216], Transfer serigráfico(8)[100600] · importación: SERIGRAFÍA F(1), GRABACIÓN TRANSFER SERIGRÁFICO N(8) · igual al original
+  A2 «Area 2» 60×40 mm · Makito: "100216(1),100600(8)" · guardado: Serigrafía(1)[100216], Transfer serigráfico(8)[100600] · importación: SERIGRAFÍA F(1), GRABACIÓN TRANSFER SERIGRÁFICO N(8) · igual al original
+  A3 «Area 3» 60×40 mm · Makito: "100216(1),100600(8)" · guardado: Serigrafía(1)[100216], Transfer serigráfico(8)[100600] · importación: SERIGRAFÍA F(1), GRABACIÓN TRANSFER SERIGRÁFICO N(8) · igual al original
+MK1540 (11540) Medalla Guster [m-eve]
+  A1 «Area 1» 250×15 mm · Makito: "100600(8),100901(1),100901(1)" · guardado: Transfer serigráfico(8)[100600], DTF(1)[100901], DTF(1)[100901] · importación: GRABACIÓN TRANSFER SERIGRÁFICO N(8), DTF1(1), DTF1(1) · igual al original
+  A2 «Area 2» 250×15 mm · Makito: "100600(8),100901(1),100901(1)" · guardado: Transfer serigráfico(8)[100600], DTF(1)[100901], DTF(1)[100901] · importación: GRABACIÓN TRANSFER SERIGRÁFICO N(8), DTF1(1), DTF1(1) · igual al original
+  A3 «Area 3» 45×45 mm · Makito: "100400,100114(1)" · guardado: Grabado láser[100400], Tampografía(1)[100114] · importación: GRABACIÓN LASER L1, TAMPOGRAFÍA D(1) · igual al original
+MK22351 (22351) Palo luminoso Nociox [m-eve]
+  A1 «Area 1» 80×15 mm · Makito: "100214(1)" · guardado: Serigrafía(1)[100214] · importación: SERIGRAFÍA D(1) · igual al original
+  A2 «Area 2» 80×15 mm · Makito: "100214(1)" · guardado: Serigrafía(1)[100214] · importación: SERIGRAFÍA D(1) · igual al original
+MK1016 (11016) Iman portafotos Tunip [m-hog]
+  A1 «En la parte inferior» 20×25 mm · Makito: "103001(1)" · guardado: Impresión digital(1)[103001] · importación: DIGITAL W1 -5  cm2(1) · igual al original
+  A2 «En la parte inferior» 80×25 mm · Makito: "100112(4),103063(1)" · guardado: Tampografía(4)[100112], Impresión digital(1)[103063] · importación: TAMPOGRAFÍA B(4), DIGITAL W3 -25cm2(1) · igual al original
+  A3 «En la parte inferior» 40×25 mm · Makito: "103002(1)" · guardado: Impresión digital(1)[103002] · importación: DIGITAL W2 -10cm2(1) · igual al original
+MK21750 (21750) Llavero Khozax [m-hog]
+  A1 «Area 1» 25×25 mm · Makito: "100133(1)" · guardado: Tampografía(1)[100133] · importación: TAMPOGRAFÍA MAT ESP C(1) · igual al original
+  A2 «Area 2» 30×30 mm · Makito: "100113(1),100400" · guardado: Tampografía(1)[100113], Grabado láser[100400] · importación: TAMPOGRAFÍA C(1), GRABACIÓN LASER L1 · igual al original
+  A3 «Area 3» 40×15 mm · Makito: "100133(1)" · guardado: Tampografía(1)[100133] · importación: TAMPOGRAFÍA MAT ESP C(1) · igual al original
+MK1011 (11011) Foulard Betty [m-inv]
+  A1 «Funda cara A» 80×80 mm · Makito: "100216(1),100600(8),100903(1)" · guardado: Serigrafía(1)[100216], Transfer serigráfico(8)[100600], DTF(1)[100903] · importación: SERIGRAFÍA F(1), GRABACIÓN TRANSFER SERIGRÁFICO N(8), DTF3(1) · igual al original
+  A2 «Funda cara B» 80×80 mm · Makito: "100216(1),100600(8),100903(1)" · guardado: Serigrafía(1)[100216], Transfer serigráfico(8)[100600], DTF(1)[100903] · importación: SERIGRAFÍA F(1), GRABACIÓN TRANSFER SERIGRÁFICO N(8), DTF3(1) · igual al original
+  A3 «En la esquina» 80×80 mm · Makito: "100216(1),100600(8),100903(1)" · guardado: Serigrafía(1)[100216], Transfer serigráfico(8)[100600], DTF(1)[100903] · importación: SERIGRAFÍA F(1), GRABACIÓN TRANSFER SERIGRÁFICO N(8), DTF3(1) · igual al original
+MK22495 (22495) Paraguas Ordan [m-inv]
+  A1 «Area 1» 180×100 mm · Makito: "100217(1),100602(8)" · guardado: Serigrafía(1)[100217], Transfer serigráfico(8)[100602] · importación: SERIGRAFÍA G(1), GRABACIÓN TRANSFER SERIGRÁFICO N1(8) · igual al original
+  A2 «Area 2» 30×80 mm · Makito: "100217(1)" · guardado: Serigrafía(1)[100217] · importación: SERIGRAFÍA G(1) · igual al original
+  A3 «Area 3» 190×35 mm · Makito: "100215(1)" · guardado: Serigrafía(1)[100215] · importación: SERIGRAFÍA E(1) · igual al original
+MK1369 (11369) Imán Larry [m-nav]
+  A1 «Centrado en la parte inferior» 65×15 mm · Makito: "100113(2)" · guardado: Tampografía(2)[100113] · importación: TAMPOGRAFÍA C(2) · igual al original
+MK22482 (22482) Adorno navidad Kyper [m-nav]
+  A1 «Area 1» 45×13 mm · Makito: "100115(1),100400" · guardado: Tampografía(1)[100115], Grabado láser[100400] · importación: TAMPOGRAFÍA E(1), GRABACIÓN LASER L1 · igual al original
+  A2 «Area 2» 45×13 mm · Makito: "100115(1),100400" · guardado: Tampografía(1)[100115], Grabado láser[100400] · importación: TAMPOGRAFÍA E(1), GRABACIÓN LASER L1 · igual al original
+  A3 «Area 3» 45×13 mm · Makito: "100115(1),100400" · guardado: Tampografía(1)[100115], Grabado láser[100400] · importación: TAMPOGRAFÍA E(1), GRABACIÓN LASER L1 · igual al original
+MK1012 (11012) Bowl plegable Poppy [m-out]
+  A1 «Zona frontal, parte inferior» 90×45 mm · Makito: "100215(1)" · guardado: Serigrafía(1)[100215] · importación: SERIGRAFÍA E(1) · igual al original
+MK21253 (21253) Lupa Nunky 30X [m-out]
+  A1 «Area 1» 25×25 mm · Makito: "100114(1),100400" · guardado: Tampografía(1)[100114], Grabado láser[100400] · importación: TAMPOGRAFÍA D(1), GRABACIÓN LASER L1 · igual al original
+  A2 «Area 2» 35×25 mm · Makito: "100114(1)" · guardado: Tampografía(1)[100114] · importación: TAMPOGRAFÍA D(1) · igual al original
+MK1045 (11045) Bidón térmico Gristel [m-taz]
+  A1 «Alrededor del bidón» 200×120 mm · Makito: "100416(1)" · guardado: Serigrafía(1)[100416] · importación: SERIGRAFIA CIRCULAR F(1) · igual al original
+  A2 «En el tapón» 30×30 mm · Makito: "100402" · guardado: Grabado láser[100402] · importación: GRABACIÓN LASER L2 · igual al original
+  A3 «Centrado en el frontal» 25×100 mm · Makito: "100116(4),100402" · guardado: Tampografía(4)[100116], Grabado láser[100402] · importación: TAMPOGRAFÍA F(4), GRABACIÓN LASER L2 · igual al original
+MK21562 (21562) Taza Lidnar [m-taz]
+  A1 «Area 1» 25×50 mm · Makito: "100116(4)" · guardado: Tampografía(4)[100116] · importación: TAMPOGRAFÍA F(4) · igual al original
+  A2 «Area 2» 25×50 mm · Makito: "100116(4)" · guardado: Tampografía(4)[100116] · importación: TAMPOGRAFÍA F(4) · igual al original
+  A3 «Area 3» 25×50 mm · Makito: "100116(4)" · guardado: Tampografía(4)[100116] · importación: TAMPOGRAFÍA F(4) · igual al original
+MK1080 (11080) Anillo de luz Picmont [m-tec]
+  A1 «Centrado» 35×15 mm · Makito: "100114(1)" · guardado: Tampografía(1)[100114] · importación: TAMPOGRAFÍA D(1) · igual al original
+MK21356 (21356) Power bank Tudelak [m-tec]
+  A1 «Area 1» 20×25 mm · Makito: "103001(1)" · guardado: Impresión digital(1)[103001] · importación: DIGITAL W1 -5  cm2(1) · igual al original
+  A2 «Area 2» 30×30 mm · Makito: "103002(1)" · guardado: Impresión digital(1)[103002] · importación: DIGITAL W2 -10cm2(1) · igual al original
+  A3 «Area 3» 40×60 mm · Makito: "103063(1)" · guardado: Impresión digital(1)[103063] · importación: DIGITAL W3 -25cm2(1) · igual al original
+MK1017 (11017) Abanico Bilsom [m-ver]
+  A1 «Cara A Centrado» 200×70 mm · Makito: "100212(1)" · guardado: Serigrafía(1)[100212] · importación: SERIGRAFÍA B(1) · igual al original
+  A2 «Cara B centrado» 200×70 mm · Makito: "100212(1)" · guardado: Serigrafía(1)[100212] · importación: SERIGRAFÍA B(1) · igual al original
+MK21806 (21806) Gafas sol Kenyad [m-ver]
+  A1 «Area 1» 40×40 mm · Makito: "100115(1)" · guardado: Tampografía(1)[100115] · importación: TAMPOGRAFÍA E(1) · igual al original
+  A2 «Area 2» 40×6 mm · Makito: "100115(4)" · guardado: Tampografía(4)[100115] · importación: TAMPOGRAFÍA E(4) · igual al original
+  A3 «Area 3» 40×6 mm · Makito: "100115(4)" · guardado: Tampografía(4)[100115] · importación: TAMPOGRAFÍA E(4) · igual al original
+
+Áreas con diferencias: 0
