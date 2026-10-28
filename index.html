@@ -964,6 +964,31 @@ html.dzopen body>*:not(#dz):not(script):not(.toast){display:none!important}
   .dzfoot{position:static;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));border-top:0;background:var(--surface)}
   .dzerr{position:absolute;left:12px;right:12px;bottom:calc(100% + 56px);z-index:6;margin:0;padding:10px 14px;border-radius:12px;background:var(--ink);color:var(--on-ink)}
 }
+/* Merchandising: zona y logo en un lienzo (forma de la zona, perspectiva, banda curva y efecto de la técnica); técnica y medida */
+.dzcv{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+.dzcv[hidden]{display:none}
+.dzstage.mk .dzitem img{opacity:0}
+.dzmkh{margin:0 0 8px;font-size:var(--fs-xs);font-weight:600;color:var(--muted)}
+.dzmksec .dzopts,.dzmkin .dzopts{margin:0 0 12px}
+.dzmksec .dznote,.dzmkin .dznote{margin:0 0 8px}
+.dzmkline,.dzmkchip,.dzshm{display:none}
+.dzsheet.mk .dzshm{display:inline}
+.dzsheet.mk .dzshc,.dzsheet.mk .dzslist,.dzsheet.mk .dzinfo{display:none}
+.dzmkin{padding:2px 0 4px}
+.dzshead h3>.dzshc,.dzshead h3>.dzshm{font-weight:inherit;color:inherit}
+.dzmkin:empty{display:none}
+@media (max-width:900px){
+  .dzmksec{display:none!important}
+  .dzmkin .dzopts{flex-wrap:wrap;margin:0 0 12px;gap:8px}
+  .dzmkin .dzopt{height:36px;max-width:100%}
+  .dzmkin .dzopt>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dzmkline{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:32px;margin:4px 0 0;padding:0;border:0;background:none;color:var(--muted);font:500 var(--fs-xs)/1.3 Figtree,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .dzmkline b{color:var(--text);font-weight:600}
+  .dzmkline u{color:var(--red-text);font-weight:600;text-underline-offset:3px}
+  .dzrow1 .dzmkchip{display:inline-flex;align-items:center;gap:3px;min-width:0;max-width:46%;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .dzmkchip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dzmkchip svg{flex:none;width:13px;height:13px}
+}
 @media (max-width:900px) and (max-height:700px){#dztool{min-height:114px}.dzrow1{height:30px}.dzseg{margin:4px 12px}.dzrow1{min-height:30px}.dzrange input{height:30px}.dztools .btn{height:42px}.dzfoot .btn{height:46px}}
 @media (pointer:coarse){.dzrange input{height:40px}}
 /* medida editable: se toca el número y se escribe */
@@ -2388,7 +2413,18 @@ function renderProduct(it){
     upd();
     /* Diseñador: botones de la ficha y apertura directa con ?disenar */
     [].forEach.call(box.querySelectorAll(".pdzov,#pdz"),function(b){b.onclick=function(){dzOpen(true,b);};});
-    if(dzt) dzReady(it,f,upd); else DZP=null;
+    if(dzt) dzReady(it,f,upd);
+    else {
+      DZP=null;
+      /* merchandising de Makito: las zonas se cargan aparte; si el producto tiene alguna, aparecen los botones del diseñador */
+      if(isM(it.c)&&isK(it.i)) dzMkLoad(it.c).then(function(){
+        var pa=$("padd"); if(VP.hidden||!pa||pa._it!==it||!dzTpl(it)||box.querySelector("#pdz")) return;
+        var ov=document.createElement("button"); ov.type="button"; ov.className="pdzov"; ov.innerHTML=DZ_ICON.pen+"Diseñar con tu logo"; box.querySelector(".big").appendChild(ov);
+        var bt=document.createElement("button"); bt.type="button"; bt.className="btn ghost dzbtn"; bt.id="pdz"; bt.innerHTML=DZ_ICON.pen+"Diseñar con tu logo"; pa.insertAdjacentElement("afterend",bt);
+        [ov,bt].forEach(function(b){b.onclick=function(){dzOpen(true,b);};});
+        dzReady(it,f,upd);
+      });
+    }
     var rel=ITEMS.filter(function(x){return x.s===it.s&&x!==it;}).slice(0,4);
     if(rel.length){var r=$("related");r.innerHTML='<h2>También te puede interesar</h2><div class="grid"></div>';rel.forEach(function(x){x.cur=-1;r.querySelector(".grid").appendChild(card(x));});}
   });
@@ -2883,6 +2919,7 @@ var DZ_SUP={
 };
 var DZ_DEF={cors:0,side:"i",sl:[.55,.2],fr:{x0:.1,y0:.08,x1:.9,y1:.92,bw:.45}};
 var DZ_ICON={
+  pen:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
   shirt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 3.5 16 2a4 4 0 0 1-8 0L3.6 3.5a2 2 0 0 0-1.3 2.2l.6 3.5a1 1 0 0 0 1 .8H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.1a1 1 0 0 0 1-.8l.6-3.5a2 2 0 0 0-1.3-2.2z"/></svg>',
   up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>',
   center:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="3"/></svg>',
@@ -2928,6 +2965,7 @@ function dzKey(it){
 }
 function dzTpl(it){
   if(!it||!D) return null;
+  if(isM(it.c)) return dzMkTpl(it); /* merchandising: zonas de Makito (cuando ya están cargadas) */
   var key=dzKey(it); if(!key) return null;
   var b=DZ_TPL[key], z={}, mangas=!b.sinMangas&&it.m!=="Sin mangas";
   var capucha=it.f.indexOf("h")>=0||/capucha|hood/.test(norm(it.n+" "+(it.st||""))); /* con capucha: la espalda se estampa por debajo */
@@ -2966,6 +3004,7 @@ function dzPick(it,f,ci,pos,tplKey){
   return {st:front,kind:"sleeve"};
 }
 function dzUrls(st,w){
+  if(st.indexOf("Z:")===0) return ["/mkz/"+st.slice(2)+".webp"]; /* previsualización limpia de Makito */
   if(isS(st)) return [IMGS+st.slice(2)+"?wid="+w+"&fmt=png-alpha",IMGS+st.slice(2)+"?wid="+w];
   return srcList(st,w);
 }
@@ -3104,7 +3143,337 @@ function dzPosTxt(pos,w,h){return DZ_LBL[pos]+": "+dzSizeTxt(w,h)+" ("+dzLabel(w
 /* Texto del diseño de una línea del presupuesto: «Delante: 24 × 18 cm (Mediano) · Manga izq.: 7 × 7 cm (Pequeño)» */
 function dzText(l){
   if(!l||!l.dz||!l.dz.p) return "";
+  if(l.dz.tp==="mk") return dzKeys(l).map(function(p){var d=l.dz.p[p]; return d.txt||(p+": "+dzSizeTxt(d.w,d.h));}).join(" · ");
   return DZ_ORD.filter(function(p){return l.dz.p[p];}).map(function(p){var d=l.dz.p[p]; return dzPosTxt(p,d.w,d.h);}).join(" · ");
+}
+/* Zonas con diseño de una línea del presupuesto, en orden */
+function dzKeys(l){var p=l.dz.p; return (l.dz.o||(l.dz.tp==="mk"?Object.keys(p):DZ_ORD)).filter(function(q){return p[q];});}
+/* Zonas de la plantilla abierta y su nombre (en merchandising, las posiciones de Makito) */
+function dzOrd(){return DZ.tpl?DZ.tpl.pos:DZ_ORD;}
+function dzL(p){return (DZ.tpl&&DZ.tpl.lbl&&DZ.tpl.lbl[p])||DZ_LBL[p]||p;}
+function dzMin(maxW){return Math.min(DZ.tpl&&DZ.tpl.mk?.5:2,maxW);} /* en merchandising las zonas son pequeñas: el logo puede bajar a 0,5 cm */
+
+/* ---------- Merchandising (Makito): zonas de marcaje reales ----------
+   /data/marcaje/<categoría>.json (scripts/marcaje-web.mjs, a partir de data/makito-marcaje/ de «Marcaje Makito»), por producto:
+   areas [{id, lab (posición), mm:[ancho,alto], tec:[[id técnica, colores]], y si se ha detectado la zona: box:[x0,y0,x1,y1] (fracciones de
+   la foto), img (foto sobre la que va la caja: la principal, con col:1 las de color, o "z/<mref>-<área>" = previsualización de Makito sin
+   el verde, servida en /mkz/), forma (r rectángulo · o banda curva · x perspectiva con quad = 4 esquinas · e elipse · l contorno)}]
+   /data/marcaje/tecnicas.json: id → {name, max (colores), full (a todo color), minQ (mínimo), puntadas} */
+var DZ_MK={}, DZ_MKD={}, DZ_MKT=null, DZ_MKTPL={}, DZ_MKV={};
+function dzMkLoad(c){
+  if(!DZ_MKT) DZ_MKT=fetch("/data/marcaje/tecnicas.json?v="+BUILD).then(function(r){return r.ok?r.json():{};}).catch(function(){return {};});
+  return DZ_MK[c]||(DZ_MK[c]=Promise.all([fetch("/data/marcaje/"+c+".json?v="+BUILD).then(function(r){return r.ok?r.json():{};}).catch(function(){return {};}),DZ_MKT]).then(function(r){DZ_MKD[c]={d:r[0]||{},t:r[1]||{}}; return DZ_MKD[c];}));
+}
+/* Productos redondos (la zona curva rodea el producto); en bolsas o cajas «o» es solo una zona de esquinas redondeadas */
+var DZ_CYL=/taza|vaso|bidon|botella|termo|tumbler|jarra|\blata\b|cilindr|boligrafo|portalapices|lapicero|copa|tarro|hucha|alrededor|portaminas|rotulador|marcador|vela|pastillero/;
+/* Técnicas del área (una por nombre; colores máximos del área si Makito los da, si no los de la técnica) */
+function dzMkTecs(a,T){
+  var out=[], by={};
+  (a.tec||[]).forEach(function(x){
+    var t=T[x[0]]; if(!t||!t.name) return;
+    var k=t.name, mono=/l[aá]ser|termograbado/i.test(k), full=!!t.full&&!mono, n=x[1]!=null?x[1]:t.max, o=by[k];
+    if(!o){o=by[k]={k:k,name:k,mono:mono,full:full,max:full||mono?0:(n||0),minQ:t.minQ||0,bord:/bordado/i.test(k),pt:t.puntadas||0}; out.push(o);}
+    else {if(full){o.full=true; o.max=0;} else if(!o.full&&!mono&&n>o.max) o.max=n; o.minQ=Math.min(o.minQ,t.minQ||0);}
+  });
+  return out;
+}
+/* Plantilla de un producto de Makito: una pestaña por posición; si una posición tiene varias áreas (medidas o técnicas distintas), son opciones */
+function dzMkTpl(it){
+  var M=DZ_MKD[it.c]; if(!M) return null;
+  if(DZ_MKTPL[it.r]!==undefined) return DZ_MKTPL[it.r];
+  var p=M.d[it.r], z={}, pos=[], lbl={}, by={};
+  ((p&&p.areas)||[]).forEach(function(a){
+    var tecs=dzMkTecs(a,M.t); if(!tecs.length||!a.mm||!(a.mm[0]>0&&a.mm[1]>0)) return;
+    var lab=String(a.lab||a.id).trim(), k=norm(lab), g=by[k];
+    var A={id:a.id,mm:a.mm,box:a.box&&a.img?a.box:null,img:a.img||"",col:!!a.col,forma:a.forma||"r",quad:a.quad&&a.quad.length===8?a.quad:null,tecs:tecs};
+    A.cyl=A.forma==="o"&&(it.c==="m-taz"||DZ_CYL.test(norm(it.n+" "+lab)));
+    if(!g){g=by[k]={key:a.id,lab:lab,areas:[]}; pos.push(a.id); lbl[a.id]=lab; z[a.id]={v:"f",g:g};}
+    g.areas.push(A);
+  });
+  if(!pos.length) return (DZ_MKTPL[it.r]=null);
+  pos.forEach(function(q){var g=z[q].g; dzMkSet(z[q],g.areas.filter(function(A){return A.box;})[0]||g.areas[0]);});
+  return (DZ_MKTPL[it.r]={key:"mk",mk:1,n:"producto",z:z,pos:pos,lbl:lbl,aprox:0,cuerpo:0});
+}
+function dzMkSet(zn,A,tk){
+  zn.area=A; zn.cm=[A.mm[0]/10,A.mm[1]/10];
+  var k=tk||(zn.tec&&zn.tec.k); zn.tec=A.tecs.filter(function(t){return t.k===k;})[0]||A.tecs[0];
+}
+function dzMm(mm){return fmt(mm[0])+" × "+fmt(mm[1])+" mm";}
+/* Zonas pequeñas (bolígrafos, llaveros…): se abren con la foto acercada */
+function dzMkSmall(A){return !!(A&&A.box&&(A.box[2]-A.box[0])<.2&&(A.box[3]-A.box[1])<.2);}
+/* Foto de un área: la previsualización limpia de Makito, la foto de color o la principal; sin zona, la foto del color elegido */
+function dzMkPick(it,ci,A){
+  var main=(it.k[ci]&&it.k[ci][3])||it.i;
+  if(!A.box) return {st:main};
+  if(/^z\//.test(A.img)) return {st:"Z:"+A.img.slice(2),map:1,alt:main};
+  if(A.col) return {st:(it.k[ci]&&it.k[ci][3])||"K:"+A.img,map:1,alt:main};
+  return {st:"K:"+A.img,map:1,alt:main};
+}
+function dzViewMk(it,ci,A){
+  var p=dzMkPick(it,ci,A), key=p.st+"|"+A.id;
+  if(DZ_MKV[key]) return DZ_MKV[key];
+  return DZ_MKV[key]=dzLoad(p.st,true).then(function(r){
+    if(r) return {r:r,map:!!p.map};
+    if(p.alt&&p.alt!==p.st) return dzLoad(p.alt,true).then(function(r2){return r2?{r:r2,map:false}:null;}); /* la foto de la zona no está: la del producto, posición orientativa */
+    return null;
+  }).then(function(x){
+    if(!x){
+      var c=document.createElement("canvas"); c.width=c.height=1000; var cx=c.getContext("2d"); cx.fillStyle=dzHex(it.k[ci])||"#E4E4E1"; cx.fillRect(150,150,700,700);
+      return new Promise(function(res){var im=new Image(); im.onload=function(){var v={im:im,cors:true,fr:{x0:.15,y0:.15,x1:.85,y1:.85,bw:.7,lum:230,ok:1},kind:"front",flip:false,nophoto:1,st:p.st,mk:A,map:false}; dzMkSample(v); res(v);}; im.src=c.toDataURL("image/png");});
+    }
+    var fr=x.r.cors?dzMeasure(x.r.im):null;
+    var v={im:x.r.im,cors:x.r.cors,fr:fr||{x0:.04,y0:.04,x1:.96,y1:.96,bw:.9,lum:230,ok:0},kind:"front",flip:false,st:p.st,mk:A,map:x.map&&!!A.box};
+    dzMkSample(v); return v;
+  });
+}
+/* Color del material en la zona (para el láser y la línea de la zona) y ancho del producto a esa altura (radio de la taza o el bidón) */
+function dzMkSample(v){
+  v.rgb=[220,220,220]; v.zl=220;
+  try{
+    var im=v.im, W=im.naturalWidth||im.width, H=im.naturalHeight||im.height, k=Math.min(1,300/Math.max(W,H)), w=Math.max(1,Math.round(W*k)), h=Math.max(1,Math.round(H*k));
+    var c=document.createElement("canvas"); c.width=w; c.height=h; var x=c.getContext("2d",{willReadFrequently:true}); x.drawImage(im,0,0,w,h);
+    var d=x.getImageData(0,0,w,h).data, fr=v.fr, b=v.map?v.mk.box:[fr.x0+(fr.x1-fr.x0)*.35,fr.y0+(fr.y1-fr.y0)*.35,fr.x1-(fr.x1-fr.x0)*.35,fr.y1-(fr.y1-fr.y0)*.35];
+    var x0=Math.floor((b[0]+(b[2]-b[0])*.2)*w), x1=Math.ceil((b[2]-(b[2]-b[0])*.2)*w), y0=Math.floor((b[1]+(b[3]-b[1])*.2)*h), y1=Math.ceil((b[3]-(b[3]-b[1])*.2)*h), s=[0,0,0], n=0;
+    for(var yy=Math.max(0,y0);yy<Math.min(h,Math.max(y1,y0+1));yy++) for(var xx=Math.max(0,x0);xx<Math.min(w,Math.max(x1,x0+1));xx++){var i=(yy*w+xx)*4; s[0]+=d[i]; s[1]+=d[i+1]; s[2]+=d[i+2]; n++;}
+    if(n){v.rgb=s.map(function(q){return Math.round(q/n);}); v.zl=.299*v.rgb[0]+.587*v.rgb[1]+.114*v.rgb[2];}
+    if(v.map&&v.mk.cyl){ /* ancho del producto a la altura de la zona (por dentro, por encima y por debajo: la banda verde de Makito sobresale) */
+      var rx=Math.min(w-1,Math.round((b[0]+b[2])/2*w)), bwn=b[2]-b[0], best=0;
+      [.5,.3,.7,-.06,1.06].forEach(function(f){
+        var ry=Math.round((b[1]+(b[3]-b[1])*f)*h); if(ry<0||ry>=h) return;
+        var on=function(q){var i=(ry*w+q)*4; return d[i]<244||d[i+1]<244||d[i+2]<244;};
+        if(!on(rx)) return; var L=rx, R=rx; while(L>0&&on(L-1))L--; while(R<w-1&&on(R+1))R++;
+        var rw=(R+1-L)/w; if(rw<=bwn*1.06&&rw>best&&Math.abs((L+R+1)/2/w-(b[0]+b[2])/2)<bwn*.12) best=rw;
+      });
+      if(best>bwn*.3) v.row=best;
+    }
+  }catch(e){}
+}
+/* Cuadrado unidad -> cuadrilátero (homografía): (0,0) arriba izq., (1,0) arriba der., (1,1) abajo der., (0,1) abajo izq. */
+function dzSq2Q(q){
+  var x0=q[0][0],y0=q[0][1],x1=q[1][0],y1=q[1][1],x2=q[2][0],y2=q[2][1],x3=q[3][0],y3=q[3][1];
+  var sx=x0-x1+x2-x3, sy=y0-y1+y2-y3, a,b,c=x0,d,e,f=y0,g=0,h=0;
+  if(Math.abs(sx)<1e-6&&Math.abs(sy)<1e-6){a=x1-x0; b=x3-x0; d=y1-y0; e=y3-y0;}
+  else {var dx1=x1-x2, dx2=x3-x2, dy1=y1-y2, dy2=y3-y2, den=dx1*dy2-dx2*dy1; g=(sx*dy2-dx2*sy)/den; h=(dx1*sy-sx*dy1)/den; a=x1-x0+g*x1; b=x3-x0+h*x3; d=y1-y0+g*y1; e=y3-y0+h*y3;}
+  return function(u,t){var w=g*u+h*t+1; return [(a*u+b*t+c)/w,(d*u+e*t+f)/w];};
+}
+/* Geometría de merchandising: foto, zona (según su forma) y escala dentro de un recuadro SW×SH */
+function dzGeomMk(v,tpl,pos,SW,SH,mode,top){
+  var zn=tpl.z[pos], A=zn.area, im=v.im, W=im.naturalWidth||im.width||1000, H=im.naturalHeight||im.height||1000, fr=v.fr, cm=zn.cm, z, ox, oy;
+  var gx0=fr.x0*W, gy0=fr.y0*H, gw=Math.max(1,(fr.x1-fr.x0)*W), gh=Math.max(1,(fr.y1-fr.y0)*H), map=v.map&&v.mk===A, b;
+  if(map) b=[A.box[0]*W,A.box[1]*H,A.box[2]*W,A.box[3]*H];
+  else {var s0=Math.min(gw*.5/cm[0],gh*.4/cm[1]), cxp=gx0+gw/2, cyp=gy0+gh/2; b=[cxp-cm[0]*s0/2,cyp-cm[1]*s0/2,cxp+cm[0]*s0/2,cyp+cm[1]*s0/2];} /* posición orientativa: centrada en el producto */
+  var bw=Math.max(1,b[2]-b[0]), bh=Math.max(1,b[3]-b[1]), fit=Math.min(SW*.88/gw,SH*.9/gh);
+  if(mode==="zone"){z=Math.max(fit,Math.min(SW*.7/bw,SH*.6/bh,fit*4)); ox=SW/2-(b[0]+bw/2)*z; oy=SH/2-(b[1]+bh/2)*z;}
+  else {z=fit; ox=SW/2-(gx0+gw/2)*z; oy=SH/2-(gy0+gh/2)*z;}
+  oy+=top||0;
+  var sx0=ox+b[0]*z, sy0=oy+b[1]*z, sbw=bw*z, sbh=bh*z;
+  /* zona girada respecto a la foto (p. ej. bolígrafo en vertical con la zona «35 × 6 mm» a lo largo): la caja encaja mejor girada */
+  var bar=bw/bh, qa=null;
+  if(map&&A.quad){var Q=A.quad, top=Math.hypot((Q[2]-Q[0])*W,(Q[3]-Q[1])*H), lef=Math.hypot((Q[6]-Q[0])*W,(Q[7]-Q[1])*H); qa=top/Math.max(1e-6,lef); bar=qa;}
+  var mar=cm[0]/cm[1], rot=map&&!A.cyl&&(mar>1.3||mar<.77)&&(bar-1)*(mar-1)<0&&Math.abs(Math.log(bar*mar))<.5*Math.abs(Math.log(bar/mar)); /* en tazas y bidones la banda se ve más estrecha: no se gira */
+  var g={mk:1,rot:rot,z:z,ox:ox,oy:oy,W:W,H:H,cm:cm,map:map,box:[sx0,sy0,sbw,sbh],shape:!map?"n":A.forma==="x"&&A.quad?"x":A.forma==="o"&&A.cyl&&!rot?"o":A.forma==="e"?"e":A.forma==="o"?"rr":"r"};
+  if(g.shape==="x"){
+    var q=[0,1,2,3].map(function(i){return [ox+A.quad[2*i]*W*z,oy+A.quad[2*i+1]*H*z];}), xs=q.map(function(p){return p[0];}), ys=q.map(function(p){return p[1];});
+    g.q=q; g.hm=dzSq2Q(q); g.ax=Math.min.apply(0,xs); g.ay=Math.min.apply(0,ys); g.aw=Math.max.apply(0,xs)-g.ax; g.ah=Math.max.apply(0,ys)-g.ay;
+    g.sc=(Math.hypot(q[1][0]-q[0][0],q[1][1]-q[0][1])+Math.hypot(q[2][0]-q[3][0],q[2][1]-q[3][1]))/2/cm[rot?1:0];
+  } else if(g.shape==="o"){
+    /* Banda alrededor de un producto redondo: radio R (px) desde el ancho del producto a esa altura o desde la propia banda;
+       visto un poco desde arriba, los bordes de la banda son arcos de elipse (e = R·0,14) */
+    var row=v.row?v.row*W*z/2:0, Rp=row&&row<=sbw/2*1.06?row:sbw/2, R=Rp, al=Math.PI/2, full=true, em, yc, sv, half;
+    for(var it2=0;it2<4;it2++){
+      em=full?.14*sbw/2:.14*R; yc=sy0+em*(1-(full?0:Math.cos(al))); sv=(sbh-(yc-sy0))/cm[1]; half=cm[0]/2*sv; /* media banda en px (escala del centro) */
+      if(half>=Rp*Math.PI/2*.97){full=true; R=Rp; al=Math.PI/2;}
+      else if(row&&row>=sbw/2*.97){full=false; R=row; al=half/R;}
+      else if(half>sbw/2*1.01){full=false; var lo=sbw/2,hi=sbw*20; for(var k=0;k<40;k++){var m=(lo+hi)/2; if(m*Math.sin(half/m)>sbw/2) hi=m; else lo=m;} R=(lo+hi)/2; al=Math.min(Math.PI/2,half/R);}
+      else {full=false; R=sbw*20; al=half/R;} /* casi plana */
+    }
+    g.cyl={cx:sx0+sbw/2,R:R,e:R*.14,yc:yc,al:al,sv:sv,Rcm:R/sv,L:cm[0],hb:cm[1]*sv};
+    g.ax=sx0; g.ay=sy0; g.aw=sbw; g.ah=sbh; g.sc=sv;
+  } else {
+    var c0=rot?cm[1]:cm[0], c1=rot?cm[0]:cm[1], s=Math.min(sbw/c0,sbh/c1); g.aw=c0*s; g.ah=c1*s; g.ax=sx0+(sbw-g.aw)/2; g.ay=sy0+(sbh-g.ah)/2; g.sc=s;
+  }
+  return g;
+}
+/* Recuadro que ocupa el logo en pantalla (para tocarlo y arrastrarlo) */
+function dzMkBox(g,d){
+  var hh=d.w*d.ar;
+  if(g.shape==="o"){
+    var c=g.cyl, u0=d.x-c.L/2, u1=u0+d.w, t0=Math.max(-c.al,u0/c.Rcm), t1=Math.min(c.al,u1/c.Rcm);
+    if(t1<t0){var tm=Math.max(-c.al,Math.min(c.al,(u0+u1)/2/c.Rcm)); t0=t1=tm;}
+    var cmax=t0<=0&&t1>=0?1:Math.max(Math.cos(t0),Math.cos(t1)), cmin=Math.min(Math.cos(t0),Math.cos(t1));
+    var X0=c.cx+c.R*Math.sin(t0), X1=c.cx+c.R*Math.sin(t1), top=c.yc-c.e*(1-cmin)+d.y*c.sv, bot=c.yc-c.e*(1-cmax)+(d.y+hh)*c.sv;
+    if(X1-X0<24){var mx=(X0+X1)/2; X0=mx-12; X1=mx+12;}
+    return [X0,top,X1-X0,bot-top];
+  }
+  if(g.shape==="x"){
+    var pts=[[d.x,d.y],[d.x+d.w,d.y],[d.x+d.w,d.y+hh],[d.x,d.y+hh]].map(function(p){return dzMkQ(g,p[0],p[1]);});
+    var xs=pts.map(function(p){return p[0];}), ys=pts.map(function(p){return p[1];}), x0=Math.min.apply(0,xs), y0=Math.min.apply(0,ys);
+    return [x0,y0,Math.max.apply(0,xs)-x0,Math.max.apply(0,ys)-y0];
+  }
+  if(g.rot) return [g.ax+d.y*g.sc,g.ay+g.ah-(d.x+d.w)*g.sc,hh*g.sc,d.w*g.sc];
+  return [g.ax+d.x*g.sc,g.ay+d.y*g.sc,d.w*g.sc,hh*g.sc];
+}
+/* Contorno de la zona (discontinuo, como en la prenda) */
+function dzMkZonePath(x,g){
+  x.beginPath();
+  if(g.shape==="o"){
+    var c=g.cyl, n=48, i, t, pts=[];
+    for(i=0;i<=n;i++){t=-c.al+2*c.al*i/n; pts.push([c.cx+c.R*Math.sin(t),c.yc-c.e*(1-Math.cos(t))]);}
+    x.moveTo(pts[0][0],pts[0][1]); for(i=1;i<=n;i++) x.lineTo(pts[i][0],pts[i][1]);
+    for(i=n;i>=0;i--) x.lineTo(pts[i][0],pts[i][1]+c.hb);
+    x.closePath();
+  } else if(g.shape==="x"){x.moveTo(g.q[0][0],g.q[0][1]); for(var j=1;j<4;j++) x.lineTo(g.q[j][0],g.q[j][1]); x.closePath();}
+  else if(g.shape==="e") x.ellipse(g.ax+g.aw/2,g.ay+g.ah/2,g.aw/2,g.ah/2,0,0,Math.PI*2);
+  else if(g.shape==="rr"&&x.roundRect) x.roundRect(g.ax,g.ay,g.aw,g.ah,Math.min(g.aw,g.ah)*.18);
+  else x.rect(g.ax,g.ay,g.aw,g.ah);
+}
+/* Imagen del logo tal como queda con la técnica: a color, o en un solo tono (láser, termograbado) */
+function dzMkTone(v,t){
+  var r=(v&&v.rgb)||[220,220,220], L=.299*r[0]+.587*r[1]+.114*r[2];
+  if(/termo/i.test(t.k)) return r.map(function(q){return Math.round(q*.58);}); /* relieve: el mismo material, más oscuro */
+  if(r[0]-r[2]>32&&r[0]>=r[1]&&L>70&&L<228) return [78,48,26]; /* madera, bambú, corcho: quemado */
+  if(L<110) return [208,208,203]; /* lacado o anodizado oscuro: el láser deja ver el metal */
+  return r.map(function(q){return Math.round(q*.36);}); /* acero, plástico claro, vidrio: grabado más oscuro */
+}
+function dzMkSrc(d,t,v){
+  if(!d.cv){
+    var nw=d.nat[0]||1000, nh=d.nat[1]||1000, k=Math.min(1,900/Math.max(nw,nh)), c=document.createElement("canvas");
+    c.width=Math.max(1,Math.round(nw*k)); c.height=Math.max(1,Math.round(nh*k)); c.getContext("2d").drawImage(d.im,0,0,c.width,c.height); d.cv=c;
+  }
+  if(!t||!t.mono) return d.cv;
+  var tone=dzMkTone(v,t), key=tone.join(","); d.mono=d.mono||{};
+  if(d.mono[key]) return d.mono[key];
+  var o=document.createElement("canvas"); o.width=d.cv.width; o.height=d.cv.height;
+  try{
+    var x=o.getContext("2d",{willReadFrequently:true}); x.drawImage(d.cv,0,0); var im=x.getImageData(0,0,o.width,o.height), p=im.data, bg=d.bg?[p[0],p[1],p[2]]:null, wh=0, op=0, i;
+    for(i=0;i<p.length;i+=16) if(p[i+3]>160){op++; if(p[i]>235&&p[i+1]>235&&p[i+2]>235) wh++;}
+    var ko=!bg&&op&&wh/op<.5; /* logo sin fondo con partes blancas (letras, huecos): no se graban; si el logo es todo blanco, sí */
+    for(i=0;i<p.length;i+=4){
+      var a=p[i+3]/255;
+      if(ko&&p[i]>235&&p[i+1]>235&&p[i+2]>235) a=0;
+      if(bg){var dd=(Math.abs(p[i]-bg[0])+Math.abs(p[i+1]-bg[1])+Math.abs(p[i+2]-bg[2]))/3; a*=Math.max(0,Math.min(1,(dd-14)/46));} /* logo con fondo: el fondo no se graba */
+      p[i]=tone[0]; p[i+1]=tone[1]; p[i+2]=tone[2]; p[i+3]=Math.round(a*255);
+    }
+    x.putImageData(im,0,0);
+  }catch(e){return d.cv;}
+  return (d.mono[key]=o);
+}
+/* Colores del logo: se agrupan los parecidos; no cuentan el fondo (si lo tiene), lo casi transparente ni los bordes suavizados */
+function dzColors(im,bg){
+  try{
+    var nw=im.naturalWidth||im.width||200, nh=im.naturalHeight||im.height||200, k=Math.min(1,140/Math.max(nw,nh)), w=Math.max(1,Math.round(nw*k)), h=Math.max(1,Math.round(nh*k));
+    var c=document.createElement("canvas"); c.width=w; c.height=h; var x=c.getContext("2d",{willReadFrequently:true}); x.drawImage(im,0,0,w,h);
+    var p=x.getImageData(0,0,w,h).data, bgc=bg?[p[0],p[1],p[2]]:null, cl=[], tot=0;
+    for(var i=0;i<p.length;i+=4){
+      if(p[i+3]<160) continue; var r=p[i],gg=p[i+1],b=p[i+2];
+      if(bgc&&Math.abs(r-bgc[0])+Math.abs(gg-bgc[1])+Math.abs(b-bgc[2])<45) continue;
+      tot++; var best=null, bd=1e9;
+      for(var j=0;j<cl.length;j++){var q=cl[j], dd=(q.r-r)*(q.r-r)+(q.g-gg)*(q.g-gg)+(q.b-b)*(q.b-b); if(dd<bd){bd=dd; best=q;}}
+      if(best&&bd<52*52){best.n++; best.r+=(r-best.r)/best.n; best.g+=(gg-best.g)/best.n; best.b+=(b-best.b)/best.n;}
+      else if(cl.length<64) cl.push({r:r,g:gg,b:b,n:1});
+    }
+    if(!tot) return 1;
+    return Math.max(1,cl.filter(function(q){return q.n>=tot*.025;}).length);
+  }catch(e){return 0;}
+}
+/* Dibuja el logo en la zona: recto, recortado en elipse, en perspectiva (malla de triángulos) o alrededor del producto (tiras verticales) */
+function dzMkTri(x,img,s0,s1,s2,d0,d1,d2){
+  var cx=(d0[0]+d1[0]+d2[0])/3, cy=(d0[1]+d1[1]+d2[1])/3, ex=function(p){var dx=p[0]-cx, dy=p[1]-cy, l=Math.hypot(dx,dy)||1; return [p[0]+dx/l*.7,p[1]+dy/l*.7];};
+  var a0=ex(d0), a1=ex(d1), a2=ex(d2);
+  x.save(); x.beginPath(); x.moveTo(a0[0],a0[1]); x.lineTo(a1[0],a1[1]); x.lineTo(a2[0],a2[1]); x.closePath(); x.clip();
+  var S1x=s1[0]-s0[0], S1y=s1[1]-s0[1], S2x=s2[0]-s0[0], S2y=s2[1]-s0[1], D1x=d1[0]-d0[0], D1y=d1[1]-d0[1], D2x=d2[0]-d0[0], D2y=d2[1]-d0[1], den=S1x*S2y-S2x*S1y;
+  if(Math.abs(den)>1e-9){
+    var a=(D1x*S2y-D2x*S1y)/den, b=(D1y*S2y-D2y*S1y)/den, c=(D2x*S1x-D1x*S2x)/den, dd=(D2y*S1x-D1y*S2x)/den;
+    x.transform(a,b,c,dd,d0[0]-a*s0[0]-c*s0[1],d0[1]-b*s0[0]-dd*s0[1]); x.drawImage(img,0,0);
+  }
+  x.restore();
+}
+/* Se pinta en una capa aparte y se pasa al lienzo de una vez: los trozos (tiras, triángulos) se solapan sin dejar rayas */
+var DZ_LAYER=null;
+function dzMkDraw(x,g,d,src,alpha){
+  var cv=x.canvas, L=DZ_LAYER||(DZ_LAYER=document.createElement("canvas"));
+  if(L.width!==cv.width||L.height!==cv.height){L.width=cv.width; L.height=cv.height;}
+  var y=L.getContext("2d"); y.setTransform(1,0,0,1,0,0); y.clearRect(0,0,L.width,L.height);
+  var m=x.getTransform?x.getTransform():null; if(m) y.setTransform(m);
+  dzMkPaint(y,g,d,src);
+  x.save(); x.setTransform(1,0,0,1,0,0); x.globalAlpha=alpha||1; x.drawImage(L,0,0); x.restore();
+}
+function dzMkPaint(x,g,d,src){
+  var sw=src.width||src.naturalWidth||1, sh=src.height||src.naturalHeight||1, hh=d.w*d.ar;
+  if(g.shape==="o"){
+    var c=g.cyl, u0=d.x-c.L/2, t0=Math.max(-c.al,u0/c.Rcm), t1=Math.min(c.al,(u0+d.w)/c.Rcm); if(t1<=t0) return;
+    var X0=c.cx+c.R*Math.sin(t0), X1=c.cx+c.R*Math.sin(t1), step=.75;
+    for(var X=X0;X<X1;X+=step){
+      var sm=Math.max(-1,Math.min(1,(X+step/2-c.cx)/c.R)), th=Math.asin(sm), u=th*c.Rcm, f=(u-u0)/d.w; if(f<0||f>1) continue;
+      var cs=Math.max(.05,Math.cos(th)), sx=Math.min(sw-1,f*sw), scol=Math.max(1,step/(c.R*cs)*c.Rcm/d.w*sw);
+      x.drawImage(src,sx,0,Math.min(scol,sw-sx),sh,X,c.yc-c.e*(1-Math.cos(th))+d.y*c.sv,step+.6,hh*c.sv);
+    }
+    /* hacia los lados la superficie se ve de canto: algo más apagado */
+    var gr=x.createLinearGradient(c.cx-c.R,0,c.cx+c.R,0);
+    for(var k=0;k<=12;k++){var t=-Math.PI/2+Math.PI*k/12; gr.addColorStop(k/12,"rgba(0,0,0,"+(.3*(1-Math.cos(t))).toFixed(3)+")");}
+    x.globalCompositeOperation="destination-out"; x.fillStyle=gr; x.fillRect(c.cx-c.R,c.yc-c.e-2,2*c.R,c.hb+c.e+4); x.globalCompositeOperation="source-over";
+    return;
+  }
+  if(g.shape==="x"){
+    var N=8, P=[], i, j;
+    for(j=0;j<=N;j++){P[j]=[]; for(i=0;i<=N;i++) P[j][i]=dzMkQ(g,d.x+d.w*i/N,d.y+hh*j/N);}
+    for(j=0;j<N;j++) for(i=0;i<N;i++){
+      var a=[sw*i/N,sh*j/N], b=[sw*(i+1)/N,sh*j/N], cc=[sw*(i+1)/N,sh*(j+1)/N], e=[sw*i/N,sh*(j+1)/N];
+      dzMkTri(x,src,a,b,cc,P[j][i],P[j][i+1],P[j+1][i+1]); dzMkTri(x,src,a,cc,e,P[j][i],P[j+1][i+1],P[j+1][i]);
+    }
+    return;
+  }
+  x.save();
+  if(g.shape==="e"||g.shape==="rr"){dzMkZonePath(x,g); x.clip();}
+  if(g.rot){x.translate(g.ax,g.ay+g.ah); x.rotate(-Math.PI/2); x.drawImage(src,d.x*g.sc,d.y*g.sc,d.w*g.sc,hh*g.sc);} /* zona girada: el logo se lee de abajo arriba */
+  else x.drawImage(src,g.ax+d.x*g.sc,g.ay+d.y*g.sc,d.w*g.sc,hh*g.sc);
+  x.restore();
+}
+/* Punto de la zona en perspectiva (cm desde su esquina) -> pantalla */
+function dzMkQ(g,u,v){var cm=g.cm; return g.rot?g.hm(v/cm[1],1-u/cm[0]):g.hm(u/cm[0],v/cm[1]);}
+/* Técnica en el texto del presupuesto: «Tampografía (2 colores)», «Impresión digital (a todo color)», «Grabado láser» */
+function dzMkTecTxt(t,nc){
+  if(!t) return "";
+  if(t.mono||t.bord) return t.name;
+  if(t.full) return t.name+" (a todo color)";
+  if(!nc) return t.name+(t.max?" (hasta "+t.max+(t.max===1?" color)":" colores)"):"");
+  return t.name+" ("+nc+(nc===1?" color":" colores")+(t.max&&nc>t.max?", máx. "+t.max:"")+")";
+}
+function dzMkLine(p,d){var zn=DZ.tpl.z[p]; return dzL(p)+": "+dzSizeTxt(d.w,d.w*d.ar)+" · "+dzMkTecTxt(zn.tec,d.ncol);}
+/* Técnica y medida de la zona: botones (en el móvil, en la hoja de abajo) y avisos */
+function dzMkNotes(){
+  var zn=DZ.tpl.z[DZ.pos], t=zn.tec, d=DZ.items[DZ.pos], n=[];
+  if(t.mono) n.push(["info",/termo/i.test(t.k)?"El termograbado marca en relieve, en un solo tono.":"El láser graba en un solo tono."]);
+  else if(t.full) n.push(["info",(t.bord?"Bordado a todo color.":"A todo color, sin límite de colores.")]);
+  else if(t.max) n.push(d&&d.ncol>t.max?["warn","Tu logo tiene unos "+d.ncol+" colores; esta técnica admite hasta "+t.max+"."]:["info","Hasta "+t.max+(t.max===1?" color.":" colores.")+(d&&d.ncol?" Tu logo tiene "+(d.ncol===1?"1 color.":"unos "+d.ncol+" colores."):"")]);
+  if(t.bord&&t.pt) n.push(["info","Te confirmamos las puntadas según tu logo (hasta "+fmt(t.pt)+")."]);
+  if(t.minQ) n.push(["info","Mínimo "+fmt(t.minQ)+" uds."]);
+  return n;
+}
+function dzMkPanel(){
+  var zn=DZ.tpl.z[DZ.pos], g=zn.g, A=zn.area, h="";
+  if(g.areas.length>1) h+='<p class="dzmkh">Medida</p><div class="dzopts dzmkopts">'+g.areas.map(function(B){return '<button type="button" class="dzopt" data-mka="'+esc(B.id)+'" aria-pressed="'+(B===A)+'">'+DZ_ICON.check+'<span>Opción '+esc(B.id)+' · '+dzMm(B.mm)+'</span></button>';}).join("")+'</div>';
+  h+='<p class="dzmkh">Técnica</p><div class="dzopts dzmkopts">'+A.tecs.map(function(t){return '<button type="button" class="dzopt" data-mkt="'+esc(t.k)+'" aria-pressed="'+(t===zn.tec)+'">'+DZ_ICON.check+'<span>'+esc(t.name)+'</span></button>';}).join("")+'</div>';
+  h+=dzMkNotes().map(function(x){return '<p class="dznote '+(x[0]==="warn"?"warn":"dzinfo")+'">'+(x[0]==="warn"?DZ_ICON.warn:DZ_ICON.info)+'<span>'+esc(x[1])+'</span></p>';}).join("");
+  return h;
+}
+function dzMkUI(){
+  var s=$("dzmksec"); if(!s) return; var mk=!!(DZ.tpl&&DZ.tpl.mk); s.hidden=!mk; if(!mk){s.innerHTML=""; return;}
+  s.innerHTML='<h3>Técnica: <span>'+esc(DZ.tpl.z[DZ.pos].tec.name)+'</span></h3>'+dzMkPanel();
+  var sh=$("dzsheet"); if(sh&&!sh.hidden&&sh.classList.contains("mk")) $("dzmkin").innerHTML=dzMkPanel();
+}
+function dzMkPick2(e){
+  var b=e.target.closest("[data-mka],[data-mkt],[data-mkopen]"); if(!b||!DZ.tpl||!DZ.tpl.mk) return;
+  var p=DZ.pos, zn=DZ.tpl.z[p];
+  if(b.dataset.mkopen){dzSheetMk(); return;}
+  if(b.dataset.mka){var B=zn.g.areas.filter(function(A){return A.id===b.dataset.mka;})[0]; if(!B||B===zn.area) return; dzMkSet(zn,B); var d=DZ.items[p]; if(d) dzResize(p,d.w); DZ.zoomed=dzMkSmall(B); dzShow(); return;}
+  var t=zn.area.tecs.filter(function(x){return x.k===b.dataset.mkt;})[0]; if(!t||t===zn.tec) return; zn.tec=t; dzTools(); dzRender();
+}
+/* Hoja de abajo (móvil): técnica y medida */
+function dzSheetMk(){
+  var sh=$("dzsheet"); sh.classList.add("mk"); $("dzmkin").innerHTML=dzMkPanel();
+  DZ.sheetFrom=document.activeElement; clearTimeout(dzSheetClose.t); sh.classList.remove("closing"); $("dzsheetin").style.transform=""; sh.hidden=false;
+  var sel=sh.querySelector('#dzmkin [aria-pressed="true"]'); if(sel) sel.focus({preventScroll:true});
 }
 
 /* ---------- Archivos originales: en memoria y en IndexedDB (no en localStorage) hasta que se envían ---------- */
@@ -3133,12 +3502,12 @@ function dzBuild(){
   el.setAttribute("role","dialog"); el.setAttribute("aria-modal","true"); el.setAttribute("aria-labelledby","dztitle");
   el.innerHTML='<div class="dzhead"><button class="dzback" id="dzclose" type="button">'+DZ_ICON.back+'Volver</button><div class="dzhd"><h2 id="dztitle"></h2><p id="dzsub"></p></div></div>'+
     '<div class="dzmain"><div class="dzleft"><div class="dzseg" id="dzseg" role="tablist" aria-label="Zona"></div>'+
-    '<div class="dzstage" id="dzstage" role="tabpanel"><div class="dzarea" id="dzarea"></div><span class="dzzmax" id="dzalbl"></span><div class="dzguide dzgv" id="dzgv"></div><div class="dzguide dzgh" id="dzgh"></div><div class="dzitem" id="dzitem" tabindex="0" role="img" hidden><img alt=""></div>'+
+    '<div class="dzstage" id="dzstage" role="tabpanel"><div class="dzarea" id="dzarea"></div><canvas class="dzcv" id="dzcv" aria-hidden="true" hidden></canvas><span class="dzzmax" id="dzalbl"></span><div class="dzguide dzgv" id="dzgv"></div><div class="dzguide dzgh" id="dzgh"></div><div class="dzitem" id="dzitem" tabindex="0" role="img" hidden><img alt=""></div>'+
     '<button type="button" class="dzbanner" id="dzbanner" aria-expanded="false" hidden></button><p class="dzempty" id="dzempty">Sube tu logo para verlo en la prenda</p><p class="dzmeasure" id="dzmeasure" aria-hidden="true"></p><button type="button" class="dzzoom" id="dzzoom" hidden></button></div></div>'+
-    '<div class="dzright"><div class="dzpad"><section class="dzsec dzcolsec"><h3>Color: <span class="dzcolname"></span></h3><div class="dzdots" role="radiogroup" aria-label="Color"></div></section>'+
+    '<div class="dzright"><div class="dzpad"><section class="dzsec dzcolsec"><h3>Color: <span class="dzcolname"></span></h3><div class="dzdots" role="radiogroup" aria-label="Color"></div></section><section class="dzsec dzmksec" id="dzmksec" hidden></section>'+
     '<section class="dzsec" id="dztool" aria-live="polite"></section></div>'+
     '<div class="dzfoot"><p class="dzsum" id="dzsum"></p><button class="btn" type="button" id="dzadd">Añadir al presupuesto</button><p class="dzerr" id="dzerr" role="status" hidden></p></div></div></div>'+
-    '<div class="dzsheet" id="dzsheet" hidden><div class="dzsheetin" id="dzsheetin" role="dialog" aria-modal="true" aria-labelledby="dzsheett"><div class="dzsgrip" id="dzsgrip"><div class="dzgrab" aria-hidden="true"></div><div class="dzshead"><h3 id="dzsheett">Color: <span class="dzcolname"></span></h3><button type="button" class="close" id="dzsheetx">Cerrar</button></div></div><div class="dzsscroll"><div class="dzslist" role="radiogroup" aria-label="Color"></div><div class="dzinfo" id="dzinfo"></div></div></div></div>'+
+    '<div class="dzsheet" id="dzsheet" hidden><div class="dzsheetin" id="dzsheetin" role="dialog" aria-modal="true" aria-labelledby="dzsheett"><div class="dzsgrip" id="dzsgrip"><div class="dzgrab" aria-hidden="true"></div><div class="dzshead"><h3 id="dzsheett"><span class="dzshc">Color: <span class="dzcolname"></span></span><span class="dzshm">Técnica y medida</span></h3><button type="button" class="close" id="dzsheetx">Cerrar</button></div></div><div class="dzsscroll"><div class="dzmkin" id="dzmkin"></div><div class="dzslist" role="radiogroup" aria-label="Color"></div><div class="dzinfo" id="dzinfo"></div></div></div></div>'+
     '<input type="file" id="dzfile" accept="image/png,image/jpeg,image/svg+xml,image/webp,.png,.jpg,.jpeg,.svg,.webp,application/pdf,.pdf" hidden>';
   document.body.appendChild(el);
   $("dzclose").onclick=dzRequestClose;
@@ -3150,6 +3519,7 @@ function dzBuild(){
   el.addEventListener("dragleave",function(e){if(!e.relatedTarget||!el.contains(e.relatedTarget)){var u=document.querySelector(".dzup"); if(u) u.classList.remove("over");}});
   el.addEventListener("drop",function(e){e.preventDefault(); var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0]; if(f) dzSetFile(DZ.pos,f);});
   dzDrag();
+  el.addEventListener("click",dzMkPick2);
   $("dzzoom").onclick=function(){DZ.zoomed=!DZ.zoomed; dzAnim(); dzRender();};
   $("dzbanner").onclick=function(){var o=!this.classList.contains("open"); DZ.bannerOpen=o; this.classList.toggle("open",o); this.setAttribute("aria-expanded",o?"true":"false"); dzRender();};
   $("dzsheetx").onclick=dzSheetClose; dzSheetDrag();
@@ -3169,7 +3539,9 @@ function dzOpen(push,from){
   if(tpl.pos.indexOf(DZ.pos)<0) DZ.pos=tpl.pos[0];
   if(push){history.pushState({dz:1},"",DZ.path+"?disenar="+encodeURIComponent(it.k[it.cur][0])); DZ.pushed=true;} else DZ.pushed=!!(history.state&&history.state.dz);
   lastRouted=location.href;
-  $("dztitle").textContent="Diseña tu "+tpl.n;
+  $("dztitle").textContent=tpl.mk?"Personaliza con tu logo":"Diseña tu "+tpl.n;
+  if(tpl.mk&&!sameProd) DZ.zoomed=dzMkSmall(tpl.z[DZ.pos].area);
+  $("dzcv").hidden=!tpl.mk; $("dzstage").classList.toggle("mk",!!tpl.mk);
   $("dzsub").textContent=it.n+" · Ref. "+it.r;
   var el=$("dz"); el.hidden=false; document.body.style.overflow="hidden";
   if(!document.documentElement.classList.contains("dzopen")){DZ.scroll=window.scrollY; document.documentElement.classList.add("dzopen");} /* solo el diseñador: la página no se desplaza */
@@ -3215,10 +3587,12 @@ function dzFromURL(){
 function dzRestore(){
   var it=DZ.it, id=cKey(it), l=cart[id];
   if(!l||!l.dz||!l.dz.p||DZ.restored===id) return;
-  if(DZ_ORD.some(function(p){return DZ.items[p];})) return; /* ya está trabajando en uno */
+  if(dzOrd().some(function(p){return DZ.items[p];})) return; /* ya está trabajando en uno */
+  if((l.dz.tp==="mk")!==!!DZ.tpl.mk) return;
   DZ.restored=id;
-  DZ_ORD.forEach(function(p){
+  dzOrd().forEach(function(p){
     var g=l.dz.p[p]; if(!g||DZ.tpl.pos.indexOf(p)<0) return;
+    if(DZ.tpl.mk){var zn=DZ.tpl.z[p], B=zn.g.areas.filter(function(A){return A.id===g.a;})[0]; if(B) dzMkSet(zn,B,g.tk); if(p===DZ.pos) dzShow();}
     dzGetFile(id+"|"+p).then(function(file){
       if(!file||!DZ.open||DZ.items[p]) return;
       dzSetFile(p,file,g);
@@ -3229,9 +3603,9 @@ function dzRestore(){
 function dzSeg(){
   var s=$("dzseg"); s.innerHTML="";
   DZ.tpl.pos.forEach(function(p){
-    var b=document.createElement("button"); b.type="button"; b.setAttribute("role","tab"); b.id="dzt-"+p; b.textContent=DZ_LBL[p];
+    var b=document.createElement("button"); b.type="button"; b.setAttribute("role","tab"); b.id="dzt-"+p; b.textContent=dzL(p);
     b.setAttribute("aria-selected",p===DZ.pos?"true":"false"); b.tabIndex=p===DZ.pos?0:-1; b.classList.toggle("has",!!DZ.items[p]);
-    b.setAttribute("aria-label",DZ_LBL[p]+(DZ.items[p]?" (con diseño)":""));
+    b.setAttribute("aria-label",dzL(p)+(DZ.items[p]?" (con diseño)":""));
     b.onclick=function(){dzGo(p);};
     s.appendChild(b);
   });
@@ -3250,17 +3624,17 @@ document.addEventListener("keydown",function(e){
   if(!m) return; e.preventDefault(); dzGo(ps[(i+m+ps.length)%ps.length]); $("dzt-"+DZ.pos).focus();
 });
 function dzGo(p){
-  if(p===DZ.pos) return; DZ.pos=p; DZ.bannerOpen=false; dzErr(""); dzAnim(); dzSeg(); dzShow();
+  if(p===DZ.pos) return; DZ.pos=p; DZ.bannerOpen=false; if(DZ.tpl.mk) DZ.zoomed=dzMkSmall(DZ.tpl.z[p].area); dzErr(""); dzAnim(); dzSeg(); dzShow();
 }
 /* Zoom suave al cambiar de zona o de vista (sin animación si se pide menos movimiento) */
-function dzAnim(){var st=$("dzstage"); st.classList.add("anim"); clearTimeout(dzAnim.t); dzAnim.t=setTimeout(function(){st.classList.remove("anim");},360);}
+function dzAnim(){if(DZ.tpl&&DZ.tpl.mk) return; var st=$("dzstage"); /* merchandising: el logo se pinta en el lienzo, sin animar */ st.classList.add("anim"); clearTimeout(dzAnim.t); dzAnim.t=setTimeout(function(){st.classList.remove("anim");},360);}
 /* Hoja de abajo: color y detalles de la imagen */
 function dzSheet(){
   var sh=$("dzsheet"), d=DZ.items[DZ.pos], h="";
   if(d) h+='<p><b>'+esc(d.name)+'</b> · '+(d.vec?"vectorial":fmt(d.nat[0])+" × "+fmt(d.nat[1])+" px")+' · Calidad a este tamaño: <b>'+dzQual(d)+'</b></p>';
-  h+='<p>Máximo en «'+DZ_LBL[DZ.pos]+'»: '+dzSizeTxt(dzCm(DZ.pos)[0],dzCm(DZ.pos)[1])+'.'+(DZ.tpl.aprox?' La vista es orientativa: te confirmamos la posición exacta antes de imprimir.':'')+'</p>';
+  h+='<p>Máximo en «'+dzL(DZ.pos)+'»: '+dzSizeTxt(dzCm(DZ.pos)[0],dzCm(DZ.pos)[1])+'.'+(DZ.tpl.aprox?' La vista es orientativa: te confirmamos la posición exacta antes de imprimir.':'')+'</p>';
   h+='<p>¿Tu logo está en PDF o AI? Mándanoslo por <a href="https://wa.me/34682368645?text='+encodeURIComponent("Hola, os envío mi logo para el presupuesto.")+'" target="_blank" rel="noopener">WhatsApp</a> y lo preparamos.</p>';
-  $("dzinfo").innerHTML=h;
+  $("dzinfo").innerHTML=h; sh.classList.remove("mk"); $("dzmkin").innerHTML="";
   DZ.sheetFrom=document.activeElement; clearTimeout(dzSheetClose.t); sh.classList.remove("closing"); $("dzsheetin").style.transform=""; sh.hidden=false;
   var sel=sh.querySelector('.dzsrow[aria-checked="true"]')||sh.querySelector(".dzsrow"); if(sel){sel.scrollIntoView({block:"center"}); sel.focus({preventScroll:true});}
 }
@@ -3327,11 +3701,11 @@ function dzShow(){
   var my=++dzSeq, it=DZ.it, stage=$("dzstage"), old=stage.querySelector(".dzph");
   if(old) old.classList.add("loading");
   DZ.view=null; dzTools();
-  dzView(it,DZ.f,it.cur,DZ.pos,DZ.tpl.key).then(function(v){
+  (DZ.tpl.mk?dzViewMk(it,it.cur,DZ.tpl.z[DZ.pos].area):dzView(it,DZ.f,it.cur,DZ.pos,DZ.tpl.key)).then(function(v){
     if(my!==dzSeq||!DZ.open) return;
     if(!v){DZ.view=null; if(old) old.remove(); dzRender(); return;}
-    v.sup=DZ.f.src; DZ.view=v; if(v.nophoto||v.noback) dzTools();
-    var ph=v.im.cloneNode(false); ph.className="dzph"+(v.flip?" flip":""); ph.alt=it.n+" ("+colES(it.k[it.cur][0])+"), "+DZ_LBL[DZ.pos].toLowerCase();
+    v.sup=DZ.f.src; DZ.view=v; if(v.nophoto||v.noback||DZ.tpl.mk) dzTools();
+    var ph=v.im.cloneNode(false); ph.className="dzph"+(v.flip?" flip":""); ph.alt=it.n+" ("+colES(it.k[it.cur][0])+"), "+dzL(DZ.pos).toLowerCase();
     if(old) old.replaceWith(ph); else stage.insertBefore(ph,stage.firstChild);
     $("dzarea").classList.toggle("lt",dzDark(it.k[it.cur],v.fr));
     dzRender();
@@ -3339,35 +3713,49 @@ function dzShow(){
 }
 /* Coloca foto, zona e imagen según el tamaño actual del recuadro */
 function dzRender(){
-  var stage=$("dzstage"), v=DZ.view, area=$("dzarea"), item=$("dzitem"), d=DZ.items[DZ.pos], ph=stage.querySelector(".dzph");
+  var stage=$("dzstage"), v=DZ.view, area=$("dzarea"), item=$("dzitem"), d=DZ.items[DZ.pos], ph=stage.querySelector(".dzph"), mk=!!DZ.tpl.mk, cv=$("dzcv");
   $("dzempty").hidden=!!d;
-  if(!v||!ph){area.hidden=true; item.hidden=true; $("dzzoom").hidden=true; dzBanner(); return;}
+  if(!v||!ph){area.hidden=true; item.hidden=true; $("dzzoom").hidden=true; if(mk) dzMkCanvas(null); dzBanner(); return;}
   dzBanner();
   var bn=$("dzbanner"), inset=bn.hidden?0:bn.offsetHeight+16; /* el aviso de arriba no tapa la zona */
-  var SW=stage.clientWidth, SH=stage.clientHeight-inset, g=dzGeom(v,DZ.tpl,DZ.pos,SW,SH,DZ.zoomed?"zone":"full"); g.oy+=inset; g.ay+=inset; DZ.g=g;
-  var other=dzGeom(v,DZ.tpl,DZ.pos,SW,SH,DZ.zoomed?"full":"zone"), zb=$("dzzoom");
-  stage.classList.toggle("dk",dzDark(DZ.it.k[DZ.it.cur],v.fr));
+  var SW=stage.clientWidth, SH=stage.clientHeight-inset, md=DZ.zoomed?"zone":"full", mo=DZ.zoomed?"full":"zone", g, other;
+  if(mk){g=dzGeomMk(v,DZ.tpl,DZ.pos,SW,SH,md,inset); other=dzGeomMk(v,DZ.tpl,DZ.pos,SW,SH,mo,inset);}
+  else {g=dzGeom(v,DZ.tpl,DZ.pos,SW,SH,md); g.oy+=inset; g.ay+=inset; other=dzGeom(v,DZ.tpl,DZ.pos,SW,SH,mo);}
+  DZ.g=g; var zb=$("dzzoom");
+  stage.classList.toggle("dk",mk?v.zl<120:dzDark(DZ.it.k[DZ.it.cur],v.fr));
   zb.hidden=Math.abs(other.z-g.z)/g.z<.1; /* si las dos vistas son casi iguales, sin botón */
-  zb.innerHTML=DZ.zoomed?DZ_ICON.full+"Ver prenda entera":DZ_ICON.zoomin+"Acercar";
+  zb.innerHTML=DZ.zoomed?DZ_ICON.full+(mk?"Ver producto entero":"Ver prenda entera"):DZ_ICON.zoomin+"Acercar";
   var gv=$("dzgv"), gh2=$("dzgh"); gv.style.left=g.ax+g.aw/2+"px"; gv.style.top=g.ay+"px"; gv.style.height=g.ah+"px"; gh2.style.top=g.ay+g.ah/2+"px"; gh2.style.left=g.ax+"px"; gh2.style.width=g.aw+"px";
   ph.style.width=g.W*g.z+"px"; ph.style.height=g.H*g.z+"px"; ph.style.left=g.ox+"px"; ph.style.top=g.oy+"px";
-  area.hidden=false; area.style.left=g.ax+"px"; area.style.top=g.ay+"px"; area.style.width=g.aw+"px"; area.style.height=g.ah+"px";
-  area.classList.toggle("low",g.ay<30);
-  $("dzalbl").textContent="Zona máx. "+dzSizeTxt(g.cm[0],g.cm[1]);
+  $("dzalbl").textContent=(mk?"Máx. ":"Zona máx. ")+dzSizeTxt(g.cm[0],g.cm[1]);
+  if(mk){area.hidden=true; dzMkCanvas(g);}
+  else {area.hidden=false; area.style.left=g.ax+"px"; area.style.top=g.ay+"px"; area.style.width=g.aw+"px"; area.style.height=g.ah+"px"; area.classList.toggle("low",g.ay<30);}
   if(!d){item.hidden=true; return;}
   var im=item.querySelector("img"); if(im.getAttribute("src")!==d.url){im.src=d.url;}
-  item.hidden=false; item.style.left=g.ax+d.x*g.sc+"px"; item.style.top=g.ay+d.y*g.sc+"px"; item.style.width=d.w*g.sc+"px"; item.style.height=d.w*d.ar*g.sc+"px";
+  var bx=mk?dzMkBox(g,d):[g.ax+d.x*g.sc,g.ay+d.y*g.sc,d.w*g.sc,d.w*d.ar*g.sc];
+  item.hidden=false; item.style.left=bx[0]+"px"; item.style.top=bx[1]+"px"; item.style.width=bx[2]+"px"; item.style.height=bx[3]+"px";
   item.setAttribute("aria-label","Tu imagen "+dzSizeTxt(d.w,d.w*d.ar)+". Flechas para mover, + y − para cambiar el tamaño.");
+}
+/* Merchandising: zona y logo en el lienzo (con la forma de la zona y el efecto de la técnica) */
+function dzMkCanvas(g){
+  var cv=$("dzcv"), st=$("dzstage"), dpr=Math.min(2,window.devicePixelRatio||1), W=st.clientWidth, H=st.clientHeight;
+  if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);}
+  var x=cv.getContext("2d"); x.setTransform(1,0,0,1,0,0); x.clearRect(0,0,cv.width,cv.height); if(!g) return;
+  x.setTransform(dpr,0,0,dpr,0,0);
+  var v=DZ.view, d=DZ.items[DZ.pos], dk=v&&v.zl<120;
+  if(g.shape!=="n"){x.save(); dzMkZonePath(x,g); x.setLineDash([5,4]); x.lineWidth=1.5; x.strokeStyle=dk?"rgba(255,255,255,.8)":"rgba(17,17,17,.45)"; x.stroke(); x.restore();}
+  if(d){var t=DZ.tpl.z[DZ.pos].tec; dzMkDraw(x,g,d,dzMkSrc(d,t,v),t.mono?.88:1);}
 }
 /* Panel de herramientas de la zona actual (en el móvil, los controles fijos de abajo) */
 function dzColBtn(x){return '<button type="button" class="btn ghost dzcolbtn" data-col="1"><span class="dzcd" style="background:'+DZ.it.k[DZ.it.cur][4]+'"></span>Color</button>';}
 function dzTools(){
-  var box=$("dztool"), p=DZ.pos, d=DZ.items[p], h='<h3 class="dzth">Tu imagen <span>· '+DZ_LBL[p]+'</span></h3>';
+  var box=$("dztool"), p=DZ.pos, d=DZ.items[p], mk=!!DZ.tpl.mk, h='<h3 class="dzth">Tu imagen <span>· '+esc(dzL(p))+'</span></h3>';
+  var tn=mk?esc(DZ.tpl.z[p].tec.name):"";
   if(!d){
     h+='<div class="dzuprow"><button type="button" class="dzup" id="dzpick"><b>'+DZ_ICON.up+'Subir imagen</b><small>Lo ideal es un PNG sin fondo. También vale JPG o SVG.</small></button>'+dzColBtn()+'</div>';
-    h+='<p class="dzhint">PNG sin fondo es lo ideal · también JPG o SVG</p>';
-    var other=DZ_ORD.filter(function(q){return q!==p&&DZ.items[q];})[0];
-    if(other) h+='<button type="button" class="btn ghost dzreuse" id="dzreuse">Usar la misma imagen que en «'+DZ_LBL[other]+'»</button>';
+    h+=mk?'<button type="button" class="dzmkline" data-mkopen="1"><span>Técnica: <b>'+tn+'</b></span><u>Cambiar</u></button>':'<p class="dzhint">PNG sin fondo es lo ideal · también JPG o SVG</p>';
+    var other=dzOrd().filter(function(q){return q!==p&&DZ.items[q];})[0];
+    if(other) h+='<button type="button" class="btn ghost dzreuse" id="dzreuse">Usar la misma imagen que en «'+esc(dzL(other))+'»</button>';
     h+='<p class="dzpdf">¿Tu logo está en PDF o AI? De momento no se puede ver aquí: mándanoslo por <a href="https://wa.me/34682368645?text='+encodeURIComponent("Hola, os envío mi logo para el presupuesto.")+'" target="_blank" rel="noopener">WhatsApp</a> y lo preparamos.</p>';
     h+=dzViewNote();
     box.innerHTML=h;
@@ -3376,9 +3764,9 @@ function dzTools(){
   } else {
     var cm=dzCm(p), hh=d.w*d.ar, maxW=Math.min(cm[0],cm[1]/d.ar);
     h+='<p class="dzfile"><span>'+esc(d.name)+'</span><i>'+(d.vec?"Vectorial":fmt(d.nat[0])+" × "+fmt(d.nat[1])+" px")+'</i></p>'+
-      '<div class="dzrow1"><b class="dzsz"><input id="dzw" class="dzin" inputmode="decimal" autocomplete="off" aria-label="Ancho en cm" value="'+dzNum(d.w)+'"> × <input id="dzh" class="dzin" inputmode="decimal" autocomplete="off" aria-label="Alto en cm" value="'+dzNum(hh)+'"> cm</b><span class="dzchip" id="dzlb" aria-label="Tamaño de impresión: '+dzLabel(d.w,hh)+'"><span><span class="lg">Tamaño: </span><span id="dzlbt">'+dzLabel(d.w,hh)+'</span></span></span>'+dzChips(p,maxW)+'</div>'+
+      '<div class="dzrow1"><b class="dzsz"><input id="dzw" class="dzin" inputmode="decimal" autocomplete="off" aria-label="Ancho en cm" value="'+dzNum(d.w)+'"> × <input id="dzh" class="dzin" inputmode="decimal" autocomplete="off" aria-label="Alto en cm" value="'+dzNum(hh)+'"> cm</b>'+(mk?'<button type="button" class="dzchip dzmkchip" data-mkopen="1" aria-label="Técnica: '+tn+'. Cambiar"><span>'+tn+'</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>':'<span class="dzchip" id="dzlb" aria-label="Tamaño de impresión: '+dzLabel(d.w,hh)+'"><span><span class="lg">Tamaño: </span><span id="dzlbt">'+dzLabel(d.w,hh)+'</span></span></span>'+dzChips(p,maxW))+'</div>'+
       '<p class="dzmax">Máximo en esta zona: '+dzSizeTxt(cm[0],cm[1])+'</p>'+dzViewNote()+
-      '<div class="dzrange"><label for="dzr">Tamaño</label><input type="range" id="dzr" min="2" max="'+maxW.toFixed(2)+'" step="0.1" value="'+d.w.toFixed(2)+'" aria-valuetext="'+dzSizeTxt(d.w,hh)+'"></div>'+
+      '<div class="dzrange"><label for="dzr">Tamaño</label><input type="range" id="dzr" min="'+dzMin(maxW).toFixed(2)+'" max="'+maxW.toFixed(2)+'" step="0.1" value="'+d.w.toFixed(2)+'" aria-valuetext="'+dzSizeTxt(d.w,hh)+'"></div>'+
       '<div class="dztools"><button type="button" class="btn ghost" id="dzctr">'+DZ_ICON.center+'<span id="dzctrl">Centrar</span></button><button type="button" class="btn ghost" id="dzchg">'+DZ_ICON.swap+'<span>Cambiar<span class="lg"> imagen</span></span></button><button type="button" class="btn ghost rm" id="dzrm">'+DZ_ICON.trash+'Quitar</button>'+dzColBtn()+'</div>';
     box.innerHTML=h; dzFit($("dzw")); dzFit($("dzh")); dzLive();
     $("dzr").oninput=function(){dzResize(p,+this.value);};
@@ -3394,13 +3782,13 @@ function dzTools(){
     });
   }
   [].forEach.call(box.querySelectorAll("[data-col]"),function(b){b.onclick=dzSheet;});
-  dzSum(); dzBanner();
+  dzMkUI(); dzSum(); dzBanner();
 }
 /* Medida escrita a mano: ancho (o alto) en cm, con coma o punto; el otro lado se ajusta solo */
 function dzTyped(p,isW,val){
   var d=DZ.items[p]; if(!d) return; var v=parseFloat(String(val).replace(",",".").replace(/[^\d.]/g,""));
   if(!(v>0)){dzLive(true); return;}
-  var cm=dzCm(p), maxW=Math.min(cm[0],cm[1]/d.ar), w=isW?v:v/d.ar, lim=Math.max(Math.min(2,maxW),Math.min(maxW,w));
+  var cm=dzCm(p), maxW=Math.min(cm[0],cm[1]/d.ar), w=isW?v:v/d.ar, lim=Math.max(dzMin(maxW),Math.min(maxW,w));
   if(Math.abs(lim-w)>.04) dzErr(w>lim?"Máximo en esta zona: "+dzSizeTxt(maxW,maxW*d.ar)+" para esta imagen.":"Mínimo: "+dzSizeTxt(lim,lim*d.ar)+".");
   dzResize(p,lim); dzLive(true);
 }
@@ -3414,6 +3802,7 @@ function dzFit(inp){if(inp) inp.style.width=Math.max(2,inp.value.length+.4)+"ch"
 function dzGuides(x,y){$("dzgv").classList.toggle("on",!!x); $("dzgh").classList.toggle("on",!!y);}
 /* Producto con colocación orientativa o sin foto de esta vista */
 function dzViewNote(){
+  if(DZ.tpl.mk) return DZ.view&&!DZ.view.map?'<p class="dzmax">Posición orientativa: te confirmamos la colocación exacta antes de producir.</p>':"";
   if(DZ.view&&DZ.view.nophoto) return '<p class="dznote dzinfo">'+DZ_ICON.info+'<span>No tenemos foto de esta vista: te mostramos la zona de impresión sobre un fondo del color de la prenda.</span></p>';
   return DZ.tpl.aprox?'<p class="dzmax">La vista es orientativa: te confirmamos la posición exacta antes de imprimir.</p>':"";
 }
@@ -3423,7 +3812,12 @@ function dzBanner(){
   var b=$("dzbanner"); if(!b) return; var d=DZ.items[DZ.pos], v=DZ.view, list=[];
   if(d&&dzDpi(d)<DZ_DPI) list.push(["warn","La imagen tiene poca resolución para este tamaño: se verá pixelada. Súbela más grande o reduce el tamaño."]);
   if(d&&d.bg) list.push(["info","Tu imagen tiene fondo: si no lo quieres, súbela en PNG sin fondo."]);
-  if(v&&v.nophoto) list.push(["info","No tenemos foto de esta vista: te mostramos la zona de impresión sobre un fondo del color de la prenda."]);
+  if(DZ.tpl&&DZ.tpl.mk){
+    dzMkNotes().forEach(function(x){if(x[0]==="warn") list.unshift(x); else if(d&&DZ.tpl.z[DZ.pos].tec.mono&&list.length<2) list.push(x);});
+    if(v&&v.nophoto) list.push(["info","No tenemos foto de este producto: te mostramos la zona sobre un fondo neutro."]);
+    else if(v&&!v.map) list.push(["info","Posición orientativa: te confirmamos la colocación exacta antes de producir."]);
+  }
+  else if(v&&v.nophoto) list.push(["info","No tenemos foto de esta vista: te mostramos la zona de impresión sobre un fondo del color de la prenda."]);
   else if(v&&v.noback&&DZ.tpl.z[DZ.pos].v==="b") list.push(["info","No tenemos foto de la espalda de este color: te mostramos la de delante como referencia."]);
   var key=list.map(function(x){return x[1];}).join("|");
   if(b.dataset.k===key) return; var had=b.dataset.k; b.dataset.k=key;
@@ -3448,9 +3842,9 @@ function dzLive(force){
   dzBanner(); dzSum();
 }
 function dzSum(){
-  var used=DZ_ORD.filter(function(p){return DZ.items[p];});
-  var one=used.length===1&&DZ.items[used[0]];
-  $("dzsum").innerHTML=!used.length?"Sube una imagen en al menos una zona para añadirla al presupuesto.":one?'<b>'+DZ_LBL[used[0]]+':</b> '+dzSizeTxt(one.w,one.w*one.ar)+' ('+dzLabel(one.w,one.w*one.ar)+')':'<b>'+used.length+' zonas con diseño:</b> '+used.map(function(p){return DZ_LBL[p];}).join(", ");
+  var used=dzOrd().filter(function(p){return DZ.items[p];});
+  var one=used.length===1&&DZ.items[used[0]], mk=!!DZ.tpl.mk;
+  $("dzsum").innerHTML=!used.length?"Sube una imagen en al menos una zona para añadirla al presupuesto.":one?'<b>'+esc(dzL(used[0]))+':</b> '+dzSizeTxt(one.w,one.w*one.ar)+(mk?' · '+esc(dzMkTecTxt(DZ.tpl.z[used[0]].tec,one.ncol)):' ('+dzLabel(one.w,one.w*one.ar)+')'):'<b>'+used.length+' zonas con diseño:</b> '+used.map(function(p){return esc(dzL(p));}).join(", ");
   var b=$("dzadd"); b.disabled=false; b.classList.toggle("soft",!used.length);
   b.textContent=cart[cKey(DZ.it)]&&cart[cKey(DZ.it)].dz?"Actualizar en el presupuesto":"Añadir al presupuesto";
   [].forEach.call($("dzseg").children,function(x,i){var p=DZ.tpl.pos[i]; x.classList.toggle("has",!!DZ.items[p]);});
@@ -3472,10 +3866,10 @@ function dzChest(p){
 function dzResize(p,w){
   var d=DZ.items[p]; if(!d) return; var cm=dzCm(p), maxW=Math.min(cm[0],cm[1]/d.ar);
   var cx=d.x+d.w/2, cy=d.y+d.w*d.ar/2; /* crece desde el centro */
-  d.w=Math.max(Math.min(2,maxW),Math.min(maxW,w)); d.x=cx-d.w/2; d.y=cy-d.w*d.ar/2; dzClamp(d,cm); dzRender(); dzLive();
+  d.w=Math.max(dzMin(maxW),Math.min(maxW,w)); d.x=cx-d.w/2; d.y=cy-d.w*d.ar/2; dzClamp(d,cm); dzRender(); dzLive();
 }
 function dzClamp(d,cm){d.x=Math.max(0,Math.min(cm[0]-d.w,d.x)); d.y=Math.max(0,Math.min(cm[1]-d.w*d.ar,d.y));}
-function dzRemove(p){var d=DZ.items[p]; delete DZ.items[p]; if(d&&!DZ_ORD.some(function(q){return DZ.items[q]&&DZ.items[q].url===d.url;})) URL.revokeObjectURL(d.url); dzSeg(); dzTools(); dzRender(); var u=$("dzpick"); if(u) u.focus();}
+function dzRemove(p){var d=DZ.items[p]; delete DZ.items[p]; if(d&&!dzOrd().some(function(q){return DZ.items[q]&&DZ.items[q].url===d.url;})) URL.revokeObjectURL(d.url); dzSeg(); dzTools(); dzRender(); var u=$("dzpick"); if(u) u.focus();}
 /* Imagen elegida: se comprueba el formato, se mide y se coloca en la zona */
 var DZ_TYPES=/^image\/(png|jpeg|svg\+xml|webp)$/;
 function dzErr(msg){var e=$("dzerr"); if(!e) return; clearTimeout(dzErr.t); e.textContent=msg; e.hidden=!msg; if(msg) dzErr.t=setTimeout(function(){e.hidden=true;},3500);}
@@ -3485,19 +3879,25 @@ function dzSetFile(p,file,g){
   if(type==="application/pdf"||/\.(pdf|ai|eps)$/i.test(file.name)) return dzErr("Los archivos PDF o AI aún no se pueden ver aquí. Expórtalo a PNG o mándanoslo por WhatsApp con el presupuesto.");
   if(!DZ_TYPES.test(type)) return dzErr("Formato no admitido. Sube un PNG, JPG o SVG.");
   if(file.size>25*1024*1024) return dzErr("La imagen pesa demasiado (máximo 25 MB).");
-  var reuse=DZ_ORD.map(function(q){return DZ.items[q];}).filter(function(x){return x&&x.file===file;})[0];
+  var reuse=dzOrd().map(function(q){return DZ.items[q];}).filter(function(x){return x&&x.file===file;})[0];
   var url=reuse?reuse.url:URL.createObjectURL(file), im=new Image();
   im.onload=function(){
     var vec=type==="image/svg+xml", nw=im.naturalWidth||1000, nh=im.naturalHeight||1000;
     var d={file:file,url:url,name:file.name||"imagen",type:type,vec:vec,nat:[nw,nh],ar:nh/nw,im:im,bg:!vec&&!dzAlpha(im,type)};
     var cm=dzCm(p), maxW=Math.min(cm[0],cm[1]/d.ar);
+    if(DZ.tpl.mk) d.ncol=reuse&&reuse.ncol!=null?reuse.ncol:dzColors(im,d.bg); /* para avisar si la técnica no admite tantos colores */
     if(g&&g.w){d.w=Math.min(maxW,g.w); d.x=g.x; d.y=g.y;}
+    else if(DZ.tpl.mk){ /* merchandising: centrado; alrededor de una taza o un bidón, en la parte de delante */
+      var A=DZ.tpl.z[p].area; var fk=A.forma==="e"?.68:.8; d.w=Math.min(maxW,cm[0]*(A.cyl&&cm[0]>8?.42:fk)); if(d.w*d.ar>cm[1]*fk) d.w=Math.min(d.w,cm[1]*fk/d.ar); /* en una elipse, que quepa dentro */
+      if(A.cyl&&DZ.g&&DZ.g.cyl&&p===DZ.pos) d.w=Math.min(d.w,DZ.g.cyl.Rcm*2*Math.min(DZ.g.cyl.al,1.2)*.62); /* que quepa en la parte que se ve */
+      d.w=Math.max(dzMin(maxW),d.w); d.x=(cm[0]-d.w)/2; d.y=(cm[1]-d.w*d.ar)/2;
+    }
     else {
       var zn=DZ.tpl.z[p], mid=zn.c||zn.v==="s";
       if(zn.rec) d.w=Math.min(maxW,zn.rec);
       else if(zn.zoom||zn.v==="s"||cm[0]<=12) d.w=maxW;
       else {d.w=Math.min(maxW,cm[0]*.8,25); if(d.w*d.ar>cm[1]*.75) d.w=Math.min(d.w,cm[1]*.75/d.ar);}
-      d.w=Math.max(Math.min(2,maxW),d.w); d.x=(cm[0]-d.w)/2;
+      d.w=Math.max(dzMin(maxW),d.w); d.x=(cm[0]-d.w)/2;
       d.y=mid||DZ.tpl.key==="bolsa"?(cm[1]-d.w*d.ar)/2:(p==="n"?0:Math.min(2,cm[1]-d.w*d.ar));
     }
     dzClamp(d,cm);
@@ -3529,17 +3929,23 @@ function dzDrag(){
     var d=DZ.items[DZ.pos]; if(!d||!DZ.g||(e.pointerType==="mouse"&&e.button)) return;
     e.preventDefault(); item.classList.add("sel"); item.focus({preventScroll:true}); stage.classList.remove("anim");
     if(pinch) return;
-    st={id:e.pointerId,x:e.clientX,y:e.clientY,dx:d.x,dy:d.y};
+    st={id:e.pointerId,x:e.clientX,y:e.clientY,dx:d.x,dy:d.y,lx:e.clientX,rx:d.x};
     item.setPointerCapture(e.pointerId); item.classList.add("drag"); stage.classList.add("busy");
   });
   item.addEventListener("pointermove",function(e){
     if(!st||pinch||e.pointerId!==st.id) return; var d=DZ.items[DZ.pos]; if(!d) return;
     var sc=DZ.g.sc, cm=dzCm(DZ.pos);
-    d.x=st.dx+(e.clientX-st.x)/sc; d.y=st.dy+(e.clientY-st.y)/sc; dzClamp(d,cm);
+    if(DZ.g.shape==="o"){ /* alrededor del producto: hacia los lados la superficie se ve de canto y el logo avanza más por cada píxel */
+      var c=DZ.g.cyl, th=(st.rx+d.w/2-c.L/2)/c.Rcm; st.rx+=(e.clientX-st.lx)/(sc*Math.max(.3,Math.cos(Math.max(-1.25,Math.min(1.25,th))))); st.lx=e.clientX;
+      st.rx=Math.max(0,Math.min(cm[0]-d.w,st.rx)); d.x=st.rx;
+      d.y=st.dy+(e.clientY-st.y)/sc;
+    } else if(DZ.g.rot){d.x=st.dx-(e.clientY-st.y)/sc; d.y=st.dy+(e.clientX-st.x)/sc;} /* zona girada: arriba = a lo largo de la zona */
+    else {d.x=st.dx+(e.clientX-st.x)/sc; d.y=st.dy+(e.clientY-st.y)/sc;}
+    dzClamp(d,cm);
     var tol=Math.max(.3,8/sc), cx=(cm[0]-d.w)/2, cy=(cm[1]-d.w*d.ar)/2, sx=Math.abs(d.x-cx)<tol, sy=Math.abs(d.y-cy)<tol;
     if(sx) d.x=cx; if(sy) d.y=cy;
     if((sx&&!snapX)||(sy&&!snapY)){try{if(navigator.vibrate) navigator.vibrate(5);}catch(err){}}
-    snapX=sx; snapY=sy; dzGuides(sx,sy);
+    snapX=sx; snapY=sy; if(DZ.g.rot) dzGuides(sy,sx); else dzGuides(sx,sy);
     dzRender(); dzLive(); measure(true);
   });
   var end=function(e){if(!st||e.pointerId!==st.id) return; st=null; item.classList.remove("drag"); stage.classList.remove("busy"); measure(false); snapX=snapY=false; dzGuides(false,false); dzLive();};
@@ -3559,7 +3965,7 @@ function dzDrag(){
   stage.addEventListener("wheel",function(e){var d=DZ.items[DZ.pos]; if(!d||!e.target.closest(".dzitem")) return; e.preventDefault(); dzResize(DZ.pos,d.w*(e.deltaY<0?1.04:1/1.04));},{passive:false});
   item.addEventListener("keydown",function(e){
     var d=DZ.items[DZ.pos]; if(!d) return; var s=e.shiftKey?2:.5, cm=dzCm(DZ.pos);
-    var mv={ArrowLeft:[-s,0],ArrowRight:[s,0],ArrowUp:[0,-s],ArrowDown:[0,s]}[e.key];
+    var mv=(DZ.g&&DZ.g.rot?{ArrowLeft:[0,-s],ArrowRight:[0,s],ArrowUp:[s,0],ArrowDown:[-s,0]}:{ArrowLeft:[-s,0],ArrowRight:[s,0],ArrowUp:[0,-s],ArrowDown:[0,s]})[e.key];
     if(mv){e.preventDefault(); d.x+=mv[0]; d.y+=mv[1]; dzClamp(d,cm); dzRender(); dzLive(); return;}
     if(e.key==="+"||e.key==="="){e.preventDefault(); dzResize(DZ.pos,d.w+s);}
     else if(e.key==="-"||e.key==="_"){e.preventDefault(); dzResize(DZ.pos,d.w-s);}
@@ -3595,6 +4001,33 @@ function dzMockup(it,f,ci,items,tpl){
     try{return c.toDataURL("image/jpeg",.8);}catch(e){return "";}
   });
 }
+/* Merchandising: foto + logo con la forma de la zona y la técnica; las zonas pequeñas, acercadas */
+function dzMockupMk(it,ci,items,tpl){
+  var used=tpl.pos.filter(function(p){return items[p];}), TW=300, TH=400, PH=TH-34;
+  return Promise.all(used.map(function(p){return dzViewMk(it,ci,tpl.z[p].area);})).then(function(vs){
+    var n=used.length, k=Math.min(1,600/(TW*n)), c=document.createElement("canvas");
+    c.width=Math.round(TW*n*k); c.height=Math.round(TH*k);
+    var x=c.getContext("2d"); x.fillStyle="#fff"; x.fillRect(0,0,c.width,c.height);
+    used.forEach(function(p,i){
+      var v=vs[i], d=items[p], ox=i*TW*k;
+      x.save(); x.beginPath(); x.rect(ox,0,TW*k,TH*k); x.clip(); x.translate(ox,0); x.scale(k,k);
+      if(v){
+        var gf=dzGeomMk(v,tpl,p,TW,PH,"full"), gz=dzGeomMk(v,tpl,p,TW,PH,"zone"), g=gz.z/gf.z>1.7?gz:gf;
+        x.save(); x.beginPath(); x.rect(0,0,TW,PH); x.clip();
+        try{x.drawImage(v.im,g.ox,g.oy,g.W*g.z,g.H*g.z);}catch(e){}
+        try{var t=tpl.z[p].tec; dzMkDraw(x,g,d,dzMkSrc(d,t,v),t.mono?.88:1);}catch(e){}
+        x.restore();
+      }
+      x.fillStyle="#fff"; x.fillRect(0,PH,TW,34);
+      x.fillStyle="#141414"; x.font="600 15px Figtree, system-ui, sans-serif"; x.textBaseline="alphabetic";
+      var t=tpl.lbl[p]+" · "+dzSizeTxt(d.w,d.w*d.ar); while(t.length>8&&x.measureText(t).width>TW-24) t=t.slice(0,-2).replace(/\s*\S?$/,"")+"…";
+      x.fillText(t,12,TH-13);
+      if(i){x.fillStyle="#D6D6D2"; x.fillRect(0,0,1.5,TH);}
+      x.restore();
+    });
+    try{return c.toDataURL("image/jpeg",.82);}catch(e){return "";}
+  });
+}
 /* Guarda el presupuesto; si no cabe en el navegador, la vista previa se hace más pequeña o se quita */
 function dzSaveCart(l){
   try{localStorage.setItem("ramstex-presupuesto",JSON.stringify(cart)); return true;}catch(e){}
@@ -3611,16 +4044,17 @@ function dzSaveCart(l){
 var dzBusy=false;
 function dzAdd(){
   if(dzBusy) return;
-  var it=DZ.it, f=DZ.f, items=DZ.items, used=DZ_ORD.filter(function(p){return items[p];});
+  var it=DZ.it, f=DZ.f, items=DZ.items, used=dzOrd().filter(function(p){return items[p];});
   if(!used.length){var u=document.querySelector(".dzup"); if(u){u.classList.remove("pulse"); void u.offsetWidth; u.classList.add("pulse");} dzErr("Sube tu logo primero."); return;}
   dzBusy=true; var b=$("dzadd"); b.disabled=true; b.setAttribute("aria-busy","true"); b.textContent="Preparando la vista previa…";
   var ci=it.cur, tpl=DZ.tpl;
-  dzMockup(it,f,ci,items,tpl).then(function(img){
+  (tpl.mk?dzMockupMk(it,ci,items,tpl):dzMockup(it,f,ci,items,tpl)).then(function(img){
     var id=cKey(it); if(!cart[id]) addToCart(it,f);
     var l=cart[id], p={};
-    used.forEach(function(q){var d=items[q]; p[q]={x:+d.x.toFixed(2),y:+d.y.toFixed(2),w:+d.w.toFixed(2),h:+(d.w*d.ar).toFixed(2),n:d.name,t:d.type,dpi:d.vec?0:Math.round(dzDpi(d))};});
-    l.dz={p:p,img:img,tp:tpl.key,at:Date.now()};
-    return Promise.all(DZ_ORD.map(function(q){return dzPutFile(id+"|"+q,items[q]?items[q].file:null);})).then(function(){return dzSaveCart(l);}).then(function(){return id;});
+    used.forEach(function(q){var d=items[q]; p[q]={x:+d.x.toFixed(2),y:+d.y.toFixed(2),w:+d.w.toFixed(2),h:+(d.w*d.ar).toFixed(2),n:d.name,t:d.type,dpi:d.vec?0:Math.round(dzDpi(d))};
+      if(tpl.mk){var zn=tpl.z[q]; p[q].lab=tpl.lbl[q]; p[q].a=zn.area.id; p[q].tk=zn.tec.k; if(d.ncol) p[q].nc=d.ncol; p[q].txt=dzMkLine(q,d);}});
+    l.dz={p:p,img:img,tp:tpl.key,o:used,at:Date.now()};
+    return Promise.all(dzOrd().map(function(q){return dzPutFile(id+"|"+q,items[q]?items[q].file:null);})).then(function(){return dzSaveCart(l);}).then(function(){return id;});
   }).then(function(id){
     dzBusy=false; b.removeAttribute("aria-busy");
     cartUI(); bump(); syncAdds();
@@ -3668,8 +4102,8 @@ function dzSendUpload(ref,cliente){
   return Promise.all(ids.map(function(id){
     var l=cart[id]; lineas.push({ref:l.r,nombre:l.n,color:l.c,diseno:dzText(l)});
     if(l.dz.img) mockups.push({name:l.r+"-"+slug(l.c)+"-vista-previa.jpg",mime:"image/jpeg",base64:l.dz.img.split(",")[1]||""});
-    return Promise.all(DZ_ORD.filter(function(p){return l.dz.p[p];}).map(function(p){
-      return dzGetFile(id+"|"+p).then(function(file){if(file) files.push({name:l.r+"-"+slug(l.c)+"-"+slug(DZ_LBL[p])+"-"+(file.name||"logo"),mime:file.type||"application/octet-stream",file:file});});
+    return Promise.all(dzKeys(l).map(function(p){
+      return dzGetFile(id+"|"+p).then(function(file){if(file) files.push({name:l.r+"-"+slug(l.c)+"-"+slug(l.dz.p[p].lab||DZ_LBL[p]||p)+"-"+(file.name||"logo"),mime:file.type||"application/octet-stream",file:file});});
     }));
   })).then(function(){
     if(!files.length&&!mockups.length) return null;
