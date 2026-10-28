@@ -1,0 +1,38 @@
+name: Diseñador merch - muestras de prueba
+# Solo pruebas del diseñador de merchandising (rama disenador-merch): baja unas pocas fotos publicadas de /mk/
+# y prepara 8 previsualizaciones limpias de Makito (solo lectura, ~10 peticiones). Guarda todo en diagnostico/disenador-merch/muestras/.
+on:
+  push:
+    branches: [disenador-merch]
+    paths:
+      - .github/workflows/disenador-merch-muestras.yml
+      - diagnostico/disenador-merch/muestras.mjs
+permissions:
+  contents: write
+jobs:
+  muestras:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save sharp@0.33
+      - name: Fotos publicadas
+        run: |
+          mkdir -p diagnostico/disenador-merch/muestras/mk
+          for f in 1045-001-P 1045-W 1046-W 1048-W 1060-009-P 1129-000-P 1177-013-P 1250-008-P 1358-001-P 1382-001-P 1476-009-P 1557-009-P 1558-009-P 1682-009-P 1762-000-P 1799-002-P 20999-013-P 4784-W 6078-W; do curl -fsS -o "diagnostico/disenador-merch/muestras/mk/$f.webp" "https://ramstex.com/mk/$f.webp" || echo "no está $f"; done
+          ls diagnostico/disenador-merch/muestras/mk | wc -l
+      - name: Previsualizaciones limpias
+        run: node diagnostico/disenador-merch/muestras.mjs diagnostico/disenador-merch/muestras/mkz 11045-A2 11046-A1 11046-A2 11048-A1 11358-A1 11476-A3 11682-A2 11060-A2
+        env:
+          MAKITO_CLIENT_ID: ${{ secrets.MAKITO_CLIENT_ID }}
+          MAKITO_CLIENT_SECRET: ${{ secrets.MAKITO_CLIENT_SECRET }}
+      - name: Guardar
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add diagnostico/disenador-merch/muestras
+          git commit -q -m "Diseñador merch: muestras de prueba [skip netlify]" || exit 0
+          git pull -q --rebase origin disenador-merch && git push -q origin HEAD:disenador-merch
