@@ -967,6 +967,10 @@ html.dzopen body>*:not(#dz):not(script):not(.toast){display:none!important}
 /* Merchandising: zona y logo en un lienzo (forma de la zona, perspectiva, banda curva y efecto de la técnica); técnica y medida */
 .dzcv{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
 .dzcv[hidden]{display:none}
+.dzseg.mk button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:auto;min-height:44px;padding-top:4px;padding-bottom:4px;line-height:1.1}
+.dzseg.mk button small{font:500 11px/1.1 Figtree,sans-serif;color:var(--muted);font-variant-numeric:tabular-nums}
+.dzseg.mk{border-radius:16px}
+.dzseg.mk button{border-radius:12px}
 .dzstage.mk .dzitem img{opacity:0}
 .dzmkh{margin:0 0 8px;font-size:var(--fs-xs);font-weight:600;color:var(--muted)}
 .dzmksec .dzopts,.dzmkin .dzopts{margin:0 0 12px}
@@ -979,6 +983,8 @@ html.dzopen body>*:not(#dz):not(script):not(.toast){display:none!important}
 .dzmkin:empty{display:none}
 @media (max-width:900px){
   .dzmksec{display:none!important}
+  .dzseg.mk button{min-height:38px;padding-top:3px;padding-bottom:3px}
+  .dzseg.mk button small{font-size:10px}
   .dzmkin .dzopts{flex-wrap:wrap;margin:0 0 12px;gap:8px}
   .dzmkin .dzopt{height:36px;max-width:100%}
   .dzmkin .dzopt>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -3181,13 +3187,28 @@ function dzMkTecs(a,T){
 function dzMkTpl(it){
   var M=DZ_MKD[it.c]; if(!M) return null;
   if(DZ_MKTPL[it.r]!==undefined) return DZ_MKTPL[it.r];
-  var p=M.d[it.r], z={}, pos=[], lbl={}, by={};
+  var p=M.d[it.r], z={}, pos=[], lbl={}, by={}, nz=0, pen=/boligrafo|lapiz|portaminas|rotulador|marcador|subrayador|stylus|puntero/.test(norm(it.n));
   ((p&&p.areas)||[]).forEach(function(a){
     var tecs=dzMkTecs(a,M.t); if(!tecs.length||!a.mm||!(a.mm[0]>0&&a.mm[1]>0)) return;
-    var lab=String(a.lab||a.id).trim(), k=norm(lab), g=by[k];
+    var lab=String(a.lab||a.id).trim();
+    /* «Area 1», «Area 2»… no dicen nada al cliente: en bolígrafos y lápices, «Clip» (zona muy estrecha) o «Cuerpo» (alargada); si no, «Zona 1», «Zona 2»… */
+    if(!lab||/^(area|zona)\s*\d+$/.test(norm(lab))){
+      var lo=Math.max(a.mm[0],a.mm[1]), sh=Math.min(a.mm[0],a.mm[1]);
+      lab=pen&&lo/sh>=4?(sh<=3.5?"Clip":"Cuerpo"):"";
+      if(!lab){var same=Object.keys(by).map(function(k){return by[k];}).filter(function(g){return g.gen&&g.areas.some(function(B){return B.mm[0]===a.mm[0]&&B.mm[1]===a.mm[1];});})[0]; lab=same?same.lab:"Zona "+(++nz);}
+    }
+    var k=norm(lab), g=by[k];
     var A={id:a.id,mm:a.mm,box:a.box&&a.img?a.box:null,img:a.img||"",col:!!a.col,forma:a.forma||"r",quad:a.quad&&a.quad.length===8?a.quad:null,tecs:tecs};
     A.cyl=A.forma==="o"&&(it.c==="m-taz"||DZ_CYL.test(norm(it.n+" "+lab)));
-    if(!g){g=by[k]={key:a.id,lab:lab,areas:[]}; pos.push(a.id); lbl[a.id]=lab; z[a.id]={v:"f",g:g};}
+    if(!g){g=by[k]={key:a.id,lab:lab,areas:[],gen:/^zona \d+$/.test(k)}; pos.push(a.id); lbl[a.id]=lab; z[a.id]={v:"f",g:g};}
+    /* misma posición y misma medida: una sola opción (técnicas juntas; se queda la que tiene la zona dibujada sobre nuestra foto) */
+    var twin=g.areas.filter(function(B){return B.mm[0]===A.mm[0]&&B.mm[1]===A.mm[1];})[0];
+    if(twin){
+      A.tecs.forEach(function(t){if(!twin.tecs.some(function(u){return u.k===t.k;})) twin.tecs.push(t);});
+      var better=function(B){return B.box?(/^z\//.test(B.img)?1:2):0;};
+      if(better(A)>better(twin)){var keep=twin.tecs; A.tecs=keep; g.areas[g.areas.indexOf(twin)]=A;}
+      return;
+    }
     g.areas.push(A);
   });
   if(!pos.length) return (DZ_MKTPL[it.r]=null);
@@ -3466,7 +3487,7 @@ function dzMkPick2(e){
   var b=e.target.closest("[data-mka],[data-mkt],[data-mkopen]"); if(!b||!DZ.tpl||!DZ.tpl.mk) return;
   var p=DZ.pos, zn=DZ.tpl.z[p];
   if(b.dataset.mkopen){dzSheetMk(); return;}
-  if(b.dataset.mka){var B=zn.g.areas.filter(function(A){return A.id===b.dataset.mka;})[0]; if(!B||B===zn.area) return; dzMkSet(zn,B); var d=DZ.items[p]; if(d) dzResize(p,d.w); DZ.zoomed=dzMkSmall(B); dzShow(); return;}
+  if(b.dataset.mka){var B=zn.g.areas.filter(function(A){return A.id===b.dataset.mka;})[0]; if(!B||B===zn.area) return; dzMkSet(zn,B); var d=DZ.items[p]; if(d) dzResize(p,d.w); DZ.zoomed=dzMkSmall(B); dzSeg(); dzShow(); return;}
   var t=zn.area.tecs.filter(function(x){return x.k===b.dataset.mkt;})[0]; if(!t||t===zn.tec) return; zn.tec=t; dzTools(); dzRender();
 }
 /* Hoja de abajo (móvil): técnica y medida */
@@ -3541,7 +3562,7 @@ function dzOpen(push,from){
   lastRouted=location.href;
   $("dztitle").textContent=tpl.mk?"Personaliza con tu logo":"Diseña tu "+tpl.n;
   if(tpl.mk&&!sameProd) DZ.zoomed=dzMkSmall(tpl.z[DZ.pos].area);
-  $("dzcv").hidden=!tpl.mk; $("dzstage").classList.toggle("mk",!!tpl.mk);
+  $("dzcv").hidden=!tpl.mk; $("dzstage").classList.toggle("mk",!!tpl.mk); $("dzseg").classList.toggle("mk",!!tpl.mk);
   $("dzsub").textContent=it.n+" · Ref. "+it.r;
   var el=$("dz"); el.hidden=false; document.body.style.overflow="hidden";
   if(!document.documentElement.classList.contains("dzopen")){DZ.scroll=window.scrollY; document.documentElement.classList.add("dzopen");} /* solo el diseñador: la página no se desplaza */
@@ -3603,9 +3624,10 @@ function dzRestore(){
 function dzSeg(){
   var s=$("dzseg"); s.innerHTML="";
   DZ.tpl.pos.forEach(function(p){
-    var b=document.createElement("button"); b.type="button"; b.setAttribute("role","tab"); b.id="dzt-"+p; b.textContent=dzL(p);
+    var b=document.createElement("button"); b.type="button"; b.setAttribute("role","tab"); b.id="dzt-"+p;
+    if(DZ.tpl.mk){var cm=DZ.tpl.z[p].cm; b.innerHTML='<span>'+esc(dzL(p))+'</span><small>'+dzSizeTxt(cm[0],cm[1])+'</small>';} else b.textContent=dzL(p); /* merchandising: la medida debajo */
     b.setAttribute("aria-selected",p===DZ.pos?"true":"false"); b.tabIndex=p===DZ.pos?0:-1; b.classList.toggle("has",!!DZ.items[p]);
-    b.setAttribute("aria-label",dzL(p)+(DZ.items[p]?" (con diseño)":""));
+    b.setAttribute("aria-label",dzL(p)+(DZ.tpl.mk?", "+dzSizeTxt(DZ.tpl.z[p].cm[0],DZ.tpl.z[p].cm[1]):"")+(DZ.items[p]?" (con diseño)":""));
     b.onclick=function(){dzGo(p);};
     s.appendChild(b);
   });
