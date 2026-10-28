@@ -45,7 +45,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: mkm
-          key: mkm-v1-${{ github.run_id }}
+          key: mkm-v1-${{ github.run_id }}-${{ github.run_attempt }}-t${{ matrix.tanda }}
           restore-keys: mkm-v1-
       - name: Catálogo completo de Makito (solo para saber qué es merchandising y sus fotos; no se guarda)
         run: |
@@ -67,13 +67,14 @@ jobs:
           MARCAJE_COMMIT: "1"
           MAKITO_CLIENT_ID: ${{ secrets.MAKITO_CLIENT_ID }}
           MAKITO_CLIENT_SECRET: ${{ secrets.MAKITO_CLIENT_SECRET }}
+      # Clave distinta por tanda e intento (las cachés no se pueden sobrescribir); cada tanda restaura la más reciente (mkm-v1-)
       - name: Guardar caché para la próxima ejecución
         id: guardar
         if: always()
         uses: actions/cache/save@v4
         with:
           path: mkm
-          key: mkm-v1-${{ github.run_id }}
+          key: mkm-v1-${{ github.run_id }}-${{ github.run_attempt }}-t${{ matrix.tanda }}
         continue-on-error: true
       - name: Borrar cachés anteriores de este flujo (no ocupar espacio de las demás)
         if: always() && steps.guardar.outcome == 'success'
@@ -81,4 +82,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh cache list -R "$GITHUB_REPOSITORY" --key mkm-v1- --limit 50 --json id,key -q '.[] | select(.key != "mkm-v1-${{ github.run_id }}") | .id' | while read id; do gh cache delete -R "$GITHUB_REPOSITORY" "$id" || true; done
+          gh cache list -R "$GITHUB_REPOSITORY" --key mkm-v1- --limit 50 --json id,key -q '.[] | select(.key != "mkm-v1-${{ github.run_id }}-${{ github.run_attempt }}-t${{ matrix.tanda }}") | .id' | while read id; do gh cache delete -R "$GITHUB_REPOSITORY" "$id" || true; done
