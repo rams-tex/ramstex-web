@@ -1,5 +1,5 @@
-Marcaje Makito · 2026-10-28T18:08:54.541Z · versión de detección 6
-Esta ejecución: 0 áreas pendientes · 0 previsualizaciones recuperadas · 3000 peticiones (2118 previsualizaciones, 792 fotos), 90 fallos, 156 min
+Marcaje Makito · 2026-10-28T18:09:47.451Z · versión de detección 6
+Esta ejecución: 0 áreas pendientes · 0 previsualizaciones recuperadas · 0 peticiones (0 previsualizaciones, 0 fotos), 0 fallos, 0 min
 
 Categoría: productos (sin áreas) · áreas · analizadas · con zona · sin zona/sin previa · caja sobre foto principal / foto de color / previsualización limpia · varias zonas · formas
   m-bol: 571 (0) · 1124 · 1124 · 1093 (97.2%) · 31 · 361/222/510 · 4 · {"r":951,"x":30,"o":98,"e":11,"l":3} · productos con alguna zona: 567
