@@ -3258,14 +3258,18 @@ function dzMkSample(v){
     for(var yy=Math.max(0,y0);yy<Math.min(h,Math.max(y1,y0+1));yy++) for(var xx=Math.max(0,x0);xx<Math.min(w,Math.max(x1,x0+1));xx++){var i=(yy*w+xx)*4; s[0]+=d[i]; s[1]+=d[i+1]; s[2]+=d[i+2]; n++;}
     if(n){v.rgb=s.map(function(q){return Math.round(q/n);}); v.zl=.299*v.rgb[0]+.587*v.rgb[1]+.114*v.rgb[2];}
     if(v.map&&v.mk.cyl){ /* ancho del producto a la altura de la zona (por dentro, por encima y por debajo: la banda verde de Makito sobresale) */
-      var rx=Math.min(w-1,Math.round((b[0]+b[2])/2*w)), bwn=b[2]-b[0], best=0;
+      var rx=Math.min(w-1,Math.round((b[0]+b[2])/2*w)), bwn=b[2]-b[0], ws=[];
       [.5,.3,.7,-.06,1.06].forEach(function(f){
         var ry=Math.round((b[1]+(b[3]-b[1])*f)*h); if(ry<0||ry>=h) return;
         var on=function(q){var i=(ry*w+q)*4; return d[i]<244||d[i+1]<244||d[i+2]<244;};
-        if(!on(rx)) return; var L=rx, R=rx; while(L>0&&on(L-1))L--; while(R<w-1&&on(R+1))R++;
-        var rw=(R+1-L)/w; if(rw<=bwn*1.06&&rw>best&&Math.abs((L+R+1)/2/w-(b[0]+b[2])/2)<bwn*.12) best=rw;
+        /* bordes del producto desde fuera hacia dentro (el centro puede tener brillos casi blancos) */
+        var xa=Math.max(0,Math.floor((b[0]-bwn*.08)*w)), xb=Math.min(w-1,Math.ceil((b[2]+bwn*.08)*w)), L=-1, R=-1, q;
+        for(q=xa;q<=rx;q++) if(on(q)){L=q; break;}
+        for(q=xb;q>=rx;q--) if(on(q)){R=q; break;}
+        if(L<0||R<0||R-L<2) return;
+        var rw=(R+1-L)/w; if(rw<=bwn*1.06&&rw>bwn*.3&&Math.abs((L+R+1)/2/w-(b[0]+b[2])/2)<bwn*.12) ws.push(rw);
       });
-      if(best>bwn*.3) v.row=best;
+      if(ws.length){ws.sort(function(x,y){return x-y;}); v.row=ws[(ws.length-1)>>1];} /* mediana: sin sombras ni asas */
     }
   }catch(e){}
 }
