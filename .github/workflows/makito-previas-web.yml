@@ -62,3 +62,4 @@ jobs:
             k=$((k+1)); xargs -a "$t" git add --
             guardar "tanda $k"
           done
+# reconstruido 2026-10-29 tras completar el análisis (10.287 áreas)
