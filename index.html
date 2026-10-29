@@ -3617,8 +3617,10 @@ function dzMkCb(A,c){return Object.assign({},A,{_o:A,box:c.slice(0,4),quad:c.len
 function dzMkPick(it,ci,A){
   var main=(it.k[ci]&&it.k[ci][3])||it.i, own=it.k[ci]&&it.k[ci][3];
   /* lo mejor: la foto real del color elegido con la zona trasladada a ella */
-  if(A.cb&&own&&A.cb[own.slice(2)]) return {st:own,map:1,A:dzMkCb(A,A.cb[own.slice(2)]),exact:1};
-  if(A.cb&&!own&&it.i&&A.cb[it.i.slice(2)]) return {st:it.i,map:1,A:dzMkCb(A,A.cb[it.i.slice(2)]),exact:1};
+  var ph=own||it.i, id=ph&&ph.slice(2);
+  if(A.cb&&id&&A.cb[id]) return {st:ph,map:1,A:dzMkCb(A,A.cb[id])};
+  /* misma posición relativa en un producto de forma parecida: foto real del color, zona aproximada */
+  if(A.cb&&own&&A.cb["~"+id]) return {st:own,map:1,A:dzMkCb(A,A.cb["~"+id]),approx:1};
   if(!A.box) return {st:main};
   if(/^z\//.test(A.img)) return {st:"Z:"+A.img.slice(2),map:1,alt:main,cand:own||""};
   if(A.col) return {st:(it.k[ci]&&it.k[ci][3])||"K:"+A.img,map:1,alt:main};
@@ -3704,7 +3706,7 @@ function dzViewMk0(it,ci,A){
       return new Promise(function(res){var im=new Image(); im.onload=function(){var v={im:im,cors:true,fr:{x0:.15,y0:.15,x1:.85,y1:.85,bw:.7,lum:230,ok:1},kind:"front",flip:false,nophoto:1,st:p.st,mk:A,map:false}; dzMkSample(v); res(v);}; im.src=c.toDataURL("image/png");});
     }
     var fr=x.r.cors?dzMeasure(x.r.im):null;
-    var v={im:x.r.im,cors:x.r.cors,fr:fr||{x0:.04,y0:.04,x1:.96,y1:.96,bw:.9,lum:230,ok:0},kind:"front",flip:false,st:p.st,sketch:!!x.sketch,mk:x.A||A,map:x.map&&!!A.box,own:!!x.own||!!(it.k[ci]&&x.r.im&&p.alt===it.k[ci][3]&&!x.map&&!A.box)};
+    var v={im:x.r.im,cors:x.r.cors,fr:fr||{x0:.04,y0:.04,x1:.96,y1:.96,bw:.9,lum:230,ok:0},kind:"front",flip:false,st:p.st,approx:!!(p.approx&&x.A),sketch:!!x.sketch,mk:x.A||A,map:x.map&&!!A.box,own:!!x.own||!!(it.k[ci]&&x.r.im&&p.alt===it.k[ci][3]&&!x.map&&!A.box)};
     dzMkSample(v); return v;
   });
 }
@@ -4319,7 +4321,7 @@ function dzFit(inp){if(inp) inp.style.width=Math.max(2,inp.value.length+.4)+"ch"
 function dzGuides(x,y){$("dzgv").classList.toggle("on",!!x); $("dzgh").classList.toggle("on",!!y);}
 /* Producto con colocación orientativa o sin foto de esta vista */
 function dzViewNote(){
-  if(DZ.tpl.mk) return DZ.view&&!DZ.view.map?'<p class="dzmax">Posición orientativa: te confirmamos la colocación exacta antes de producir.</p>':"";
+  if(DZ.tpl.mk) return DZ.view&&(!DZ.view.map||DZ.view.approx)?'<p class="dzmax">Posición orientativa: te confirmamos la colocación exacta antes de producir.</p>':"";
   if(DZ.view&&DZ.view.nophoto) return '<p class="dznote dzinfo">'+DZ_ICON.info+'<span>No tenemos foto de esta vista: te mostramos la zona de impresión sobre un fondo del color de la prenda.</span></p>';
   return DZ.tpl.aprox?'<p class="dzmax">La vista es orientativa: te confirmamos la posición exacta antes de imprimir.</p>':"";
 }
@@ -4332,7 +4334,7 @@ function dzBanner(){
   if(DZ.tpl&&DZ.tpl.mk){
     dzMkNotes().forEach(function(x){if(x[0]==="warn") list.unshift(x); else if(d&&DZ.tpl.z[DZ.pos].tec.mono&&list.length<2&&!/^La foto es de otro color/.test(x[1])) list.push(x);});
     if(v&&v.nophoto) list.push(["info","No tenemos foto de este producto: te mostramos la zona sobre un fondo neutro."]);
-    else if(v&&!v.map) list.push(["info","Posición orientativa: te confirmamos la colocación exacta antes de producir."]);
+    else if(v&&(!v.map||v.approx)) list.push(["info","Posición orientativa: te confirmamos la colocación exacta antes de producir."]);
     if(v&&v.note) list.push(["info","La foto es de otro color: tu producto será "+v.note+"."]);
   }
   else if(v&&v.nophoto) list.push(["info","No tenemos foto de esta vista: te mostramos la zona de impresión sobre un fondo del color de la prenda."]);
