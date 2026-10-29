@@ -3587,7 +3587,7 @@ function dzMkTpl(it){
       if(!lab){var same=Object.keys(by).map(function(k){return by[k];}).filter(function(g){return g.gen&&g.areas.some(function(B){return B.mm[0]===a.mm[0]&&B.mm[1]===a.mm[1];});})[0]; lab=same?same.lab:"Zona "+(++nz);}
     }
     var k=norm(lab), g=by[k];
-    var A={id:a.id,mm:a.mm,box:a.box&&a.img?a.box:null,img:a.img||"",col:!!a.col,forma:a.forma||"r",quad:a.quad&&a.quad.length===8?a.quad:null,tecs:tecs};
+    var A={id:a.id,mm:a.mm,cb:a.cb||null,box:a.box&&a.img?a.box:null,img:a.img||"",col:!!a.col,forma:a.forma||"r",quad:a.quad&&a.quad.length===8?a.quad:null,tecs:tecs};
     A.cyl=A.forma==="o"&&(it.c==="m-taz"||DZ_CYL.test(norm(it.n+" "+lab)));
     if(!g){g=by[k]={key:a.id,lab:lab,areas:[],gen:/^zona \d+$/.test(k)}; pos.push(a.id); lbl[a.id]=lab; z[a.id]={v:"f",g:g};}
     /* misma posición y misma medida: una sola opción (técnicas juntas; se queda la que tiene la zona dibujada sobre nuestra foto) */
@@ -3612,10 +3612,15 @@ function dzMm(mm){return fmt(mm[0])+" × "+fmt(mm[1])+" mm";}
 /* Zonas pequeñas (bolígrafos, llaveros…): se abren con la foto acercada */
 function dzMkSmall(A){return !!(A&&A.box&&(A.box[2]-A.box[0])<.2&&(A.box[3]-A.box[1])<.2);}
 /* Foto de un área: la previsualización limpia de Makito, la foto de color o la principal; sin zona, la foto del color elegido */
+/* Zona calculada de antemano sobre una foto concreta (colores.json): copia del área con esa caja */
+function dzMkCb(A,c){return Object.assign({},A,{_o:A,box:c.slice(0,4),quad:c.length>=12?c.slice(4,12):null});}
 function dzMkPick(it,ci,A){
-  var main=(it.k[ci]&&it.k[ci][3])||it.i;
+  var main=(it.k[ci]&&it.k[ci][3])||it.i, own=it.k[ci]&&it.k[ci][3];
+  /* lo mejor: la foto real del color elegido con la zona trasladada a ella */
+  if(A.cb&&own&&A.cb[own.slice(2)]) return {st:own,map:1,A:dzMkCb(A,A.cb[own.slice(2)]),exact:1};
+  if(A.cb&&!own&&it.i&&A.cb[it.i.slice(2)]) return {st:it.i,map:1,A:dzMkCb(A,A.cb[it.i.slice(2)]),exact:1};
   if(!A.box) return {st:main};
-  if(/^z\//.test(A.img)) return {st:"Z:"+A.img.slice(2),map:1,alt:main};
+  if(/^z\//.test(A.img)) return {st:"Z:"+A.img.slice(2),map:1,alt:main,cand:own||""};
   if(A.col) return {st:(it.k[ci]&&it.k[ci][3])||"K:"+A.img,map:1,alt:main};
   var own=it.k[ci]&&it.k[ci][3]; /* foto del color elegido: si tiene el mismo encuadre que la principal, la zona va sobre ella */
   return {st:"K:"+A.img,map:1,alt:main,cand:own&&own!=="K:"+A.img?own:""};
@@ -3670,7 +3675,7 @@ function dzMkAlign(ra,rb){
       var ib=Math.min(B.h-1,Math.floor((b[1]+t*(b[3]-b[1]))*B.h))*B.w+Math.min(B.w-1,Math.floor((b[0]+u*(b[2]-b[0]))*B.w));
       var pa=!A.bg[ia], pb=!B.bg[ib]; if(pa&&pb) I++; if(pa||pb) U++;
     }
-    if(!U||I/U<.72) return null;
+    if(!U||I/U<.82) return null;
     return {x:function(v){return b[0]+(v-a[0])/(a[2]-a[0])*(b[2]-b[0]);}, y:function(v){return b[1]+(v-a[1])/(a[3]-a[1])*(b[3]-b[1]);}};
   }catch(e){return null;}
 }
@@ -3690,7 +3695,7 @@ function dzViewMk0(it,ci,A){
   return DZ_MKV[key]=dzLoad(p.st,true).then(function(r){
     if(r&&/^Z:/.test(p.st)&&dzMkSketch(r.im)) return dzMkFromSketch(it,ci,A,r).then(function(x){return x||{r:r,map:true,sketch:1};});
     if(r&&p.cand) return dzLoad(p.cand,true).then(function(rc){if(!rc) return {r:r,map:true}; if(dzMkSame(r.im,rc.im)>=.88) return {r:rc,map:true,own:1}; return dzMkMapTo(A,r,rc,true,true)||{r:r,map:true};});
-    if(r) return {r:r,map:!!p.map,own:!!(it.k[ci]&&p.st===it.k[ci][3])};
+    if(r) return {r:r,map:!!p.map,own:!!(it.k[ci]&&p.st===it.k[ci][3]),A:p.A};
     if(p.alt&&p.alt!==p.st) return dzLoad(p.alt,true).then(function(r2){return r2?{r:r2,map:false}:null;}); /* la foto de la zona no está: la del producto, posición orientativa */
     return null;
   }).then(function(x){
@@ -3703,9 +3708,8 @@ function dzViewMk0(it,ci,A){
     dzMkSample(v); return v;
   });
 }
-/* Vista con el color elegido. Si la foto es de ese color (o de uno muy parecido), tal cual. Si no hay foto de ese color:
-   se tiñe el producto (cuerpo de color claro o medio: se conservan sombras, brillos y las partes de otro material) o,
-   si el cuerpo es oscuro (teñirlo a claro no queda natural), se deja la foto y se avisa «La foto es orientativa: tu producto será …» */
+/* Vista con el color elegido. Si la foto es de ese color (o de uno muy parecido), tal cual. Si no hay foto de ese color,
+   la foto real de otro color, sin teñir, con el aviso «La foto es de otro color: tu producto será …» */
 var DZ_MKC={};
 function dzViewMk(it,ci,A){
   var k=it.k[ci], hex=k&&dzHex(k);
@@ -3714,29 +3718,9 @@ function dzViewMk(it,ci,A){
     var T=[1,3,5].map(function(i){return parseInt(hex.substr(i,2),16);}), B=v.rgb, dist=Math.hypot(T[0]-B[0],T[1]-B[1],T[2]-B[2]);
     if(dist<60) return v;
     var key=v.st+"|"+A.id+"|"+hex; if(DZ_MKC[key]) return DZ_MKC[key];
-    var LB=.299*B[0]+.587*B[1]+.114*B[2], col=colES(k[0]).toLowerCase();
-    if(LB<75||v.sketch) return (DZ_MKC[key]=Promise.resolve(Object.assign({},v,{note:col})));
-    return DZ_MKC[key]=new Promise(function(res){
-      var c=dzMkTint(v.im,B,T); if(!c) return res(Object.assign({},v,{note:col}));
-      var im=new Image(); im.onload=function(){var w=Object.assign({},v,{im:im,tinted:col}); dzMkSample(w); res(w);}; im.onerror=function(){res(Object.assign({},v,{note:col}));}; im.src=c.toDataURL("image/webp",.9);
-    });
+    /* sin foto de este color: no se tiñe (nunca queda natural); foto real con el aviso del color */
+    return (DZ_MKC[key]=Promise.resolve(Object.assign({},v,{note:colES(k[0]).toLowerCase()})));
   });
-}
-/* Tiñe el producto: los píxeles con el mismo tono que el cuerpo (cromaticidad parecida) pasan al color elegido conservando su luz */
-function dzMkTint(im,B,T){
-  try{
-    var W=im.naturalWidth||im.width, H=im.naturalHeight||im.height, c=document.createElement("canvas"); c.width=W; c.height=H;
-    var x=c.getContext("2d",{willReadFrequently:true}); x.fillStyle="#fff"; x.fillRect(0,0,W,H); x.drawImage(im,0,0); var id=x.getImageData(0,0,W,H), p=id.data, M=dzMkMask(im,0).bg;
-    var L=function(r,g,b){return .299*r+.587*g+.114*b;}, LB=Math.max(1,L(B[0],B[1],B[2])), LT=L(T[0],T[1],T[2]), cb=[B[0]/LB,B[1]/LB,B[2]/LB];
-    var sh=LT>200?.5:LT>140?.8:1, hiK=Math.max(LB>200?.6:.01,255/LB-1); /* producto blanco: los brillos solo aclaran un poco */
-    for(var i=0;i<p.length;i+=4){
-      var r=p[i],g=p[i+1],b=p[i+2]; if(M[i>>2]) continue; /* fondo */
-      var Lp=Math.max(1,L(r,g,b)), d=Math.abs(r/Lp-cb[0])+Math.abs(g/Lp-cb[1])+Math.abs(b/Lp-cb[2]), w=Math.max(0,Math.min(1,1-(d-.12)/.35)); if(!w) continue;
-      var q=Lp/LB, n;
-      for(var j=0;j<3;j++){n=q<=1?T[j]*(1-(1-q)*sh):T[j]+(255-T[j])*Math.min(1,(q-1)/hiK); p[i+j]=Math.round(p[i+j]*(1-w)+n*w);}
-    }
-    x.putImageData(id,0,0); return c;
-  }catch(e){return null;}
 }
 /* Color del material en la zona (para el láser y la línea de la zona) y ancho del producto a esa altura (radio de la taza o el bidón) */
 function dzMkSample(v){
@@ -3965,7 +3949,7 @@ function dzMkNotes(){
   else if(t.max) n.push(d&&d.ncol>t.max?["warn","Tu logo tiene unos "+d.ncol+" colores; esta técnica admite hasta "+t.max+"."]:["info","Hasta "+t.max+(t.max===1?" color.":" colores.")+(d&&d.ncol?" Tu logo tiene "+(d.ncol===1?"1 color.":"unos "+d.ncol+" colores."):"")]);
   if(t.bord&&t.pt) n.push(["info","Te confirmamos las puntadas según tu logo (hasta "+fmt(t.pt)+")."]);
   if(t.minQ) n.push(["info","Mínimo "+fmt(t.minQ)+" uds."]);
-  var v=DZ.view; if(v&&v.tinted) n.push(["info","Color de la foto aproximado: tu producto será "+v.tinted+"."]);
+  var v=DZ.view; if(v&&v.note) n.push(["info","La foto es de otro color: tu producto será "+v.note+"."]);
   return n;
 }
 function dzMkPanel(){
@@ -4346,10 +4330,10 @@ function dzBanner(){
   if(d&&dzDpi(d)<DZ_DPI) list.push(["warn","La imagen tiene poca resolución para este tamaño: se verá pixelada. Súbela más grande o reduce el tamaño."]);
   if(d&&d.bg) list.push(["info","Tu imagen tiene fondo: si no lo quieres, súbela en PNG sin fondo."]);
   if(DZ.tpl&&DZ.tpl.mk){
-    dzMkNotes().forEach(function(x){if(x[0]==="warn") list.unshift(x); else if(d&&DZ.tpl.z[DZ.pos].tec.mono&&list.length<2&&!/^Color de la foto/.test(x[1])) list.push(x);});
+    dzMkNotes().forEach(function(x){if(x[0]==="warn") list.unshift(x); else if(d&&DZ.tpl.z[DZ.pos].tec.mono&&list.length<2&&!/^La foto es de otro color/.test(x[1])) list.push(x);});
     if(v&&v.nophoto) list.push(["info","No tenemos foto de este producto: te mostramos la zona sobre un fondo neutro."]);
     else if(v&&!v.map) list.push(["info","Posición orientativa: te confirmamos la colocación exacta antes de producir."]);
-    if(v&&v.note) list.push(["info","La foto es orientativa: tu producto será "+v.note+"."]);
+    if(v&&v.note) list.push(["info","La foto es de otro color: tu producto será "+v.note+"."]);
   }
   else if(v&&v.nophoto) list.push(["info","No tenemos foto de esta vista: te mostramos la zona de impresión sobre un fondo del color de la prenda."]);
   else if(v&&v.noback&&DZ.tpl.z[DZ.pos].v==="b") list.push(["info","No tenemos foto de la espalda de este color: te mostramos la de delante como referencia."]);
