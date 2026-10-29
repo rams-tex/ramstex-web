@@ -58,3 +58,4 @@ jobs:
             echo "push falló, reintento"; sleep 20
           done
           exit 1
+# recalculado 2026-10-29 con todas las fotos de color (13.039)
