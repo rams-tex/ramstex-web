@@ -9,7 +9,48 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import sharp from "sharp";
-import { cargar, mascaraVerde, comparar, trasladar } from "./makito-marcaje-lib.mjs";
+import { cargar, mascaraVerde, comparar, trasladar, silueta } from "./makito-marcaje-lib.mjs";
+
+// Segundo intento cuando comparar() no encaja: siluetas normalizadas a la caja del producto (rejilla 48×48, la zona verde no cuenta),
+// admite cajas algo más anchas o estrechas (estira en x/y por separado) y la foto en espejo (la zona se refleja con el producto).
+const G = 48;
+function rejilla(sil, [x0, y0, x1, y1]) {
+  const bw = x1 - x0, bh = y1 - y0, out = new Int8Array(G * G);
+  for (let gy = 0; gy < G; gy++) for (let gx = 0; gx < G; gx++) {
+    const ax = x0 + Math.floor(gx * bw / G), bx = Math.max(ax + 1, x0 + Math.floor((gx + 1) * bw / G));
+    const ay = y0 + Math.floor(gy * bh / G), by = Math.max(ay + 1, y0 + Math.floor((gy + 1) * bh / G));
+    let p = 0, v = 0, t = 0;
+    for (let y = ay; y < by; y++) for (let x = ax; x < bx; x++) { const k = sil.s[y * sil.w + x]; t++; if (k === 1) p++; else if (k === 2) v++; }
+    out[gy * G + gx] = v > t * 0.2 ? -1 : p >= Math.max(1, (t - v) * 0.12) ? 1 : 0;
+  }
+  return out;
+}
+function iou(a, b, flip) {
+  let i = 0, u = 0;
+  for (let y = 0; y < G; y++) for (let x = 0; x < G; x++) {
+    const A = a[y * G + x], B = b[y * G + (flip ? G - 1 - x : x)];
+    if (A < 0 || B < 0) continue; if (A && B) i++; if (A || B) u++;
+  }
+  return u ? i / u : 0;
+}
+const UMBRAL = 0.78;
+function comparar2(prev, verde, foto) {
+  const sp = silueta(prev, verde), sf = silueta(foto, null);
+  if (!sp.bb || !sf.bb) return { ok: false, iou: 0 };
+  const ap = (sp.bb[2] - sp.bb[0]) / (sp.bb[3] - sp.bb[1]), af = (sf.bb[2] - sf.bb[0]) / (sf.bb[3] - sf.bb[1]);
+  const asp = Math.abs(Math.log(ap / af));
+  if (asp > 0.15) return { ok: false, iou: 0, asp };
+  const gp = rejilla(sp, sp.bb), gf = rejilla(sf, sf.bb), i0 = iou(gp, gf, false), i1 = iou(gp, gf, true);
+  const flip = i1 > i0 + 0.04, best = flip ? i1 : i0;
+  if (best < UMBRAL) return { ok: false, iou: Math.round(best * 1000) / 1000, asp };
+  const sx = (sf.bb[2] - sf.bb[0]) / (sp.bb[2] - sp.bb[0]), sy = (sf.bb[3] - sf.bb[1]) / (sp.bb[3] - sp.bb[1]);
+  const map = (x, y) => {
+    let X = (sf.bb[0] + (x * prev.w - sp.bb[0]) * sx) / foto.w;
+    if (flip) X = (sf.bb[0] + sf.bb[2]) / foto.w - X;
+    return [X, (sf.bb[1] + (y * prev.h - sp.bb[1]) * sy) / foto.h];
+  };
+  return { ok: true, iou: Math.round(best * 1000) / 1000, modo: flip ? "espejo" : "ajustado", map, flip };
+}
 
 const [MKM = "mkm", MKIMG = "mkimg", FULL = "data/makito.json"] = process.argv.slice(2);
 const OUT = "data/makito-marcaje", DIAG = "diagnostico/makito-marcaje";
@@ -22,7 +63,7 @@ const r4 = v => Math.round(v * 10000) / 10000;
 
 const out = {}, st = { areas: 0, conPrev: 0, pares: 0, ok: 0, sinFoto: 0, yaMapeada: 0, modo: {}, areaTodas: 0, areaAlguna: 0, areaNinguna: 0 };
 const colSel = { total: 0, ok: 0 }; // colores (con foto) para los que hay zona exacta en la primera área
-const okS = [], noS = [];
+const okS = [], noS = [], dudS = []; st.hist = {}; st.no = {};
 for (const p of prods) {
   const fotos = [...new Set([kid(p.img?.[0]), ...p.colors.map(c => kid(c.img))].filter(Boolean))].filter(f => existsSync(join(MKIMG, f + ".webp")));
   const areas = Object.keys(E).filter(k => k.startsWith(p.mref + "|"));
@@ -45,9 +86,14 @@ for (const p of prods) {
       else {
         const ph = await foto(f);
         if (!ph) { st.sinFoto++; continue; }
-        const c = comparar(prev, verde, ph);
-        if (c.ok) { const t = trasladar(c.map, r.box, r.quad); box = t.box; quad = t.quad; how = c.modo; }
-        else if (noS.length < 400) noS.push([p.ref, aid, vf, f, c.iou]);
+        let c = comparar(prev, verde, ph);
+        if (!c.ok) { const c2 = comparar2(prev, verde, ph); if (c2.ok) c = c2; else c.iou = Math.max(c.iou || 0, c2.iou || 0); }
+        if (c.ok) {
+          const t = trasladar(c.map, r.box, r.quad); box = t.box; quad = t.quad; how = c.modo;
+          if (c.flip) { box = [box[2], box[1], box[0], box[3]]; if (quad) quad = [quad[2], quad[3], quad[0], quad[1], quad[6], quad[7], quad[4], quad[5]]; }
+          if (how === "ajustado" || how === "espejo") { const h = Math.floor(c.iou * 20) / 20; st.hist[h] = (st.hist[h] || 0) + 1; if (dudS.length < 400) dudS.push([p.ref, aid, f, box, quad, c.iou, how]); }
+        }
+        else { const h = Math.floor((c.iou || 0) * 10) / 10; st.no[h] = (st.no[h] || 0) + 1; if (noS.length < 400) noS.push([p.ref, aid, vf, f, c.iou]); }
       }
       if (!box) continue;
       st.ok++; n++; st.modo[how] = (st.modo[how] || 0) + 1;
@@ -85,7 +131,8 @@ const noTile = async ([ref, aid, vf, f, iou]) => {
   const buf = await sharp({ create: { width: S, height: S, channels: 3, background: "#fff" } }).composite([{ input: a, left: 0, top: S / 4 | 0 }, { input: b, left: S / 2 | 0, top: S / 4 | 0 }]).png().toBuffer();
   return { buf, cap: `${ref} ${aid} ${f} ${iou}` };
 };
-shuffle(okS); shuffle(noS);
+shuffle(okS); shuffle(noS); shuffle(dudS);
+for (let i = 0; i < 2; i++) if (dudS.length > i * 48) await hoja(dudS.slice(i * 48, i * 48 + 48).map(([a, b, f, box, quad, io, how]) => [a + " " + io + (how === "espejo" ? " E" : ""), b, f, box, quad]), `colores-ajustado-${i + 1}.jpg`, okTile).catch(() => {});
 for (let i = 0; i < 3; i++) if (okS.length > i * 48) await hoja(okS.slice(i * 48, i * 48 + 48), `colores-ok-${i + 1}.jpg`, okTile).catch(() => {});
 for (let i = 0; i < 2; i++) if (noS.length > i * 48) await hoja(noS.slice(i * 48, i * 48 + 48), `colores-no-${i + 1}.jpg`, noTile).catch(() => {});
 
@@ -95,7 +142,7 @@ const L = [
   `Zonas por color · ${new Date().toISOString()} · ${Math.round((Date.now() - t0) / 1000)} s`,
   `Áreas: ${st.areas} · con previsualización en la caché: ${st.conPrev}`,
   `Pares área × foto: ${st.pares} · con zona exacta: ${st.ok} (${pct(st.ok, st.pares)}) · ya calculadas antes: ${st.yaMapeada} · foto ilegible: ${st.sinFoto}`,
-  `Modo: ${JSON.stringify(st.modo)}`,
+  `Modo: ${JSON.stringify(st.modo)} · segundo intento por IoU: ${JSON.stringify(st.hist)} · sin encajar por IoU: ${JSON.stringify(st.no)}`,
   `Áreas con zona en todas sus fotos: ${st.areaTodas} · en alguna: ${st.areaAlguna} · en ninguna: ${st.areaNinguna}`,
   `colores.json: ${(Buffer.byteLength(JSON.stringify(out)) / 1024).toFixed(0)} KB`,
 ];
