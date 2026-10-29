@@ -3629,10 +3629,49 @@ function dzMkSil(im){
 function dzMkSame(a,b){
   try{var A=dzMkSil(a), B=dzMkSil(b), I=0, U=0; for(var i=0;i<4096;i++){I+=A[i]&B[i]; U+=A[i]|B[i];} return U?I/U:0;}catch(e){return 0;}
 }
+/* Algunas previsualizaciones de Makito son un dibujo de líneas (o el producto blanco casi invisible): en esos casos se usa la foto real
+   del producto y la zona se traslada a ella encajando el contorno de los dos; si no encajan, posición orientativa sobre la foto real */
+function dzMkGrid(im,S){
+  var W=im.naturalWidth||im.width, H=im.naturalHeight||im.height, k=S/Math.max(W,H), w=Math.max(1,Math.round(W*k)), h=Math.max(1,Math.round(H*k));
+  var c=document.createElement("canvas"); c.width=w; c.height=h; var x=c.getContext("2d",{willReadFrequently:true}); x.fillStyle="#fff"; x.fillRect(0,0,w,h); x.drawImage(im,0,0,w,h);
+  var d=x.getImageData(0,0,w,h).data, on=new Uint8Array(w*h), x0=w, y0=h, x1=-1, y1=-1, n=0, gr=0;
+  for(var i=0;i<w*h;i++){var R=d[i*4],G=d[i*4+1],B=d[i*4+2]; if(R<238||G<238||B<238){on[i]=1; n++; if(Math.max(R,G,B)-Math.min(R,G,B)<14) gr++; var xx=i%w, yy=(i/w)|0; if(xx<x0)x0=xx; if(xx>x1)x1=xx; if(yy<y0)y0=yy; if(yy>y1)y1=yy;}}
+  return {w:w,h:h,on:on,n:n,gr:gr,bb:x1<0?null:[x0/w,y0/h,(x1+1)/w,(y1+1)/h],px:x1<0?0:(x1-x0+1)*(y1-y0+1)};
+}
+function dzMkSketch(im){
+  try{
+    var g=dzMkGrid(im,160); if(!g.bb||g.n<40) return true;
+    var inn=0; for(var y=1;y<g.h-1;y++) for(var x=1;x<g.w-1;x++){var i=y*g.w+x; if(g.on[i]&&g.on[i-1]&&g.on[i+1]&&g.on[i-g.w]&&g.on[i+g.w]) inn++;}
+    var fill=g.n/g.px, core=inn/g.n, grey=g.gr/g.n;
+    return (fill<.25&&core<.35)||(grey>.97&&fill<.35&&core<.45);
+  }catch(e){return false;}
+}
+function dzMkFromSketch(it,ci,A,rs){
+  var ph=(it.k[ci]&&it.k[ci][3])||it.i;
+  if(!ph) return Promise.resolve(null);
+  return dzLoad(ph,true).then(function(rp){
+    if(!rp||!rp.im) return null;
+    var own=!!(it.k[ci]&&ph===it.k[ci][3]);
+    try{
+      var a=dzMkGrid(rs.im,240).bb, b=dzMkGrid(rp.im,240).bb;
+      var Wa=rs.im.naturalWidth||1, Ha=rs.im.naturalHeight||1, Wb=rp.im.naturalWidth||1, Hb=rp.im.naturalHeight||1;
+      if(a&&b){
+        var ra=(a[2]-a[0])*Wa/Math.max(1e-6,(a[3]-a[1])*Ha), rb=(b[2]-b[0])*Wb/Math.max(1e-6,(b[3]-b[1])*Hb), q=ra/rb;
+        if(q>.85&&q<1.18){
+          var mx=function(v){return b[0]+(v-a[0])/(a[2]-a[0])*(b[2]-b[0]);}, my=function(v){return b[1]+(v-a[1])/(a[3]-a[1])*(b[3]-b[1]);};
+          var B=Object.assign({},A,{_o:A,box:[mx(A.box[0]),my(A.box[1]),mx(A.box[2]),my(A.box[3])],quad:A.quad?A.quad.map(function(v,i){return i%2?my(v):mx(v);}):null});
+          return {r:rp,map:true,own:own,A:B};
+        }
+      }
+    }catch(e){}
+    return {r:rp,map:false,own:own};
+  });
+}
 function dzViewMk0(it,ci,A){
   var p=dzMkPick(it,ci,A), key=p.st+"|"+(p.cand||"")+"|"+A.id;
   if(DZ_MKV[key]) return DZ_MKV[key];
   return DZ_MKV[key]=dzLoad(p.st,true).then(function(r){
+    if(r&&/^Z:/.test(p.st)&&dzMkSketch(r.im)) return dzMkFromSketch(it,ci,A,r).then(function(x){return x||{r:r,map:true};});
     if(r&&p.cand) return dzLoad(p.cand,true).then(function(rc){return rc&&dzMkSame(r.im,rc.im)>=.88?{r:rc,map:true,own:1}:{r:r,map:true};});
     if(r) return {r:r,map:!!p.map,own:!!(it.k[ci]&&p.st===it.k[ci][3])};
     if(p.alt&&p.alt!==p.st) return dzLoad(p.alt,true).then(function(r2){return r2?{r:r2,map:false}:null;}); /* la foto de la zona no está: la del producto, posición orientativa */
@@ -3643,7 +3682,7 @@ function dzViewMk0(it,ci,A){
       return new Promise(function(res){var im=new Image(); im.onload=function(){var v={im:im,cors:true,fr:{x0:.15,y0:.15,x1:.85,y1:.85,bw:.7,lum:230,ok:1},kind:"front",flip:false,nophoto:1,st:p.st,mk:A,map:false}; dzMkSample(v); res(v);}; im.src=c.toDataURL("image/png");});
     }
     var fr=x.r.cors?dzMeasure(x.r.im):null;
-    var v={im:x.r.im,cors:x.r.cors,fr:fr||{x0:.04,y0:.04,x1:.96,y1:.96,bw:.9,lum:230,ok:0},kind:"front",flip:false,st:p.st,mk:A,map:x.map&&!!A.box,own:!!x.own||!!(it.k[ci]&&x.r.im&&p.alt===it.k[ci][3]&&!x.map&&!A.box)};
+    var v={im:x.r.im,cors:x.r.cors,fr:fr||{x0:.04,y0:.04,x1:.96,y1:.96,bw:.9,lum:230,ok:0},kind:"front",flip:false,st:p.st,mk:x.A||A,map:x.map&&!!A.box,own:!!x.own||!!(it.k[ci]&&x.r.im&&p.alt===it.k[ci][3]&&!x.map&&!A.box)};
     dzMkSample(v); return v;
   });
 }
@@ -3718,7 +3757,8 @@ function dzSq2Q(q){
 }
 /* Geometría de merchandising: foto, zona (según su forma) y escala dentro de un recuadro SW×SH */
 function dzGeomMk(v,tpl,pos,SW,SH,mode,top){
-  var zn=tpl.z[pos], A=zn.area, im=v.im, W=im.naturalWidth||im.width||1000, H=im.naturalHeight||im.height||1000, fr=v.fr, cm=zn.cm, z, ox, oy;
+  var zn=tpl.z[pos], A=zn.area; if(v.mk&&v.mk._o===A) A=v.mk; /* zona trasladada a la foto real */
+  var im=v.im, W=im.naturalWidth||im.width||1000, H=im.naturalHeight||im.height||1000, fr=v.fr, cm=zn.cm, z, ox, oy;
   var gx0=fr.x0*W, gy0=fr.y0*H, gw=Math.max(1,(fr.x1-fr.x0)*W), gh=Math.max(1,(fr.y1-fr.y0)*H), map=v.map&&v.mk===A, b;
   if(map) b=[A.box[0]*W,A.box[1]*H,A.box[2]*W,A.box[3]*H];
   else {var s0=Math.min(gw*.5/cm[0],gh*.4/cm[1]), cxp=gx0+gw/2, cyp=gy0+gh/2; b=[cxp-cm[0]*s0/2,cyp-cm[1]*s0/2,cxp+cm[0]*s0/2,cyp+cm[1]*s0/2];} /* posición orientativa: centrada en el producto */
