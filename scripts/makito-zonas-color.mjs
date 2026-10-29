@@ -39,11 +39,13 @@ function comparar2(prev, verde, foto) {
   if (!sp.bb || !sf.bb) return { ok: false, iou: 0 };
   const ap = (sp.bb[2] - sp.bb[0]) / (sp.bb[3] - sp.bb[1]), af = (sf.bb[2] - sf.bb[0]) / (sf.bb[3] - sf.bb[1]);
   const asp = Math.abs(Math.log(ap / af));
-  if (asp > 0.15) return { ok: false, iou: 0, asp };
+  const sx = (sf.bb[2] - sf.bb[0]) / (sp.bb[2] - sp.bb[0]), sy = (sf.bb[3] - sf.bb[1]) / (sp.bb[3] - sp.bb[1]);
+  // posición aproximada: misma posición relativa dentro del producto (solo si las dos siluetas tienen forma parecida)
+  const rel = (x, y) => [(sf.bb[0] + (x * prev.w - sp.bb[0]) * sx) / foto.w, (sf.bb[1] + (y * prev.h - sp.bb[1]) * sy) / foto.h];
+  if (asp > 0.15) return { ok: false, iou: 0, asp, rel: asp <= 0.3 ? rel : null };
   const gp = rejilla(sp, sp.bb), gf = rejilla(sf, sf.bb), i0 = iou(gp, gf, false), i1 = iou(gp, gf, true);
   const flip = i1 > i0 + 0.04, best = flip ? i1 : i0;
-  if (best < UMBRAL) return { ok: false, iou: Math.round(best * 1000) / 1000, asp };
-  const sx = (sf.bb[2] - sf.bb[0]) / (sp.bb[2] - sp.bb[0]), sy = (sf.bb[3] - sf.bb[1]) / (sp.bb[3] - sp.bb[1]);
+  if (best < UMBRAL) return { ok: false, iou: Math.round(best * 1000) / 1000, asp, rel: best >= 0.5 ? rel : null };
   const map = (x, y) => {
     let X = (sf.bb[0] + (x * prev.w - sp.bb[0]) * sx) / foto.w;
     if (flip) X = (sf.bb[0] + sf.bb[2]) / foto.w - X;
@@ -63,7 +65,7 @@ const r4 = v => Math.round(v * 10000) / 10000;
 
 const out = {}, st = { areas: 0, conPrev: 0, pares: 0, ok: 0, sinFoto: 0, yaMapeada: 0, modo: {}, areaTodas: 0, areaAlguna: 0, areaNinguna: 0 };
 const colSel = { total: 0, ok: 0 }; // colores (con foto) para los que hay zona exacta en la primera área
-const okS = [], noS = [], dudS = []; st.hist = {}; st.no = {};
+const okS = [], noS = [], dudS = [], aprS = []; st.aprox = 0; st.hist = {}; st.no = {};
 for (const p of prods) {
   const fotos = [...new Set([kid(p.img?.[0]), ...p.colors.map(c => kid(c.img))].filter(Boolean))].filter(f => existsSync(join(MKIMG, f + ".webp")));
   const areas = Object.keys(E).filter(k => k.startsWith(p.mref + "|"));
@@ -87,11 +89,18 @@ for (const p of prods) {
         const ph = await foto(f);
         if (!ph) { st.sinFoto++; continue; }
         let c = comparar(prev, verde, ph);
-        if (!c.ok) { const c2 = comparar2(prev, verde, ph); if (c2.ok) c = c2; else c.iou = Math.max(c.iou || 0, c2.iou || 0); }
+        let rel = null;
+        if (!c.ok) { const c2 = comparar2(prev, verde, ph); if (c2.ok) c = c2; else { c.iou = Math.max(c.iou || 0, c2.iou || 0); rel = c2.rel; } }
         if (c.ok) {
           const t = trasladar(c.map, r.box, r.quad); box = t.box; quad = t.quad; how = c.modo;
           if (c.flip) { box = [box[2], box[1], box[0], box[3]]; if (quad) quad = [quad[2], quad[3], quad[0], quad[1], quad[6], quad[7], quad[4], quad[5]]; }
           if (how === "ajustado" || how === "espejo") { const h = Math.floor(c.iou * 20) / 20; st.hist[h] = (st.hist[h] || 0) + 1; if (dudS.length < 400) dudS.push([p.ref, aid, f, box, quad, c.iou, how]); }
+        }
+        else if (rel) {
+          // aproximada: se guarda con «~» delante del nombre de la foto (el diseñador avisa «posición orientativa»)
+          const t = trasladar(rel, r.box, r.quad); st.aprox++;
+          res["~" + f] = t.quad ? [...t.box.map(r4), ...t.quad.map(r4)] : t.box.map(r4);
+          if (aprS.length < 400) aprS.push([p.ref + " " + c.iou, aid, f, t.box, t.quad]);
         }
         else { const h = Math.floor((c.iou || 0) * 10) / 10; st.no[h] = (st.no[h] || 0) + 1; if (noS.length < 400) noS.push([p.ref, aid, vf, f, c.iou]); }
       }
@@ -100,7 +109,7 @@ for (const p of prods) {
       res[f] = quad ? [...box.map(r4), ...quad.map(r4)] : box.map(r4);
       if (okS.length < 400) okS.push([p.ref, aid, f, box, quad]);
     }
-    if (n) ((out[p.ref] ||= {})[aid] = res);
+    if (Object.keys(res).length) ((out[p.ref] ||= {})[aid] = res);
     if (n === fotos.length) st.areaTodas++; else if (n) st.areaAlguna++; else st.areaNinguna++;
   }
 }
@@ -131,7 +140,8 @@ const noTile = async ([ref, aid, vf, f, iou]) => {
   const buf = await sharp({ create: { width: S, height: S, channels: 3, background: "#fff" } }).composite([{ input: a, left: 0, top: S / 4 | 0 }, { input: b, left: S / 2 | 0, top: S / 4 | 0 }]).png().toBuffer();
   return { buf, cap: `${ref} ${aid} ${f} ${iou}` };
 };
-shuffle(okS); shuffle(noS); shuffle(dudS);
+shuffle(okS); shuffle(noS); shuffle(dudS); shuffle(aprS);
+for (let i = 0; i < 2; i++) if (aprS.length > i * 48) await hoja(aprS.slice(i * 48, i * 48 + 48), `colores-aprox-${i + 1}.jpg`, okTile).catch(() => {});
 for (let i = 0; i < 2; i++) if (dudS.length > i * 48) await hoja(dudS.slice(i * 48, i * 48 + 48).map(([a, b, f, box, quad, io, how]) => [a + " " + io + (how === "espejo" ? " E" : ""), b, f, box, quad]), `colores-ajustado-${i + 1}.jpg`, okTile).catch(() => {});
 for (let i = 0; i < 3; i++) if (okS.length > i * 48) await hoja(okS.slice(i * 48, i * 48 + 48), `colores-ok-${i + 1}.jpg`, okTile).catch(() => {});
 for (let i = 0; i < 2; i++) if (noS.length > i * 48) await hoja(noS.slice(i * 48, i * 48 + 48), `colores-no-${i + 1}.jpg`, noTile).catch(() => {});
@@ -141,7 +151,7 @@ const pct = (a, b) => b ? (100 * a / b).toFixed(1) + "%" : "-";
 const L = [
   `Zonas por color · ${new Date().toISOString()} · ${Math.round((Date.now() - t0) / 1000)} s`,
   `Áreas: ${st.areas} · con previsualización en la caché: ${st.conPrev}`,
-  `Pares área × foto: ${st.pares} · con zona exacta: ${st.ok} (${pct(st.ok, st.pares)}) · ya calculadas antes: ${st.yaMapeada} · foto ilegible: ${st.sinFoto}`,
+  `Pares área × foto: ${st.pares} · con zona exacta: ${st.ok} (${pct(st.ok, st.pares)}) · ya calculadas antes: ${st.yaMapeada} · foto ilegible: ${st.sinFoto} · aproximadas (misma posición relativa): ${st.aprox}`,
   `Modo: ${JSON.stringify(st.modo)} · segundo intento por IoU: ${JSON.stringify(st.hist)} · sin encajar por IoU: ${JSON.stringify(st.no)}`,
   `Áreas con zona en todas sus fotos: ${st.areaTodas} · en alguna: ${st.areaAlguna} · en ninguna: ${st.areaNinguna}`,
   `colores.json: ${(Buffer.byteLength(JSON.stringify(out)) / 1024).toFixed(0)} KB`,
