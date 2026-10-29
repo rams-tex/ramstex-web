@@ -42,16 +42,24 @@ function comparar2(prev, verde, foto) {
   const sx = (sf.bb[2] - sf.bb[0]) / (sp.bb[2] - sp.bb[0]), sy = (sf.bb[3] - sf.bb[1]) / (sp.bb[3] - sp.bb[1]);
   // posición aproximada: misma posición relativa dentro del producto (solo si las dos siluetas tienen forma parecida)
   const rel = (x, y) => [(sf.bb[0] + (x * prev.w - sp.bb[0]) * sx) / foto.w, (sf.bb[1] + (y * prev.h - sp.bb[1]) * sy) / foto.h];
-  if (asp > 0.15) return { ok: false, iou: 0, asp, rel: asp <= 0.3 ? rel : null };
+  if (asp > 0.15) return { ok: false, iou: 0, asp, sf, rel: null };
   const gp = rejilla(sp, sp.bb), gf = rejilla(sf, sf.bb), i0 = iou(gp, gf, false), i1 = iou(gp, gf, true);
   const flip = i1 > i0 + 0.04, best = flip ? i1 : i0;
-  if (best < UMBRAL) return { ok: false, iou: Math.round(best * 1000) / 1000, asp, rel: best >= 0.5 ? rel : null };
+  if (best < UMBRAL) return { ok: false, iou: Math.round(best * 1000) / 1000, asp, sf, rel: best >= 0.62 ? rel : null };
   const map = (x, y) => {
     let X = (sf.bb[0] + (x * prev.w - sp.bb[0]) * sx) / foto.w;
     if (flip) X = (sf.bb[0] + sf.bb[2]) / foto.w - X;
     return [X, (sf.bb[1] + (y * prev.h - sp.bb[1]) * sy) / foto.h];
   };
-  return { ok: true, iou: Math.round(best * 1000) / 1000, modo: flip ? "espejo" : "ajustado", map, flip };
+  return { ok: true, iou: Math.round(best * 1000) / 1000, modo: flip ? "espejo" : "ajustado", map, flip, sf };
+}
+// Parte de la zona que cae sobre el producto en la foto (0-1): una zona trasladada que se sale del producto no vale
+function dentro(sf, box) {
+  const x0 = Math.max(0, Math.floor(Math.min(box[0], box[2]) * sf.w)), x1 = Math.min(sf.w, Math.ceil(Math.max(box[0], box[2]) * sf.w));
+  const y0 = Math.max(0, Math.floor(box[1] * sf.h)), y1 = Math.min(sf.h, Math.ceil(box[3] * sf.h));
+  let n = 0; for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) if (sf.s[y * sf.w + x]) n++;
+  const area = Math.max(1, (Math.abs(box[2] - box[0]) * sf.w) * ((box[3] - box[1]) * sf.h));
+  return n / area;
 }
 
 const [MKM = "mkm", MKIMG = "mkimg", FULL = "data/makito.json"] = process.argv.slice(2);
@@ -65,7 +73,7 @@ const r4 = v => Math.round(v * 10000) / 10000;
 
 const out = {}, st = { areas: 0, conPrev: 0, pares: 0, ok: 0, sinFoto: 0, yaMapeada: 0, modo: {}, areaTodas: 0, areaAlguna: 0, areaNinguna: 0 };
 const colSel = { total: 0, ok: 0 }; // colores (con foto) para los que hay zona exacta en la primera área
-const okS = [], noS = [], dudS = [], aprS = []; st.aprox = 0; st.hist = {}; st.no = {};
+const okS = [], noS = [], dudS = [], aprS = []; st.aprox = 0; st.fuera = 0; st.hist = {}; st.no = {};
 for (const p of prods) {
   const fotos = [...new Set([kid(p.img?.[0]), ...p.colors.map(c => kid(c.img))].filter(Boolean))].filter(f => existsSync(join(MKIMG, f + ".webp")));
   const areas = Object.keys(E).filter(k => k.startsWith(p.mref + "|"));
@@ -90,7 +98,11 @@ for (const p of prods) {
         if (!ph) { st.sinFoto++; continue; }
         let c = comparar(prev, verde, ph);
         let rel = null;
-        if (!c.ok) { const c2 = comparar2(prev, verde, ph); if (c2.ok) c = c2; else { c.iou = Math.max(c.iou || 0, c2.iou || 0); rel = c2.rel; } }
+        if (!c.ok) {
+          const c2 = comparar2(prev, verde, ph);
+          if (c2.ok && dentro(c2.sf, trasladar(c2.map, r.box).box) >= 0.75) c = c2;
+          else { c.iou = Math.max(c.iou || 0, c2.iou || 0); rel = c2.rel && dentro(c2.sf, trasladar(c2.rel, r.box).box) >= 0.88 ? c2.rel : null; if (c2.ok) st.fuera++; }
+        }
         if (c.ok) {
           const t = trasladar(c.map, r.box, r.quad); box = t.box; quad = t.quad; how = c.modo;
           if (c.flip) { box = [box[2], box[1], box[0], box[3]]; if (quad) quad = [quad[2], quad[3], quad[0], quad[1], quad[6], quad[7], quad[4], quad[5]]; }
@@ -151,7 +163,7 @@ const pct = (a, b) => b ? (100 * a / b).toFixed(1) + "%" : "-";
 const L = [
   `Zonas por color · ${new Date().toISOString()} · ${Math.round((Date.now() - t0) / 1000)} s`,
   `Áreas: ${st.areas} · con previsualización en la caché: ${st.conPrev}`,
-  `Pares área × foto: ${st.pares} · con zona exacta: ${st.ok} (${pct(st.ok, st.pares)}) · ya calculadas antes: ${st.yaMapeada} · foto ilegible: ${st.sinFoto} · aproximadas (misma posición relativa): ${st.aprox}`,
+  `Pares área × foto: ${st.pares} · con zona exacta: ${st.ok} (${pct(st.ok, st.pares)}) · ya calculadas antes: ${st.yaMapeada} · foto ilegible: ${st.sinFoto} · aproximadas (misma posición relativa): ${st.aprox} · descartadas por salirse del producto: ${st.fuera}`,
   `Modo: ${JSON.stringify(st.modo)} · segundo intento por IoU: ${JSON.stringify(st.hist)} · sin encajar por IoU: ${JSON.stringify(st.no)}`,
   `Áreas con zona en todas sus fotos: ${st.areaTodas} · en alguna: ${st.areaAlguna} · en ninguna: ${st.areaNinguna}`,
   `colores.json: ${(Buffer.byteLength(JSON.stringify(out)) / 1024).toFixed(0)} KB`,
