@@ -1,6 +1,6 @@
-Zonas por color · 2026-10-29T16:50:35.553Z · 277 s
+Zonas por color · 2026-10-29T16:58:53.410Z · 350 s
 Áreas: 10277 · con previsualización en la caché: 10012
-Pares área × foto: 19738 · con zona exacta: 5335 (27.0%) · ya calculadas antes: 2680 · foto ilegible: 0
-Modo: {"producto":4628,"lienzo":707}
-Áreas con zona en todas sus fotos: 2326 · en alguna: 484 · en ninguna: 7202
-colores.json: 298 KB
+Pares área × foto: 19738 · con zona exacta: 7003 (35.5%) · ya calculadas antes: 2680 · foto ilegible: 0
+Modo: {"producto":4628,"ajustado":1054,"lienzo":707,"espejo":614} · segundo intento por IoU: {"1":3,"0.75":246,"0.8":716,"0.85":294,"0.9":167,"0.95":242} · sin encajar por IoU: {"0":2127,"0.7":1437,"0.1":1293,"0.5":1783,"0.4":1622,"0.6":1647,"0.8":163,"0.3":1374,"0.2":1289}
+Áreas con zona en todas sus fotos: 3056 · en alguna: 523 · en ninguna: 6433
+colores.json: 392 KB
