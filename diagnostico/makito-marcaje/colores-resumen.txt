@@ -1,0 +1,6 @@
+Zonas por color · 2026-10-29T16:50:35.553Z · 277 s
+Áreas: 10277 · con previsualización en la caché: 10012
+Pares área × foto: 19738 · con zona exacta: 5335 (27.0%) · ya calculadas antes: 2680 · foto ilegible: 0
+Modo: {"producto":4628,"lienzo":707}
+Áreas con zona en todas sus fotos: 2326 · en alguna: 484 · en ninguna: 7202
+colores.json: 298 KB
