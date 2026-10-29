@@ -1,0 +1,60 @@
+name: Marcaje Makito - zonas por color
+# Traslada cada zona de marcaje a la foto de cada color (scripts/makito-zonas-color.mjs) para que el diseñador enseñe la foto real
+# del color elegido con la zona en su sitio, sin teñir fotos. No usa la API de Makito: solo lee la caché de «Marcaje Makito» (mkm),
+# las fotos de la web (caché de «Importar Makito», mkimg) y data/makito.json de main. Guarda data/makito-marcaje/colores.json
+# y el resumen + hojas de contactos en diagnostico/makito-marcaje/.
+# Se lanza al cambiar el script o este archivo (para volver a calcular cuando haya más fotos: cambia el comentario del final).
+on:
+  workflow_dispatch:
+  push:
+    branches: [makito-marcaje]
+    paths:
+      - scripts/makito-zonas-color.mjs
+      - .github/workflows/makito-zonas-color.yml
+permissions:
+  contents: write
+concurrency:
+  group: makito-zonas-color
+  cancel-in-progress: false
+jobs:
+  zonas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Traer lo último de la rama y el catálogo de main
+        run: |
+          git fetch -q --depth=1 origin "$GITHUB_REF_NAME" && git reset -q --hard FETCH_HEAD
+          git fetch -q --depth=1 origin main && git show FETCH_HEAD:data/makito.json > "$RUNNER_TEMP/makito.json"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save sharp@0.33
+      - name: Caché de «Marcaje Makito»
+        uses: actions/cache/restore@v4
+        with:
+          path: mkm
+          key: mkm-v1-zonas-${{ github.run_id }}
+          restore-keys: mkm-v1-
+      - name: Fotos de la web (caché de «Importar Makito»)
+        uses: actions/cache/restore@v4
+        with:
+          path: mkimg
+          key: mkimg-v2-zonas-${{ github.run_id }}
+          restore-keys: mkimg-v2-
+      - name: Zonas por color
+        run: |
+          echo "Previsualizaciones: $(ls mkm/v 2>/dev/null | wc -l) · fotos: $(ls mkimg 2>/dev/null | wc -l)"
+          node scripts/makito-zonas-color.mjs mkm mkimg "$RUNNER_TEMP/makito.json"
+      - name: Guardar
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add data/makito-marcaje/colores.json diagnostico/makito-marcaje/colores-*
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Marcaje Makito: zonas por color [skip netlify]"
+          for i in 1 2 3 4 5; do
+            if git pull -q --rebase origin "$GITHUB_REF_NAME" && git push -q origin "HEAD:$GITHUB_REF_NAME"; then exit 0; fi
+            echo "push falló, reintento"; sleep 20
+          done
+          exit 1
