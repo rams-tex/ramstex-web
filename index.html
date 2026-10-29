@@ -852,7 +852,7 @@ html.dzopen body>*:not(#dz):not(script):not(.toast){display:none!important}
 .dzbanner{position:absolute;left:10px;right:10px;top:10px;z-index:4;display:flex;align-items:flex-start;gap:8px;max-width:520px;margin:0 auto;padding:8px 12px;border:0;border-radius:12px;text-align:left;font:500 var(--fs-xs)/1.4 Figtree,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .dzbanner[hidden]{display:none}
 .dzbanner.warn{background:var(--warn-bg);color:var(--warn-text);box-shadow:inset 0 0 0 1px var(--warn-line),0 4px 12px rgba(92,66,0,.12)}
-.dzbanner.info{background:rgba(255,255,255,.97);color:#3D3D3D;box-shadow:inset 0 0 0 1px var(--line),0 4px 12px rgba(17,17,17,.08)}
+.dzbanner.info{flex-direction:row;gap:8px;padding:8px 12px;flex:none;background:rgba(255,255,255,.97);color:#3D3D3D;box-shadow:inset 0 0 0 1px var(--line),0 4px 12px rgba(17,17,17,.08)}
 .dzbanner svg{flex:none;width:16px;height:16px;margin-top:1px}
 .dzbanner .bt{flex:1;min-width:0}
 .dzbanner .bt span{display:block}
@@ -863,6 +863,11 @@ html.dzopen body>*:not(#dz):not(script):not(.toast){display:none!important}
 .dzbanner i{flex:none;font-style:normal;font-weight:700;font-variant-numeric:tabular-nums;opacity:.8}
 .dzzoom{position:absolute;right:10px;bottom:10px;z-index:4;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:0;border-radius:999px;background:rgba(255,255,255,.96);color:var(--text);font:600 var(--fs-xs)/1 Figtree,sans-serif;cursor:pointer;box-shadow:0 2px 8px rgba(17,17,17,.14),0 0 0 1px rgba(17,17,17,.08);-webkit-tap-highlight-color:transparent;transition:transform 160ms var(--ease-ui)}
 .dzzoom[hidden]{display:none}
+.dzprev{bottom:54px}
+.dzstage.prev .dzprev{bottom:10px;background:var(--text);color:#fff}
+.dzstage.prev .dzarea,.dzstage.prev .dzzmax,.dzstage.prev .dzguide,.dzstage.prev .dzempty,.dzstage.prev .dzmeasure,.dzstage.prev .dzbanner{visibility:hidden}
+.dzstage.prev .dzitem{pointer-events:none}
+.dzstage.prev .dzitem::before{opacity:0!important}
 .dzzoom svg{width:15px;height:15px}
 .dzzoom::after{content:"";position:absolute;inset:-5px -2px;border-radius:999px}
 .dzzoom:active{transform:scale(.97)}
@@ -3307,6 +3312,8 @@ var DZ_SUP={
 };
 var DZ_DEF={cors:0,side:"i",sl:[.55,.2],fr:{x0:.1,y0:.08,x1:.9,y1:.92,bw:.45}};
 var DZ_ICON={
+  eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
   pen:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
   shirt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 3.5 16 2a4 4 0 0 1-8 0L3.6 3.5a2 2 0 0 0-1.3 2.2l.6 3.5a1 1 0 0 0 1 .8H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.1a1 1 0 0 0 1-.8l.6-3.5a2 2 0 0 0-1.3-2.2z"/></svg>',
   up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>',
@@ -3580,7 +3587,7 @@ function dzMkTpl(it){
       if(!lab){var same=Object.keys(by).map(function(k){return by[k];}).filter(function(g){return g.gen&&g.areas.some(function(B){return B.mm[0]===a.mm[0]&&B.mm[1]===a.mm[1];});})[0]; lab=same?same.lab:"Zona "+(++nz);}
     }
     var k=norm(lab), g=by[k];
-    var A={id:a.id,mm:a.mm,box:a.box&&a.img?a.box:null,img:a.img||"",col:!!a.col,forma:a.forma||"r",quad:a.quad&&a.quad.length===8?a.quad:null,tecs:tecs};
+    var A={id:a.id,mm:a.mm,cb:a.cb||null,box:a.box&&a.img?a.box:null,img:a.img||"",col:!!a.col,forma:a.forma||"r",quad:a.quad&&a.quad.length===8?a.quad:null,tecs:tecs};
     A.cyl=A.forma==="o"&&(it.c==="m-taz"||DZ_CYL.test(norm(it.n+" "+lab)));
     if(!g){g=by[k]={key:a.id,lab:lab,areas:[],gen:/^zona \d+$/.test(k)}; pos.push(a.id); lbl[a.id]=lab; z[a.id]={v:"f",g:g};}
     /* misma posición y misma medida: una sola opción (técnicas juntas; se queda la que tiene la zona dibujada sobre nuestra foto) */
@@ -3605,10 +3612,17 @@ function dzMm(mm){return fmt(mm[0])+" × "+fmt(mm[1])+" mm";}
 /* Zonas pequeñas (bolígrafos, llaveros…): se abren con la foto acercada */
 function dzMkSmall(A){return !!(A&&A.box&&(A.box[2]-A.box[0])<.2&&(A.box[3]-A.box[1])<.2);}
 /* Foto de un área: la previsualización limpia de Makito, la foto de color o la principal; sin zona, la foto del color elegido */
+/* Zona calculada de antemano sobre una foto concreta (colores.json): copia del área con esa caja */
+function dzMkCb(A,c){return Object.assign({},A,{_o:A,box:c.slice(0,4),quad:c.length>=12?c.slice(4,12):null});}
 function dzMkPick(it,ci,A){
-  var main=(it.k[ci]&&it.k[ci][3])||it.i;
+  var main=(it.k[ci]&&it.k[ci][3])||it.i, own=it.k[ci]&&it.k[ci][3];
+  /* lo mejor: la foto real del color elegido con la zona trasladada a ella */
+  var ph=own||it.i, id=ph&&ph.slice(2);
+  if(A.cb&&id&&A.cb[id]) return {st:ph,map:1,A:dzMkCb(A,A.cb[id])};
+  /* misma posición relativa en un producto de forma parecida: foto real del color, zona aproximada */
+  if(A.cb&&own&&A.cb["~"+id]) return {st:own,map:1,A:dzMkCb(A,A.cb["~"+id]),approx:1};
   if(!A.box) return {st:main};
-  if(/^z\//.test(A.img)) return {st:"Z:"+A.img.slice(2),map:1,alt:main};
+  if(/^z\//.test(A.img)) return {st:"Z:"+A.img.slice(2),map:1,alt:main,cand:own||""};
   if(A.col) return {st:(it.k[ci]&&it.k[ci][3])||"K:"+A.img,map:1,alt:main};
   var own=it.k[ci]&&it.k[ci][3]; /* foto del color elegido: si tiene el mismo encuadre que la principal, la zona va sobre ella */
   return {st:"K:"+A.img,map:1,alt:main,cand:own&&own!=="K:"+A.img?own:""};
@@ -3622,12 +3636,68 @@ function dzMkSil(im){
 function dzMkSame(a,b){
   try{var A=dzMkSil(a), B=dzMkSil(b), I=0, U=0; for(var i=0;i<4096;i++){I+=A[i]&B[i]; U+=A[i]|B[i];} return U?I/U:0;}catch(e){return 0;}
 }
+/* Algunas previsualizaciones de Makito son un dibujo de líneas (o el producto blanco casi invisible): en esos casos se usa la foto real
+   del producto y la zona se traslada a ella encajando el contorno de los dos; si no encajan, posición orientativa sobre la foto real */
+function dzMkGrid(im,S){
+  var W=im.naturalWidth||im.width, H=im.naturalHeight||im.height, k=S/Math.max(W,H), w=Math.max(1,Math.round(W*k)), h=Math.max(1,Math.round(H*k));
+  var c=document.createElement("canvas"); c.width=w; c.height=h; var x=c.getContext("2d",{willReadFrequently:true}); x.fillStyle="#fff"; x.fillRect(0,0,w,h); x.drawImage(im,0,0,w,h);
+  var d=x.getImageData(0,0,w,h).data, on=new Uint8Array(w*h), x0=w, y0=h, x1=-1, y1=-1, n=0, gr=0;
+  for(var i=0;i<w*h;i++){var R=d[i*4],G=d[i*4+1],B=d[i*4+2]; if(R<238||G<238||B<238){on[i]=1; n++; if(Math.max(R,G,B)-Math.min(R,G,B)<14) gr++; var xx=i%w, yy=(i/w)|0; if(xx<x0)x0=xx; if(xx>x1)x1=xx; if(yy<y0)y0=yy; if(yy>y1)y1=yy;}}
+  return {w:w,h:h,on:on,n:n,gr:gr,bb:x1<0?null:[x0/w,y0/h,(x1+1)/w,(y1+1)/h],px:x1<0?0:(x1-x0+1)*(y1-y0+1)};
+}
+function dzMkSketch(im){
+  try{
+    var g=dzMkGrid(im,160); if(!g.bb||g.n<40) return true;
+    var inn=0; for(var y=1;y<g.h-1;y++) for(var x=1;x<g.w-1;x++){var i=y*g.w+x; if(g.on[i]&&g.on[i-1]&&g.on[i+1]&&g.on[i-g.w]&&g.on[i+g.w]) inn++;}
+    var fill=g.n/g.px, core=inn/g.n, grey=g.gr/g.n;
+    return (fill<.25&&core<.35)||(grey>.97&&fill<.35&&core<.45);
+  }catch(e){return false;}
+}
+/* Silueta del producto: todo lo que no es fondo blanco unido al borde de la foto (un producto blanco o un dibujo de líneas quedan rellenos) */
+function dzMkMask(im,S){
+  var W=im.naturalWidth||im.width, H=im.naturalHeight||im.height, k=S?Math.min(1,S/Math.max(W,H)):1, w=Math.max(1,Math.round(W*k)), h=Math.max(1,Math.round(H*k));
+  var c=document.createElement("canvas"); c.width=w; c.height=h; var x=c.getContext("2d",{willReadFrequently:true}); x.fillStyle="#fff"; x.fillRect(0,0,w,h); x.drawImage(im,0,0,w,h);
+  var d=x.getImageData(0,0,w,h).data, bg=new Uint8Array(w*h), st=[], i, q;
+  var wh=function(i){return d[i*4]>=250&&d[i*4+1]>=250&&d[i*4+2]>=250;};
+  for(q=0;q<w;q++){st.push(q,(h-1)*w+q);} for(q=0;q<h;q++){st.push(q*w,q*w+w-1);}
+  while(st.length){i=st.pop(); if(bg[i]||!wh(i)) continue; bg[i]=1; q=i%w; if(q>0)st.push(i-1); if(q<w-1)st.push(i+1); if(i>=w)st.push(i-w); if(i<w*(h-1))st.push(i+w);}
+  var x0=w,y0=h,x1=-1,y1=-1; for(i=0;i<w*h;i++) if(!bg[i]){q=i%w; var yy=(i/w)|0; if(q<x0)x0=q; if(q>x1)x1=q; if(yy<y0)y0=yy; if(yy>y1)y1=yy;}
+  return {w:w,h:h,bg:bg,bb:x1<0?null:[x0/w,y0/h,(x1+1)/w,(y1+1)/h]};
+}
+/* ¿Mismo producto en la misma postura en dos fotos? Se encajan las siluetas por su contorno y se compara su forma; devuelve cómo pasar de una a otra */
+function dzMkAlign(ra,rb){
+  try{
+    var A=dzMkMask(ra.im,160), B=dzMkMask(rb.im,160), a=A.bb, b=B.bb; if(!a||!b) return null;
+    var Wa=ra.im.naturalWidth||1, Ha=ra.im.naturalHeight||1, Wb=rb.im.naturalWidth||1, Hb=rb.im.naturalHeight||1;
+    var q=((a[2]-a[0])*Wa/((a[3]-a[1])*Ha))/((b[2]-b[0])*Wb/((b[3]-b[1])*Hb)); if(!(q>.85&&q<1.18)) return null;
+    var I=0,U=0,N=40;
+    for(var y=0;y<N;y++) for(var x=0;x<N;x++){
+      var u=(x+.5)/N, t=(y+.5)/N;
+      var ia=Math.min(A.h-1,Math.floor((a[1]+t*(a[3]-a[1]))*A.h))*A.w+Math.min(A.w-1,Math.floor((a[0]+u*(a[2]-a[0]))*A.w));
+      var ib=Math.min(B.h-1,Math.floor((b[1]+t*(b[3]-b[1]))*B.h))*B.w+Math.min(B.w-1,Math.floor((b[0]+u*(b[2]-b[0]))*B.w));
+      var pa=!A.bg[ia], pb=!B.bg[ib]; if(pa&&pb) I++; if(pa||pb) U++;
+    }
+    if(!U||I/U<.82) return null;
+    return {x:function(v){return b[0]+(v-a[0])/(a[2]-a[0])*(b[2]-b[0]);}, y:function(v){return b[1]+(v-a[1])/(a[3]-a[1])*(b[3]-b[1]);}};
+  }catch(e){return null;}
+}
+function dzMkMapTo(A,rs,rp,own,strict){
+  var m=dzMkAlign(rs,rp);
+  if(m) return {r:rp,map:true,own:own,A:Object.assign({},A,{_o:A,box:[m.x(A.box[0]),m.y(A.box[1]),m.x(A.box[2]),m.y(A.box[3])],quad:A.quad?A.quad.map(function(v,i){return i%2?m.y(v):m.x(v);}):null})};
+  return strict?null:{r:rp,map:false,own:own};
+}
+function dzMkFromSketch(it,ci,A,rs){
+  var ph=(it.k[ci]&&it.k[ci][3])||it.i;
+  if(!ph) return Promise.resolve(null);
+  return dzLoad(ph,true).then(function(rp){return rp&&rp.im?dzMkMapTo(A,rs,rp,!!(it.k[ci]&&ph===it.k[ci][3])):null;});
+}
 function dzViewMk0(it,ci,A){
   var p=dzMkPick(it,ci,A), key=p.st+"|"+(p.cand||"")+"|"+A.id;
   if(DZ_MKV[key]) return DZ_MKV[key];
   return DZ_MKV[key]=dzLoad(p.st,true).then(function(r){
-    if(r&&p.cand) return dzLoad(p.cand,true).then(function(rc){return rc&&dzMkSame(r.im,rc.im)>=.88?{r:rc,map:true,own:1}:{r:r,map:true};});
-    if(r) return {r:r,map:!!p.map,own:!!(it.k[ci]&&p.st===it.k[ci][3])};
+    if(r&&/^Z:/.test(p.st)&&dzMkSketch(r.im)) return dzMkFromSketch(it,ci,A,r).then(function(x){return x||{r:r,map:true,sketch:1};});
+    if(r&&p.cand) return dzLoad(p.cand,true).then(function(rc){if(!rc) return {r:r,map:true}; if(dzMkSame(r.im,rc.im)>=.88) return {r:rc,map:true,own:1}; return dzMkMapTo(A,r,rc,true,true)||{r:r,map:true};});
+    if(r) return {r:r,map:!!p.map,own:!!(it.k[ci]&&p.st===it.k[ci][3]),A:p.A};
     if(p.alt&&p.alt!==p.st) return dzLoad(p.alt,true).then(function(r2){return r2?{r:r2,map:false}:null;}); /* la foto de la zona no está: la del producto, posición orientativa */
     return null;
   }).then(function(x){
@@ -3636,13 +3706,12 @@ function dzViewMk0(it,ci,A){
       return new Promise(function(res){var im=new Image(); im.onload=function(){var v={im:im,cors:true,fr:{x0:.15,y0:.15,x1:.85,y1:.85,bw:.7,lum:230,ok:1},kind:"front",flip:false,nophoto:1,st:p.st,mk:A,map:false}; dzMkSample(v); res(v);}; im.src=c.toDataURL("image/png");});
     }
     var fr=x.r.cors?dzMeasure(x.r.im):null;
-    var v={im:x.r.im,cors:x.r.cors,fr:fr||{x0:.04,y0:.04,x1:.96,y1:.96,bw:.9,lum:230,ok:0},kind:"front",flip:false,st:p.st,mk:A,map:x.map&&!!A.box,own:!!x.own||!!(it.k[ci]&&x.r.im&&p.alt===it.k[ci][3]&&!x.map&&!A.box)};
+    var v={im:x.r.im,cors:x.r.cors,fr:fr||{x0:.04,y0:.04,x1:.96,y1:.96,bw:.9,lum:230,ok:0},kind:"front",flip:false,st:p.st,approx:!!(p.approx&&x.A),sketch:!!x.sketch,mk:x.A||A,map:x.map&&!!A.box,own:!!x.own||!!(it.k[ci]&&x.r.im&&p.alt===it.k[ci][3]&&!x.map&&!A.box)};
     dzMkSample(v); return v;
   });
 }
-/* Vista con el color elegido. Si la foto es de ese color (o de uno muy parecido), tal cual. Si no hay foto de ese color:
-   se tiñe el producto (cuerpo de color claro o medio: se conservan sombras, brillos y las partes de otro material) o,
-   si el cuerpo es oscuro (teñirlo a claro no queda natural), se deja la foto y se avisa «La foto es orientativa: tu producto será …» */
+/* Vista con el color elegido. Si la foto es de ese color (o de uno muy parecido), tal cual. Si no hay foto de ese color,
+   la foto real de otro color, sin teñir, con el aviso «La foto es de otro color: tu producto será …» */
 var DZ_MKC={};
 function dzViewMk(it,ci,A){
   var k=it.k[ci], hex=k&&dzHex(k);
@@ -3651,29 +3720,9 @@ function dzViewMk(it,ci,A){
     var T=[1,3,5].map(function(i){return parseInt(hex.substr(i,2),16);}), B=v.rgb, dist=Math.hypot(T[0]-B[0],T[1]-B[1],T[2]-B[2]);
     if(dist<60) return v;
     var key=v.st+"|"+A.id+"|"+hex; if(DZ_MKC[key]) return DZ_MKC[key];
-    var LB=.299*B[0]+.587*B[1]+.114*B[2], col=colES(k[0]).toLowerCase();
-    if(LB<75) return (DZ_MKC[key]=Promise.resolve(Object.assign({},v,{note:col})));
-    return DZ_MKC[key]=new Promise(function(res){
-      var c=dzMkTint(v.im,B,T); if(!c) return res(Object.assign({},v,{note:col}));
-      var im=new Image(); im.onload=function(){var w=Object.assign({},v,{im:im,tinted:col}); dzMkSample(w); res(w);}; im.onerror=function(){res(Object.assign({},v,{note:col}));}; im.src=c.toDataURL("image/webp",.9);
-    });
+    /* sin foto de este color: no se tiñe (nunca queda natural); foto real con el aviso del color */
+    return (DZ_MKC[key]=Promise.resolve(Object.assign({},v,{note:colES(k[0]).toLowerCase()})));
   });
-}
-/* Tiñe el producto: los píxeles con el mismo tono que el cuerpo (cromaticidad parecida) pasan al color elegido conservando su luz */
-function dzMkTint(im,B,T){
-  try{
-    var W=im.naturalWidth||im.width, H=im.naturalHeight||im.height, c=document.createElement("canvas"); c.width=W; c.height=H;
-    var x=c.getContext("2d",{willReadFrequently:true}); x.drawImage(im,0,0); var id=x.getImageData(0,0,W,H), p=id.data;
-    var L=function(r,g,b){return .299*r+.587*g+.114*b;}, LB=Math.max(1,L(B[0],B[1],B[2])), LT=L(T[0],T[1],T[2]), cb=[B[0]/LB,B[1]/LB,B[2]/LB];
-    var sh=LT>200?.5:LT>140?.8:1, hiK=Math.max(.01,255/LB-1);
-    for(var i=0;i<p.length;i+=4){
-      var r=p[i],g=p[i+1],b=p[i+2]; if(Math.min(r,g,b)>=242) continue;
-      var Lp=Math.max(1,L(r,g,b)), d=Math.abs(r/Lp-cb[0])+Math.abs(g/Lp-cb[1])+Math.abs(b/Lp-cb[2]), w=Math.max(0,Math.min(1,1-(d-.12)/.35)); if(!w) continue;
-      var q=Lp/LB, n;
-      for(var j=0;j<3;j++){n=q<=1?T[j]*(1-(1-q)*sh):T[j]+(255-T[j])*Math.min(1,(q-1)/hiK); p[i+j]=Math.round(p[i+j]*(1-w)+n*w);}
-    }
-    x.putImageData(id,0,0); return c;
-  }catch(e){return null;}
 }
 /* Color del material en la zona (para el láser y la línea de la zona) y ancho del producto a esa altura (radio de la taza o el bidón) */
 function dzMkSample(v){
@@ -3711,7 +3760,8 @@ function dzSq2Q(q){
 }
 /* Geometría de merchandising: foto, zona (según su forma) y escala dentro de un recuadro SW×SH */
 function dzGeomMk(v,tpl,pos,SW,SH,mode,top){
-  var zn=tpl.z[pos], A=zn.area, im=v.im, W=im.naturalWidth||im.width||1000, H=im.naturalHeight||im.height||1000, fr=v.fr, cm=zn.cm, z, ox, oy;
+  var zn=tpl.z[pos], A=zn.area; if(v.mk&&v.mk._o===A) A=v.mk; /* zona trasladada a la foto real */
+  var im=v.im, W=im.naturalWidth||im.width||1000, H=im.naturalHeight||im.height||1000, fr=v.fr, cm=zn.cm, z, ox, oy;
   var gx0=fr.x0*W, gy0=fr.y0*H, gw=Math.max(1,(fr.x1-fr.x0)*W), gh=Math.max(1,(fr.y1-fr.y0)*H), map=v.map&&v.mk===A, b;
   if(map) b=[A.box[0]*W,A.box[1]*H,A.box[2]*W,A.box[3]*H];
   else {var s0=Math.min(gw*.5/cm[0],gh*.4/cm[1]), cxp=gx0+gw/2, cyp=gy0+gh/2; b=[cxp-cm[0]*s0/2,cyp-cm[1]*s0/2,cxp+cm[0]*s0/2,cyp+cm[1]*s0/2];} /* posición orientativa: centrada en el producto */
@@ -3901,7 +3951,7 @@ function dzMkNotes(){
   else if(t.max) n.push(d&&d.ncol>t.max?["warn","Tu logo tiene unos "+d.ncol+" colores; esta técnica admite hasta "+t.max+"."]:["info","Hasta "+t.max+(t.max===1?" color.":" colores.")+(d&&d.ncol?" Tu logo tiene "+(d.ncol===1?"1 color.":"unos "+d.ncol+" colores."):"")]);
   if(t.bord&&t.pt) n.push(["info","Te confirmamos las puntadas según tu logo (hasta "+fmt(t.pt)+")."]);
   if(t.minQ) n.push(["info","Mínimo "+fmt(t.minQ)+" uds."]);
-  var v=DZ.view; if(v&&v.tinted) n.push(["info","Color de la foto aproximado: tu producto será "+v.tinted+"."]);
+  var v=DZ.view; if(v&&v.note) n.push(["info","La foto es de otro color: tu producto será "+v.note+"."]);
   return n;
 }
 function dzMkPanel(){
@@ -3957,7 +4007,7 @@ function dzBuild(){
   el.innerHTML='<div class="dzhead"><button class="dzback" id="dzclose" type="button">'+DZ_ICON.back+'Volver</button><div class="dzhd"><h2 id="dztitle"></h2><p id="dzsub"></p></div></div>'+
     '<div class="dzmain"><div class="dzleft"><div class="dzseg" id="dzseg" role="tablist" aria-label="Zona"></div>'+
     '<div class="dzstage" id="dzstage" role="tabpanel"><div class="dzarea" id="dzarea"></div><canvas class="dzcv" id="dzcv" aria-hidden="true" hidden></canvas><span class="dzzmax" id="dzalbl"></span><div class="dzguide dzgv" id="dzgv"></div><div class="dzguide dzgh" id="dzgh"></div><div class="dzitem" id="dzitem" tabindex="0" role="img" hidden><img alt=""></div>'+
-    '<button type="button" class="dzbanner" id="dzbanner" aria-expanded="false" hidden></button><p class="dzempty" id="dzempty">Sube tu logo para verlo en la prenda</p><p class="dzmeasure" id="dzmeasure" aria-hidden="true"></p><button type="button" class="dzzoom" id="dzzoom" hidden></button></div></div>'+
+    '<button type="button" class="dzbanner" id="dzbanner" aria-expanded="false" hidden></button><p class="dzempty" id="dzempty">Sube tu logo para verlo en la prenda</p><p class="dzmeasure" id="dzmeasure" aria-hidden="true"></p><button type="button" class="dzzoom" id="dzzoom" hidden></button><button type="button" class="dzzoom dzprev" id="dzprev" aria-pressed="false" hidden></button></div></div>'+
     '<div class="dzright"><div class="dzpad"><section class="dzsec dzcolsec"><h3>Color: <span class="dzcolname"></span></h3><div class="dzdots" role="radiogroup" aria-label="Color"></div></section><section class="dzsec dzmksec" id="dzmksec" hidden></section>'+
     '<section class="dzsec" id="dztool" aria-live="polite"></section></div>'+
     '<div class="dzfoot"><p class="dzsum" id="dzsum"></p><button class="btn" type="button" id="dzadd">Añadir al presupuesto</button><p class="dzerr" id="dzerr" role="status" hidden></p></div></div></div>'+
@@ -3968,13 +4018,14 @@ function dzBuild(){
   $("dzadd").onclick=dzAdd;
   $("dzfile").onchange=function(){var f=this.files&&this.files[0]; this.value=""; if(f) dzSetFile(DZ.pos,f);};
   var stage=$("dzstage");
-  stage.addEventListener("click",function(e){if(!DZ.items[DZ.pos]&&!e.target.closest(".dzitem")) $("dzfile").click(); else if(!e.target.closest(".dzitem")) $("dzitem").classList.remove("sel");});
+  stage.addEventListener("click",function(e){if(DZ.prev) return; if(!DZ.items[DZ.pos]&&!e.target.closest(".dzitem")) $("dzfile").click(); else if(!e.target.closest(".dzitem")) $("dzitem").classList.remove("sel");});
   ["dragover","dragenter"].forEach(function(t){el.addEventListener(t,function(e){if(e.dataTransfer&&[].indexOf.call(e.dataTransfer.types||[],"Files")>=0){e.preventDefault(); var u=document.querySelector(".dzup"); if(u) u.classList.add("over");}});});
   el.addEventListener("dragleave",function(e){if(!e.relatedTarget||!el.contains(e.relatedTarget)){var u=document.querySelector(".dzup"); if(u) u.classList.remove("over");}});
   el.addEventListener("drop",function(e){e.preventDefault(); var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0]; if(f) dzSetFile(DZ.pos,f);});
   dzDrag();
   el.addEventListener("click",dzMkPick2);
   $("dzzoom").onclick=function(){DZ.zoomed=!DZ.zoomed; dzAnim(); dzRender();};
+  $("dzprev").onclick=function(e){e.stopPropagation(); DZ.prev=!DZ.prev; dzAnim(); dzRender();}; /* vista previa: el producto entero, sin zonas ni guías */
   $("dzbanner").onclick=function(){var o=!this.classList.contains("open"); DZ.bannerOpen=o; this.classList.toggle("open",o); this.setAttribute("aria-expanded",o?"true":"false"); dzRender();};
   $("dzsheetx").onclick=dzSheetClose; dzSheetDrag();
   $("dzseg").addEventListener("scroll",dzSegFade,{passive:true});
@@ -3999,6 +4050,7 @@ function dzOpen(push,from){
   $("dzsub").textContent=it.n+" · Ref. "+it.r;
   var el=$("dz"); el.hidden=false; document.body.style.overflow="hidden";
   if(!document.documentElement.classList.contains("dzopen")){DZ.scroll=window.scrollY; document.documentElement.classList.add("dzopen");} /* solo el diseñador: la página no se desplaza */
+  DZ.prev=false;
   if(DZ.zoomed===undefined) DZ.zoomed=false; /* de entrada se ve la prenda entera; «Acercar» para hacer zoom */
   dzInert=[]; document.querySelectorAll("#view-home,#view-cat,#view-prod,#view-nav,#view-quote,header.top,.topbar,.xbar,footer,.wa,#menu").forEach(function(x){dzInert.push([x,x.inert]); x.inert=true;});
   dzSeg(); dzDots(); dzShow();
@@ -4170,16 +4222,18 @@ function dzShow(){
 function dzRender(){
   var stage=$("dzstage"), v=DZ.view, area=$("dzarea"), item=$("dzitem"), d=DZ.items[DZ.pos], ph=stage.querySelector(".dzph"), mk=!!DZ.tpl.mk, cv=$("dzcv");
   $("dzempty").hidden=!!d;
+  var pb=$("dzprev"); stage.classList.toggle("prev",!!DZ.prev); pb.hidden=!v||!ph; pb.setAttribute("aria-pressed",DZ.prev?"true":"false");
+  pb.innerHTML=DZ.prev?DZ_ICON.edit+'<span>Seguir editando</span>':DZ_ICON.eye+'<span>Vista previa</span>'; pb.setAttribute("aria-label",DZ.prev?"Seguir editando":"Vista previa");
   if(!v||!ph){area.hidden=true; item.hidden=true; $("dzzoom").hidden=true; if(mk) dzMkCanvas(null); dzBanner(); return;}
   dzBanner();
   var bn=$("dzbanner"), inset=bn.hidden?0:bn.offsetHeight+16; /* el aviso de arriba no tapa la zona */
-  var SW=stage.clientWidth, SH=stage.clientHeight-inset, md=DZ.zoomed?"zone":"full", mo=DZ.zoomed?"full":"zone", g, other;
+  var SW=stage.clientWidth, SH=stage.clientHeight-inset, md=DZ.zoomed&&!DZ.prev?"zone":"full", mo=md==="zone"?"full":"zone", g, other;
   if(mk){g=dzGeomMk(v,DZ.tpl,DZ.pos,SW,SH,md,inset); other=dzGeomMk(v,DZ.tpl,DZ.pos,SW,SH,mo,inset);}
   else {g=dzGeom(v,DZ.tpl,DZ.pos,SW,SH,md); g.oy+=inset; g.ay+=inset; other=dzGeom(v,DZ.tpl,DZ.pos,SW,SH,mo);}
   DZ.g=g; var zb=$("dzzoom");
   stage.classList.toggle("dk",mk?v.zl<120:dzDark(DZ.it.k[DZ.it.cur],v.fr));
-  zb.hidden=Math.abs(other.z-g.z)/g.z<.1; /* si las dos vistas son casi iguales, sin botón */
-  zb.innerHTML=DZ.zoomed?DZ_ICON.full+(mk?"Ver producto entero":"Ver prenda entera"):DZ_ICON.zoomin+"Acercar";
+  zb.hidden=!!DZ.prev||Math.abs(other.z-g.z)/g.z<.1; /* si las dos vistas son casi iguales, sin botón */
+  zb.innerHTML=md==="zone"?DZ_ICON.full+(mk?"Ver producto entero":"Ver prenda entera"):DZ_ICON.zoomin+"Acercar";
   var gv=$("dzgv"), gh2=$("dzgh"); gv.style.left=g.ax+g.aw/2+"px"; gv.style.top=g.ay+"px"; gv.style.height=g.ah+"px"; gh2.style.top=g.ay+g.ah/2+"px"; gh2.style.left=g.ax+"px"; gh2.style.width=g.aw+"px";
   ph.style.width=g.W*g.z+"px"; ph.style.height=g.H*g.z+"px"; ph.style.left=g.ox+"px"; ph.style.top=g.oy+"px";
   $("dzalbl").textContent=(mk?"Máx. ":"Zona máx. ")+dzSizeTxt(g.cm[0],g.cm[1]);
@@ -4198,8 +4252,8 @@ function dzMkCanvas(g){
   var x=cv.getContext("2d"); x.setTransform(1,0,0,1,0,0); x.clearRect(0,0,cv.width,cv.height); if(!g) return;
   x.setTransform(dpr,0,0,dpr,0,0);
   var v=DZ.view, d=DZ.items[DZ.pos], dk=v&&v.zl<120;
-  if(g.shape!=="n"){x.save(); dzMkZonePath(x,g); x.setLineDash([5,4]); x.lineWidth=1.5; x.strokeStyle=dk?"rgba(255,255,255,.8)":"rgba(17,17,17,.45)"; x.stroke(); x.restore();}
-  if(Math.max(g.aw,g.ah)<28||Math.min(g.aw,g.ah)<12) dzMkCallout(x,g,!!d);
+  if(g.shape!=="n"&&!DZ.prev){x.save(); dzMkZonePath(x,g); x.setLineDash([5,4]); x.lineWidth=1.5; x.strokeStyle=dk?"rgba(255,255,255,.8)":"rgba(17,17,17,.45)"; x.stroke(); x.restore();}
+  if(!DZ.prev&&(Math.max(g.aw,g.ah)<28||Math.min(g.aw,g.ah)<12)) dzMkCallout(x,g,!!d);
   if(d){var t=DZ.tpl.z[DZ.pos].tec; dzMkDraw(x,g,d,dzMkSrc(d,t,v),t.mono?.88:1);}
 }
 /* Zona muy pequeña en la vista del producto entero: marco rojo alrededor para encontrarla («Acercar» para trabajar en ella) */
@@ -4267,7 +4321,7 @@ function dzFit(inp){if(inp) inp.style.width=Math.max(2,inp.value.length+.4)+"ch"
 function dzGuides(x,y){$("dzgv").classList.toggle("on",!!x); $("dzgh").classList.toggle("on",!!y);}
 /* Producto con colocación orientativa o sin foto de esta vista */
 function dzViewNote(){
-  if(DZ.tpl.mk) return DZ.view&&!DZ.view.map?'<p class="dzmax">Posición orientativa: te confirmamos la colocación exacta antes de producir.</p>':"";
+  if(DZ.tpl.mk) return DZ.view&&(!DZ.view.map||DZ.view.approx)?'<p class="dzmax">Posición orientativa: te confirmamos la colocación exacta antes de producir.</p>':"";
   if(DZ.view&&DZ.view.nophoto) return '<p class="dznote dzinfo">'+DZ_ICON.info+'<span>No tenemos foto de esta vista: te mostramos la zona de impresión sobre un fondo del color de la prenda.</span></p>';
   return DZ.tpl.aprox?'<p class="dzmax">La vista es orientativa: te confirmamos la posición exacta antes de imprimir.</p>':"";
 }
@@ -4278,10 +4332,10 @@ function dzBanner(){
   if(d&&dzDpi(d)<DZ_DPI) list.push(["warn","La imagen tiene poca resolución para este tamaño: se verá pixelada. Súbela más grande o reduce el tamaño."]);
   if(d&&d.bg) list.push(["info","Tu imagen tiene fondo: si no lo quieres, súbela en PNG sin fondo."]);
   if(DZ.tpl&&DZ.tpl.mk){
-    dzMkNotes().forEach(function(x){if(x[0]==="warn") list.unshift(x); else if(d&&DZ.tpl.z[DZ.pos].tec.mono&&list.length<2&&!/^Color de la foto/.test(x[1])) list.push(x);});
+    dzMkNotes().forEach(function(x){if(x[0]==="warn") list.unshift(x); else if(d&&DZ.tpl.z[DZ.pos].tec.mono&&list.length<2&&!/^La foto es de otro color/.test(x[1])) list.push(x);});
     if(v&&v.nophoto) list.push(["info","No tenemos foto de este producto: te mostramos la zona sobre un fondo neutro."]);
-    else if(v&&!v.map) list.push(["info","Posición orientativa: te confirmamos la colocación exacta antes de producir."]);
-    if(v&&v.note) list.push(["info","La foto es orientativa: tu producto será "+v.note+"."]);
+    else if(v&&(!v.map||v.approx)) list.push(["info","Posición orientativa: te confirmamos la colocación exacta antes de producir."]);
+    if(v&&v.note) list.push(["info","La foto es de otro color: tu producto será "+v.note+"."]);
   }
   else if(v&&v.nophoto) list.push(["info","No tenemos foto de esta vista: te mostramos la zona de impresión sobre un fondo del color de la prenda."]);
   else if(v&&v.noback&&DZ.tpl.z[DZ.pos].v==="b") list.push(["info","No tenemos foto de la espalda de este color: te mostramos la de delante como referencia."]);

@@ -17,12 +17,16 @@ for (const [id, t] of Object.entries(T)) {
   tec[id] = o;
 }
 writeFileSync(join(OUT, "tecnicas.json"), JSON.stringify(tec));
-let prods = 0, areas = 0, conZona = 0;
+// Zonas ya trasladadas a la foto de cada color (makito-zonas-color.mjs): { ref: { área: { foto: caja[+quad] } } }
+let C = {};
+try { C = JSON.parse(readFileSync(join(SRC, "colores.json"), "utf8")); } catch {}
+let prods = 0, areas = 0, conZona = 0, conColor = 0;
 for (const f of readdirSync(SRC).filter(f => /^m-[a-z]+\.json$/.test(f))) {
   const d = JSON.parse(readFileSync(join(SRC, f), "utf8")), o = {};
   for (const [ref, p] of Object.entries(d)) {
     const as = (p.areas || []).filter(a => a.mm && a.mm[0] > 0 && a.mm[1] > 0 && (a.tec || []).some(([id]) => tec[id])).map(a => {
       const x = { id: a.id, lab: a.lab || a.pos || a.id, mm: a.mm, tec: a.tec.filter(([id]) => tec[id]) };
+      const cb = C[ref]?.[a.id]; if (cb && Object.keys(cb).length) { x.cb = cb; conColor++; }
       if (a.box && a.img) { x.box = a.box; x.img = a.img; if (a.col) x.col = 1; if (a.forma) x.forma = a.forma; if (a.quad) x.quad = a.quad; conZona++; }
       return x;
     });
@@ -31,4 +35,4 @@ for (const f of readdirSync(SRC).filter(f => /^m-[a-z]+\.json$/.test(f))) {
   }
   writeFileSync(join(OUT, f), JSON.stringify(o));
 }
-console.log(`Marcaje para la web: ${prods} productos · ${areas} áreas (${conZona} con zona dibujada) · ${Object.keys(tec).length} técnicas`);
+console.log(`Marcaje para la web: ${prods} productos · ${areas} áreas (${conZona} con zona dibujada, ${conColor} con zona en fotos de color) · ${Object.keys(tec).length} técnicas`);
