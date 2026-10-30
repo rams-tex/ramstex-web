@@ -1,17 +1,17 @@
-Makito: 4261 productos, 11269 colores, 17648 variantes en la API · fotos distintas: 13065
-Descartados: {"ropa (no se importa)":271,"sin variantes":33}
+Makito: 4261 productos, 11351 colores, 17756 variantes en la API · fotos distintas: 13114
+Descartados: {"ropa (no se importa)":271,"sin variantes":74}
 Por categoría (productos / colores):
-  m-bol: 571 / 1721
-  m-dep: 287 / 709
-  m-esc: 745 / 2295
+  m-bol: 570 / 1736
+  m-dep: 288 / 714
+  m-esc: 744 / 2302
   m-eve: 80 / 266
-  m-hog: 815 / 1707
-  m-inv: 125 / 506
-  m-nav: 25 / 39
-  m-out: 268 / 455
-  m-taz: 524 / 1618
-  m-tec: 574 / 1059
-  m-ver: 247 / 894
+  m-hog: 817 / 1710
+  m-inv: 125 / 515
+  m-nav: 24 / 35
+  m-out: 271 / 460
+  m-taz: 524 / 1626
+  m-tec: 571 / 1070
+  m-ver: 247 / 917
 Subcategorías de merchandising:
   m-bol · Accesorios de viaje: 30
   m-bol · Antifaces y almohadillas: 17
@@ -32,10 +32,11 @@ Subcategorías de merchandising:
   m-bol · Identificadores portadocumentos: 12
   m-bol · Mochila: 4
   m-bol · Mochilas con bolsillo para portátiles: 1
-  m-bol · Mochilas de algodón: 2
-  m-bol · Mochilas de poliéster: 4
+  m-bol · Mochilas de algodón: 1
+  m-bol · Mochilas de poliéster: 3
   m-bol · Mochilas de viaje: 2
   m-bol · Mochilas: 171
+  m-bol · Petate: 1
   m-bol · Portatodo: 14
   m-bol · Reutilizabolsas: 1
   m-bol · Riñoneras: 17
@@ -45,7 +46,7 @@ Subcategorías de merchandising:
   m-dep · Accesorios deportivos: 1
   m-dep · Accesorios protección higiénica: 11
   m-dep · Bidones deportivos: 3
-  m-dep · Bolsas de deporte: 6
+  m-dep · Bolsas de deporte: 7
   m-dep · Bálsamos labiales: 16
   m-dep · Cepillos de dientes: 7
   m-dep · Complementos deportivos: 93
@@ -58,6 +59,7 @@ Subcategorías de merchandising:
   m-dep · Peines: 13
   m-dep · Salud: 19
   m-dep · Toallas deportivas: 14
+  m-esc · Accesorios de Oficina y Organización: 1
   m-esc · Agenda: 1
   m-esc · Agendas: 8
   m-esc · Bloc notas: 19
@@ -75,12 +77,12 @@ Subcategorías de merchandising:
   m-esc · Escritura: 8
   m-esc · Estuches: 20
   m-esc · Fundas Portátiles: 19
-  m-esc · Lapiceros y organizadores: 23
+  m-esc · Lapiceros y organizadores: 22
   m-esc · Libretas: 57
   m-esc · Lápices: 20
   m-esc · Minibolígrafo: 1
   m-esc · Minilibreta: 1
-  m-esc · Oficina y negocios: 28
+  m-esc · Oficina y negocios: 30
   m-esc · Porta documentos: 19
   m-esc · Porta notas adhesivas: 9
   m-esc · Portadocumentos: 3
@@ -88,7 +90,7 @@ Subcategorías de merchandising:
   m-esc · Set de escritura: 33
   m-esc · Set de lápices: 31
   m-esc · Set lápices: 1
-  m-esc · Sets de blocs y libretas: 27
+  m-esc · Sets de blocs y libretas: 24
   m-eve · Animación: 24
   m-eve · Bandera: 4
   m-eve · Eventos y fiesta: 3
@@ -113,6 +115,7 @@ Subcategorías de merchandising:
   m-hog · Bar: 18
   m-hog · Cajas presentación: 22
   m-hog · Carteras y monederos: 11
+  m-hog · Catalogo: 1
   m-hog · Cinta gafas: 1
   m-hog · Comba: 1
   m-hog · Cuidado personal: 11
@@ -149,7 +152,7 @@ Subcategorías de merchandising:
   m-hog · Linterna: 1
   m-hog · Llavero peluche: 1
   m-hog · Llaveros: 137
-  m-hog · Lámparas: 2
+  m-hog · Lámparas: 3
   m-hog · Maceta: 1
   m-hog · Mano animación: 1
   m-hog · Marcapáginas: 1
@@ -203,14 +206,14 @@ Subcategorías de merchandising:
   m-inv · Ponchos: 9
   m-inv · Softshells: 1
   m-nav · Adorno navidad: 1
-  m-nav · Decoración de navidad: 20
+  m-nav · Decoración de navidad: 19
   m-nav · Menaje: 1
   m-nav · Navidad: 3
-  m-out · Accesorios de automóvil: 18
+  m-out · Accesorios de automóvil: 19
   m-out · Accesorios de ocio: 39
   m-out · Accesorios de paseo: 11
   m-out · Comederos y bebederos: 10
-  m-out · Cubos: 10
+  m-out · Cubos: 12
   m-out · Cuidado de mascotas: 4
   m-out · Flexómetros: 20
   m-out · Herramientas de automóvil: 17
@@ -224,7 +227,7 @@ Subcategorías de merchandising:
   m-out · Navajas: 28
   m-out · Parasoles: 13
   m-out · Pícnic: 17
-  m-taz · Accesorios take away: 4
+  m-taz · Accesorios take away: 6
   m-taz · Bidones térmicos: 50
   m-taz · Bidones: 136
   m-taz · Bidón sublimación: 1
@@ -241,14 +244,13 @@ Subcategorías de merchandising:
   m-taz · Sublimación circular: 2
   m-taz · Tazas térmicas: 27
   m-taz · Tazas, Vasos, Bidones y Termos: 9
-  m-taz · Tazas: 105
+  m-taz · Tazas: 104
   m-taz · Termos: 13
   m-taz · Vaso térmico: 3
   m-taz · Vasos plegables: 1
   m-taz · Vasos térmicos: 59
   m-taz · Vasos, jarras y copas: 6
-  m-taz · Vasos: 44
-  m-tec · Accesorios de tecnología: 1
+  m-taz · Vasos: 43
   m-tec · Accesorios para smartphone: 22
   m-tec · Alfombrillas: 21
   m-tec · Altavoces: 61
@@ -265,7 +267,7 @@ Subcategorías de merchandising:
   m-tec · Cámaras: 6
   m-tec · Gadgets: 29
   m-tec · Localizador: 1
-  m-tec · Lámparas: 19
+  m-tec · Lámparas: 18
   m-tec · Memorias 2.0: 1
   m-tec · Memorias: 25
   m-tec · Power bank multifunción: 1
@@ -276,7 +278,7 @@ Subcategorías de merchandising:
   m-tec · Smartwatch: 7
   m-tec · Soportes: 53
   m-tec · Tapas webcam: 5
-  m-tec · Tecnología: 18
+  m-tec · Tecnología: 17
   m-ver · Abanicos y ventiladores: 37
   m-ver · Bolsa nevera: 13
   m-ver · Bolsas de playa y piscina: 1
@@ -298,4 +300,4 @@ Subcategorías de merchandising:
 Productos de la familia Textil que se quedan en merchandising (no son ropa):
   MK3221 Poncho Teo (m-inv) · MK3503 Poncho Remo (m-inv) · MK3875 Chubasquero Garu (m-inv) · MK4262 Poncho Zaril (m-inv) · MK4551 Chubasquero Hinbow (m-inv) · MK4594 Cinturón Kyiss (m-hog) · MK4807 Cinturón lumbar Visser (m-hog) · MK5125 Manguito Duttier (m-dep) · MK9486 Poncho Montello (m-inv) · MK6589 Poncho Reizon (m-inv) · MK1084 Llavero poncho Gol (m-hog) · MK1478 Poncho Brinek (m-inv) · MK20112 Zapatillas Coulter (m-hog) · MK20346 Poncho Claytop (m-inv) · MK21096 Chanclas Kanger (m-ver) · MK21112 Zapatillas Telarox (m-hog) · MK21113 Zapatillas Parisix (m-hog) · MK21479 Alpargatas Sergen (m-ver) · MK21487 Chanclas Ridel (m-ver) · MK21828 Zapatillas Dakota (m-hog) · MK21829 Chubasquero Bravion (m-inv) · MK21939 Zapatillas Kodama (m-hog)
 Nombres de color por código:
-  000=S/C · 001=Blanco · 002=Negro · 003=Rojo · 004=Verde · 005=Amarillo · 006=Marino · 007=Naranja · 008=Gris · 009=Plateado · 011=Fucsia · 013=Natural · 014=Kaki · 015=Arena · 016=Pistacho · 018=Marron · 019=Azul · 020=Burdeos · 021=Azul Claro · 022=Rosa · 023=Dorado · 100=Tipo A · 109=Azul/Blanco · 115=Tipo B · 117=Beig · 118=Blanco/Amarillo · 119=Blanco/Azul · 120=Blanco/Fucsia · 123=Blanco/Naranja · 124=Blanco/Negro · 125=Blanco/Rojo · 126=Blanco/Verde · 128=C · 136=Camuflaje · 139=España · 140=Fresa · 141=Perro · 147=Gris/Negro · 158=Limon · 162=Marron Claro · 167=Marron Oscuro · 171=Manzana · 174=Morado · 177=Naranja/Blanco · 191=Negro/Azul · 192=Negro/Blanco · 193=Negro/Rojo · 195=Negro/Gris · 197=Oso · 211=Rojo/Blanco · 216=Transparente · 217=Turquesa · 220=Verde/Blanco · 225=Verde Botella · 227=Verde Oscuro · 228=Azul Royal · 235=Rojo/Amarillo · 240=Tomate · 243=Amarillo/Blanco · 247=Corazon · 248=Estrella · 249=Flor · 252=Rojo/Oro · 253=Rojo/ Plata · 254=Rojo/Bronce · 255=España/Oro · 256=España/Plata · 257=España/Bronce · 259=Uva · 260=Piña · 261=Sandia · 263=Blanco/Plata · 265=Amarillo F. · 266=Fucsia Fluor · 267=Naranja F · 268=Verde F · 269=Negro/Plata · 270=Traslucido Amarillo · 271=Traslucido Azul · 272=Traslucido Blanco · 273=Traslucido Fucsia · 274=Traslucido Naranja · 276=Traslucido Rojo · 277=Traslucido Verde · 279=Verde Claro · 280=Gato · 283=Papa Noel · 284=Lima · 287=Cerdo · 295=Coche · 296=Casa · 297=Negro/Negro · 299=Nieve · 300=Arbol · 301=Reno · 302=Golf · 303=Tenis · 304=Futbol · 307=Plata Mate · 312=Baloncesto · 315=Kiwi · 316=Corazon · 317=Gafas · 318=Guiño · 319=Sonrisa · 323=Muñeco Nieve · 325=B/Arbol · 328=Pato · 330=Andalucia · 331=Alemania · 332=Paises Bajos · 333=Marino Oscuro · 369=Elefante · 370=Rana · 371=Gris Claro · 372=Gris Oscuro · 373=Círculo · 374=Rectángulo · 391=Hojas · 400=Plata/Oscuro · 401=Papa Noel · 402=Muñeco Nieve · 406=Redondo · 407=Ovalado · 415=Aguacate · 431=Granate · 433=Multicolor · 483=Mostaza · 507=Verde Aguamarina · 627=Cuadrado · 628=Verde Militar · 659=Rainbow · 660=Salmon · 661=Beig Pastel · 662=Rosa Pastel · 663=Azul Pastel · 664=Verde Pastel · 665=Amarillo Pastel · 666=Bola · 668=Pitaya · 669=Calcetin · 700=Gorro · 702=Celeste · 703=Rosa Fluor · 704=Ver Menta · 705=Arena Os · 711=Azul Fluor · 712=Natural Claro · 713=Natural Claro · 714=Mandarina
+  000=S/C · 001=Blanco · 002=Negro · 003=Rojo · 004=Verde · 005=Amarillo · 006=Marino · 007=Naranja · 008=Gris · 009=Plateado · 011=Fucsia · 013=Natural · 014=Kaki · 015=Arena · 016=Pistacho · 018=Marron · 019=Azul · 020=Burdeos · 021=Azul Claro · 022=Rosa · 023=Dorado · 100=Tipo A · 109=Azul/Blanco · 115=Tipo B · 117=Beig · 118=Blanco/Amarillo · 119=Blanco/Azul · 120=Blanco/Fucsia · 123=Blanco/Naranja · 124=Blanco/Negro · 125=Blanco/Rojo · 126=Blanco/Verde · 128=C · 136=Camuflaje · 139=España · 140=Fresa · 141=Perro · 147=Gris/Negro · 158=Limon · 162=Marron Claro · 167=Marron Oscuro · 171=Manzana · 174=Morado · 177=Naranja/Blanco · 191=Negro/Azul · 192=Negro/Blanco · 193=Negro/Rojo · 195=Negro/Gris · 197=Oso · 211=Rojo/Blanco · 216=Transparente · 217=Turquesa · 220=Verde/Blanco · 225=Verde Botella · 227=Verde Oscuro · 228=Azul Royal · 235=Rojo/Amarillo · 240=Tomate · 243=Amarillo/Blanco · 247=Corazon · 248=Estrella · 249=Flor · 252=Rojo/Oro · 253=Rojo/ Plata · 254=Rojo/Bronce · 255=España/Oro · 256=España/Plata · 257=España/Bronce · 259=Uva · 260=Piña · 261=Sandia · 263=Blanco/Plata · 265=Amarillo Fluor · 266=Fucsia Fluor · 267=Naranja F · 268=Verde F · 269=Negro/Plata · 270=Traslucido Amarillo · 271=Traslucido Azul · 272=Traslucido Blanco · 273=Traslucido Fucsia · 274=Traslucido Naranja · 276=Traslucido Rojo · 277=Traslucido Verde · 279=Verde Claro · 280=Gato · 283=Papa Noel · 284=Lima · 287=Cerdo · 295=Coche · 296=Casa · 297=Negro/Negro · 299=Nieve · 300=Arbol · 301=Reno · 302=Golf · 303=Tenis · 304=Futbol · 307=Plata Mate · 312=Baloncesto · 315=Kiwi · 316=Corazon · 317=Gafas · 318=Guiño · 319=Sonrisa · 323=Muñeco Nieve · 325=B/Arbol · 328=Pato · 330=Andalucia · 331=Alemania · 332=Paises Bajos · 333=Marino Oscuro · 369=Elefante · 370=Rana · 371=Gris Claro · 372=Gris Oscuro · 373=Círculo · 374=Rectángulo · 391=Hojas · 400=Plata/Oscuro · 401=Papa Noel · 402=Muñeco Nieve · 406=Redondo · 407=Ovalado · 415=Aguacate · 431=Granate · 433=Multicolor · 483=Mostaza · 507=Verde Aguamarina · 627=Cuadrado · 628=Verde Militar · 659=Rainbow · 660=Salmon · 661=Beig Pastel · 662=Rosa Pastel · 663=Azul Pastel · 664=Verde Pastel · 665=Amarillo Pastel · 666=Bola · 668=Pitaya · 669=Calcetin · 700=Gorro · 702=Celeste · 703=Rosa Fluor · 704=Ver Menta · 705=Arena Os · 711=Azul Fluor · 712=Natural Claro · 713=Natural Claro · 714=Mandarina · null=S/Precio
