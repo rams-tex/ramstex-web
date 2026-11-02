@@ -1,16 +1,16 @@
-Productos activos: 2769 (de 2986)
-Descarga: intento 1: 200 | intento 2: 200 | intento 3: 200 | intento 4: 200 | intento 5: 200 | archivo: 2986 productos
+Productos activos: 2773 (de 2980)
+Descarga: intento 1: 200 | intento 2: 200 | intento 3: 200 | intento 4: 200 | intento 5: 200 | intento 6: 200 | intento 7: 200 | intento 8: 200 | intento 9: 200 | intento 10: 200 | archivo: 2980 productos
 
-Ropa: 1618
-   - Camisetas: 264
-   - Chaquetas: 247
+Ropa: 1622
+   - Camisetas: 266
+   - Chaquetas: 248
    - Sudaderas: 203
    - Pantalones: 172
    - Polos: 148
-   - Camisas / Sobrecamisas: 122
-   - Bermudas / Shorts: 93
+   - Camisas / Sobrecamisas: 121
+   - Bermudas / Shorts: 94
    - Chalecos acolchados: 69
-   - Delantales: 61
+   - Delantales: 62
    - Chalecos: 43
    - Jerseys / Cárdigans: 40
    - Tirantes: 28
@@ -26,8 +26,8 @@ Ropa: 1618
    - Monos: 8
    - Bodys: 4
    - Bañadores: 3
-Headwear & Accesorios: 417
-   - Gorras: 229
+Headwear & Accesorios: 416
+   - Gorras: 228
    - Gorros: 75
    - Guantes: 24
    - Gorro Bobs: 19
@@ -58,8 +58,8 @@ Ropa Accesorios: 57
    - Rodilleras: 5
    - Cinta para cuello: 1
    - Tirantes: 1
-Ropa interior: 50
-   - Calcetines: 34
+Ropa interior: 51
+   - Calcetines: 35
    - Ropas interior: 6
    - Boxers / Caleçons: 6
    - Sujetadores Deporte: 4
@@ -89,7 +89,7 @@ Drinkwear: 7
    - Botellas de deporte: 4
    - Portabotellas: 3
 
-VISTAS DE COLOR: {"BACK":19982,"FACE":28320,"SIDE":17634,"FACE SIDE":3404,"undefined":34,"FLATSHOT FACE":350,"FACE CAP":368,"FLATSHOT BACK":180}
+VISTAS DE COLOR: {"BACK":19902,"FACE":28252,"SIDE":17552,"FACE SIDE":3370,"undefined":34,"FLATSHOT FACE":350,"FACE CAP":342,"FLATSHOT BACK":180}
 
 CAMPOS PRODUCTO:
   2in1 = "0"
@@ -125,7 +125,7 @@ CAMPOS PRODUCTO:
   images = [{"image_id":"634497","last_update":"2025-06-12 01:15:52.000000","rights_end":"2027-12-31-00-00-00","rights_start":"2024-11-20-00-00-00","url":"https://media.eu…
   labelType = "no_label"
   largeSizes = "1"
-  lastChange = "2026-10-19 18:50:22"
+  lastChange = "2026-11-01 14:45:08"
   lining = [{"es":""}]
   mainMaterials = []
   moreThanTenColors = "1"
@@ -171,7 +171,7 @@ CAMPOS COLOR:
   colorsPantoneTCX = ["Based on 13-4108TCX"]
   colorsRGB = []
   createdDate = "2022-04-17 13:56:35"
-  lastChange = "2026-10-19 21:27:22"
+  lastChange = "2026-11-01 19:33:00"
   packshots = {"BACK":{"image_id":"385693","last_update":"2025-09-11 05:55:15.000000","rights_end":null,"rights_start":null,"url":"https://media.europeancatalog.com/ws.php?ac…
   saleState = "active"
 CAMPOS TALLA:
