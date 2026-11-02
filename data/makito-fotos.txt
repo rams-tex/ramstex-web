@@ -3,4 +3,4 @@ Tamaño de la web (lo que copia publicar-web):
   fotos Stanley/Stella /st/: 101 MB (6175 fotos)
   fotos Makito /mk/ ya descargadas: 98 MB
   páginas SEO generadas: 506 MB
-  resto (index, imágenes, casos, catálogo, fichas, stock, encuadres): 24 MB
+  resto (index, imágenes, casos, catálogo, fichas, stock, encuadres): 23 MB
