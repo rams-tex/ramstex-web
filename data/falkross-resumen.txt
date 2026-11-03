@@ -1,4 +1,4 @@
-Falk&Ross: 2272 estilos; 671 ya están en TopTex (no se suben); 0 sin foto; 1601 modelos importados, 6175 colores
+Falk&Ross: 2268 estilos; 669 ya están en TopTex (no se suben); 0 sin foto; 1599 modelos importados, 6178 colores
 
 No subidos por estar ya en TopTex:
 B&C Outerwear FG001
@@ -196,7 +196,6 @@ Classics 6089M
 Classics 6089MT
 Classics 6245CM
 Classics 6363V
-Classics 6606
 Classics 6606CF
 Classics 6606RC
 Classics 6606T
@@ -220,7 +219,6 @@ Flexfit 5004AH
 Flexfit 5789M
 Flexfit 6005FC
 Flexfit 6005FW
-Flexfit 6006MC
 Flexfit 6089CA
 Flexfit 6089CO
 Flexfit 6089F
@@ -411,9 +409,6 @@ Result R088X
 Result R120X
 Result R326X
 Result R400M
-Result R517X
-Result R519X
-Result R920X
 Result Recycled R121F
 Result Recycled R123X
 Result Recycled R181F
@@ -437,6 +432,8 @@ Result Recycled R508X
 Result Recycled R510X
 Result Recycled R511X
 Result Recycled R512X
+Result Recycled R517X
+Result Recycled R519X
 Result Recycled R900M
 Result Recycled R901F
 Result Recycled R901M
@@ -454,6 +451,7 @@ Result Recycled R911M
 Result Recycled R912X
 Result Recycled R915X
 Result Recycled R916X
+Result Recycled R920X
 Result Recycled R939X
 Result Recycled RC927X
 Result Recycled RC929X
