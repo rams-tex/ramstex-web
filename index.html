@@ -2437,7 +2437,19 @@ function sorted(list){
   return l;
 }
 var LIST=[];
-function qCi(it){return QP&&QP.col.length&&QT.length?qEval(it,QP).ci:-1;} /* color buscado de cada producto */
+/* Color con el que se enseña cada tarjeta: el buscado («sudadera rosa») o, si se filtra por color, el primero de ese color
+   (mejor uno con foto propia), para que la rejilla salga ya con las fotos de ese color */
+function qCi(it){
+  if(QP&&QP.col.length&&QT.length){var q=qEval(it,QP).ci; if(q>=0) return q;}
+  if(!S.col.length) return -1;
+  var first=-1;
+  for(var i=0;i<it.k.length;i++){
+    if(!it.k[i][2].some(function(d){return S.col.indexOf(String(d))>=0;})) continue;
+    if(it.k[i][3]) return i;
+    if(first<0) first=i;
+  }
+  return first;
+}
 /* Foto elegida para cada categoría (referencia del producto) */
 var TILEPIC={camisetas:"NS315",polos:"K241",sudaderas:"NS401",chaquetas:"K422",camisas:"K551",pantalones:"K7021",trabajo:"K8000",gorras:"NS040",bolsas:"NS133",calzado:"K840",interior:"K815",hogar:"K140",complementos:"KP878",otros:"NS5028","m-tec":"BS1061","m-esc":"NB8073","m-taz":"BI4122","m-bol":"BO7124","m-eve":"LY7053","m-ver":"FB2150","m-inv":"UM5607","m-dep":"TW7057","m-hog":"FT1853","m-out":"LN1773","m-nav":"XM1300"};
 var TILEKW={camisetas:"camiseta",polos:"polo",sudaderas:"sudadera",chaquetas:"chaqueta",camisas:"camisa ",pantalones:"pantal",trabajo:"delantal",gorras:"gorra",bolsas:"bolsa",calzado:"zapat",interior:"calcet",hogar:"toalla"};
@@ -2537,10 +2549,12 @@ function photo(it){return it.cur<0?it.i:(it.k[it.cur][3]||it.i);}
 /* Puntos de color: grupo de opciones; con el tabulador se entra en uno solo (el elegido o el primero) y con las flechas se cambia */
 function dotsFor(it,max,onPick){
   var d=document.createElement("div");d.className="dots";d.setAttribute("role","radiogroup");d.setAttribute("aria-label","Color");
-  function sync(){var ds=d.querySelectorAll(".dot"), t=it.cur>=0&&it.cur<ds.length?it.cur:0; [].forEach.call(ds,function(x,j){x.setAttribute("aria-checked",j===it.cur?"true":"false"); x.tabIndex=j===t?0:-1;});}
-  it.k.forEach(function(k,i){
-    if(i>=max) return;
-    var b=document.createElement("button");b.type="button";b.className="dot";b.setAttribute("role","radio");b.style.background=k[4];b.title=colES(k[0]);b.setAttribute("aria-label",colES(k[0]));
+  /* se ven los primeros «max» colores; si el elegido (p. ej. por el filtro de color) queda fuera, ocupa el último hueco */
+  var idx=it.k.map(function(k,i){return i;}).slice(0,max);
+  if(it.cur>=max&&idx.length) idx[idx.length-1]=it.cur;
+  function sync(){var ds=d.querySelectorAll(".dot"), t=0; [].forEach.call(ds,function(x,j){if(+x.dataset.i===it.cur) t=j;}); [].forEach.call(ds,function(x,j){x.setAttribute("aria-checked",+x.dataset.i===it.cur?"true":"false"); x.tabIndex=j===t?0:-1;});}
+  idx.forEach(function(i){
+    var k=it.k[i], b=document.createElement("button"); b.dataset.i=i;b.type="button";b.className="dot";b.setAttribute("role","radio");b.style.background=k[4];b.title=colES(k[0]);b.setAttribute("aria-label",colES(k[0]));
     b.onclick=function(){it.cur=(it.cur===i?-1:i);sync();onPick();};
     d.appendChild(b);
   });
@@ -2548,7 +2562,7 @@ function dotsFor(it,max,onPick){
     var ds=[].slice.call(d.querySelectorAll(".dot")), i=ds.indexOf(e.target), j; if(i<0) return;
     var m={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[e.key];
     if(m) j=(i+m+ds.length)%ds.length; else if(e.key==="Home") j=0; else if(e.key==="End") j=ds.length-1; else return;
-    e.preventDefault(); it.cur=j; sync(); ds[j].focus(); onPick();
+    e.preventDefault(); it.cur=+ds[j].dataset.i; sync(); ds[j].focus(); onPick();
   });
   if(it.k.length>max){var a=document.createElement("a");a.className="dmore";a.href=pURL(it);a.tabIndex=-1;a.textContent="+"+(it.k.length-max);a.setAttribute("aria-label","Ver los "+it.k.length+" colores");d.appendChild(a);}
   sync();
