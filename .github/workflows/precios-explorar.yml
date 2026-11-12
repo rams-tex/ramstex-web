@@ -1,0 +1,36 @@
+name: Precios - explorar (cifrado)
+# Lee los costes que dan las APIs (JHK, Roly…) para unas referencias y guarda el resultado CIFRADO
+# (privado/clave-publica.pem) en privado/precios-explorar.enc. Nunca se escribe en claro: el repositorio es público.
+on:
+  push:
+    branches: [precios]
+    paths: [scripts/precios-explorar.mjs, .github/workflows/precios-explorar.yml, privado/refs.txt]
+permissions:
+  contents: write
+jobs:
+  explorar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Explorar (resultado fuera del repo)
+        run: PRECIOS_REFS="$(tr '\n' ',' < privado/refs.txt)" SALIDA="$RUNNER_TEMP/p.json" node scripts/precios-explorar.mjs
+        env:
+          JHK_TOKEN: ${{ secrets.JHK_TOKEN }}
+          JHK_USER: ${{ secrets.JHK_USER }}
+          JHK_PASSWORD: ${{ secrets.JHK_PASSWORD }}
+          ROLY_USER: ${{ secrets.ROLY_USER }}
+          ROLY_PASSWORD: ${{ secrets.ROLY_PASSWORD }}
+      - name: Cifrar y guardar
+        run: |
+          K=$(openssl rand -hex 32)
+          openssl enc -aes-256-cbc -pbkdf2 -salt -in "$RUNNER_TEMP/p.json" -out privado/precios-explorar.enc -pass "pass:$K"
+          printf %s "$K" | openssl pkeyutl -encrypt -pubin -inkey privado/clave-publica.pem -pkeyopt rsa_padding_mode:oaep -out privado/precios-explorar.key.enc
+          rm -f "$RUNNER_TEMP/p.json"
+          git config user.name "github-actions"; git config user.email "github-actions@users.noreply.github.com"
+          git add privado/precios-explorar.enc privado/precios-explorar.key.enc
+          git commit -q -m "Precios: exploración (cifrada) [skip netlify]" || exit 0
+          git pull -q --rebase origin "$GITHUB_REF_NAME" && git push -q origin "HEAD:$GITHUB_REF_NAME"

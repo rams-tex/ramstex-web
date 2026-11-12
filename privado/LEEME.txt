@@ -1,0 +1,3 @@
+Datos de precios cifrados. El repositorio es público: aquí NUNCA va nada en claro (ni costes, ni tarifas, ni márgenes).
+Los flujos cifran los resultados con clave-publica.pem (RSA-4096 + AES-256); solo se pueden abrir con la clave privada,
+que no está en el repositorio.
