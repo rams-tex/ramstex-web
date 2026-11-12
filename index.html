@@ -425,6 +425,21 @@ img.pack{object-fit:contain!important;padding:6%}
 .info h3 a{text-decoration:none;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .meta{color:var(--muted);font-size:var(--fs-s)}
 .cname{font-size:var(--fs-s);font-weight:600;min-height:1.4em}
+/* Precio orientativo («Desde … €/ud» con el logo delante) */
+.cprice{font-size:var(--fs-s);color:var(--muted);line-height:1.35}
+.cprice b{color:var(--text);font-size:var(--fs-m);font-weight:700;font-variant-numeric:tabular-nums}
+.cprice span{display:block;font-size:var(--fs-xs)}
+.pprice{margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.pprice .pdesde{margin:0;font-size:var(--fs-s);color:var(--muted)}
+.pprice .pdesde b{font:700 1.6rem/1.1 "Bricolage Grotesque",Figtree,sans-serif;color:var(--text);font-variant-numeric:tabular-nums;margin-right:2px}
+.ptramos{width:100%;border-collapse:collapse;margin-top:12px;font-size:var(--fs-s);font-variant-numeric:tabular-nums}
+.ptramos th,.ptramos td{padding:7px 4px;text-align:center;border-top:1px solid var(--line)}
+.ptramos th{font-weight:600;color:var(--muted);font-size:var(--fs-xs)}
+.ptramos td{font-weight:700}
+.ptramos tr>*:first-child{text-align:left;padding-left:0;font-weight:600;color:var(--muted);font-size:var(--fs-xs)}
+.ptramos td.on{color:var(--red-text)}
+.pprice .pnote{margin:8px 0 0;font-size:var(--fs-xs);color:var(--muted);line-height:1.5}
+@media (max-width:420px){.ptramos th,.ptramos td{padding:6px 2px}.ptramos{font-size:var(--fs-xs)}}
 .dots{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .dot{position:relative;width:22px;height:22px;border-radius:50%;border:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.22);cursor:pointer;padding:0}
 .dot[aria-checked="true"]{outline:2px solid var(--red-text);outline-offset:2px}
@@ -2568,6 +2583,15 @@ function dotsFor(it,max,onPick){
   sync();
   return d;
 }
+/* ---------- Precios orientativos (data/precios.json, calculados cada día; solo el precio de venta) ----------
+   p[ref] = {t:[precio por tramo]} si todos los colores cuestan igual, o {l:[[…],[…]], k:[nivel de cada color]} */
+var PRE=null;
+function prOf(it){return PRE&&PRE.p&&PRE.p[it.r]||null;}
+function prLevels(p){return p.t?[p.t]:p.l;}
+function prLevel(it,ci){var p=prOf(it); if(!p) return null; var L=prLevels(p); if(ci>=0&&p.k){var i=p.k[ci]; return i>=0?L[i]:null;} return ci>=0?L[0]:null;}
+function prMin(it){var p=prOf(it); if(!p) return null; var L=prLevels(p), m=L[0]; L.forEach(function(l){if(l[l.length-1]<m[m.length-1]) m=l;}); return m;}
+function eur(v){return v.toFixed(2).replace(".",",")+"\u00a0€";}
+function cardPrice(it){var lv=(it.cur>=0&&prLevel(it,it.cur))||prMin(it); return lv?'Desde <b>'+eur(lv[lv.length-1])+'</b>/ud<span>con tu logo delante</span>':"";}
 function card(it,ci){
   it.cur=ci>=0&&ci<it.k.length?ci:-1; /* empieza con la foto principal, o con el color buscado («camiseta roja») */
   var c=document.createElement("article");c.className="card";
@@ -2575,12 +2599,13 @@ function card(it,ci){
   var tag=it.f.indexOf("n")>=0?"Novedad":(it.f.indexOf("e")>=0?"Ecológico":"");
   c.innerHTML='<a class="frame" href="'+href+'" tabindex="-1" aria-hidden="true"><img alt="'+esc(it.n)+'" loading="lazy" decoding="async">'+(tag?'<span class="tag">'+tag+'</span>':"")+'</a>'+
     '<div class="info"><span class="ref">Ref. '+esc(it.r)+'</span><h3><a href="'+href+'" title="'+esc(it.n)+'">'+esc(it.n)+'</a></h3><div class="meta">'+esc(D.subs[it.s])+(it.w?" · "+it.w+" g/m²":"")+'</div>'+
+    (prOf(it)?'<div class="cprice"></div>':'')+
     '<div class="cname"></div><div class="dh"></div>'+
     '<div class="cardbtns"><a class="more" href="'+href+'">Ver ficha</a><button class="add" type="button">Añadir</button></div></div>';
-  var img=c.querySelector("img"), cn=c.querySelector(".cname");
-  setSrc(img,photo(it),600); cn.textContent=colorLabel(it);
+  var img=c.querySelector("img"), cn=c.querySelector(".cname"), cp=c.querySelector(".cprice");
+  setSrc(img,photo(it),600); cn.textContent=colorLabel(it); if(cp) cp.innerHTML=cardPrice(it);
   var ad=c.querySelector(".add"); ad._it=it;
-  c.querySelector(".dh").replaceWith(dotsFor(it,10,function(){setSrc(img,photo(it),600);cn.textContent=colorLabel(it);addState(ad);
+  c.querySelector(".dh").replaceWith(dotsFor(it,10,function(){setSrc(img,photo(it),600);cn.textContent=colorLabel(it);if(cp) cp.innerHTML=cardPrice(it);addState(ad);
     var h=pURL(it)+(it.cur>=0?"?c="+encodeURIComponent(it.k[it.cur][0]):""); [].forEach.call(c.querySelectorAll("a.frame,h3 a,a.more"),function(a){a.href=h;}); /* la ficha se abre en el color elegido */
   }));
   ad.onclick=function(){
@@ -2719,6 +2744,18 @@ var PFAQ='<h2>Preguntas frecuentes</h2><div class="pfaq">'+[
 ].map(function(q){return '<details><summary>'+q[0]+'</summary><p>'+q[1]+'</p></details>';}).join("")+'</div>';
 /* Color pedido en la dirección (?c=Red, desde el buscador o una tarjeta con color elegido) */
 function urlColor(it){var m=location.search.match(/[?&]c=([^&]*)/); if(!m) return -1; var c=decodeURIComponent(m[1].replace(/\+/g," ")); for(var i=0;i<it.k.length;i++){if(it.k[i][0]===c) return i;} return -1;}
+/* Precio en la ficha: «Desde» (250 uds, color más económico o el elegido) y la tabla por cantidad.
+   Con unidades indicadas en las tallas, se marca el tramo que corresponde */
+function priceUI(it,qty){
+  var el=$("pprice"); if(!el) return;
+  var lv=(it.cur>=0&&prLevel(it,it.cur))||prMin(it); if(!lv){el.hidden=true;return;} el.hidden=false;
+  var Q=PRE.q||[10,25,50,100,250], on=-1;
+  if(qty>=Q[0]) Q.forEach(function(q,i){if(qty>=q) on=i;});
+  el.innerHTML='<p class="pdesde">Desde <b>'+eur(lv[lv.length-1])+'</b>/ud · con tu logo delante</p>'+
+    '<table class="ptramos"><thead><tr><th scope="row">Unidades</th>'+Q.map(function(q){return '<th scope="col">'+q+'</th>';}).join("")+'</tr></thead>'+
+    '<tbody><tr><th scope="row">€/ud</th>'+lv.map(function(v,i){return '<td'+(i===on?' class="on"':'')+'>'+v.toFixed(2).replace(".",",")+'</td>';}).join("")+'</tr></tbody></table>'+
+    '<p class="pnote">Precio orientativo por unidad con tu logo delante'+(it.cur<0&&prOf(it).l?', en el color más económico':'')+'. IVA no incluido. Más de '+(Q[Q.length-1]*2)+' uds: consúltanos. ¿Logo también detrás o en la manga? Te lo incluimos en el presupuesto.</p>';
+}
 function renderProduct(it){
   var box=$("prod"); it.cur=urlColor(it);
   var merch=isM(it.c), backH=merch?(lastCat.indexOf("/merchandising/")===0?lastCat:"/merchandising/"):(lastCat.indexOf("/catalogo/")===0?lastCat:cURL(it.c));
@@ -2737,6 +2774,7 @@ function renderProduct(it){
     box.innerHTML=backA+
      '<div class="pd"><div class="pgal"><div class="big"><img alt="'+esc(it.n)+'">'+(dzt?'<button type="button" class="pdzov">'+DZ_ICON.shirt+'Diseñar con tu logo</button>':'')+'</div><div class="thumbs"></div></div>'+
      '<div class="pinfo"><h1>'+esc(it.n)+'</h1><div class="meta">'+esc(D.subs[it.s])+(gen?" · "+esc(gen):"")+' · Ref. '+esc(it.r)+'</div>'+
+     (prOf(it)?'<div class="pprice" id="pprice"></div>':'')+
      '<h2 class="pcol"></h2><div class="dh"></div>'+
      (badges.length?'<div class="badges">'+badges.map(function(b){return "<span>"+esc(b)+"</span>";}).join("")+'</div>':"")+
      '<h2 class="pqh">Unidades por talla</h2><div class="pq" id="pq"></div>'+
@@ -2767,7 +2805,7 @@ function renderProduct(it){
     }
     function upd(){
       view=it.cur>=0&&it.k[it.cur][3]?it.k[it.cur][3]:pics[0]; setSrc(big,view,1000);
-      box.querySelector(".pcol").textContent=it.cur<0?"Colores ("+it.k.length+")":"Color: "+colES(it.k[it.cur][0]); thumbs(); stockUI(it,f); paddState();
+      box.querySelector(".pcol").textContent=it.cur<0?"Colores ("+it.k.length+")":"Color: "+colES(it.k[it.cur][0]); thumbs(); stockUI(it,f); paddState(); priceUI(it);
       var ps=$("pself"); if(ps) ps.href=selfWA(it);
     }
     box.querySelector(".dh").replaceWith(dotsFor(it,999,function(){upd();}));
@@ -2789,7 +2827,10 @@ function renderProduct(it){
       });
       var t=document.createElement("p"); t.className="pqt"; t.id="pqt"; t.setAttribute("aria-live","polite"); b.appendChild(t); pqTot();
     }
-    function pqTot(){var n=ZK.reduce(function(a,z){return a+(+PQ[z]||0);},0); $("pqt").innerHTML=n?'Total: <b>'+uds(n)+'</b>':'<span class="meta">Indica las unidades que necesitas de cada talla (puedes dejarlo en blanco y decidirlo después).</span>';}
+    function pqTot(){var n=ZK.reduce(function(a,z){return a+(+PQ[z]||0);},0), lv=(it.cur>=0&&prLevel(it,it.cur))||prMin(it), Q=PRE&&PRE.q||[], pu=0;
+      if(lv&&n>=Q[0]&&n<Q[Q.length-1]*2) Q.forEach(function(q,i){if(n>=q) pu=lv[i];});
+      $("pqt").innerHTML=n?'Total: <b>'+uds(n)+'</b>'+(pu?' · aprox. <b>'+eur(pu)+'</b>/ud con tu logo delante':''):'<span class="meta">Indica las unidades que necesitas de cada talla (puedes dejarlo en blanco y decidirlo después).</span>';
+      priceUI(it,n);}
     /* Otros colores de esta referencia que ya están en el presupuesto */
     function otherDraw(){
       var o=$("pother"); if(!o) return; var me=cKey(it), ks=refKeys(it).filter(function(k){return k!==me;});
@@ -4871,7 +4912,8 @@ function ensureData(cb){
   if(D) return cb();
   if(!loading){
     if(!$("grid").querySelector(".card")) $("grid").innerHTML=new Array(7).join('<div class="skel"></div>'); /* si ya hay productos escritos en la página, se dejan mientras carga */
-    loading=fetch("/data/catalogo.json?v="+BUILD,{cache:"no-cache"}).then(function(r){return r.json();}).then(function(d){D=d;prep();});
+    var pre=fetch("/data/precios.json?v="+BUILD,{cache:"no-cache"}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;});
+    loading=Promise.all([fetch("/data/catalogo.json?v="+BUILD,{cache:"no-cache"}).then(function(r){return r.json();}),pre]).then(function(a){D=a[0];PRE=a[1];prep();});
   }
   loading.then(cb).catch(function(){$("grid").innerHTML='<p class="empty">No se ha podido cargar el catálogo. Vuelve a intentarlo en un momento.</p>';});
 }
