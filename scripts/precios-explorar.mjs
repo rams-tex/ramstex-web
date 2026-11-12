@@ -67,20 +67,23 @@ if (process.env.ROLY_USER && rolyRefs.length) {
       const sw = await (await fetch(B + "/swagger/v1/swagger.json", H)).json();
       for (const p of ["/api/v1/item/pricelist", "/api/v1/item/printprices"]) res.log.push(`${p}: ${JSON.stringify(sw.paths?.[p] || {}).slice(0, 1500)}`);
     } catch (e) { res.log.push("swagger: " + e.message); }
-    for (const b of ["roly", "stamina"]) {
-      for (const [m, q] of [["GET", `?lang=es-ES&brand=${b}`], ["POST", ""]]) {
+    for (const r2 of rolyRefs) for (const model of [r2, r2.replace(/^[A-Z]+/, "")]) {
+      if (res.roly[r2]?.tarifa?.length) break;
+      for (const b of ["roly", "stamina"]) {
         try {
-          const r = await fetch(`${B}/api/v1/item/pricelist${q}`, m === "POST" ? { method: "POST", headers: { ...H.headers, "Content-Type": "application/json" }, body: JSON.stringify({ lang: "es-ES", brand: b }) } : H);
-          res.log.push(`pricelist ${b} ${m}: ${r.status}`);
-          if (!r.ok) continue;
-          const t = await r.text(); let j; try { j = JSON.parse(t); } catch { res.log.push("  " + t.slice(0, 300)); continue; }
-          const arr = Array.isArray(j) ? j : (Object.values(j).find(Array.isArray) || []);
-          res.log.push(`  filas: ${arr.length} · campos: ${Object.keys(arr[0] || {}).join(", ")}`);
-          for (const it of arr) { const mc = it.modelcode || it.ModelCode || String(it.itemcode || "").slice(0, 4); for (const r2 of rolyRefs) if (mc === r2 || JSON.stringify(it).includes(r2)) { const e = (res.roly[r2] ||= { filas: [] }); (e.tarifa ||= []).length < 20 && e.tarifa.push(it); } }
+          const fd = new FormData(); fd.append("brand", b); fd.append("model", model);
+          const r = await fetch(`${B}/api/v1/item/pricelist`, { method: "POST", headers: H.headers, body: fd });
+          const t = await r.text(); res.log.push(`pricelist ${b} ${model}: ${r.status} ${t.length} b`);
+          if (!r.ok) { res.log.push("  " + t.slice(0, 200)); continue; }
+          let j; try { j = JSON.parse(t); } catch { res.log.push("  " + t.slice(0, 300)); continue; }
+          const arr = Array.isArray(j) ? j : (Object.values(j).find(Array.isArray) || [j]);
+          if (!arr.length) continue;
+          (res.roly[r2] ||= { filas: [] }).tarifa = arr.slice(0, 25);
           break;
-        } catch (e) { res.log.push(`pricelist ${b}: ${e.message}`); }
+        } catch (e) { res.log.push(`pricelist ${b} ${model}: ${e.message}`); }
       }
     }
+    try { const r = await fetch(`${B}/api/v1/item/printprices?lang=es-ES`, H); const t = await r.text(); res.log.push(`printprices: ${r.status} ${t.length} b`); res.printprices = t.slice(0, 20000); } catch (e) {}
     // los campos de un artículo del catálogo (nombres, para ver si hay precio con otro nombre)
     try { const cat = await (await fetch(`${B}/api/v1.1/item/getcatalog?lang=es-ES&brand=roly`, H)).json(); res.log.push("Roly campos artículo: " + Object.keys((cat.item || [])[0] || {}).join(", ")); } catch (e) {}
   } catch (e) { res.log.push("Roly: " + e.message); }
