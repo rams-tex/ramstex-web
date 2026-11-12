@@ -1,0 +1,22 @@
+name: Precios - clave (una vez)
+# Deriva la clave de las reglas de precios a partir de un secreto que ya existe y la deja cifrada con
+# privado/clave-publica.pem (solo se puede abrir con la clave privada, que no está en el repositorio).
+on:
+  push:
+    branches: [precios]
+    paths: [.github/workflows/precios-clave.yml]
+permissions:
+  contents: write
+jobs:
+  clave:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Derivar y cifrar
+        env:
+          BASE: ${{ secrets.JHK_TOKEN }}
+        run: |
+          [ -n "$BASE" ] || { echo "falta el secreto"; exit 1; }
+          printf 'ramstex-precios:%s' "$BASE" | sha256sum | cut -d' ' -f1 | openssl pkeyutl -encrypt -pubin -inkey privado/clave-publica.pem -pkeyopt rsa_padding_mode:oaep -out privado/clave-reglas.enc
+          git config user.name "github-actions"; git config user.email "github-actions@users.noreply.github.com"
+          git add privado/clave-reglas.enc && git commit -q -m "Precios: clave de las reglas (cifrada) [skip netlify]" && git pull -q --rebase origin "$GITHUB_REF_NAME" && git push -q origin "HEAD:$GITHUB_REF_NAME"
