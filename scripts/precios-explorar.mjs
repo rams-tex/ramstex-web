@@ -62,10 +62,15 @@ if (process.env.ROLY_USER && rolyRefs.length) {
         if (e.filas.length < 30) e.filas.push({ color: it.colorname, talla: it.sizename, precios: campos(it) });
       }
     }
-    // otros endpoints de precios que pueda tener la API
-    for (const p of ["/api/v1/prices/getuserprices", "/api/v1/price/getuserprices", "/api/v1.1/prices/get", "/api/v1/item/prices"]) {
-      try { const r = await fetch(B + p, { method: "POST", ...H }); res.log.push(`Roly ${p}: ${r.status}`); if (r.ok) { const t = await r.text(); res.log.push(`  ${t.slice(0, 300)}`); } } catch (e) { res.log.push(`Roly ${p}: ${e.message}`); }
+    // documentación de la API (para encontrar el endpoint de precios)
+    for (const p of ["/swagger/v1/swagger.json", "/swagger/v1.1/swagger.json", "/swagger/index.html", "/api-docs", "/swagger.json", "/api/swagger.json"]) {
+      try { const r = await fetch(B + p, H); res.log.push(`Roly GET ${p}: ${r.status}`); if (r.ok) { const t = await r.text(); const paths = [...t.matchAll(/"(\/api\/[^"]+)"/g)].map(m => m[1]); res.log.push(`  rutas: ${[...new Set(paths)].join(" ")}`.slice(0, 6000)); if (!paths.length) res.log.push("  " + t.slice(0, 500)); } } catch (e) { res.log.push(`Roly ${p}: ${e.message}`); }
     }
+    for (const [m, p] of [["GET", "/api/v1/item/getprices"], ["GET", "/api/v1.1/item/getprices"], ["GET", "/api/v1/price/get"], ["GET", "/api/v1/prices"], ["GET", "/api/v1/customer/prices"], ["GET", "/api/v1/rate/get"], ["POST", "/api/v1/price/getuserprice"], ["GET", "/api/v1/stock/getuserstock"]]) {
+      try { const r = await fetch(B + p + (m === "GET" ? "?lang=es-ES&brand=roly" : ""), { method: m, ...H }); res.log.push(`Roly ${m} ${p}: ${r.status}`); if (r.ok) { const t = await r.text(); res.log.push(`  ${t.slice(0, 400)}`); } } catch (e) { res.log.push(`Roly ${p}: ${e.message}`); }
+    }
+    // los campos de un artículo del catálogo (nombres, para ver si hay precio con otro nombre)
+    try { const cat = await (await fetch(`${B}/api/v1.1/item/getcatalog?lang=es-ES&brand=roly`, H)).json(); res.log.push("Roly campos artículo: " + Object.keys((cat.item || [])[0] || {}).join(", ")); } catch (e) {}
   } catch (e) { res.log.push("Roly: " + e.message); }
 }
 
