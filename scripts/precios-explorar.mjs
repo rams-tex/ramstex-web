@@ -89,5 +89,47 @@ if (process.env.ROLY_USER && rolyRefs.length) {
   } catch (e) { res.log.push("Roly: " + e.message); }
 }
 
+
+// ---------- Roly: tarifa completa de una marca (sin modelo) ----------
+if (process.env.ROLY_USER && process.env.PRUEBA_ROLY_TODO) {
+  const B = "https://clientsws.gorfactory.es:2096";
+  try {
+    const l = await (await fetch(B + "/api/v1.1/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ username: process.env.ROLY_USER, password: process.env.ROLY_PASSWORD }) })).json();
+    for (const b of ["roly", "stamina"]) {
+      const fd = new FormData(); fd.append("brand", b);
+      const t0 = Date.now(), r = await fetch(`${B}/api/v1/item/pricelist`, { method: "POST", headers: { Authorization: "Bearer " + l.token }, body: fd });
+      const t = await r.text(); let n = -1, models = 0; try { const j = JSON.parse(t); const a = Array.isArray(j) ? j : (Object.values(j).find(Array.isArray) || []); n = a.length; models = new Set(a.map(x => x.model)).size; } catch {}
+      res.log.push(`Roly tarifa completa ${b}: ${r.status} · ${t.length} b · ${n} filas · ${models} modelos · ${Date.now() - t0} ms`);
+    }
+  } catch (e) { res.log.push("Roly todo: " + e.message); }
+}
+
+// ---------- TopTex ----------
+const TT = REFS.filter(r => refsDe("toptex").has(r));
+if (process.env.TOPTEX_API_KEY && TT.length) {
+  const BASE = "https://api.toptex.io", KEY = process.env.TOPTEX_API_KEY;
+  try {
+    const a = await (await fetch(BASE + "/v3/authenticate", { method: "POST", headers: { "x-api-key": KEY, "Content-Type": "application/json" }, body: JSON.stringify({ username: process.env.TOPTEX_USER, password: process.env.TOPTEX_PASSWORD }) })).json();
+    const H = { headers: { "x-api-key": KEY, "x-toptex-authorization": a.token } };
+    res.toptex = {};
+    for (const r of TT) for (const path of [`/v3/products/price?catalog_reference=${r}`, `/v3/products/price?catalog_reference=${r}&lang=es`]) {
+      const x = await fetch(BASE + path, H); const t = await x.text();
+      res.log.push(`TopTex ${path}: ${x.status} ${t.length} b`);
+      if (x.ok) { try { res.toptex[r] = JSON.parse(t); } catch { res.toptex[r] = t.slice(0, 2000); } break; } else res.log.push("  " + t.slice(0, 200));
+    }
+    const x = await fetch(BASE + "/v3/products/price?result_in_file=1", H); res.log.push(`TopTex precios en archivo: ${x.status} ${(await x.text()).slice(0, 200)}`);
+  } catch (e) { res.log.push("TopTex: " + e.message); }
+}
+
+// ---------- Stanley/Stella ----------
+const SS = REFS.filter(r => refsDe("stanley").has(r));
+if (process.env.STANLEY_USER && SS.length) {
+  const call = async (path, extra = {}) => { const r = await fetch("https://api.stanleystella.com/webrequest/" + path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", method: "call", params: { db_name: "production_api", user: process.env.STANLEY_USER, password: process.env.STANLEY_PASSWORD, ...extra }, id: 0 }) }); const t = await r.text(); return [r.status, t]; };
+  res.stanley = {};
+  for (const path of ["products_pricesV2/get_json", "productsV2/get_prices", "prices/get_json", "products_prices/get_json", "pricesV2/get_json"]) {
+    try { const [st, t] = await call(path, { LanguageCode: "es_ES", StyleCode: SS[0] }); res.log.push(`Stanley ${path}: ${st} ${t.length} b ${t.slice(0, 160)}`); if (st === 200 && !/"error"/.test(t.slice(0, 200))) { res.stanley[path] = t.slice(0, 4000); break; } } catch (e) { res.log.push(`Stanley ${path}: ${e.message}`); }
+  }
+}
+
 writeFileSync(OUT, JSON.stringify(res, null, 1));
 console.log(`JHK: ${Object.keys(res.jhk).length} · Roly: ${Object.keys(res.roly).length} · (resultado cifrado, no se muestra)`);
