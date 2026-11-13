@@ -1,5 +1,6 @@
-Precios 2026-11-13: 1539 productos con precio de 2537 en 4 categorías
-JHK: 167/167
-TopTex: 1061/1062 (tarifa: 74595 filas)
-Roly: 0/244 con precio (hoy leídos 0, 6 cortes por límite)
-Sol's: 312/328 (183 colores con precio especial)
+Precios 2026-11-13: 2829 productos con precio de 5162 en 9 categorías
+JHK: 221/221
+TopTex: 2383/2384 (tarifa: 74595 filas)
+Roly (tarifa Excel): 226
+Roly: 0/139 con precio (hoy leídos 0, 6 cortes por límite)
+Sol's: error ENOENT: no such file or directory, open '/home/runner/work/_temp/sols.json'
