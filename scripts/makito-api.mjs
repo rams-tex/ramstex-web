@@ -3,9 +3,9 @@
 // - Límite de la API: cubo de 100 peticiones que se rellena a 25 por minuto. Aquí se hace como mucho
 //   1 petición cada 2,5 s (24/min) y, si la API avisa de que quedan pocas (x-ratelimit-remaining) o
 //   responde 429, se espera más.
-// - Nunca se llama a pedidos (/orders): solo catálogo, stock, configuración de marcaje y fotos.
+// - Nunca se llama a pedidos (/orders): solo catálogo, stock, configuración y tarifas de marcaje y fotos.
 export const MAKITO = "https://apis.makito.es";
-const ALLOWED = /^\/(catalog|stock|print-config)\//;
+const ALLOWED = /^\/(catalog|stock|print-config|price-list|print-price-list)\//;
 let token = "", tokenAt = 0, last = 0, remaining = 100;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 async function slot() {

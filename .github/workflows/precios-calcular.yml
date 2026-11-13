@@ -7,7 +7,7 @@ on:
     - cron: "40 5 * * *"
   workflow_dispatch:
   push:
-    branches: [main, precios]
+    branches: [main, precios, precios-merch]
     paths: [scripts/precios-calcular.mjs, privado/reglas.enc, .github/workflows/precios-calcular.yml]
 permissions:
   contents: write
@@ -51,6 +51,8 @@ jobs:
           TOPTEX_API_KEY: ${{ secrets.TOPTEX_API_KEY }}
           TOPTEX_USER: ${{ secrets.TOPTEX_USER }}
           TOPTEX_PASSWORD: ${{ secrets.TOPTEX_PASSWORD }}
+          MAKITO_CLIENT_ID: ${{ secrets.MAKITO_CLIENT_ID }}
+          MAKITO_CLIENT_SECRET: ${{ secrets.MAKITO_CLIENT_SECRET }}
         run: node scripts/precios-calcular.mjs
       - name: Cifrar la revisión y guardar
         env:

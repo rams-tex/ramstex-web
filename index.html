@@ -2584,14 +2584,16 @@ function dotsFor(it,max,onPick){
   return d;
 }
 /* ---------- Precios orientativos (data/precios.json, calculados cada día; solo el precio de venta) ----------
-   p[ref] = {t:[precio por tramo]} si todos los colores cuestan igual, o {l:[[…],[…]], k:[nivel de cada color]} */
+   p[ref] = {t:[precio por tramo]} si todos los colores cuestan igual, o {l:[[…],[…]], k:[nivel de cada color]};
+   merchandising: {x:[[técnica,[precio por tramo]],…]} con los tramos de PRE.qm */
 var PRE=null;
 function prOf(it){return PRE&&PRE.p&&PRE.p[it.r]||null;}
-function prLevels(p){return p.t?[p.t]:p.l;}
-function prLevel(it,ci){var p=prOf(it); if(!p) return null; var L=prLevels(p); if(ci>=0&&p.k){var i=p.k[ci]; return i>=0?L[i]:null;} return ci>=0?L[0]:null;}
+function prLevels(p){return p.t?[p.t]:p.x?p.x.map(function(r){return r[1];}):p.l;}
+function prQ(it){var p=prOf(it); return p&&p.x?(PRE.qm||[50,100,250,500,1000]):(PRE&&PRE.q||[10,25,50,100,250]);}
+function prLevel(it,ci){var p=prOf(it); if(!p) return null; if(p.x) return prMin(it); var L=prLevels(p); if(ci>=0&&p.k){var i=p.k[ci]; return i>=0?L[i]:null;} return ci>=0?L[0]:null;}
 function prMin(it){var p=prOf(it); if(!p) return null; var L=prLevels(p), m=L[0]; L.forEach(function(l){if(l[l.length-1]<m[m.length-1]) m=l;}); return m;}
 function eur(v){return v.toFixed(2).replace(".",",")+"\u00a0€";}
-function prLogo(it){var p=prOf(it); return p&&p.e?"con tu logo":"con tu logo delante";} /* pantalones, gorras, bolsas…: un logo, sin «delante» */
+function prLogo(it){var p=prOf(it); return p&&(p.e||p.x)?"con tu logo":"con tu logo delante";} /* pantalones, gorras, bolsas…: un logo, sin «delante» */
 function cardPrice(it){var lv=(it.cur>=0&&prLevel(it,it.cur))||prMin(it); return lv?'Desde <b>'+eur(lv[lv.length-1])+'</b>/ud<span>'+prLogo(it)+'</span>':"";}
 function card(it,ci){
   it.cur=ci>=0&&ci<it.k.length?ci:-1; /* empieza con la foto principal, o con el color buscado («camiseta roja») */
@@ -2750,12 +2752,20 @@ function urlColor(it){var m=location.search.match(/[?&]c=([^&]*)/); if(!m) retur
 function priceUI(it,qty){
   var el=$("pprice"); if(!el) return;
   var lv=(it.cur>=0&&prLevel(it,it.cur))||prMin(it); if(!lv){el.hidden=true;return;} el.hidden=false;
-  var Q=PRE.q||[10,25,50,100,250], on=-1;
+  var Q=prQ(it), on=-1, p=prOf(it);
   if(qty>=Q[0]) Q.forEach(function(q,i){if(qty>=q) on=i;});
+  var row=function(lab,l){return '<tr><th scope="row">'+lab+'</th>'+l.map(function(v,i){return '<td'+(i===on?' class="on"':'')+'>'+v.toFixed(2).replace(".",",")+'</td>';}).join("")+'</tr>';};
+  if(p.x){ /* merchandising: una fila por técnica de marcaje */
+    el.innerHTML='<p class="pdesde">Desde <b>'+eur(lv[lv.length-1])+'</b>/ud · con tu logo</p>'+
+      '<table class="ptramos"><thead><tr><th scope="row">Unidades</th>'+Q.map(function(q){return '<th scope="col">'+q+'</th>';}).join("")+'</tr></thead>'+
+      '<tbody>'+p.x.map(function(r){return row(esc(r[0]),r[1]);}).join("")+'</tbody></table>'+
+      '<p class="pnote">Precio orientativo por unidad con tu logo en una zona (a 1 color, o a todo color en las técnicas digitales). IVA y envío no incluidos. Más de '+Q[Q.length-1]+' uds: consúltanos. ¿Más colores o más zonas? Te lo incluimos en el presupuesto.</p>';
+    return;
+  }
   el.innerHTML='<p class="pdesde">Desde <b>'+eur(lv[lv.length-1])+'</b>/ud · '+prLogo(it)+'</p>'+
     '<table class="ptramos"><thead><tr><th scope="row">Unidades</th>'+Q.map(function(q){return '<th scope="col">'+q+'</th>';}).join("")+'</tr></thead>'+
     '<tbody><tr><th scope="row">€/ud</th>'+lv.map(function(v,i){return '<td'+(i===on?' class="on"':'')+'>'+v.toFixed(2).replace(".",",")+'</td>';}).join("")+'</tr></tbody></table>'+
-    '<p class="pnote">Precio orientativo por unidad '+prLogo(it)+(it.cur<0&&prOf(it).l?', en el color más económico':'')+'. IVA no incluido. Más de '+(Q[Q.length-1]*2)+' uds: consúltanos. '+(prOf(it).e?'¿Más de un logo? ':'¿Logo también detrás o en la manga? ')+'Te lo incluimos en el presupuesto.</p>';
+    '<p class="pnote">Precio orientativo por unidad '+prLogo(it)+(it.cur<0&&prOf(it).l?', en el color más económico':'')+'. IVA y envío no incluidos. Más de '+(Q[Q.length-1]*2)+' uds: consúltanos. '+(prOf(it).e?'¿Más de un logo? ':'¿Logo también detrás o en la manga? ')+'Te lo incluimos en el presupuesto.</p>';
 }
 function renderProduct(it){
   var box=$("prod"); it.cur=urlColor(it);
@@ -2828,8 +2838,8 @@ function renderProduct(it){
       });
       var t=document.createElement("p"); t.className="pqt"; t.id="pqt"; t.setAttribute("aria-live","polite"); b.appendChild(t); pqTot();
     }
-    function pqTot(){var n=ZK.reduce(function(a,z){return a+(+PQ[z]||0);},0), lv=(it.cur>=0&&prLevel(it,it.cur))||prMin(it), Q=PRE&&PRE.q||[], pu=0;
-      if(lv&&n>=Q[0]&&n<Q[Q.length-1]*2) Q.forEach(function(q,i){if(n>=q) pu=lv[i];});
+    function pqTot(){var n=ZK.reduce(function(a,z){return a+(+PQ[z]||0);},0), lv=(it.cur>=0&&prLevel(it,it.cur))||prMin(it), Q=prQ(it), pu=0;
+      if(lv&&n>=Q[0]&&n<=Q[Q.length-1]*(prOf(it).x?1:2)-(prOf(it).x?0:1)) Q.forEach(function(q,i){if(n>=q) pu=prOf(it).x?Math.min.apply(null,prOf(it).x.map(function(r){return r[1][i];})):lv[i];});
       $("pqt").innerHTML=n?'Total: <b>'+uds(n)+'</b>'+(pu?' · aprox. <b>'+eur(pu)+'</b>/ud '+prLogo(it):''):'<span class="meta">Indica las unidades que necesitas de cada talla (puedes dejarlo en blanco y decidirlo después).</span>';
       priceUI(it,n);}
     /* Otros colores de esta referencia que ya están en el presupuesto */

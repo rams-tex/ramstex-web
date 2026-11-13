@@ -8,7 +8,8 @@
 //   (el margen se calcula para que a 50 uds dé el precio habitual de Ramstex con delante y detrás, menos el ajuste
 //    por enseñar solo el logo delante; los tramos solo mueven el margen, nunca se vende por debajo de coste)
 // Uso: REGLAS=/ruta/reglas.json REVISION=/ruta/revision.json node scripts/precios-calcular.mjs
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
+import { makitoGet } from "./makito-api.mjs";
 
 const R = JSON.parse(readFileSync(process.env.REGLAS, "utf8"));
 const CAT = JSON.parse(readFileSync("data/catalogo.json", "utf8"));
@@ -17,6 +18,7 @@ const log = [];
 const items = CAT.items.filter(it => R.cats.includes(it.c));
 const sup = it => /^J:/.test(it.i) ? "jhk" : /^R:/.test(it.i) ? "roly" : /^S:/.test(it.i) ? "sols" : /^T:/.test(it.i) ? "stanley" : /^F:/.test(it.i) ? "falkross" : /^K:/.test(it.i) || /^MK/.test(it.r) ? "" : "toptex";
 const med = a => { a = a.filter(x => x > 0).sort((x, y) => x - y); return a.length ? a[(a.length - 1) >> 1] : 0; };
+const mout = {}, mrev = []; // merchandising: precios de venta y revisión
 const cost = {}; // ref -> [coste por color del catálogo]
 
 // ---------- JHK: API por referencia (precio por color y talla) ----------
@@ -159,8 +161,61 @@ async function falkross() {
   log.push(`Falk&Ross: ${ok}/${L.length}`);
 }
 
-for (const [n, f] of [["JHK", jhk], ["TopTex", toptex], ["Roly", roly], ["Sol's", sols], ["Stanley/Stella", stanley], ["Falk&Ross", falkross]]) { try { await f(); } catch (e) { log.push(`${n}: error ${e.message}`); } }
+for (const [n, f] of [["Merch", merch], ["JHK", jhk], ["TopTex", toptex], ["Roly", roly], ["Sol's", sols], ["Stanley/Stella", stanley], ["Falk&Ross", falkross]]) { try { await f(); } catch (e) { log.push(`${n}: error ${e.message}`); } }
 for (const [ref, c] of Object.entries(R.especiales || {})) { const it = CAT.items.find(x => x.r === ref); if (it) cost[ref] = it.k.map(() => +c); }
+
+// ---------- Merchandising (Makito): coste del artículo + marcaje de cada técnica posible, × factor por cantidad ----------
+// precio(q) = coste × (1 + (factor(q) − 1) × escala(coste)), con un margen mínimo por unidad.
+//   coste = artículo (tarifa Makito a esa cantidad) + marcaje a 1 color (o a todo color si es digital) en una zona,
+//           con el mínimo y la preparación de Makito repartidos entre las unidades.
+//   escala: en artículos caros el % de margen baja un poco (escala 1 hasta 1 €, luego desciende con el logaritmo).
+async function merch() {
+  const M = R.merch; if (!M) return log.push("Merch: sin reglas");
+  if (!process.env.MAKITO_CLIENT_ID && !process.env.MAKITO_TARIFAS) return log.push("Merch: sin acceso a Makito");
+  const list = x => Array.isArray(x) ? x : x && typeof x === "object" ? (Object.values(x).find(Array.isArray) || []) : [];
+  let art, mar;
+  if (process.env.MAKITO_TARIFAS) { const j = JSON.parse(readFileSync(process.env.MAKITO_TARIFAS, "utf8")); art = j.articulos; mar = j.tarifaMarcaje; } // pruebas locales
+  else { art = list(await makitoGet("/price-list/files?format=JSON")); const pp = await makitoGet("/print-price-list/files?format=JSON"); mar = list(pp?.printPriceList || pp); }
+  const A = {}; for (const a of art) A[String(a.material)] = a;
+  const T = {}; for (const t of mar) if (t.id && t.prices?.tiers?.length) T[String(t.id)] = t;
+  const TEC = JSON.parse(readFileSync("data/makito-marcaje/tecnicas.json", "utf8"));
+  const Z = {}; for (const f of readdirSync("data/makito-marcaje").filter(f => /^m-.*\.json$/.test(f))) Object.assign(Z, JSON.parse(readFileSync("data/makito-marcaje/" + f, "utf8")));
+  const Q = M.tramos.map(([q]) => q);
+  const artCost = (a, q) => { const b = +a.baseQuantity || 1; let v = 0; for (const s of [...a.scales].sort((x, y) => +x.quantity - +y.quantity)) if (+s.quantity <= q || !v) v = +s.amount / b; return v; };
+  const tier = (t, q) => t.prices.tiers.find(x => q <= +x.threshold) || t.prices.tiers[t.prices.tiers.length - 1];
+  const extra = t => { const m = /DTF(\d)/.exec(t.category || ""); const e = /DTF1: ([\d.]+)€; DTF2: ([\d.]+)€; DTF3: ([\d.]+)€/.exec(t.terms || ""); return m && e ? +e[+m[1]] : 0; };
+  function marcaje(t, q, mm) {   // coste total del marcaje de q unidades
+    const z = mm && mm[0] && mm[1] ? mm[0] * mm[1] / 100 : M.logo_cm2;            // cm² de la zona
+    const sub = /SUBLIMACI/i.test(t.category), cm2 = sub ? z : Math.min(z, M.logo_cm2);
+    const x = tier(t, q), u = (x.type === "CM2" ? x.price * cm2 : x.price) + extra(t);
+    return Math.max(t.prices.minPrice || 0, u * q) + (t.prices.setupFee || 0);
+  }
+  const esc = c => c <= 1 ? 1 : Math.max(M.escala_min, 1 - M.escala * Math.log10(c));
+  const red2 = v => Math.round(v * 100) / 100;
+  const L = CAT.items.filter(it => /^MK/.test(it.r)); let ok = 0, sinArt = 0, sinTec = 0;
+  for (const it of L) {
+    const z = Z[it.r]; const a = A[z?.m || "1" + it.r.slice(2)];
+    if (!a) { sinArt++; continue; }
+    const tecs = new Map(); // nombre de técnica -> mejor fila
+    for (const ar of z?.areas || []) for (const [id] of ar.tec || []) {
+      const t = T[id], d = TEC[id]; if (!t || !d) continue;
+      const fila = [], costes = [];
+      for (const [q, f] of M.tramos) {
+        const c = artCost(a, q) + marcaje(t, q, ar.mm) / q;
+        costes.push(+c.toFixed(3));
+        fila.push(red2(Math.max(c * (1 + (f - 1) * esc(c)), c + M.min_margen)));
+      }
+      const nom = d.name, prev = tecs.get(nom);
+      if (!prev || fila[1] < prev.fila[1]) tecs.set(nom, { nom, id, d: d.d, fila, costes });
+    }
+    if (!tecs.size) { sinTec++; continue; }
+    const top = [...tecs.values()].sort((x, y) => x.fila[1] - y.fila[1]).slice(0, M.max_tec || 3);
+    mout[it.r] = { x: top.map(t => [t.nom, t.fila]) };
+    for (const t of top) mrev.push({ ref: it.r, nombre: it.n, cat: it.c, tecnica: t.d, articulo: +artCost(a, 100).toFixed(3), coste: t.costes, web: t.fila });
+    ok++;
+  }
+  log.push(`Merch: ${ok}/${L.length} (sin tarifa del artículo: ${sinArt}, sin técnica con precio: ${sinTec})`);
+}
 
 // ---------- Precios ----------
 const PREM = new RegExp(R.premium || "oversize|boxy", "i");
@@ -189,8 +244,9 @@ for (const it of items) {
   }
   if (lv.length) { out[it.r] = lv.length === 1 && k.every(x => x === 0 || x === -1) ? { t: lv[0], k: k.some(x => x < 0) ? k : undefined } : { l: lv, k }; if ((R.logo?.[it.c] || "grande") !== "grande") out[it.r].e = 1; } // e: «con tu logo» (sin «delante»)
 }
-writeFileSync("data/precios.json", JSON.stringify({ fecha: new Date().toISOString().slice(0, 10), q: R.tramos.map(([q]) => q), p: out }));
-if (process.env.REVISION) writeFileSync(process.env.REVISION, JSON.stringify({ log, filas: rev }));
+Object.assign(out, mout);
+writeFileSync("data/precios.json", JSON.stringify({ fecha: new Date().toISOString().slice(0, 10), q: R.tramos.map(([q]) => q), qm: R.merch ? R.merch.tramos.map(([q]) => q) : undefined, p: out }));
+if (process.env.REVISION) writeFileSync(process.env.REVISION, JSON.stringify({ log, filas: rev, merch: mrev }));
 const n = Object.keys(out).length;
 writeFileSync("data/precios-resumen.txt", `Precios ${new Date().toISOString().slice(0, 10)}: ${n} productos con precio de ${items.length} en ${R.cats.length} categorías\n${log.join("\n")}\n`);
 console.log(`${n} productos con precio · ${log.join(" · ")}`);
