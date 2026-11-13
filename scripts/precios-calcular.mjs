@@ -45,11 +45,25 @@ async function jhk() {
 // día se completen los que falten y se renueven los más antiguos.
 const T0 = Date.now(), TOPE = 40 * 60e3;
 async function roly() {
+  // 1) Tarifa del cliente (Excel de Roly, cifrada en privado/roly-tarifa.enc): {modelo: {blanco, color, bc, negro, marino, fluor}}
+  let tar = 0;
+  if (process.env.ROLY_TARIFA) {
+    try {
+      const T = JSON.parse(readFileSync(process.env.ROLY_TARIFA, "utf8"));
+      for (const it of items.filter(x => sup(x) === "roly")) {
+        const t = T[it.r.replace(/^[A-Z]+/, "")]; if (!t) continue;
+        const any = t.color ?? t.bc ?? t.blanco ?? Object.values(t)[0];
+        cost[it.r] = it.k.map(c => { const n = String(c[0]).toLowerCase(); return (/^blanco/.test(n) ? t.blanco ?? t.bc : /^negro/.test(n) ? t.negro ?? t.color ?? t.bc : /^marino/.test(n) ? t.marino ?? t.color ?? t.bc : /fl[uú]or/.test(n) ? t.fluor ?? t.color ?? t.bc : t.color ?? t.bc) ?? any; });
+        tar++;
+      }
+    } catch (e) { log.push("Roly tarifa: " + e.message); }
+  }
+  if (tar) log.push(`Roly (tarifa Excel): ${tar}`);
   if (!process.env.ROLY_USER) return log.push("Roly: sin usuario");
   const B = "https://clientsws.gorfactory.es:2096", CF = process.env.ROLY_CACHE;
   let C = {}; try { if (CF) C = JSON.parse(readFileSync(CF, "utf8")); } catch {}
   const l = await (await fetch(B + "/api/v1.1/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ username: process.env.ROLY_USER, password: process.env.ROLY_PASSWORD }) })).json();
-  const L = items.filter(it => sup(it) === "roly");
+  const L = items.filter(it => sup(it) === "roly" && !cost[it.r]); // la API solo para lo que no esté en la tarifa
   const orden = [...L].sort((a, b) => ((C[a.r]?.f || "") < (C[b.r]?.f || "") ? -1 : 1)); // primero los que faltan y los más antiguos
   let leidos = 0, lim = 0, pausa = 4000;
   for (const it of orden) {
@@ -126,15 +140,22 @@ for (const it of items) {
   const lv = [], k = [];
   for (const c of cs) {
     if (!(c > 0)) { k.push(-1); continue; }
-    const M = Math.max(prem ? R.margen.premium : (R.margen_cat?.[it.c] ?? R.margen.basico), (R.margen.pct || 0) * c);
-    const habitual = c + R.dtf.delante + R.dtf.grande + M;             // lo que cobra Ramstex hoy a 50 uds (delante + detrás)
-    const m = habitual - R.web_resta - c - R.dtf.grande;             // margen de la web (solo logo delante)
-    const t = R.tramos.map(([, f]) => +red(c + R.dtf.grande + m * f).toFixed(2));
+    const M = Math.max(prem ? R.margen.premium : (R.margen_cat?.[it.c] ?? R.margen.basico), (R.margen_pct_cat?.[it.c] ?? R.margen.pct ?? 0) * c);
+    const tipo = R.logo?.[it.c] || "grande";
+    let habitual, m, base;
+    if (tipo === "grande") {                                         // camisetas, sudaderas…: precio habitual con delante + detrás
+      habitual = c + R.dtf.delante + R.dtf.grande + M;               // lo que cobra Ramstex hoy a 50 uds
+      m = habitual - R.web_resta - c - R.dtf.grande;                 // margen de la web (solo logo delante)
+      base = c + R.dtf.grande;
+    } else {                                                         // pantalones, gorras, bolsas…: un logo (10×10 o el de bolsa)
+      base = c + (R.dtf[tipo] ?? R.dtf.delante); m = M; habitual = base + M;
+    }
+    const t = R.tramos.map(([, f]) => +red(base + m * f).toFixed(2));
     let i = lv.findIndex(x => x.join() === t.join()); if (i < 0) { lv.push(t); i = lv.length - 1; }
     k.push(i);
     rev.push({ ref: it.r, nombre: it.n, cat: it.c, col: it.k[k.length - 1][0], coste: +c.toFixed(3), premium: prem, habitual50: +habitual.toFixed(2), web: t });
   }
-  if (lv.length) out[it.r] = lv.length === 1 && k.every(x => x === 0 || x === -1) ? { t: lv[0], k: k.some(x => x < 0) ? k : undefined } : { l: lv, k };
+  if (lv.length) { out[it.r] = lv.length === 1 && k.every(x => x === 0 || x === -1) ? { t: lv[0], k: k.some(x => x < 0) ? k : undefined } : { l: lv, k }; if ((R.logo?.[it.c] || "grande") !== "grande") out[it.r].e = 1; } // e: «con tu logo» (sin «delante»)
 }
 writeFileSync("data/precios.json", JSON.stringify({ fecha: new Date().toISOString().slice(0, 10), q: R.tramos.map(([q]) => q), p: out }));
 if (process.env.REVISION) writeFileSync(process.env.REVISION, JSON.stringify({ log, filas: rev }));

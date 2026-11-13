@@ -31,7 +31,8 @@ jobs:
         run: |
           K=$(printf 'ramstex-precios:%s' "$BASE" | sha256sum | cut -d' ' -f1)
           openssl enc -d -aes-256-cbc -pbkdf2 -in privado/reglas.enc -out "$RUNNER_TEMP/reglas.json" -pass "pass:$K"
-          openssl enc -d -aes-256-cbc -pbkdf2 -in privado/sols-tarifa.enc -out "$RUNNER_TEMP/sols.json" -pass "pass:$K" || true
+          openssl enc -d -aes-256-cbc -pbkdf2 -in privado/sols-tarifa.enc -out "$RUNNER_TEMP/sols.json" "$RUNNER_TEMP/roly-tarifa.json" -pass "pass:$K" || true
+          openssl enc -d -aes-256-cbc -pbkdf2 -in privado/roly-tarifa.enc -out "$RUNNER_TEMP/roly-tarifa.json" -pass "pass:$K" || true
           if [ -f privado/roly-costes.enc ]; then openssl enc -d -aes-256-cbc -pbkdf2 -in privado/roly-costes.enc -out "$RUNNER_TEMP/roly.json" -pass "pass:$K" || true; fi
       - name: Calcular
         env:
@@ -39,6 +40,7 @@ jobs:
           REVISION: ${{ runner.temp }}/revision.json
           ROLY_CACHE: ${{ runner.temp }}/roly.json
           SOLS_TARIFA: ${{ runner.temp }}/sols.json
+          ROLY_TARIFA: ${{ runner.temp }}/roly-tarifa.json
           JHK_TOKEN: ${{ secrets.JHK_TOKEN }}
           ROLY_USER: ${{ secrets.ROLY_USER }}
           ROLY_PASSWORD: ${{ secrets.ROLY_PASSWORD }}
@@ -54,7 +56,7 @@ jobs:
           K=$(openssl rand -hex 32)
           openssl enc -aes-256-cbc -pbkdf2 -salt -in "$RUNNER_TEMP/revision.json" -out privado/precios-revision.enc -pass "pass:$K"
           printf %s "$K" | openssl pkeyutl -encrypt -pubin -inkey privado/clave-publica.pem -pkeyopt rsa_padding_mode:oaep -out privado/precios-revision.key.enc
-          rm -f "$RUNNER_TEMP/revision.json" "$RUNNER_TEMP/reglas.json" "$RUNNER_TEMP/sols.json"
+          rm -f "$RUNNER_TEMP/revision.json" "$RUNNER_TEMP/reglas.json" "$RUNNER_TEMP/sols.json" "$RUNNER_TEMP/roly-tarifa.json"
           git config user.name "github-actions"; git config user.email "github-actions@users.noreply.github.com"
           git add data/precios.json data/precios-resumen.txt privado/precios-revision.enc privado/precios-revision.key.enc privado/roly-costes.enc 2>/dev/null || git add data/precios.json data/precios-resumen.txt privado/precios-revision.enc privado/precios-revision.key.enc
           git diff --cached --quiet && exit 0
