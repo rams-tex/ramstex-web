@@ -39,31 +39,30 @@ async function jhk() {
   log.push(`JHK: ${ok}/${L.length}`);
 }
 
-// ---------- Roly: tarifa por modelo ----------
+// ---------- Roly: tarifa completa de cada marca de una vez (la API limita mucho las peticiones) ----------
+const T0 = Date.now(), TOPE = 45 * 60e3; // pase lo que pase, a los 45 min se guardan los precios que haya
 async function roly() {
   if (!process.env.ROLY_USER) return log.push("Roly: sin usuario");
   const B = "https://clientsws.gorfactory.es:2096";
   const l = await (await fetch(B + "/api/v1.1/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ username: process.env.ROLY_USER, password: process.env.ROLY_PASSWORD }) })).json();
-  const L = items.filter(it => sup(it) === "roly"); let ok = 0, lim = 0;
-  for (const it of L) {
-    for (const brand of ["roly", "stamina"]) {
-      let rows = null;
-      for (let k = 0; k < 4; k++) {
-        const fd = new FormData(); fd.append("brand", brand); fd.append("model", it.r);
-        const r = await fetch(`${B}/api/v1/item/pricelist`, { method: "POST", headers: { Authorization: "Bearer " + l.token }, body: fd });
-        if (r.status === 429) { lim++; await sleep(20000 * (k + 1)); continue; }
-        if (r.ok) { try { const j = await r.json(); rows = Array.isArray(j) ? j : (Object.values(j).find(Array.isArray) || []); } catch {} }
-        break;
-      }
-      await sleep(700);
-      if (rows && rows.length) {
-        const by = {}; for (const x of rows) (by[String(x.color)] ||= []).push(+(x.price_unit ?? x.price_1) || 0);
-        cost[it.r] = it.k.map(c => { const m = String(c[3] || "").match(/_([A-Za-z0-9]+)_\d+_\d+$/); return m ? med(by[m[1]] || []) : 0; });
-        ok++; break;
-      }
+  const by = {}; let lim = 0, filas = 0;
+  for (const brand of ["roly"]) { // la ropa es toda de la marca Roly (Stamina es merchandising)
+    for (let k = 0; k < 8 && Date.now() - T0 < TOPE; k++) {
+      const fd = new FormData(); fd.append("brand", brand);
+      const r = await fetch(`${B}/api/v1/item/pricelist`, { method: "POST", headers: { Authorization: "Bearer " + l.token }, body: fd });
+      if (r.status === 429) { lim++; await sleep(60000 * (k + 1)); continue; }
+      if (!r.ok) { log.push(`Roly ${brand}: ${r.status}`); break; }
+      const j = await r.json(); const rows = Array.isArray(j) ? j : (Object.values(j).find(Array.isArray) || []);
+      for (const x of rows) ((by[x.model] ||= {})[String(x.color)] ||= []).push(+(x.price_unit ?? x.price_1) || 0);
+      filas += rows.length; break;
     }
   }
-  log.push(`Roly: ${ok}/${L.length}${lim ? ` (${lim} esperas por límite de la API)` : ""}`);
+  const L = items.filter(it => sup(it) === "roly"); let ok = 0;
+  for (const it of L) {
+    const b = by[it.r]; if (!b) continue;
+    cost[it.r] = it.k.map(c => { const m = String(c[3] || "").match(/_([A-Za-z0-9]+)_\d+_\d+$/); return m ? med(b[m[1]] || []) : 0; }); ok++;
+  }
+  log.push(`Roly: ${ok}/${L.length} (tarifa: ${filas} filas${lim ? `, ${lim} esperas por límite` : ""})`);
 }
 
 // ---------- TopTex: tarifa completa en archivo ----------
