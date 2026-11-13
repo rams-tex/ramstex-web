@@ -1,0 +1,4 @@
+Precios 2026-11-13: 1227 productos con precio de 2537 en 4 categorías
+JHK: 167/167
+TopTex: 1061/1062 (tarifa: 74595 filas)
+Roly: 0/244 (tarifa: 0 filas, 8 esperas por límite)

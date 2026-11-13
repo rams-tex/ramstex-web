@@ -1,0 +1,55 @@
+name: Calcular precios
+# Precios de venta de la web (scripts/precios-calcular.mjs). Las reglas de Ramstex están cifradas en privado/reglas.enc;
+# la clave se deriva de un secreto que ya existe y nunca se escribe. Solo se guarda en claro el precio de venta
+# (data/precios.json); el detalle con costes se guarda cifrado (privado/precios-revision.enc) para revisarlo.
+on:
+  schedule:
+    - cron: "40 5 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main, precios]
+    paths: [scripts/precios-calcular.mjs, privado/reglas.enc, .github/workflows/precios-calcular.yml]
+permissions:
+  contents: write
+concurrency:
+  group: precios-${{ github.ref_name }}
+  cancel-in-progress: false
+jobs:
+  precios:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: Traer lo último
+        run: git fetch -q --depth=1 origin "$GITHUB_REF_NAME" && git reset -q --hard FETCH_HEAD
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Reglas (descifrar fuera del repositorio)
+        env:
+          BASE: ${{ secrets.JHK_TOKEN }}
+        run: |
+          K=$(printf 'ramstex-precios:%s' "$BASE" | sha256sum | cut -d' ' -f1)
+          openssl enc -d -aes-256-cbc -pbkdf2 -in privado/reglas.enc -out "$RUNNER_TEMP/reglas.json" -pass "pass:$K"
+      - name: Calcular
+        env:
+          REGLAS: ${{ runner.temp }}/reglas.json
+          REVISION: ${{ runner.temp }}/revision.json
+          JHK_TOKEN: ${{ secrets.JHK_TOKEN }}
+          ROLY_USER: ${{ secrets.ROLY_USER }}
+          ROLY_PASSWORD: ${{ secrets.ROLY_PASSWORD }}
+          TOPTEX_API_KEY: ${{ secrets.TOPTEX_API_KEY }}
+          TOPTEX_USER: ${{ secrets.TOPTEX_USER }}
+          TOPTEX_PASSWORD: ${{ secrets.TOPTEX_PASSWORD }}
+        run: node scripts/precios-calcular.mjs
+      - name: Cifrar la revisión y guardar
+        run: |
+          K=$(openssl rand -hex 32)
+          openssl enc -aes-256-cbc -pbkdf2 -salt -in "$RUNNER_TEMP/revision.json" -out privado/precios-revision.enc -pass "pass:$K"
+          printf %s "$K" | openssl pkeyutl -encrypt -pubin -inkey privado/clave-publica.pem -pkeyopt rsa_padding_mode:oaep -out privado/precios-revision.key.enc
+          rm -f "$RUNNER_TEMP/revision.json" "$RUNNER_TEMP/reglas.json"
+          git config user.name "github-actions"; git config user.email "github-actions@users.noreply.github.com"
+          git add data/precios.json data/precios-resumen.txt privado/precios-revision.enc privado/precios-revision.key.enc
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Precios actualizados [skip netlify]"
+          for i in 1 2 3 4 5; do git pull -q --rebase origin "$GITHUB_REF_NAME" && git push -q origin "HEAD:$GITHUB_REF_NAME" && exit 0; sleep 15; done; exit 1
