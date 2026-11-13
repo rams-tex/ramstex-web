@@ -31,7 +31,7 @@ jobs:
         run: |
           K=$(printf 'ramstex-precios:%s' "$BASE" | sha256sum | cut -d' ' -f1)
           openssl enc -d -aes-256-cbc -pbkdf2 -in privado/reglas.enc -out "$RUNNER_TEMP/reglas.json" -pass "pass:$K"
-          openssl enc -d -aes-256-cbc -pbkdf2 -in privado/sols-tarifa.enc -out "$RUNNER_TEMP/sols.json" "$RUNNER_TEMP/roly-tarifa.json" -pass "pass:$K" || true
+          openssl enc -d -aes-256-cbc -pbkdf2 -in privado/sols-tarifa.enc -out "$RUNNER_TEMP/sols.json" -pass "pass:$K" || true
           openssl enc -d -aes-256-cbc -pbkdf2 -in privado/roly-tarifa.enc -out "$RUNNER_TEMP/roly-tarifa.json" -pass "pass:$K" || true
           if [ -f privado/roly-costes.enc ]; then openssl enc -d -aes-256-cbc -pbkdf2 -in privado/roly-costes.enc -out "$RUNNER_TEMP/roly.json" -pass "pass:$K" || true; fi
       - name: Calcular
