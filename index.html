@@ -2759,13 +2759,13 @@ function priceUI(it,qty){
     el.innerHTML='<p class="pdesde">Desde <b>'+eur(lv[lv.length-1])+'</b>/ud · con tu logo</p>'+
       '<table class="ptramos"><thead><tr><th scope="row">Unidades</th>'+Q.map(function(q){return '<th scope="col">'+q+'</th>';}).join("")+'</tr></thead>'+
       '<tbody>'+p.x.map(function(r){return row(esc(r[0]),r[1]);}).join("")+'</tbody></table>'+
-      '<p class="pnote">Precio orientativo por unidad con tu logo en una zona (a 1 color, o a todo color en las técnicas digitales). IVA y envío no incluidos. Más de '+Q[Q.length-1]+' uds: consúltanos. ¿Más colores o más zonas? Te lo incluimos en el presupuesto.</p>';
+      '<p class="pnote">Precio orientativo por unidad con tu logo en una zona (a 1 color, o a todo color en las técnicas digitales). IVA no incluido. Más de '+Q[Q.length-1]+' uds: consúltanos. ¿Más colores o más zonas? Te lo incluimos en el presupuesto.</p>';
     return;
   }
   el.innerHTML='<p class="pdesde">Desde <b>'+eur(lv[lv.length-1])+'</b>/ud · '+prLogo(it)+'</p>'+
     '<table class="ptramos"><thead><tr><th scope="row">Unidades</th>'+Q.map(function(q){return '<th scope="col">'+q+'</th>';}).join("")+'</tr></thead>'+
     '<tbody><tr><th scope="row">€/ud</th>'+lv.map(function(v,i){return '<td'+(i===on?' class="on"':'')+'>'+v.toFixed(2).replace(".",",")+'</td>';}).join("")+'</tr></tbody></table>'+
-    '<p class="pnote">Precio orientativo por unidad '+prLogo(it)+(it.cur<0&&prOf(it).l?', en el color más económico':'')+'. IVA y envío no incluidos. Más de '+(Q[Q.length-1]*2)+' uds: consúltanos. '+(prOf(it).e?'¿Más de un logo? ':'¿Logo también detrás o en la manga? ')+'Te lo incluimos en el presupuesto.</p>';
+    '<p class="pnote">Precio orientativo por unidad '+prLogo(it)+(it.cur<0&&prOf(it).l?', en el color más económico':'')+'. IVA no incluido. Más de '+(Q[Q.length-1]*2)+' uds: consúltanos. '+(prOf(it).e?'¿Más de un logo? ':'¿Logo también detrás o en la manga? ')+'Te lo incluimos en el presupuesto.</p>';
 }
 function renderProduct(it){
   var box=$("prod"); it.cur=urlColor(it);

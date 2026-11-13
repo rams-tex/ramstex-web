@@ -225,7 +225,11 @@ for (const it of items) {
   const cs = cost[it.r]; if (!cs || !cs.some(x => x > 0)) continue;
   const prem = PREM.test(`${it.n} ${it.ft || ""}`);
   const lv = [], k = [];
-  for (const c of cs) {
+  // Un solo precio para todos los colores de la prenda: el del color normal más caro (como se cobra en la tienda).
+  // Solo los colores bastante más caros (rayas, flúor…, más de un 25 % sobre la mediana) mantienen su precio propio.
+  const mc = med(cs), tope = Math.max(...cs.filter(x => x > 0 && x <= mc * 1.25));
+  for (const c0 of cs) {
+    const c = c0 > 0 && c0 <= tope ? tope : c0;
     if (!(c > 0)) { k.push(-1); continue; }
     const M = Math.max(prem ? R.margen.premium : (R.margen_cat?.[it.c] ?? R.margen.basico), (R.margen_pct_cat?.[it.c] ?? R.margen.pct ?? 0) * c);
     const tipo = R.logo?.[it.c] || "grande";
@@ -240,7 +244,7 @@ for (const it of items) {
     const t = R.tramos.map(([, f]) => +red(base + m * f).toFixed(2));
     let i = lv.findIndex(x => x.join() === t.join()); if (i < 0) { lv.push(t); i = lv.length - 1; }
     k.push(i);
-    rev.push({ ref: it.r, nombre: it.n, cat: it.c, col: it.k[k.length - 1][0], coste: +c.toFixed(3), premium: prem, habitual50: +habitual.toFixed(2), web: t });
+    rev.push({ ref: it.r, nombre: it.n, cat: it.c, col: it.k[k.length - 1][0], coste: +c0.toFixed(3), coste_precio: +c.toFixed(3), premium: prem, habitual50: +habitual.toFixed(2), web: t });
   }
   if (lv.length) { out[it.r] = lv.length === 1 && k.every(x => x === 0 || x === -1) ? { t: lv[0], k: k.some(x => x < 0) ? k : undefined } : { l: lv, k }; if ((R.logo?.[it.c] || "grande") !== "grande") out[it.r].e = 1; } // e: «con tu logo» (sin «delante»)
 }
