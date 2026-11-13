@@ -15,7 +15,7 @@ const CAT = JSON.parse(readFileSync("data/catalogo.json", "utf8"));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const log = [];
 const items = CAT.items.filter(it => R.cats.includes(it.c));
-const sup = it => /^J:/.test(it.i) ? "jhk" : /^R:/.test(it.i) ? "roly" : /^S:/.test(it.i) ? "sols" : /^(T|F|K):/.test(it.i) || /^MK/.test(it.r) ? "" : "toptex";
+const sup = it => /^J:/.test(it.i) ? "jhk" : /^R:/.test(it.i) ? "roly" : /^S:/.test(it.i) ? "sols" : /^T:/.test(it.i) ? "stanley" : /^(F|K):/.test(it.i) || /^MK/.test(it.r) ? "" : "toptex";
 const med = a => { a = a.filter(x => x > 0).sort((x, y) => x - y); return a.length ? a[(a.length - 1) >> 1] : 0; };
 const cost = {}; // ref -> [coste por color del catálogo]
 
@@ -127,7 +127,21 @@ function sols() {
   log.push(`Sol's: ${ok}/${L.length} (${esp} colores con precio especial)`);
 }
 
-for (const [n, f] of [["JHK", jhk], ["TopTex", toptex], ["Roly", roly], ["Sol's", sols]]) { try { await f(); } catch (e) { log.push(`${n}: error ${e.message}`); } }
+// ---------- Stanley/Stella: tarifa del cliente («Technical Price list» del Excel, cifrada en privado/stanley-tarifa.enc) ----------
+// {estilo: {códigoColor: [precio mediano de las tallas, nombre]}}; el color sale de la foto (…_STTU272_C002.jpg)
+function stanley() {
+  if (!process.env.STANLEY_TARIFA) return log.push("Stanley/Stella: sin tarifa");
+  const T = JSON.parse(readFileSync(process.env.STANLEY_TARIFA, "utf8"));
+  const L = items.filter(it => sup(it) === "stanley"); let ok = 0;
+  for (const it of L) {
+    const t = T[it.r]; if (!t) continue;
+    cost[it.r] = it.k.map(c => { const m = String(c[3] || "").match(/_(C\d{3})\.\w+$/); if (m && t[m[1]]) return t[m[1]][0]; const n = String(c[0]).toLowerCase(); const k = Object.keys(t).find(x => t[x][1].toLowerCase() === n); return k ? t[k][0] : 0; });
+    ok++;
+  }
+  log.push(`Stanley/Stella: ${ok}/${L.length}`);
+}
+
+for (const [n, f] of [["JHK", jhk], ["TopTex", toptex], ["Roly", roly], ["Sol's", sols], ["Stanley/Stella", stanley]]) { try { await f(); } catch (e) { log.push(`${n}: error ${e.message}`); } }
 for (const [ref, c] of Object.entries(R.especiales || {})) { const it = CAT.items.find(x => x.r === ref); if (it) cost[ref] = it.k.map(() => +c); }
 
 // ---------- Precios ----------
