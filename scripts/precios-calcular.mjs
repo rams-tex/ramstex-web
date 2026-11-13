@@ -15,7 +15,7 @@ const CAT = JSON.parse(readFileSync("data/catalogo.json", "utf8"));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const log = [];
 const items = CAT.items.filter(it => R.cats.includes(it.c));
-const sup = it => /^J:/.test(it.i) ? "jhk" : /^R:/.test(it.i) ? "roly" : /^(S|T|F|K):/.test(it.i) || /^MK/.test(it.r) ? "" : "toptex";
+const sup = it => /^J:/.test(it.i) ? "jhk" : /^R:/.test(it.i) ? "roly" : /^S:/.test(it.i) ? "sols" : /^(T|F|K):/.test(it.i) || /^MK/.test(it.r) ? "" : "toptex";
 const med = a => { a = a.filter(x => x > 0).sort((x, y) => x - y); return a.length ? a[(a.length - 1) >> 1] : 0; };
 const cost = {}; // ref -> [coste por color del catálogo]
 
@@ -87,7 +87,33 @@ async function toptex() {
   log.push(`TopTex: ${ok}/${L.length} (tarifa: ${raw.length} filas)`);
 }
 
-for (const [n, f] of [["JHK", jhk], ["TopTex", toptex], ["Roly", roly]]) { try { await f(); } catch (e) { log.push(`${n}: error ${e.message}`); } }
+// ---------- Sol's: tarifa del cliente («Maestro STD» del Excel de Sol's, cifrada en privado/sols-tarifa.enc) ----------
+// {modelo: {códigoColor: [precio mediano de las tallas, nombre]}}. Precios especiales del comercial en las reglas:
+// especiales_sols {modelo: [blanco, color] | [blanco, color, el más caro (p. ej. rayas)] | [todos]}
+function sols() {
+  if (!process.env.SOLS_TARIFA) return log.push("Sol's: sin tarifa");
+  const T = JSON.parse(readFileSync(process.env.SOLS_TARIFA, "utf8")), E = R.especiales_sols || {};
+  const L = items.filter(it => sup(it) === "sols"); let ok = 0, esp = 0;
+  for (const it of L) {
+    const t = T[it.r]; if (!t) continue;
+    const code = c => { const m = String(c[3] || "").match(/^S:n\d{5}(\w+?)[A-Z]$/); if (m && t[m[1]]) return m[1]; const n = String(c[0]).toLowerCase(); return Object.keys(t).find(k => t[k][1].trim().toLowerCase() === n) || ""; };
+    const ps = Object.values(t).map(x => x[0]), min = Math.min(...ps), max = Math.max(...ps), e = E[it.r];
+    cost[it.r] = it.k.map(c => {
+      const k = code(c); if (!k) return 0;
+      const [p, name] = t[k];
+      if (!e) return p;
+      esp++;
+      if (e.length === 1) return e[0];
+      if (/^blanco/i.test(name.trim()) && p === min) return e[0];
+      if (e.length >= 3 && p === max && max > min) return e[2];
+      return e[1];
+    });
+    ok++;
+  }
+  log.push(`Sol's: ${ok}/${L.length} (${esp} colores con precio especial)`);
+}
+
+for (const [n, f] of [["JHK", jhk], ["TopTex", toptex], ["Roly", roly], ["Sol's", sols]]) { try { await f(); } catch (e) { log.push(`${n}: error ${e.message}`); } }
 for (const [ref, c] of Object.entries(R.especiales || {})) { const it = CAT.items.find(x => x.r === ref); if (it) cost[ref] = it.k.map(() => +c); }
 
 // ---------- Precios ----------
@@ -100,7 +126,7 @@ for (const it of items) {
   const lv = [], k = [];
   for (const c of cs) {
     if (!(c > 0)) { k.push(-1); continue; }
-    const M = Math.max(prem ? R.margen.premium : R.margen.basico, (R.margen.pct || 0) * c);
+    const M = Math.max(prem ? R.margen.premium : (R.margen_cat?.[it.c] ?? R.margen.basico), (R.margen.pct || 0) * c);
     const habitual = c + R.dtf.delante + R.dtf.grande + M;             // lo que cobra Ramstex hoy a 50 uds (delante + detrás)
     const m = habitual - R.web_resta - c - R.dtf.grande;             // margen de la web (solo logo delante)
     const t = R.tramos.map(([, f]) => +red(c + R.dtf.grande + m * f).toFixed(2));
