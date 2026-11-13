@@ -44,6 +44,8 @@ jobs:
           ROLY_TARIFA: ${{ runner.temp }}/roly-tarifa.json
           STANLEY_TARIFA: ${{ runner.temp }}/stanley-tarifa.json
           JHK_TOKEN: ${{ secrets.JHK_TOKEN }}
+          FALKROSS_USER: ${{ secrets.FALKROSS_USER }}
+          FALKROSS_PASSWORD: ${{ secrets.FALKROSS_PASSWORD }}
           ROLY_USER: ${{ secrets.ROLY_USER }}
           ROLY_PASSWORD: ${{ secrets.ROLY_PASSWORD }}
           TOPTEX_API_KEY: ${{ secrets.TOPTEX_API_KEY }}

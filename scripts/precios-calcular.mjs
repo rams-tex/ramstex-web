@@ -15,7 +15,7 @@ const CAT = JSON.parse(readFileSync("data/catalogo.json", "utf8"));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const log = [];
 const items = CAT.items.filter(it => R.cats.includes(it.c));
-const sup = it => /^J:/.test(it.i) ? "jhk" : /^R:/.test(it.i) ? "roly" : /^S:/.test(it.i) ? "sols" : /^T:/.test(it.i) ? "stanley" : /^(F|K):/.test(it.i) || /^MK/.test(it.r) ? "" : "toptex";
+const sup = it => /^J:/.test(it.i) ? "jhk" : /^R:/.test(it.i) ? "roly" : /^S:/.test(it.i) ? "sols" : /^T:/.test(it.i) ? "stanley" : /^F:/.test(it.i) ? "falkross" : /^K:/.test(it.i) || /^MK/.test(it.r) ? "" : "toptex";
 const med = a => { a = a.filter(x => x > 0).sort((x, y) => x - y); return a.length ? a[(a.length - 1) >> 1] : 0; };
 const cost = {}; // ref -> [coste por color del catálogo]
 
@@ -141,7 +141,25 @@ function stanley() {
   log.push(`Stanley/Stella: ${ok}/${L.length}`);
 }
 
-for (const [n, f] of [["JHK", jhk], ["TopTex", toptex], ["Roly", roly], ["Sol's", sols], ["Stanley/Stella", stanley]]) { try { await f(); } catch (e) { log.push(`${n}: error ${e.message}`); } }
+// ---------- Falk&Ross: precios del webservice (price.pl, CSV artnr;your_price;currency) ----------
+// El artículo de 9 cifras se traduce con data/falkross-sku.json ([ref, color, talla]); el color sale de la foto (F:…_<color>_…)
+async function falkross() {
+  const U = process.env.FALKROSS_USER, P = process.env.FALKROSS_PASSWORD; if (!U || !P) return log.push("Falk&Ross: sin credenciales");
+  const sku = JSON.parse(readFileSync("data/falkross-sku.json", "utf8"));
+  const h = { Authorization: "Basic " + Buffer.from(`${U.trim()}:${P.trim()}`).toString("base64"), "Cache-Control": "no-cache", Connection: "close" };
+  let t = "";
+  for (let i = 0; i < 4 && !t; i++) { // una sola petición a la vez, con reintentos espaciados
+    const r = await fetch("https://ws.falk-ross.eu/ws/run/price.pl?format=csv&style=&action=get_price&ndp=1", { headers: h, signal: AbortSignal.timeout(300000) }).catch(e => ({ ok: false, status: e.message }));
+    if (r.ok) t = await r.text(); else { log.push(`Falk&Ross precios: ${r.status}`); if (r.status === 401) return; await sleep(30000 * 2 ** i); }
+  }
+  const by = {}; // ref -> color -> [precios]
+  for (const line of t.split(/\r?\n/).slice(1)) { const c = line.split(";"); const k = sku[c[0]]; const p = parseFloat(String(c[1]).replace(",", ".")); if (k && p > 0) ((by[k[0]] ||= {})[k[1]] ||= []).push(p); }
+  const L = items.filter(it => sup(it) === "falkross"); let ok = 0;
+  for (const it of L) { const b = by[it.r]; if (!b) continue; cost[it.r] = it.k.map(c => { const m = String(c[3] || "").match(/^F:\d+_\d+_(\w+?)_/); return m ? med(b[m[1]] || []) : 0; }); ok++; }
+  log.push(`Falk&Ross: ${ok}/${L.length}`);
+}
+
+for (const [n, f] of [["JHK", jhk], ["TopTex", toptex], ["Roly", roly], ["Sol's", sols], ["Stanley/Stella", stanley], ["Falk&Ross", falkross]]) { try { await f(); } catch (e) { log.push(`${n}: error ${e.message}`); } }
 for (const [ref, c] of Object.entries(R.especiales || {})) { const it = CAT.items.find(x => x.r === ref); if (it) cost[ref] = it.k.map(() => +c); }
 
 // ---------- Precios ----------
