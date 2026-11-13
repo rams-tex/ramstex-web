@@ -5,7 +5,7 @@
 //   responde 429, se espera más.
 // - Nunca se llama a pedidos (/orders): solo catálogo, stock, configuración de marcaje y fotos.
 export const MAKITO = "https://apis.makito.es";
-const ALLOWED = /^\/(catalog|stock|print-config)\//;
+const ALLOWED = /^\/(catalog|stock|print-config|price-list|print-price-list)\//; // solo lectura (nunca /orders)
 let token = "", tokenAt = 0, last = 0, remaining = 100;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 async function slot() {

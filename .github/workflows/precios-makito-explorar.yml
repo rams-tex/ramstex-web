@@ -1,0 +1,36 @@
+name: Precios - explorar Makito (cifrado)
+# Lee la tarifa de Makito (artículo y marcaje) para unas referencias y guarda el resultado CIFRADO
+# (privado/clave-publica.pem) en privado/makito-explorar.enc. Solo lectura; nunca pedidos.
+on:
+  push:
+    branches: [precios]
+    paths: [scripts/precios-makito-explorar.mjs, .github/workflows/precios-makito-explorar.yml]
+permissions:
+  contents: write
+concurrency:
+  group: makito-api
+  cancel-in-progress: false
+jobs:
+  explorar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Explorar (resultado fuera del repo)
+        run: PRECIOS_REFS="6731,6050,9215,6009,5418,1048" SALIDA="$RUNNER_TEMP/m.json" node scripts/precios-makito-explorar.mjs
+        env:
+          MAKITO_CLIENT_ID: ${{ secrets.MAKITO_CLIENT_ID }}
+          MAKITO_CLIENT_SECRET: ${{ secrets.MAKITO_CLIENT_SECRET }}
+      - name: Cifrar y guardar
+        run: |
+          K=$(openssl rand -hex 32)
+          gzip -9 -c "$RUNNER_TEMP/m.json" | openssl enc -aes-256-cbc -pbkdf2 -salt -out privado/makito-explorar.enc -pass "pass:$K"
+          printf %s "$K" | openssl pkeyutl -encrypt -pubin -inkey privado/clave-publica.pem -pkeyopt rsa_padding_mode:oaep -out privado/makito-explorar.key.enc
+          rm -f "$RUNNER_TEMP/m.json"
+          git config user.name "github-actions"; git config user.email "github-actions@users.noreply.github.com"
+          git add privado/makito-explorar.enc privado/makito-explorar.key.enc
+          git commit -q -m "Precios: exploración Makito (cifrada) [skip netlify]" || exit 0
+          git pull -q --rebase origin "$GITHUB_REF_NAME" && git push -q origin "HEAD:$GITHUB_REF_NAME"
