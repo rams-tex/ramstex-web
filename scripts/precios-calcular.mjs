@@ -39,30 +39,36 @@ async function jhk() {
   log.push(`JHK: ${ok}/${L.length}`);
 }
 
-// ---------- Roly: tarifa completa de cada marca de una vez (la API limita mucho las peticiones) ----------
-const T0 = Date.now(), TOPE = 45 * 60e3; // pase lo que pase, a los 45 min se guardan los precios que haya
+// ---------- Roly: tarifa por modelo, despacio y recordando lo ya leído ----------
+// La API de Roly corta (429) si se le piden muchos precios seguidos o la tarifa entera. Se piden los modelos de
+// uno en uno, con pausa, y lo leído se guarda en una caché CIFRADA ($ROLY_CACHE; el flujo la cifra) para que cada
+// día se completen los que falten y se renueven los más antiguos.
+const T0 = Date.now(), TOPE = 40 * 60e3;
 async function roly() {
   if (!process.env.ROLY_USER) return log.push("Roly: sin usuario");
-  const B = "https://clientsws.gorfactory.es:2096";
+  const B = "https://clientsws.gorfactory.es:2096", CF = process.env.ROLY_CACHE;
+  let C = {}; try { if (CF) C = JSON.parse(readFileSync(CF, "utf8")); } catch {}
   const l = await (await fetch(B + "/api/v1.1/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ username: process.env.ROLY_USER, password: process.env.ROLY_PASSWORD }) })).json();
-  const by = {}; let lim = 0, filas = 0;
-  for (const brand of ["roly"]) { // la ropa es toda de la marca Roly (Stamina es merchandising)
-    for (let k = 0; k < 8 && Date.now() - T0 < TOPE; k++) {
-      const fd = new FormData(); fd.append("brand", brand);
-      const r = await fetch(`${B}/api/v1/item/pricelist`, { method: "POST", headers: { Authorization: "Bearer " + l.token }, body: fd });
-      if (r.status === 429) { lim++; await sleep(60000 * (k + 1)); continue; }
-      if (!r.ok) { log.push(`Roly ${brand}: ${r.status}`); break; }
-      const j = await r.json(); const rows = Array.isArray(j) ? j : (Object.values(j).find(Array.isArray) || []);
-      for (const x of rows) ((by[x.model] ||= {})[String(x.color)] ||= []).push(+(x.price_unit ?? x.price_1) || 0);
-      filas += rows.length; break;
+  const L = items.filter(it => sup(it) === "roly");
+  const orden = [...L].sort((a, b) => ((C[a.r]?.f || "") < (C[b.r]?.f || "") ? -1 : 1)); // primero los que faltan y los más antiguos
+  let leidos = 0, lim = 0, pausa = 4000;
+  for (const it of orden) {
+    if (Date.now() - T0 > TOPE || lim >= 6) break;
+    const fd = new FormData(); fd.append("brand", "roly"); fd.append("model", it.r);
+    const r = await fetch(`${B}/api/v1/item/pricelist`, { method: "POST", headers: { Authorization: "Bearer " + l.token }, body: fd });
+    if (r.status === 429) { lim++; pausa = Math.min(pausa * 2, 60000); await sleep(90000); continue; }
+    if (r.ok) {
+      try { const j = await r.json(); const rows = Array.isArray(j) ? j : (Object.values(j).find(Array.isArray) || []); const by = {}; for (const x of rows) (by[String(x.color)] ||= []).push(+(x.price_unit ?? x.price_1) || 0); if (rows.length) { C[it.r] = { f: new Date().toISOString().slice(0, 10), c: by }; leidos++; } } catch {}
     }
+    await sleep(pausa);
   }
-  const L = items.filter(it => sup(it) === "roly"); let ok = 0;
+  if (CF) writeFileSync(CF, JSON.stringify(C));
+  let ok = 0;
   for (const it of L) {
-    const b = by[it.r]; if (!b) continue;
+    const b = C[it.r]?.c; if (!b) continue;
     cost[it.r] = it.k.map(c => { const m = String(c[3] || "").match(/_([A-Za-z0-9]+)_\d+_\d+$/); return m ? med(b[m[1]] || []) : 0; }); ok++;
   }
-  log.push(`Roly: ${ok}/${L.length} (tarifa: ${filas} filas${lim ? `, ${lim} esperas por límite` : ""})`);
+  log.push(`Roly: ${ok}/${L.length} con precio (hoy leídos ${leidos}${lim ? `, ${lim} cortes por límite` : ""})`);
 }
 
 // ---------- TopTex: tarifa completa en archivo ----------
