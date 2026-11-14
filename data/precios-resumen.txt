@@ -1,9 +1,9 @@
-Precios 2026-11-13: 9208 productos con precio de 5162 en 9 categorías
+Precios 2026-11-14: 9212 productos con precio de 5162 en 9 categorías
 Merch: 4229/4255 (sin tarifa del artículo: 0, sin técnica con precio: 26)
 JHK: 221/221
-TopTex: 2383/2384 (tarifa: 74595 filas)
+TopTex: 2383/2384 (tarifa: 74586 filas)
 Roly (tarifa Excel): 226
-Roly: 0/139 con precio (hoy leídos 0, 6 cortes por límite)
+Roly: 4/139 con precio (hoy leídos 4, 6 cortes por límite)
 Sol's: 463/489 (227 colores con precio especial)
 Stanley/Stella: 154/157
 Falk&Ross: 1545/1546
