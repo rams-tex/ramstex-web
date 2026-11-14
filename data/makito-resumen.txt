@@ -1,4 +1,4 @@
-Makito: 4260 productos, 11264 colores, 17640 variantes en la API · fotos distintas: 13134
+Makito: 4260 productos, 11266 colores, 17642 variantes en la API · fotos distintas: 13134
 Descartados: {"ropa (no se importa)":271,"sin variantes":16}
 Por categoría (productos / colores):
   m-bol: 570 / 1721
@@ -10,7 +10,7 @@ Por categoría (productos / colores):
   m-nav: 24 / 35
   m-out: 271 / 460
   m-taz: 524 / 1618
-  m-tec: 571 / 1054
+  m-tec: 571 / 1056
   m-ver: 247 / 901
 Subcategorías de merchandising:
   m-bol · Accesorios de viaje: 30
