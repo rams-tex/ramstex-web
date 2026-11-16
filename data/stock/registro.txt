@@ -1,7 +1,7 @@
-2026-11-15T13:48:50.461Z
+2026-11-16T07:33:22.214Z
 TopTex: 74585 referencias
-roly: 18017 referencias
-stamina: 5209 referencias
+roly: 18008 referencias
+stamina: 5206 referencias
 JHK: 11939 referencias (229 modelos desde el área de clientes, 1 desde la API)
 Sol's: 16281 referencias
 Stanley/Stella: 10721 referencias
