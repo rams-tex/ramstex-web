@@ -1,5 +1,5 @@
 Makito: 4260 productos, 11274 colores, 17650 variantes en la API · fotos distintas: 13136
-Descartados: {"ropa (no se importa)":271,"sin variantes":16}
+Descartados: {"ropa (no se importa)":271,"sin variantes":13}
 Por categoría (productos / colores):
   m-bol: 570 / 1722
   m-dep: 288 / 712
