@@ -1,21 +1,21 @@
-Productos activos: 2773 (de 2980)
-Descarga: intento 1: 200 | intento 2: 200 | intento 3: 200 | intento 4: 200 | intento 5: 200 | intento 6: 200 | intento 7: 200 | intento 8: 200 | intento 9: 200 | intento 10: 200 | archivo: 2980 productos
+Productos activos: 2829 (de 3044)
+Descarga: intento 1: 200 | intento 2: 200 | archivo: 3044 productos
 
-Ropa: 1622
+Ropa: 1620
    - Camisetas: 266
-   - Chaquetas: 248
-   - Sudaderas: 203
-   - Pantalones: 172
+   - Chaquetas: 246
+   - Sudaderas: 202
+   - Pantalones: 174
    - Polos: 148
-   - Camisas / Sobrecamisas: 121
-   - Bermudas / Shorts: 94
+   - Camisas / Sobrecamisas: 119
+   - Bermudas / Shorts: 95
    - Chalecos acolchados: 69
    - Delantales: 62
    - Chalecos: 43
    - Jerseys / Cárdigans: 40
-   - Tirantes: 28
+   - Tirantes: 27
    - Batas de trabajo: 21
-   - Camisetas deportiva: 16
+   - Camisetas deportiva: 17
    - Vestidos: 14
    - Túnicas: 12
    - Faldas: 11
@@ -26,24 +26,24 @@ Ropa: 1622
    - Monos: 8
    - Bodys: 4
    - Bañadores: 3
-Headwear & Accesorios: 416
-   - Gorras: 228
-   - Gorros: 75
-   - Guantes: 24
+Headwear & Accesorios: 444
+   - Gorras: 242
+   - Gorros: 80
+   - Guantes: 27
    - Gorro Bobs: 19
-   - Pañuelos / Bufandas / Bragas de cuello: 16
-   - Sombreros & accesorios: 16
-   - Cascos: 14
+   - Sombreros & accesorios: 18
+   - Pañuelos / Bufandas / Bragas de cuello: 17
+   - Cascos: 16
    - Cintas Cabeza: 7
+   - Bandanas: 6
    - Boinas: 5
-   - Bandanas: 5
    - Pasamontañas: 4
    - Sombreros bandana: 2
    - Tapones: 1
-Equipaje: 372
-   - Bolsas: 344
+Equipaje: 401
+   - Bolsas: 372
+   - Accesorios Equipaje: 12
    - Maletas: 12
-   - Accesorios Equipaje: 11
    - Fundas: 4
    - Cestas: 1
 Calzado y accesorios: 88
@@ -51,8 +51,8 @@ Calzado y accesorios: 88
    - Zapatos Lifestyle / Ocio: 14
    - Calzado de trabajo: 13
    - Accesorios para calzado: 8
-Ropa Accesorios: 57
-   - Pañuelos: 30
+Ropa Accesorios: 59
+   - Pañuelos: 32
    - Cinturones: 12
    - Corbatas: 8
    - Rodilleras: 5
@@ -63,10 +63,10 @@ Ropa interior: 51
    - Ropas interior: 6
    - Boxers / Caleçons: 6
    - Sujetadores Deporte: 4
-Línea de hogar: 45
+Línea de hogar: 44
    - Baño: 31
    - Mesa / Cocina: 9
-   - Decoración: 5
+   - Decoración: 4
 Accesorios: 36
    - Paraguas: 14
    - Gafas y fundas: 6
@@ -89,7 +89,7 @@ Drinkwear: 7
    - Botellas de deporte: 4
    - Portabotellas: 3
 
-VISTAS DE COLOR: {"BACK":19902,"FACE":28252,"SIDE":17552,"FACE SIDE":3370,"undefined":34,"FLATSHOT FACE":350,"FACE CAP":342,"FLATSHOT BACK":180}
+VISTAS DE COLOR: {"BACK":20258,"FACE":28658,"SIDE":17872,"FACE SIDE":3740,"undefined":34,"FLATSHOT FACE":398,"FACE CAP":394,"FLATSHOT BACK":180}
 
 CAMPOS PRODUCTO:
   2in1 = "0"
@@ -125,7 +125,7 @@ CAMPOS PRODUCTO:
   images = [{"image_id":"634497","last_update":"2025-06-12 01:15:52.000000","rights_end":"2027-12-31-00-00-00","rights_start":"2024-11-20-00-00-00","url":"https://media.eu…
   labelType = "no_label"
   largeSizes = "1"
-  lastChange = "2026-11-01 14:45:08"
+  lastChange = "2026-11-19 11:21:10"
   lining = [{"es":""}]
   mainMaterials = []
   moreThanTenColors = "1"
@@ -171,7 +171,7 @@ CAMPOS COLOR:
   colorsPantoneTCX = ["Based on 13-4108TCX"]
   colorsRGB = []
   createdDate = "2022-04-17 13:56:35"
-  lastChange = "2026-11-01 19:33:00"
+  lastChange = "2026-11-19 13:22:52"
   packshots = {"BACK":{"image_id":"385693","last_update":"2025-09-11 05:55:15.000000","rights_end":null,"rights_start":null,"url":"https://media.europeancatalog.com/ws.php?ac…
   saleState = "active"
 CAMPOS TALLA:
