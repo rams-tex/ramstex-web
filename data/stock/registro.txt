@@ -1,10 +1,10 @@
-2026-11-22T13:49:58.013Z
+2026-11-23T16:46:22.458Z
 TopTex: 74576 referencias
-roly: 18099 referencias
-stamina: 5206 referencias
+roly: 18078 referencias
+stamina: 5198 referencias
 JHK: 11939 referencias (229 modelos desde el área de clientes, 1 desde la API)
 Sol's: 16283 referencias
 Stanley/Stella: 10721 referencias
 Falk&Ross: 23559 referencias
 Makito: 11057 referencias
-productos con stock: 11474
+productos con stock: 11508
