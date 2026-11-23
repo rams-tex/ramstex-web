@@ -1,6 +1,6 @@
 // Importa el catálogo de Roly (sin precios ni stock) a data/roly.json,
 // con el mismo formato que data/toptex.json para que la web los trate igual.
-import { writeFileSync, mkdirSync } from "node:fs";
+import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
 const BASE = "https://clientsws.gorfactory.es:2096";
 const USER = process.env.ROLY_USER, PASS = process.env.ROLY_PASSWORD;
 if (!USER || !PASS) { console.error("Faltan secretos de Roly"); process.exit(1); }
@@ -18,7 +18,7 @@ const login = await call("/api/v1.1/login", { method: "POST", headers: { "Conten
 const H = { headers: { Authorization: "Bearer " + login.token } };
 // Marcas del grupo (Roly y Stamina). Si una marca no responde, se sigue con las demás.
 const BRANDS = ["roly", "stamina"];
-const items = [], models = {}, brandLog = [];
+const items = [], models = {}, brandLog = [], failed = [];
 for (const b of BRANDS) {
   try {
     const cat = await call(`/api/v1.1/item/getcatalog?lang=es-ES&brand=${b}`, H);
@@ -27,7 +27,7 @@ for (const b of BRANDS) {
     items.push(...its);
     for (const m of mod.models || []) models[m.modelcode] = m;
     brandLog.push(`${b}: ${new Set(its.map(i => i.modelcode)).size} modelos`);
-  } catch (e) { brandLog.push(`${b}: sin datos (${e.message})`); }
+  } catch (e) { brandLog.push(`${b}: sin datos (${e.message})`); failed.push(b); }
 }
 console.log(brandLog.join(" | "));
 
@@ -166,6 +166,15 @@ for (const [code, rows] of byModel) {
   });
 }
 mkdirSync("data", { recursive: true });
+// Si la API de una marca falla (caída, mantenimiento, respuesta rota), se conservan los productos que ya había de esa marca:
+// así la web nunca se queda sin los productos de Roly o Stamina por un fallo puntual.
+let prev = []; try { prev = JSON.parse(readFileSync("data/roly.json", "utf8")); } catch (e) {}
+for (const b of failed) {
+  const keep = prev.filter(p => p.source === b);
+  products.push(...keep);
+  brandLog.push(`${b}: se mantienen ${keep.length} modelos de la importación anterior`);
+}
+if (!products.length) { console.error("Roly: sin productos, no se toca data/roly.json"); process.exit(1); }
 writeFileSync("data/roly.json", JSON.stringify(products));
 const fams = {};
 for (const p of products) fams[p.fam + " / " + p.sub] = (fams[p.fam + " / " + p.sub] || 0) + 1;
