@@ -1,4 +1,4 @@
-Falk&Ross: 2263 estilos; 669 ya están en TopTex (no se suben); 0 sin foto; 1594 modelos importados, 6172 colores
+Falk&Ross: 2263 estilos; 685 ya están en TopTex (no se suben); 0 sin foto; 1578 modelos importados, 6064 colores
 
 No subidos por estar ya en TopTex:
 B&C Outerwear FG001
@@ -6,9 +6,6 @@ B&C Outerwear FU703
 B&C Outerwear JG003
 B&C Outerwear JG006
 B&C Outerwear JK001
-B&C Outerwear JUI60
-B&C Outerwear JUI62
-B&C Outerwear JWI63
 B&C PM430
 B&C PU424
 B&C PU425
@@ -23,7 +20,6 @@ B&C PW463
 B&C PW464
 B&C PWI11
 B&C PWI13
-B&C Pro JUC40
 B&C Pro TUC01
 B&C Pro WUC20
 B&C TK001
@@ -49,7 +45,6 @@ B&C TW056
 B&C TW058
 B&C TW06T
 B&C TW071
-B&C TW073
 B&C TW08T
 B&C WG004
 B&C WG005
@@ -78,6 +73,8 @@ Bagbase BG150
 Bagbase BG153
 Bagbase BG168
 Bagbase BG186
+Bagbase BG194
+Bagbase BG197
 Bagbase BG21
 Bagbase BG23
 Bagbase BG286
@@ -96,6 +93,7 @@ Bagbase BG540
 Bagbase BG542
 Bagbase BG544
 Bagbase BG613
+Bagbase BG701
 Bagbase BG71
 Bagbase BG744
 Bagbase BG745
@@ -110,26 +108,33 @@ Bagbase BG842
 Bagbase BG853
 Bagbase BG855
 Bagbase BG873
+Bagbase BG884
 Bagbase BG901
 Beechfield B10
 Beechfield B105
+Beechfield B10b
 Beechfield B15
+Beechfield B155R
 Beechfield B159
 Beechfield B15c
 Beechfield B166R
 Beechfield B187
+Beechfield B188
 Beechfield B191R
 Beechfield B196
 Beechfield B20
 Beechfield B220R
 Beechfield B230
+Beechfield B25
 Beechfield B285
 Beechfield B310
 Beechfield B33
 Beechfield B336R
 Beechfield B337R
 Beechfield B34
+Beechfield B340A
 Beechfield B341B
+Beechfield B380
 Beechfield B383R
 Beechfield B390
 Beechfield B412
@@ -147,14 +152,18 @@ Beechfield B45
 Beechfield B450
 Beechfield B450N
 Beechfield B456
+Beechfield B470
 Beechfield B479
 Beechfield B490
+Beechfield B500
 Beechfield B501
 Beechfield B505
 Beechfield B508R
+Beechfield B530R
 Beechfield B540
 Beechfield B57
 Beechfield B58
+Beechfield B59
 Beechfield B600
 Beechfield B610
 Beechfield B610c
@@ -166,16 +175,22 @@ Beechfield B640
 Beechfield B640B
 Beechfield B641
 Beechfield B645
+Beechfield B646
 Beechfield B65
 Beechfield B653
 Beechfield B655
+Beechfield B657
+Beechfield B66
+Beechfield B660
 Beechfield B673
 Beechfield B679
 Beechfield B687
 Beechfield B694
 Beechfield B740
+Beechfield B788R
 Beechfield B790R
 Beechfield B900
+Beechfield B920
 Build Your Brand BY004
 Build Your Brand BY011
 Build Your Brand BY012
@@ -196,6 +211,7 @@ Classics 6089M
 Classics 6089MT
 Classics 6245CM
 Classics 6363V
+Classics 6606
 Classics 6606CF
 Classics 6606RC
 Classics 6606T
@@ -259,7 +275,6 @@ Flexfit 6988
 Flexfit 7005
 Flexfit 7706
 Flexfit 7706FF
-Flexfit 7706RS
 Flexfit 7707
 Flexfit 9180
 Flexfit 9293
@@ -362,6 +377,8 @@ Quadra QD513
 Quadra QD610
 Quadra QD612
 Quadra QD613
+Quadra QD632
+Quadra QD633
 Quadra QD650
 Quadra QD810
 Quadra QD813
@@ -483,7 +500,6 @@ Result Urban R194F
 Result Urban R194M
 Result Urban R195X
 Result Urban R196X
-Result Winter Essentials R039X
 Result Winter Essentials R100X
 Result Winter Essentials R134X
 Result Winter Essentials R143X
