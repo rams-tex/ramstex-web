@@ -233,8 +233,12 @@ for (const it of items) {
   for (const c0 of cs) {
     const c = c0 > 0 && c0 <= tope ? tope : c0;
     if (!(c > 0)) { k.push(-1); continue; }
-    const M = Math.max(prem ? R.margen.premium : (R.margen_cat?.[it.c] ?? R.margen.basico), (R.margen_pct_cat?.[it.c] ?? R.margen.pct ?? 0) * c);
     const tipo = R.logo?.[it.c] || "grande";
+    const extra = tipo === "grande" ? R.dtf.delante + R.dtf.grande : (R.dtf[tipo] ?? R.dtf.delante);
+    // Prendas con precio habitual fijado por Ramstex (a 50 uds, con delante y detrás): el margen sale de ese precio
+    const hab = R.habituales?.[it.r];
+    const M = hab ? Math.max(0.5, hab - tope - extra)
+      : Math.max(prem ? (R.margen_premium_cat?.[it.c] ?? R.margen.premium) : (R.margen_cat?.[it.c] ?? R.margen.basico), (R.margen_pct_cat?.[it.c] ?? R.margen.pct ?? 0) * c);
     let habitual, m, base;
     if (tipo === "grande") {                                         // camisetas, sudaderas…: precio habitual con delante + detrás
       habitual = c + R.dtf.delante + R.dtf.grande + M;               // lo que cobra Ramstex hoy a 50 uds
