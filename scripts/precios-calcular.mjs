@@ -7,6 +7,8 @@
 // precio_web(cantidad) = coste + DTF del logo + margen_web × factor_del_tramo
 //   (el margen se calcula para que a 50 uds dé el precio habitual de Ramstex con delante y detrás, menos el ajuste
 //    por enseñar solo el logo delante; los tramos solo mueven el margen, nunca se vende por debajo de coste)
+// En camisetas, sudaderas… se guarda también el precio con estampado delantero y trasero (tb/lb): a 50 uds es el
+// precio habitual de Ramstex, y los tramos mueven el margen igual.
 // Uso: REGLAS=/ruta/reglas.json REVISION=/ruta/revision.json node scripts/precios-calcular.mjs
 import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
 import { makitoGet } from "./makito-api.mjs";
@@ -224,7 +226,7 @@ const out = {}, rev = [];
 for (const it of items) {
   const cs = cost[it.r]; if (!cs || !cs.some(x => x > 0)) continue;
   const prem = PREM.test(`${it.n} ${it.ft || ""}`);
-  const lv = [], k = [];
+  const lv = [], lb = [], k = [];
   // Un solo precio para todos los colores de la prenda: el del color normal más caro (como se cobra en la tienda).
   // Solo los colores bastante más caros (rayas, flúor…, más de un 25 % sobre la mediana) mantienen su precio propio.
   const mc = med(cs), tope = Math.max(...cs.filter(x => x > 0 && x <= mc * 1.25));
@@ -242,11 +244,19 @@ for (const it of items) {
       base = c + (R.dtf[tipo] ?? R.dtf.delante); m = M; habitual = base + M;
     }
     const t = R.tramos.map(([, f]) => +red(base + m * f).toFixed(2));
-    let i = lv.findIndex(x => x.join() === t.join()); if (i < 0) { lv.push(t); i = lv.length - 1; }
+    // Con estampado delantero y trasero: el precio habitual de Ramstex (a 50 uds), con el margen movido por los tramos
+    const tb = tipo === "grande" ? R.tramos.map(([, f]) => +red(c + R.dtf.delante + R.dtf.grande + M * f).toFixed(2)) : null;
+    const key = t.join() + "|" + (tb || []).join();
+    let i = lv.findIndex((x, j) => x.join() + "|" + (lb[j] || []).join() === key); if (i < 0) { lv.push(t); lb.push(tb); i = lv.length - 1; }
     k.push(i);
-    rev.push({ ref: it.r, nombre: it.n, cat: it.c, col: it.k[k.length - 1][0], coste: +c0.toFixed(3), coste_precio: +c.toFixed(3), premium: prem, habitual50: +habitual.toFixed(2), web: t });
+    rev.push({ ref: it.r, nombre: it.n, cat: it.c, col: it.k[k.length - 1][0], coste: +c0.toFixed(3), coste_precio: +c.toFixed(3), premium: prem, habitual50: +habitual.toFixed(2), web: t, web_detras: tb });
   }
-  if (lv.length) { out[it.r] = lv.length === 1 && k.every(x => x === 0 || x === -1) ? { t: lv[0], k: k.some(x => x < 0) ? k : undefined } : { l: lv, k }; if ((R.logo?.[it.c] || "grande") !== "grande") out[it.r].e = 1; } // e: «con tu logo» (sin «delante»)
+  if (lv.length) {
+    const uno = lv.length === 1 && k.every(x => x === 0 || x === -1);
+    out[it.r] = uno ? { t: lv[0], k: k.some(x => x < 0) ? k : undefined } : { l: lv, k };
+    if (lb[0]) { if (uno) out[it.r].tb = lb[0]; else out[it.r].lb = lb; }   // tb/lb: con estampado delantero y trasero
+    if ((R.logo?.[it.c] || "grande") !== "grande") out[it.r].e = 1;          // e: un solo estampado (pantalones, gorras, bolsas…)
+  }
 }
 Object.assign(out, mout);
 writeFileSync("data/precios.json", JSON.stringify({ fecha: new Date().toISOString().slice(0, 10), q: R.tramos.map(([q]) => q), qm: R.merch ? R.merch.tramos.map(([q]) => q) : undefined, p: out }));
