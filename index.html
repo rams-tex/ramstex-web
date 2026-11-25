@@ -430,16 +430,18 @@ img.pack{object-fit:contain!important;padding:6%}
 .cprice b{color:var(--text);font-size:var(--fs-m);font-weight:700;font-variant-numeric:tabular-nums}
 .cprice span{display:block;font-size:var(--fs-xs)}
 .pprice{margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
-.pprice .pdesde{margin:0;font-size:var(--fs-s);color:var(--muted)}
-.pprice .pdesde b{font:700 1.6rem/1.1 "Bricolage Grotesque",Figtree,sans-serif;color:var(--text);font-variant-numeric:tabular-nums;margin-right:2px}
-.ptramos{width:100%;border-collapse:collapse;margin-top:12px;font-size:var(--fs-s);font-variant-numeric:tabular-nums}
-.ptramos th,.ptramos td{padding:7px 4px;text-align:center;border-top:1px solid var(--line)}
-.ptramos th{font-weight:600;color:var(--muted);font-size:var(--fs-xs)}
-.ptramos td{font-weight:700}
-.ptramos tr>*:first-child{text-align:left;padding-left:0;font-weight:600;color:var(--muted);font-size:var(--fs-xs)}
-.ptramos td.on{color:var(--red-text)}
-.pprice .pnote{margin:8px 0 0;font-size:var(--fs-xs);color:var(--muted);line-height:1.5}
-@media (max-width:420px){.ptramos th,.ptramos td{padding:6px 2px}.ptramos{font-size:var(--fs-xs)}}
+.pprice .pdesde{margin:0;display:flex;align-items:baseline;gap:6px;font-size:var(--fs-s);color:var(--muted)}
+.pprice .pdesde b{font:700 1.75rem/1.1 "Bricolage Grotesque",Figtree,sans-serif;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+/* Tabla de precios: una fila por cantidad, una columna por número de estampados (se lee de arriba abajo, también en el móvil) */
+.ptramos{width:100%;border-collapse:collapse;margin-top:14px;font-size:var(--fs-s);font-variant-numeric:tabular-nums}
+.ptramos th,.ptramos td{padding:9px 8px;text-align:right;border-top:1px solid var(--line)}
+.ptramos thead th{border-top:0;padding-top:0;vertical-align:bottom;font-weight:600;font-size:var(--fs-xs);color:var(--text);line-height:1.25}
+.ptramos thead th small{display:block;font-weight:400;color:var(--muted)}
+.ptramos tr>*:first-child{text-align:left;padding-left:0;font-weight:500;color:var(--muted);white-space:nowrap}
+.ptramos td{font-weight:600;color:var(--text);white-space:nowrap}
+.ptramos tr.on>*{background:var(--red-soft,rgba(152,38,38,.07))}
+.ptramos tr.on>*:first-child{color:var(--red-text);font-weight:600;box-shadow:inset 3px 0 0 var(--red-text);padding-left:10px}
+.pprice .pnote{margin:10px 0 0;font-size:var(--fs-xs);color:var(--muted);line-height:1.5}
 .dots{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .dot{position:relative;width:22px;height:22px;border-radius:50%;border:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.22);cursor:pointer;padding:0}
 .dot[aria-checked="true"]{outline:2px solid var(--red-text);outline-offset:2px}
@@ -615,11 +617,16 @@ img.pack{object-fit:contain!important;padding:6%}
 .plink{background:none;border:0;padding:6px 2px;margin-left:4px;color:var(--red-text);font:600 var(--fs-s) Figtree,sans-serif;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
 .plink:hover{color:var(--red-hover)}
 .sizes span{border:0;background:var(--tint);border-radius:6px;padding:4px 8px;font-size:var(--fs-s);font-variant-numeric:tabular-nums;min-width:40px;text-align:center}
-.stk{display:flex;flex-wrap:wrap;gap:6px}
-.stkc{border:1px solid var(--line);border-radius:var(--r-s);padding:6px 10px;min-width:64px;text-align:center;background:var(--surface)}
-.stkc b{display:block;font-size:var(--fs-s)}
-.stkc span{font-size:var(--fs-xs);color:var(--muted)}
-.stkc.out{opacity:.5}
+/* Stock: todas las tallas en una fila (si no caben, la fila se desliza de lado) */
+.stk{display:flex;border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.stk::-webkit-scrollbar{display:none}
+.stk.sigue{-webkit-mask-image:linear-gradient(90deg,#000 82%,transparent);mask-image:linear-gradient(90deg,#000 82%,transparent)}
+.stkc{flex:1 0 auto;min-width:48px;padding:9px 6px 10px;text-align:center;scroll-snap-align:start;font-variant-numeric:tabular-nums}
+.stkc+.stkc{border-left:1px solid var(--line)}
+.stkc span{display:block;font-size:var(--fs-xs);font-weight:600;color:var(--muted);letter-spacing:.02em}
+.stkc b{display:block;margin-top:2px;font-size:var(--fs-s);font-weight:600;white-space:nowrap}
+.stkc.out b{color:var(--muted);font-weight:500}
+.stkc.low b{color:var(--red-text)}
 .stku{margin-top:8px;font-size:var(--fs-xs)}
 .specs{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;margin:0;border-top:1px solid var(--line);padding-top:18px}
 .specs dt{color:var(--muted)}
@@ -2726,17 +2733,19 @@ function stockUI(it,f){
     var code=(f.cc||[])[it.cur], q=s.q[code];
     if(!q){box.innerHTML='<p class="meta">Consúltanos el stock de este color.</p>';return;}
     var cap=f.src==="roly"||f.src==="stamina";
-    var h='<div class="stk">';
+    var h='<div class="stk" role="list">';
     s.z.forEach(function(z,i){
       var n=q[i]; if(n===null||n===undefined) return;
-      var txt=n<=0?"Agotado":(cap&&n>=500?"500+":fmt(n))+(n>0?" uds":"");
+      var txt=n<=0?"Agotado":cap&&n>=500?"500+":n>=1000?"1000+":fmt(n); /* más de 1000 por talla: no hace falta el número exacto */
       var zl=/^(one size|única|unica|talla única|tu|u)$/i.test(z)?"Talla única":z;
-      h+='<div class="stkc'+(n<=0?" out":"")+'"><b>'+esc(zl)+'</b><span>'+txt+'</span></div>';
+      h+='<div class="stkc'+(n<=0?" out":n<20?" low":"")+'" role="listitem" aria-label="'+esc(zl)+': '+(n<=0?"agotado":txt+" unidades")+'"><span>'+esc(zl)+'</span><b>'+txt+'</b></div>';
     });
     h+='</div>';
     var u=new Date(d.updated);
-    h+='<p class="meta stku">Stock del proveedor actualizado el '+u.toLocaleDateString("es-ES",{day:"numeric",month:"long"})+' a las '+u.toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"})+'.</p>';
+    h+='<p class="meta stku">Unidades por talla · actualizado el '+u.toLocaleDateString("es-ES",{day:"numeric",month:"long"})+' a las '+u.toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"})+'.</p>';
     box.innerHTML=h;
+    var row=box.querySelector(".stk"), fade=function(){row.classList.toggle("sigue",row.scrollLeft+row.clientWidth<row.scrollWidth-4);}; /* si no caben todas, se nota que sigue */
+    fade(); row.addEventListener("scroll",fade,{passive:true});
   });
 }
 /* Ficha: "lo hacemos nosotros" por WhatsApp (con el color elegido) y preguntas frecuentes, iguales en todas las fichas */
@@ -2762,19 +2771,16 @@ function priceUI(it,qty){
   var lv=(it.cur>=0&&prLevel(it,it.cur))||prMin(it); if(!lv){el.hidden=true;return;} el.hidden=false;
   var Q=prQ(it), on=-1, p=prOf(it);
   if(qty>=Q[0]) Q.forEach(function(q,i){if(qty>=q) on=i;});
-  var row=function(lab,l){return '<tr><th scope="row">'+lab+'</th>'+l.map(function(v,i){return '<td'+(i===on?' class="on"':'')+'>'+v.toFixed(2).replace(".",",")+'</td>';}).join("")+'</tr>';};
-  if(p.x){ /* merchandising: una fila por técnica de marcaje */
-    el.innerHTML='<p class="pdesde">Desde <b>'+eur(lv[lv.length-1])+'</b>/ud · con tu logo</p>'+
-      '<table class="ptramos"><thead><tr><th scope="row">Unidades</th>'+Q.map(function(q){return '<th scope="col">'+q+'</th>';}).join("")+'</tr></thead>'+
-      '<tbody>'+p.x.map(function(r){return row(esc(r[0]),r[1]);}).join("")+'</tbody></table>'+
-      '<p class="pnote">Precio orientativo por unidad con tu logo en una zona (a 1 color, o a todo color en las técnicas digitales). IVA no incluido. Más de '+Q[Q.length-1]+' uds: consúltanos. ¿Más colores o más zonas? Te lo incluimos en el presupuesto.</p>';
-    return;
-  }
-  var lb=prBack(it,lv);
-  el.innerHTML='<p class="pdesde">Desde <b>'+eur(lv[lv.length-1])+'</b>/ud · '+prLogo(it)+'</p>'+
-    '<table class="ptramos"><thead><tr><th scope="row">Unidades</th>'+Q.map(function(q){return '<th scope="col">'+q+'</th>';}).join("")+'</tr></thead>'+
-    '<tbody>'+(lb?row("Delantero",lv)+row("Delantero y trasero",lb):row("€/ud",lv))+'</tbody></table>'+
-    '<p class="pnote">Precio orientativo por unidad '+(lb?'con estampado delantero, o delantero y trasero':prLogo(it))+(it.cur<0&&p.l?', en el color más económico':'')+'. IVA no incluido. Más de '+(Q[Q.length-1]*2)+' uds: consúltanos. '+(p.e?'¿Más de un estampado? ':lb?'¿Estampado también en la manga? ':'¿Estampado también detrás o en la manga? ')+'Te lo incluimos en el presupuesto.</p>';
+  var cols; /* [título, detalle, precios por cantidad] */
+  if(p.x) cols=p.x.map(function(r){return [esc(r[0]),"",r[1]];});                       /* merchandising: una columna por técnica */
+  else { var lb=prBack(it,lv);
+    cols=lb?[["1 estampado","delante",lv],["2 estampados","delante y detrás",lb]]:[["Precio por unidad","",lv]]; }
+  var desde=Math.min.apply(null,cols.map(function(c){return c[2][c[2].length-1];}));
+  var n2=function(v){return v.toFixed(2).replace(".",",")+"\u00a0€";};
+  el.innerHTML='<p class="pdesde">Desde <b>'+eur(desde)+'</b>/ud</p>'+
+    '<table class="ptramos"><thead><tr><th scope="col">Cantidad</th>'+cols.map(function(c){return '<th scope="col">'+c[0]+(c[1]?'<small>'+c[1]+'</small>':'')+'</th>';}).join("")+'</tr></thead>'+
+    '<tbody>'+Q.map(function(q,i){return '<tr'+(i===on?' class="on"':'')+'><th scope="row">'+q+' uds</th>'+cols.map(function(c){return '<td>'+n2(c[2][i])+'</td>';}).join("")+'</tr>';}).join("")+'</tbody></table>'+
+    '<p class="pnote">Precios orientativos por unidad'+(it.cur<0&&p.l?', en el color más económico':'')+'. IVA no incluido.</p>';
 }
 function renderProduct(it){
   var box=$("prod"); it.cur=urlColor(it);
