@@ -2789,6 +2789,7 @@ function renderProduct(it){
      '<div class="pinfo"><h1>'+esc(it.n)+'</h1><div class="meta">'+esc(D.subs[it.s])+(gen?" · "+esc(gen):"")+' · Ref. '+esc(it.r)+'</div>'+
      (prOf(it)?'<div class="pprice" id="pprice"></div>':'')+
      '<h2 class="pcol"></h2><div class="dh"></div>'+
+     '<h2 class="pstkh">Stock disponible</h2><div class="pstock" id="pstock"><p class="meta">Cargando stock…</p></div>'+
      (badges.length?'<div class="badges">'+badges.map(function(b){return "<span>"+esc(b)+"</span>";}).join("")+'</div>':"")+
      '<h2 class="pqh">Unidades por talla</h2><div class="pq" id="pq"></div>'+
      '<div class="pbtns"><button class="btn" type="button" id="padd">Añadir<span class="lg">&nbsp;a mi presupuesto</span></button>'+(dzt?'<button class="btn ghost dzbtn" type="button" id="pdz">'+DZ_ICON.shirt+'Diseñar con tu logo</button>':'')+'<a class="btn ghost" href="'+wa+'" target="_blank" rel="noopener"><span class="lg">Preguntar por&nbsp;</span>WhatsApp</a></div>'+
@@ -2797,7 +2798,6 @@ function renderProduct(it){
      '<ul class="pfacts" aria-label="Plazos y condiciones"><li>Producción en 7-10 días laborables</li><li>Desde 10 unidades</li><li>Diseño gratis antes de producir</li><li>Muestra disponible</li><li>Urgencias: pregúntanos</li></ul>'+
      (f.d?'<p class="desc">'+esc(f.d)+'</p>':"")+
      ((f.a||[]).length?'<ul class="args">'+f.a.map(function(a){return "<li>"+esc(a)+"</li>";}).join("")+'</ul>':"")+
-     '<h2>Stock disponible</h2><div class="pstock" id="pstock"><p class="meta">Cargando stock…</p></div>'+
      '<h2>Características</h2><dl class="specs">'+specs.map(function(s){return "<dt>"+s[0]+"</dt><dd>"+esc(s[1])+"</dd>";}).join("")+'</dl>'+PFAQ+'</div></div>'+
      '<div class="related" id="related"></div>';
     var big=box.querySelector(".big img"), th=box.querySelector(".thumbs");
