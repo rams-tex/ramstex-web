@@ -1645,6 +1645,8 @@ var NAVIDAD_HASTA="2026-12-20";
               <option value="rec">Recomendados</option>
               <option value="new">Novedades primero</option>
               <option value="col">Más colores</option>
+              <option value="pa">Precio: de menor a mayor</option>
+              <option value="pd">Precio: de mayor a menor</option>
               <option value="az">Nombre (A–Z)</option>
             </select>
           </div>
@@ -2443,9 +2445,14 @@ function sorted(list){
   if(S.o==="az") l.sort(function(a,b){return a.n.localeCompare(b.n,"es");});
   else if(S.o==="col") l.sort(function(a,b){return b.k.length-a.k.length;});
   else if(S.o==="new") l.sort(function(a,b){return (b.f.indexOf("n")>=0)-(a.f.indexOf("n")>=0)||a.ix-b.ix;});
+  else if(S.o==="pa"||S.o==="pd"){ /* por el precio «Desde» de la tarjeta; los que no tienen precio, al final */
+    var pv=function(it){var lv=prMin(it); return lv?lv[lv.length-1]:null;}, sg=S.o==="pa"?1:-1;
+    l.forEach(function(it){it._pv=pv(it);});
+    l.sort(function(a,b){return (a._pv===null)-(b._pv===null)||(a._pv!==null&&sg*(a._pv-b._pv))||a.ix-b.ix;});
+  }
   var qn=norm(S.q).replace(/\s+/g,"");
   if(qn&&S.o==="rec"){var ex=l.filter(function(it){return norm(it.r)===qn||(it.v||[]).some(function(v){return norm(v)===qn;});});if(ex.length){l=ex.concat(l.filter(function(it){return ex.indexOf(it)<0;}));return l;}}
-  if(S.o==="az"||S.o==="col"||S.o==="new"){}
+  if(S.o!=="rec"){}
   else if(QT.length){ /* con búsqueda: primero lo que mejor encaja (tipo de producto, color, atributos); a igualdad, el orden recomendado */
     l.sort(function(a,b){return qEval(b,QP).s-qEval(a,QP).s||a.ix-b.ix;});
   }
